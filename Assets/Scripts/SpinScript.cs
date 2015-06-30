@@ -44,4 +44,7 @@ public class SpinScript : MonoBehaviour {
 			}
 		}
 	}
+	public bool IsSpinning(){
+		return clickTime > clickDelay;
+	}
 }

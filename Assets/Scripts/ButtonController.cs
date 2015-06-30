@@ -5,15 +5,24 @@ public class ButtonController : MonoBehaviour, EventHandler {
 
 	public int buttonID;
 
+	GunController gc;
+
 	// Use this for initialization
 	void Start () {
 		EventManager em = EventManager.Instance ();
 		em.RegisterForEventType ("mouse_release",this);
+		GameObject overlayObject = transform.Find("CooldownLayer").gameObject;
+		overlayObject.transform.localScale = new Vector3 (0, 0, 1);
+		gc = GameObject.Find ("Gun" + buttonID).GetComponent<GunController> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if (gc.GetCooldown () > 0) {
+			float ratio = gc.GetCooldownRatio();
+			GameObject overlayObject = transform.Find("CooldownLayer").gameObject;
+			overlayObject.transform.localScale = new Vector3 (ratio,ratio, 1);
+		}
 	}
 
 	public void HandleEvent(GameEvent ge){ //REVISE FOR TOUCH LATER
