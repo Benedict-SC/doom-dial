@@ -1,15 +1,14 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ButtonController.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\EnemyController.cs">
     <Files>
-      <File FileName="Assets\Scripts\ButtonController.cs" Line="23" Column="31" />
-      <File FileName="Assets\Scripts\Events\EventComponent.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\InputWatcher.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Events\GameEvent.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GunController.cs" Line="28" Column="4" />
-      <File FileName="Assets\Scripts\Events\EventManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\BulletController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\SpinScript.cs" Line="47" Column="15" />
+      <File FileName="Assets\Scripts\WaveManager.cs" Line="25" Column="44" />
+      <File FileName="Assets\Scripts\FileLoader.cs" Line="15" Column="99" />
+      <File FileName="Assets\Scripts\Wave.cs" Line="33" Column="29" />
+      <File FileName="Assets\Scripts\EnemyController.cs" Line="29" Column="88" />
+      <File FileName="Assets\Scripts\GunController.cs" Line="46" Column="85" />
+      <File FileName="Assets\Scripts\MiniJSON.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ButtonController.cs" Line="25" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
