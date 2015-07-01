@@ -4,8 +4,11 @@ using System;
 
 public class BulletController : MonoBehaviour {
 
+	//Skills/stats attributes of an individual bullet
 	public float speed;
 	public float range;
+	//Thom will add more things here
+
 	public float vx;
 	public float vy;
 	public float spawnx;
