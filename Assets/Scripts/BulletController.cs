@@ -3,11 +3,33 @@ using System.Collections;
 using System;
 
 public class BulletController : MonoBehaviour {
+	//For bullet types (as opposed to traps and shield types)
 
-	//Skills/stats attributes of an individual bullet
-	public float speed;
-	public float range;
-	//Thom will add more things here
+	/* The following are stats/skills for bullets
+	 * They are passed to the bullet object from the customized tower
+	 */
+	public float dmg; //damage dealt out
+	public float speed; //speed of the bullet
+	public float range; //range -- expressed in percent of the length of the lane
+	public float knockback; //knockback
+	public float lifeDrain; //lifedrain on enemy
+	public float poison; //poison damage on enemy
+	public float splash; //radius of splash damage
+	public float stun; //amount (time?) of enemy stun
+	public float slowdown; //enemy slowdown
+
+	public int spread; //number of shots fired at once, default should be 1
+
+	public bool doesPenetrate; //shield-penetration
+	public bool doesShieldShred; //shield-destruction
+	public bool doesSplit; //whether it splits in 2 at the end of its path/collision
+	public bool isHoming; //whether it homes in on nearest enemy
+	public bool doesArc; //whether it arcs (travels over enemies until it hits the ground at max range)
+	/*
+	 * End of attributes passed from tower
+	 */
+
+	private bool isActive; //for use by arcing projectiles
 
 	public float vx;
 	public float vy;
@@ -17,6 +39,7 @@ public class BulletController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 	
+
 	}
 	
 	// Update is called once per frame
