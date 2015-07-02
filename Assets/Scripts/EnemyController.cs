@@ -6,7 +6,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	float hp = 100;
 	long spawntime = 0;
 	//these fields are just for basic movement, to show that waves are working. actual enemy movement will be more complicated- tear this out.
-	float temporaryHardCodedSpeed = 0.02f;
+	float temporaryHardCodedSpeed = 0.05f;
 	float tempYSpeed;
 	float tempXSpeed;
 
