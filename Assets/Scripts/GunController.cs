@@ -46,9 +46,9 @@ public class GunController : MonoBehaviour, EventHandler {
 		EventManager.Instance ().RegisterForEventType ("shot_fired", this);
 		GameObject overlayObject = transform.Find("CooldownLayer").gameObject;
 		overlayObject.transform.localScale = new Vector3 (0, 0, 1);
-<<<<<<< HEAD
+
 		maxcool = 2.0f * cooldownFactor;
-=======
+
 
 		//defaults
 		towerType = "Bullet";
@@ -56,7 +56,7 @@ public class GunController : MonoBehaviour, EventHandler {
 		speed = defaultBulletSpeed;
 		range = defaultBulletRange;
 
->>>>>>> 50394de482a935c3a7dd4eb2f82cdc98a27c52fe
+
 	}
 	
 	// Update is called once per frame
