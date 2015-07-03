@@ -27,8 +27,13 @@ public class GunController : MonoBehaviour, EventHandler {
 	public bool doesArc; //whether it arcs (travels over enemies until it hits the ground at max range)
 	//***Skill values end here***
 
+	/* Another tower attribute
+	 * But not passed to bullets
+	 */
+	public float cooldownFactor; //percentage of max cooldown time.  By default 1.0
+
 	float cooldown = 0.0f;
-	float maxcool = 2.0f;
+	float maxcool;
 
 	public int buttonID; //assign in the Unity Editor to match the corresponding button
 	//in the future, we'll assign this value in scripts to deal with changing gun placements
@@ -41,7 +46,7 @@ public class GunController : MonoBehaviour, EventHandler {
 		EventManager.Instance ().RegisterForEventType ("shot_fired", this);
 		GameObject overlayObject = transform.Find("CooldownLayer").gameObject;
 		overlayObject.transform.localScale = new Vector3 (0, 0, 1);
-
+		maxcool = 2.0f * cooldownFactor;
 	}
 	
 	// Update is called once per frame
