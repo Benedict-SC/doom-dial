@@ -5,7 +5,7 @@ using System;
 public class GunController : MonoBehaviour, EventHandler {
 
 	//Tower type: "Bullet", "Trap", or "Shield"
-	public String towerType;
+	String towerType;
 
 	//***Skill values begin here***
 	public float dmg; //damage dealt out
@@ -41,6 +41,12 @@ public class GunController : MonoBehaviour, EventHandler {
 		EventManager.Instance ().RegisterForEventType ("shot_fired", this);
 		GameObject overlayObject = transform.Find("CooldownLayer").gameObject;
 		overlayObject.transform.localScale = new Vector3 (0, 0, 1);
+
+		//defaults
+		towerType = "Bullet";
+		dmg = 10;
+		speed = defaultBulletSpeed;
+		range = defaultBulletRange;
 
 	}
 	
@@ -95,6 +101,7 @@ public class GunController : MonoBehaviour, EventHandler {
 			break;
 		default:
 			print ("Uh oh, I didn't receive a valid towerType string value!");
+			Debug.Log("value is: " + towerType);
 			break;
 		}
 

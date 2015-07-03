@@ -38,8 +38,13 @@ public class BulletController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		dmg = 34; //test value
 
+		SpriteRenderer sr = transform.gameObject.GetComponent<SpriteRenderer> ();
+		float radius = sr.bounds.size.x / 2;
+		CircleCollider2D collider = transform.gameObject.GetComponent<CircleCollider2D> ();
+		collider.radius = radius;
+		//Debug.Log ("bullet radius is: " + radius);
 	}
 	
 	// Update is called once per frame
@@ -51,6 +56,15 @@ public class BulletController : MonoBehaviour {
 						+ (this.transform.position.y - spawny) * (this.transform.position.y - spawny));
 		if(distance > range){
 			Destroy(this.gameObject);
+			return;
 		}
+
+		//after moving, check collision with enemies
+
 	}
+	//called when the bullet hits something, from the OnCollisionEnter in EnemyController
+	public void Collide(){
+		Destroy (this.gameObject);
+	}
+
 }

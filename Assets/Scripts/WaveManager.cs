@@ -22,7 +22,6 @@ public class WaveManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		List<GameObject> spawnedThisCycle = new List<GameObject> ();
-		UnityEngine.Debug.Log ("we're updating");
 		foreach (GameObject enemy in w.GetEnemies()) {
 			EnemyController e = enemy.GetComponent<EnemyController>();
 			if(e.GetSpawnTime() < timer.ElapsedMilliseconds){
