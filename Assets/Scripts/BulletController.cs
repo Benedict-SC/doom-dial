@@ -17,11 +17,11 @@ public class BulletController : MonoBehaviour {
 	public float splash; //radius of splash damage
 	public float stun; //amount (time?) of enemy stun
 	public float slowdown; //enemy slowdown
+	public float penetration; //ignores this amount of enemy shield
+	public float shieldShred; //lowers enemy shield's max value by this
 
 	public int spread; //number of shots fired at once, default should be 1
 
-	public bool doesPenetrate; //shield-penetration
-	public bool doesShieldShred; //shield-destruction
 	public bool doesSplit; //whether it splits in 2 at the end of its path/collision
 	public bool isHoming; //whether it homes in on nearest enemy
 	public bool doesArc; //whether it arcs (travels over enemies until it hits the ground at max range)
