@@ -22,9 +22,7 @@ public class TrapController : MonoBehaviour {
 	private bool isActive; //whether it's armed
 	public float maxArmingTime; //max time needed to arm, in seconds
 	private float armTime; //current countdown time for arming
-	
-	public float vx;
-	public float vy;
+
 	public float spawnx;
 	public float spawny;
 	
@@ -38,18 +36,28 @@ public class TrapController : MonoBehaviour {
 		CircleCollider2D collider = transform.gameObject.GetComponent<CircleCollider2D> ();
 		collider.radius = radius;
 		//Debug.Log ("bullet radius is: " + radius);
+		//set its position
+		this.transform.position = new Vector3 (spawnx, spawny, this.transform.position.z);
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		if (armTime <=0.0f && !isActive)
+		{
+			//Debug.Log ("armTime is 0 or less! nuuuu");
+			isActive = true;
+			Debug.Log ("trap armed!");
+		}
 		//traps don't move so no changes in its position after placement
 		//they need to count down to become active
 		if (armTime > 0.0f) //if it's still counting down
 		{
 			armTime -= Time.deltaTime; //update arming countdown time
+			Debug.Log ("armTime = " + armTime);
 			if (armTime <= 0.0f) //if it's done counting down, activate the trap
 			{
 				isActive = true;
+				Debug.Log ("trap armed!");
 			}
 		}
 		if (isActive)

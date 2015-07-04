@@ -83,17 +83,39 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	}
 	void OnTriggerEnter2D(Collider2D coll){ //this is said system.
 		Debug.Log ("a collision happened!");
-		BulletController bc = coll.gameObject.GetComponent<BulletController> ();
-		if (bc != null) {
-			if (bc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
-			{
-				hp -= bc.dmg;
-				bc.Collide();
-				if(hp <= 0){
-					Die ();
+		if (coll.gameObject.tag == "Bullet") //if it's a bullet
+		{
+			BulletController bc = coll.gameObject.GetComponent<BulletController> ();
+			if (bc != null) {
+				if (bc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
+				{
+					hp -= bc.dmg;
+					bc.Collide();
+					if(hp <= 0){
+						Die ();
+					}
 				}
 			}
 		}
+		else if (coll.gameObject.tag == "Trap") //if it's a trap
+		{
+			TrapController tc = coll.gameObject.GetComponent<TrapController> ();
+			if (tc != null) {
+				if (tc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
+				{
+					hp -= tc.dmg;
+					tc.Collide();
+					if(hp <= 0){
+						Die ();
+					}
+				}
+			}
+		}
+		else if (coll.gameObject.tag == "Shield") //if it's a shield
+		{
+			//do shield stuff here
+		}
+
 	}
 	public void Die(){
 		//put more dying functionality here

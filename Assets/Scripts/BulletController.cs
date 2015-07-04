@@ -68,7 +68,7 @@ public class BulletController : MonoBehaviour {
 	}
 
 	public bool CheckActive(){
-		return isActive;
+		return true;
 	}
 
 }

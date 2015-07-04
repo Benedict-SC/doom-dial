@@ -5,7 +5,7 @@ using System;
 public class GunController : MonoBehaviour, EventHandler {
 
 	//Tower type: "Bullet", "Trap", or "Shield"
-	String towerType;
+	public String towerType;
 
 	//***Skill values begin here***
 	public float dmg; //damage dealt out (direct value)
@@ -19,6 +19,7 @@ public class GunController : MonoBehaviour, EventHandler {
 	public float slowdown; //enemy slowdown -- scale of 1 to 10, can't go over 8
 	public float penetration; //ignores this amount of enemy shield
 	public float shieldShred; //lowers enemy shield's max value by this
+	public float trapArmTime; //time in seconds to arm a trap
 
 	public int spread; //number of shots fired at once, default should be 1.
 
@@ -81,11 +82,12 @@ public class GunController : MonoBehaviour, EventHandler {
 			return;
 		}
 
+		cooldown = maxcool; //start cooldown
+
 		//Decide what to do based on tower type ("Bullet", "Trap", or "Shield")
 		switch (towerType)
 		{
 		case "Bullet":
-			cooldown = maxcool; //start cooldown
 			GameObject bullet = Instantiate (Resources.Load ("Prefabs/Bullet")) as GameObject; //make a bullet
 			BulletController bc = bullet.GetComponent<BulletController>();
 			//make it the type of bullet this thing fires
@@ -103,7 +105,19 @@ public class GunController : MonoBehaviour, EventHandler {
 			bc.vy = bc.speed * (float)Math.Sin(angle);
 			break;
 		case "Trap":
-			print ("Traps not implemented yet");
+			GameObject trap = Instantiate (Resources.Load ("Prefabs/Trap")) as GameObject; //make a trap
+			TrapController tp = trap.GetComponent<TrapController>();
+			//make it the type of trap this thing deploys
+			ConfigureTrap (tp);
+			//find your angle
+			float trapOwnangle = this.transform.eulerAngles.z;
+			float trapAngle = (trapOwnangle +  90) % 360 ;
+			trapAngle *= (float)Math.PI / 180;
+			//find where to spawn the trap *****IMPLEMENT LANE-LENGTH AT SOME POINT
+			float trapSpawnRange = range;
+			trapSpawnRange += 0.5f;
+			tp.spawnx = trapSpawnRange * (float)Math.Cos (trapAngle);
+			tp.spawny = trapSpawnRange * (float)Math.Sin (trapAngle);
 			break;
 		case "Shield":
 			print ("Shields not implemented yet");
@@ -143,4 +157,46 @@ public class GunController : MonoBehaviour, EventHandler {
 		bc.isHoming = isHoming;
 		bc.doesArc = doesArc;
 	}
+
+	//Assigns skill values to traps
+	private void ConfigureTrap(TrapController bc)
+	{
+		if (speed == 0 || range == 0 || dmg == 0)
+			print ("Check your speed, range, and/or dmg!  One might be 0!");
+		bc.dmg = dmg;
+		bc.range = range;
+		bc.knockback = knockback;
+		bc.lifeDrain = lifeDrain;
+		bc.poison = poison;
+		bc.splash = splash;
+		bc.stun = stun;
+		bc.slowdown = slowdown;
+		bc.spread = spread;
+		bc.penetration = penetration;
+		bc.shieldShred = shieldShred;
+		bc.maxArmingTime = trapArmTime;
+	}
+	/*
+	//Assigns skill values to shields
+	private void ConfigureShield(ShieldController bc)
+	{
+		if (speed == 0 || range == 0 || dmg == 0)
+			print ("Check your speed, range, and/or dmg!  One might be 0!");
+		bc.dmg = dmg;
+		bc.speed = speed;
+		bc.range = range;
+		bc.knockback = knockback;
+		bc.lifeDrain = lifeDrain;
+		bc.poison = poison;
+		bc.splash = splash;
+		bc.stun = stun;
+		bc.slowdown = slowdown;
+		bc.spread = spread;
+		bc.penetration = penetration;
+		bc.shieldShred = shieldShred;
+		bc.doesSplit = doesSplit;
+		bc.isHoming = isHoming;
+		bc.doesArc = doesArc;
+	}
+	*/
 }
