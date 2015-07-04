@@ -8,7 +8,7 @@ public class GunController : MonoBehaviour, EventHandler {
 	String towerType;
 
 	//***Skill values begin here***
-	public float dmg; //damage dealt out
+	public float dmg; //damage dealt out (direct value)
 	public float speed; //speed of the bullet
 	public float range; //range -- expressed in percent of the length of the lane
 	public float knockback; //knockback
@@ -16,12 +16,12 @@ public class GunController : MonoBehaviour, EventHandler {
 	public float poison; //poison damage on enemy
 	public float splash; //radius of splash damage
 	public float stun; //amount (time?) of enemy stun
-	public float slowdown; //enemy slowdown
+	public float slowdown; //enemy slowdown -- scale of 1 to 10, can't go over 8
+	public float penetration; //ignores this amount of enemy shield
+	public float shieldShred; //lowers enemy shield's max value by this
 
-	public int spread; //number of shots fired at once, default should be 1
+	public int spread; //number of shots fired at once, default should be 1.
 
-	public bool doesPenetrate; //shield-penetration
-	public bool doesShieldShred; //shield-destruction
 	public bool doesSplit; //whether it splits in 2 at the end of its path/collision
 	public bool isHoming; //whether it homes in on nearest enemy
 	public bool doesArc; //whether it arcs (travels over enemies until it hits the ground at max range)
@@ -123,7 +123,6 @@ public class GunController : MonoBehaviour, EventHandler {
 	}
 
 	//Assigns skill values to bullets
-	//*****UNFINISHED*****
 	private void ConfigureBullet(BulletController bc)
 	{
 		if (speed == 0 || range == 0 || dmg == 0)
@@ -138,8 +137,8 @@ public class GunController : MonoBehaviour, EventHandler {
 		bc.stun = stun;
 		bc.slowdown = slowdown;
 		bc.spread = spread;
-		bc.doesPenetrate = doesPenetrate;
-		bc.doesShieldShred = doesShieldShred;
+		bc.penetration = penetration;
+		bc.shieldShred = shieldShred;
 		bc.doesSplit = doesSplit;
 		bc.isHoming = isHoming;
 		bc.doesArc = doesArc;

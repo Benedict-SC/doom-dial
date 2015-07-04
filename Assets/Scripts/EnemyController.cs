@@ -85,10 +85,13 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		Debug.Log ("a collision happened!");
 		BulletController bc = coll.gameObject.GetComponent<BulletController> ();
 		if (bc != null) {
-			hp -= bc.dmg;
-			bc.Collide();
-			if(hp <= 0){
-				Die ();
+			if (bc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
+			{
+				hp -= bc.dmg;
+				bc.Collide();
+				if(hp <= 0){
+					Die ();
+				}
 			}
 		}
 	}
