@@ -30,7 +30,7 @@ public class GunController : MonoBehaviour, EventHandler {
 	/* Another tower attribute
 	 * But not passed to bullets
 	 */
-	public float cooldownFactor; //percentage of max cooldown time.  By default 1.0
+	float cooldownFactor = 1.0f; //percentage of max cooldown time.  By default 1.0
 
 	float cooldown = 0.0f;
 	float maxcool;

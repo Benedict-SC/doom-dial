@@ -26,6 +26,10 @@ public class Wave{
 			GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
 			enemyspawn.SetActive(false);
 
+			//give enemy a filename to load from
+			string filename = (string) enemydict["enemyID"];
+			enemyspawn.GetComponent<EnemyController>().SetSrcFileName(filename);
+
 			//calculate and set position
 			float degrees = (track-1)*60; //clockwise of y-axis
 			degrees += 15*trackpos; //negative trackpos is left side, positive is right side, 0 is middle
