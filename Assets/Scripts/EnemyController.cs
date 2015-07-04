@@ -1,29 +1,63 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using MiniJSON;
 
 public class EnemyController : MonoBehaviour,EventHandler {
 
 	float maxhp = 100;
 	float hp = 100;
 	long spawntime = 0;
+	string srcFileName;
 	//these fields are just for basic movement, to show that waves are working. actual enemy movement will be more complicated- tear this out.
 	float temporaryHardCodedSpeed = 0.01f;
 	float tempYSpeed;
 	float tempXSpeed;
 
+	float speed;
+	float impactDamage;
+	float radius;
+	float maxShields;
+	float shields;
+	//ability?
+	//weakness?
+
 	// Use this for initialization
 	void Start () {
 		EventManager.Instance ().RegisterForEventType ("shot_collided", this);
 		SpriteRenderer sr = transform.gameObject.GetComponent<SpriteRenderer> ();
-		float radius = sr.bounds.size.x / 2;
+		float rad = sr.bounds.size.x / 2;
 		CircleCollider2D collider = transform.gameObject.GetComponent<CircleCollider2D> ();
-		collider.radius = radius;
+		collider.radius = rad;
 		//Debug.Log ("enemy radius is " + radius);
 	}
 	public void StartMoving(){
+		ConfigureEnemy ();
+
+		//some scaling- could maybe be done through transform.scale, but I don't trust Unity to handle the collider
+		SpriteRenderer sr = transform.gameObject.GetComponent<SpriteRenderer> ();
+		float scalefactor = (radius * 2) / sr.bounds.size.x;
+		transform.localScale = new Vector3 (scalefactor, scalefactor, 1);
+		CircleCollider2D collider = transform.gameObject.GetComponent<CircleCollider2D> ();
+		collider.radius = radius;
+
 		float angle = Mathf.Atan2(transform.position.y , transform.position.x);
-		tempYSpeed = Mathf.Sin (angle) * temporaryHardCodedSpeed;
-		tempXSpeed = Mathf.Cos (angle) * temporaryHardCodedSpeed;
+		tempYSpeed = Mathf.Sin (angle) * speed;
+		tempXSpeed = Mathf.Cos (angle) * speed;
+	}
+	public void ConfigureEnemy(){
+		FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Bestiary",srcFileName);
+		string json = fl.Read ();
+		Debug.Log (json.Length);
+		Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
+		maxhp = (float)(double)data ["maxHP"];
+		hp = (float)(double)data ["HP"];
+		impactDamage = (float)(double)data ["damage"];
+		speed = (float)(double)data ["speed"];
+		radius = (float)(double)data ["size"];
+		maxShields = (float)(double)data ["maxShields"];
+		shields = (float)(double)data ["shields"];
 	}
 	
 	// Update is called once per frame
@@ -49,8 +83,8 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		BulletController bc = coll.gameObject.GetComponent<BulletController> ();
 		if (bc != null) {
 			hp -= bc.dmg;
+			bc.Collide();
 			if(hp <= 0){
-				bc.Collide();
 				Die ();
 			}
 		}
@@ -64,5 +98,8 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	}
 	public void SetSpawnTime(long time){
 		spawntime = time;
+	}
+	public void SetSrcFileName(string filename){
+		srcFileName = filename;
 	}
 }
