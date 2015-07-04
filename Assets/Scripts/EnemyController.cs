@@ -6,14 +6,16 @@ using MiniJSON;
 
 public class EnemyController : MonoBehaviour,EventHandler {
 
+	float DIAL_RADIUS = 1.5f; //hard coded to avoid constantly querying dial
+	//if dial size ever needs to change, replace references to this with calls to a getter
+
 	float maxhp = 100;
 	float hp = 100;
 	long spawntime = 0;
 	string srcFileName;
-	//these fields are just for basic movement, to show that waves are working. actual enemy movement will be more complicated- tear this out.
-	float temporaryHardCodedSpeed = 0.01f;
-	float tempYSpeed;
-	float tempXSpeed;
+
+	float ySpeed;
+	float xSpeed;
 
 	float speed;
 	float impactDamage;
@@ -43,8 +45,8 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		collider.radius = radius;
 
 		float angle = Mathf.Atan2(transform.position.y , transform.position.x);
-		tempYSpeed = Mathf.Sin (angle) * speed;
-		tempXSpeed = Mathf.Cos (angle) * speed;
+		ySpeed = Mathf.Sin (angle) * speed;
+		xSpeed = Mathf.Cos (angle) * speed;
 	}
 	public void ConfigureEnemy(){
 		FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Bestiary",srcFileName);
@@ -62,13 +64,14 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.position = new Vector3 (transform.position.x - tempXSpeed, transform.position.y - tempYSpeed, transform.position.z);
-		if (Mathf.Sqrt ((transform.position.x)*(transform.position.x)+(transform.position.y)*(transform.position.y)) < 1.0f) {
-			//this whole conditional is just to stop them from going out the other side
-			//so it looks better when I show it off to Joe
-			//delete it and replace it with actual "what happens when it reaches the dial" logic
-			tempXSpeed = 0;
-			tempYSpeed = 0;
+		transform.position = new Vector3 (transform.position.x - xSpeed, transform.position.y - ySpeed, transform.position.z);
+		float distanceFromCenter = Mathf.Sqrt ((transform.position.x) * (transform.position.x) + (transform.position.y) * (transform.position.y));
+		if ( distanceFromCenter < DIAL_RADIUS ) {
+			xSpeed = 0;
+			ySpeed = 0;
+			GameEvent ge = new GameEvent("enemy_arrived");
+			ge.addArgument(transform.gameObject);
+			EventManager.Instance().RaiseEvent(ge);
 		}
 		GameObject healthCircle = transform.Find ("Health").gameObject;
 		healthCircle.transform.localScale = new Vector3 (hp / maxhp, hp / maxhp, 1);
@@ -101,5 +104,8 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	}
 	public void SetSrcFileName(string filename){
 		srcFileName = filename;
+	}
+	public float GetDamage(){
+		return impactDamage;
 	}
 }

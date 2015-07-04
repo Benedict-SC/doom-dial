@@ -7,6 +7,7 @@ using System.Collections.Generic;
  * mouse_release
  * shot_fired
  * shot_collided
+ * enemy_arrived
  */
 
 public class EventManager{
