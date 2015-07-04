@@ -52,22 +52,18 @@ public class TrapController : MonoBehaviour {
 				isActive = true;
 			}
 		}
-
 		if (isActive)
 		{
 			//check for enemy collisions
 		}
-
-
-
 	}
 	
 	//called when the bullet hits something, from the OnCollisionEnter in EnemyController
 	public void Collide(){
-		if (isActive)
-		{
-			Destroy (this.gameObject);
-		}
+		Destroy (this.gameObject);
+	}
 
+	public bool CheckActive(){
+		return isActive;
 	}
 }

@@ -67,4 +67,8 @@ public class BulletController : MonoBehaviour {
 		Destroy (this.gameObject);
 	}
 
+	public bool CheckActive(){
+		return isActive;
+	}
+
 }
