@@ -25,10 +25,11 @@ public class Wave{
 			//make enemy
 			GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
 			enemyspawn.SetActive(false);
+			EnemyController ec = enemyspawn.GetComponent<EnemyController>();
 
 			//give enemy a filename to load from
 			string filename = (string) enemydict["enemyID"];
-			enemyspawn.GetComponent<EnemyController>().SetSrcFileName(filename);
+			ec.SetSrcFileName(filename);
 
 			//calculate and set position
 			float degrees = (track-1)*60; //clockwise of y-axis
@@ -36,10 +37,13 @@ public class Wave{
 			degrees = ((360-degrees) + 90)%360; //convert to counterclockwise of x axis
 			degrees *= Mathf.Deg2Rad;
 			enemyspawn.transform.position = new Vector3(radius*Mathf.Cos(degrees),radius*Mathf.Sin(degrees),0);
+			ec.SetTrackID(track);
 
 			//set spawn time
-			enemyspawn.GetComponent<EnemyController>().SetSpawnTime(spawntimeInMillis);
+			ec.SetSpawnTime(spawntimeInMillis);
 			enemies.Add(enemyspawn);
+
+			ec.ConfigureEnemy ();
 		}
 	}
 

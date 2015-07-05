@@ -1,0 +1,12 @@
+{
+	"levelID": 0,
+	"waveID": 1,
+	"enemies": [
+		{"enemyID":"testenemy","spawntime":3500,"trackID":1,"trackpos":0},
+		{"enemyID":"testenemy","spawntime":7500,"trackID":3,"trackpos":-1},
+		{"enemyID":"testenemy","spawntime":11500,"trackID":4,"trackpos":0},
+		{"enemyID":"testenemy","spawntime":11500,"trackID":2,"trackpos":0},
+		{"enemyID":"testenemy","spawntime":15500,"trackID":5,"trackpos":1},
+		{"enemyID":"testenemy","spawntime":9000,"trackID":6,"trackpos":0}
+	]
+}

@@ -8,6 +8,7 @@ using System.Collections.Generic;
  * shot_fired
  * shot_collided
  * enemy_arrived
+ * warning
  */
 
 public class EventManager{

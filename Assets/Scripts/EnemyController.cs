@@ -9,9 +9,12 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	float DIAL_RADIUS = 1.5f; //hard coded to avoid constantly querying dial
 	//if dial size ever needs to change, replace references to this with calls to a getter
 
+	long spawntime = 0;
+	bool warnedFor = false;
+	int trackID = 0;
+
 	float maxhp = 100;
 	float hp = 100;
-	long spawntime = 0;
 	string srcFileName;
 
 	float ySpeed;
@@ -33,9 +36,10 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		CircleCollider2D collider = transform.gameObject.GetComponent<CircleCollider2D> ();
 		collider.radius = rad;
 		//Debug.Log ("enemy radius is " + radius);
+
 	}
 	public void StartMoving(){
-		ConfigureEnemy ();
+		//ConfigureEnemy (); //moved to Wave.cs during wave creation
 
 		//some scaling- could maybe be done through transform.scale, but I don't trust Unity to handle the collider
 		SpriteRenderer sr = transform.gameObject.GetComponent<SpriteRenderer> ();
@@ -51,7 +55,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	public void ConfigureEnemy(){
 		FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Bestiary",srcFileName);
 		string json = fl.Read ();
-		Debug.Log (json.Length);
+		//Debug.Log (json.Length);
 		Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
 		maxhp = (float)(double)data ["maxHP"];
 		hp = (float)(double)data ["HP"];
@@ -130,7 +134,22 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	public void SetSrcFileName(string filename){
 		srcFileName = filename;
 	}
+	public void SetTrackID(int id){
+		trackID = id;
+	}
+	public int GetTrackID(){
+		return trackID;
+	}
 	public float GetDamage(){
 		return impactDamage;
+	}
+	public bool HasWarned(){
+		return warnedFor;
+	}
+	public void Warn(){
+		warnedFor = true;
+	}
+	public float GetSpeed(){
+		return speed;
 	}
 }
