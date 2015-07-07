@@ -25,9 +25,12 @@ public class TrapController : MonoBehaviour {
 
 	public float spawnx;
 	public float spawny;
+
+	private float age; //age of the trap -- used to determine which of two overlaid traps to destroy
 	
 	// Use this for initialization
 	void Start () {
+		age = 0.0f;
 		dmg = 34; //test value
 		armTime = maxArmingTime;
 		isActive = false;
@@ -42,6 +45,8 @@ public class TrapController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		age += Time.deltaTime; //update the age
+
 		if (armTime <=0.0f && !isActive)
 		{
 			//Debug.Log ("armTime is 0 or less! nuuuu");
@@ -65,10 +70,30 @@ public class TrapController : MonoBehaviour {
 			//check for enemy collisions
 		}
 	}
+
+	void OnTriggerEnter2D(Collider2D coll) { 
+		// The following destroys This trap if a newer one is laid on top
+		//Debug.Log ("entered trigger - TRAP");
+		if (coll.gameObject.tag == "Trap") //if a trap is laid over this one
+		{
+			//Debug.Log ("this trigger is a trap!");
+			TrapController tc = coll.gameObject.GetComponent <TrapController>();
+			if (age >= tc.GetAge ()) //if this is the trap laid down first
+			{
+				Debug.Log ("destroyed old trap!");
+				Collide ();
+			}
+		}
+	}
 	
 	//called when the bullet hits something, from the OnCollisionEnter in EnemyController
 	public void Collide(){
+		//Add other destruction stuff here
 		Destroy (this.gameObject);
+	}
+
+	public float GetAge(){
+		return age;
 	}
 
 	public bool CheckActive(){
