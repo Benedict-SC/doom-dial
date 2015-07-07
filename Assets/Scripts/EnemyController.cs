@@ -86,7 +86,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		//actually never mind that, Unity has its own collision detection system!
 	}
 	void OnTriggerEnter2D(Collider2D coll){ //this is said system.
-		Debug.Log ("a collision happened!");
+		//Debug.Log ("a collision happened!");
 		if (coll.gameObject.tag == "Bullet") //if it's a bullet
 		{
 			BulletController bc = coll.gameObject.GetComponent<BulletController> ();

@@ -37,7 +37,7 @@ public class ButtonController : MonoBehaviour, EventHandler {
 
 
 		if (distance < radius) {
-			Debug.Log ("button released on button " + buttonID);
+			//Debug.Log ("button released on button " + buttonID);
 			GameEvent nge = new GameEvent("shot_fired");
 			nge.addArgument(buttonID);
 			EventManager.Instance().RaiseEvent(nge);

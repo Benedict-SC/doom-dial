@@ -53,5 +53,12 @@ public class Wave{
 	public void RemoveEnemy(GameObject spawned){
 		enemies.Remove (spawned);
 	}
+	public bool IsEverythingDead(){
+		foreach(GameObject enemy in enemies){
+			if(enemy != null)
+				return false;
+		}
+		return true;
+	}
 }
 

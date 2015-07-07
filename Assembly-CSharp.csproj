@@ -60,6 +60,7 @@
      <Compile Include="Assets\Scripts\InputWatcher.cs" />
      <Compile Include="Assets\Scripts\MiniJSON.cs" />
      <Compile Include="Assets\Scripts\SpinScript.cs" />
+     <Compile Include="Assets\Scripts\Timer.cs" />
      <Compile Include="Assets\Scripts\TrackController.cs" />
      <Compile Include="Assets\Scripts\TrapController.cs" />
      <Compile Include="Assets\Scripts\Wave.cs" />

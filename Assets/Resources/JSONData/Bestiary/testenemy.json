@@ -2,7 +2,7 @@
 	"maxHP":100.0,
 	"HP":100.0,
 	"damage":10.0,
-	"speed":0.015,
+	"speed":0.01,
 	"size":0.3,
 	"maxShields":0.0,
 	"shields":0.0

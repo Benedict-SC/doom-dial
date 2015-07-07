@@ -1,0 +1,9 @@
+{
+	"maxHP":400.0,
+	"HP":400.0,
+	"damage":90.0,
+	"speed":0.002,
+	"size":0.8,
+	"maxShields":0.0,
+	"shields":0.0
+}
