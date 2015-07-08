@@ -2,7 +2,7 @@
 	"decalFilename":"Tower5",
 	"towerType":"Bullet",
 	"cooldownFactor":2.0,
-	"dmg":15.0,
+	"dmg":99.0,
 	"speed":0.005,
 	"range":0.6,
 	"knockback":0.0,

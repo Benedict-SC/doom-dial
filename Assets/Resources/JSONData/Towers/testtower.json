@@ -2,7 +2,7 @@
 	"decalFilename":"TowerPink",
 	"towerType":"Bullet",
 	"cooldownFactor":1.0,
-	"dmg":10.0,
+	"dmg":34.0,
 	"speed":0.2,
 	"range":1.0,
 	"knockback":0.0,

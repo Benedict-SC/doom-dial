@@ -1,7 +1,7 @@
 {
 	"decalFilename":"Tower2",
 	"towerType":"Shield",
-	"cooldownFactor":3.0,
+	"cooldownFactor":5.0,
 	"dmg":0.0,
 	"speed":0.0,
 	"range":0.0,

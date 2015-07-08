@@ -114,9 +114,10 @@ public class GunController : MonoBehaviour, EventHandler {
 			angle *= (float)Math.PI / 180;
 			//find where to spawn the bullet
 			float gunDistFromCenter = (float)Math.Sqrt (transform.position.x*transform.position.x + transform.position.y*transform.position.y);
-			gunDistFromCenter += 0.9f;
+			gunDistFromCenter += 0.47f;
 			bc.spawnx = gunDistFromCenter * (float)Math.Cos (angle);
 			bc.spawny = gunDistFromCenter * (float)Math.Sin (angle);
+			bc.transform.position = new Vector3(bc.spawnx,bc.spawny,bc.transform.position.z);
 			bc.vx = bc.speed * (float)Math.Cos(angle);
 			bc.vy = bc.speed * (float)Math.Sin(angle);
 			break;
@@ -235,7 +236,7 @@ public class GunController : MonoBehaviour, EventHandler {
 	private void ConfigureBullet(BulletController bc)
 	{
 		if (speed == 0 || range == 0 || dmg == 0)
-			print ("Check your speed, range, and/or dmg!  One might be 0!");
+			Debug.Log("Check your speed, range, and/or dmg!  One might be 0!");
 		bc.dmg = dmg;
 		bc.speed = speed;
 		bc.range = range;

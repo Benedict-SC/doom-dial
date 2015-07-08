@@ -42,8 +42,6 @@ public class BulletController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		dmg = 34; //test value
-
 		SpriteRenderer sr = transform.gameObject.GetComponent<SpriteRenderer> ();
 		float radius = sr.bounds.size.x / 2;
 		CircleCollider2D collider = transform.gameObject.GetComponent<CircleCollider2D> ();
@@ -56,9 +54,12 @@ public class BulletController : MonoBehaviour {
 		//position doesn't let you modify individual fields so this is gonna be wordy
 		this.transform.position = new Vector3(this.transform.position.x + vx, this.transform.position.y + vy, this.transform.position.z);
 		//if bullet exceeds its range, disappear
+		Debug.Log ("x is " + transform.position.x + " and spawnx is " + spawnx);
 		float distance = (float)Math.Sqrt ((this.transform.position.x - spawnx) * (this.transform.position.x - spawnx)
 						+ (this.transform.position.y - spawny) * (this.transform.position.y - spawny));
+		Debug.Log (distance);
 		if(distance > range * TRACK_LENGTH){
+			Debug.Log ("we somehow destroyed ourselves");
 			Destroy(this.gameObject);
 			return;
 		}
