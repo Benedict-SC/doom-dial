@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+//using UnityEngine.UI;
 using System.Collections;
 
 public class ButtonController : MonoBehaviour, EventHandler {
@@ -21,6 +22,7 @@ public class ButtonController : MonoBehaviour, EventHandler {
 		if (gc.GetCooldown () > 0) {
 			float ratio = gc.GetCooldownRatio();
 			GameObject overlayObject = transform.Find("CooldownLayer").gameObject;
+			//Image img = overlayObject.GetComponent<SpriteRenderer>().sprite.
 			overlayObject.transform.localScale = new Vector3 (ratio,ratio, 1);
 		}
 	}

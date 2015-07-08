@@ -135,6 +135,25 @@ public class GunController : MonoBehaviour, EventHandler {
 	public float GetCooldown(){
 		return cooldown;
 	}
+	public int GetCurrentLaneID(){
+		float angle = transform.eulerAngles.z;
+		if (angle > -2.0 && angle < 2.0)
+			return 1;
+		else if (angle > 58.0 && angle < 62.0)
+			return 6;
+		else if (angle > 118.0 && angle < 122.0)
+			return 5;
+		else if (angle > 178.0 && angle < 182.0)
+			return 4;
+		else if (angle > 238.0 && angle < 242.0)
+			return 3;
+		else if (angle > 298.0 && angle < 302.0)
+			return 2;
+		else{
+			Debug.Log ("somehow a gun has a very very wrong angle");
+			return -1;
+		}
+	}
 
 	//Assigns skill values to bullets
 	private void ConfigureBullet(BulletController bc)
