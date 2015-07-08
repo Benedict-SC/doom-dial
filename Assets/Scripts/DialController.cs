@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using MiniJSON;
 
 public class DialController : MonoBehaviour,EventHandler {
 
@@ -11,7 +14,7 @@ public class DialController : MonoBehaviour,EventHandler {
 	// Use this for initialization
 	void Start () {
 		EventManager.Instance ().RegisterForEventType ("enemy_arrived", this);
-		GameObject.Find ("Gun1").GetComponent<GunController> ().SetValuesFromJSON ("testtower");
+		LoadDialConfigFromJSON ("testdial");
 	}
 
 	// Update is called once per frame
@@ -47,17 +50,35 @@ public class DialController : MonoBehaviour,EventHandler {
 		}
 		enemy.Die ();
 	}
+
+	public void LoadDialConfigFromJSON(string filename){
+		FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "DialConfigs",filename);
+		string json = fl.Read ();
+		Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
+
+		List<System.Object> entries = data ["towers"] as List<System.Object>;
+		for(int i = 0; i < 6; i++) {
+			Dictionary<string,System.Object> entry = entries[i] as Dictionary<string,System.Object>;
+			string towerfile = entry["filename"] as string;
+			bool active = (bool)entry["active"];
+
+			GameObject gun = GameObject.Find ("Gun" + (i+1)).gameObject;
+			GunController gc = gun.GetComponent<GunController>();
+			gc.SetValuesFromJSON(towerfile);
+			gun.SetActive(active);
+		}
+	}
+
+
 	public void PlaceShield(int id, GameObject shield){
 		shields [id] = shield;
 	}
-
 	public bool IsShielded(int ind)
 	{
 		if (shields[ind] != null)
 			return true;
 		return false;
 	}
-
 	public void DestroyShield(int ind)
 	{
 		Destroy (shields[ind]);

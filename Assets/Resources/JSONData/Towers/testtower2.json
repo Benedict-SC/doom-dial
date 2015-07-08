@@ -1,10 +1,10 @@
 {
-	"decalFilename":"TowerPink",
-	"towerType":"Bullet",
-	"cooldownFactor":1.0,
-	"dmg":10.0,
-	"speed":0.2,
-	"range":1.0,
+	"decalFilename":"Tower2",
+	"towerType":"Shield",
+	"cooldownFactor":3.0,
+	"dmg":0.0,
+	"speed":0.0,
+	"range":0.0,
 	"knockback":0.0,
 	"lifeDrain":0.0,
 	"poison":0.0,
@@ -18,5 +18,5 @@
 	"doesSplit":false,
 	"isHoming":false,
 	"doesArc":false,
-	"shieldHP":0.0
+	"shieldHP":30.0
 }

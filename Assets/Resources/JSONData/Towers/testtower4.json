@@ -1,9 +1,9 @@
 {
-	"decalFilename":"TowerPink",
+	"decalFilename":"Tower4",
 	"towerType":"Bullet",
-	"cooldownFactor":1.0,
-	"dmg":10.0,
-	"speed":0.2,
+	"cooldownFactor":0.3,
+	"dmg":5.0,
+	"speed":0.3,
 	"range":1.0,
 	"knockback":0.0,
 	"lifeDrain":0.0,

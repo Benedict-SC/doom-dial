@@ -5,6 +5,7 @@ using System;
 public class BulletController : MonoBehaviour {
 
 	float TRACK_LENGTH = 3.1f; //hard coded to avoid querying track size all the time
+	// ^^^ RELATIVE TO WHERE BULLET STARTS, NOT CENTER
 
 	//For bullet types (as opposed to traps and shield types)
 

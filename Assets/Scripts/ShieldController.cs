@@ -5,8 +5,8 @@ public class ShieldController : MonoBehaviour {
 
 	public float maxHP;
 	public float hp;
-	public float regenRate;
-	public float regenAmt;
+	float regenRate;
+	float regenAmt;
 
 	public float spawnx;
 	public float spawny;
@@ -21,7 +21,7 @@ public class ShieldController : MonoBehaviour {
 		//defaults for testing
 		maxHP = 30.0f;
 		regenRate = 1.0f; //regens once every X seconds
-		regenAmt = 1.0f; //amount to regen every X seconds
+		regenAmt = 1.0f; //amount to regen every regenRate seconds
 
 		hp = maxHP;
 		SpriteRenderer sr = transform.gameObject.GetComponent<SpriteRenderer> ();

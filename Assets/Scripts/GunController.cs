@@ -7,38 +7,42 @@ using MiniJSON;
 
 public class GunController : MonoBehaviour, EventHandler {
 
+	float TRACK_LENGTH = 4.52f; //hard coded to avoid querying track size all the time
+	// ^^^ RELATIVE TO CENTER
+
 	//Tower type: "Bullet", "Trap", or "Shield"
-	public string towerType;
+	string towerType;
 
 	//***Skill values begin here***
-	public float dmg; //damage dealt out (direct value)
-	public float speed; //speed of the bullet
-	public float range; //range -- expressed in percent of the length of the lane
-	public float knockback; //knockback
-	public float lifeDrain; //lifedrain on enemy
-	public float poison; //poison damage on enemy
-	public float splash; //radius of splash damage
-	public float stun; //amount (time?) of enemy stun
-	public float slowdown; //enemy slowdown -- scale of 1 to 10, can't go over 8
-	public float penetration; //ignores this amount of enemy shield
-	public float shieldShred; //lowers enemy shield's max value by this
-	public float trapArmTime; //time in seconds to arm a trap
+	float dmg; //damage dealt out (direct value)
+	float speed; //speed of the bullet
+	float range; //range -- expressed in percent of the length of the lane
+	float knockback; //knockback
+	float lifeDrain; //lifedrain on enemy
+	float poison; //poison damage on enemy
+	float splash; //radius of splash damage
+	float stun; //amount (time?) of enemy stun
+	float slowdown; //enemy slowdown -- scale of 1 to 10, can't go over 8
+	float penetration; //ignores this amount of enemy shield
+	float shieldShred; //lowers enemy shield's max value by this
+	float trapArmTime; //time in seconds to arm a trap
 
-	public int spread; //number of shots fired at once, default should be 1.
+	int spread; //number of shots fired at once, default should be 1.
 
-	public bool doesSplit; //whether it splits in 2 at the end of its path/collision
-	public bool isHoming; //whether it homes in on nearest enemy
-	public bool doesArc; //whether it arcs (travels over enemies until it hits the ground at max range)
+	bool doesSplit; //whether it splits in 2 at the end of its path/collision
+	bool isHoming; //whether it homes in on nearest enemy
+	bool doesArc; //whether it arcs (travels over enemies until it hits the ground at max range)
 
-	public float shieldHP; //shield max HP
-	public float shieldRegen; //shield regen rate
-	public float shieldRange; //just so it's not hardcoded
+	float shieldHP; //shield max HP
+	float shieldRegen; //shield regen rate
+	float shieldRange; //just so it's not hardcoded
 	//***Skill values end here***
 
 	/* Another tower attribute
 	 * But not passed to bullets
 	 */
 	float cooldownFactor = 1.0f; //percentage of max cooldown time.  By default 1.0
+	float DEF_COOLDOWN = 2.0f;
 
 	float cooldown = 0.0f;
 	float maxcool;
@@ -49,23 +53,20 @@ public class GunController : MonoBehaviour, EventHandler {
 	float defaultBulletSpeed = 0.2f;
 	float defaultBulletRange = 1.0f;
 
-	public DialController dialCon;
-
 	// Use this for initialization
 	void Start () {
 		EventManager.Instance ().RegisterForEventType ("shot_fired", this);
 		GameObject overlayObject = transform.Find("CooldownLayer").gameObject;
 		overlayObject.transform.localScale = new Vector3 (0, 0, 1);
 
-		maxcool = 2.0f * cooldownFactor;
-		
 		//defaults
-		towerType = "Shield";
+		/*towerType = "Shield";
 		shieldRange = 1f;
 		dmg = 10;
 		speed = defaultBulletSpeed;
 		range = defaultBulletRange;
-		shieldHP = 100;
+		shieldHP = 100;*/
+		shieldRange = 1.0f;
 
 
 	}
@@ -77,6 +78,8 @@ public class GunController : MonoBehaviour, EventHandler {
 			//SpriteRenderer overlay = this.gameObject.GetComponentInChildren<SpriteRenderer> ();
 			GameObject overlayObject = transform.Find("CooldownLayer").gameObject;
 			overlayObject.transform.localScale = new Vector3 (cooldown / maxcool, cooldown / maxcool, 1);
+			if(cooldown < 0)
+				cooldown = 0;
 		}
 	}
 
@@ -89,6 +92,9 @@ public class GunController : MonoBehaviour, EventHandler {
 			return;
 		}
 		if (GameObject.Find ("Dial").GetComponent<SpinScript> ().IsSpinning ()) {
+			return;
+		}
+		if (transform.gameObject.activeSelf != true) {
 			return;
 		}
 
@@ -108,7 +114,7 @@ public class GunController : MonoBehaviour, EventHandler {
 			angle *= (float)Math.PI / 180;
 			//find where to spawn the bullet
 			float gunDistFromCenter = (float)Math.Sqrt (transform.position.x*transform.position.x + transform.position.y*transform.position.y);
-			gunDistFromCenter += 0.5f;
+			gunDistFromCenter += 0.9f;
 			bc.spawnx = gunDistFromCenter * (float)Math.Cos (angle);
 			bc.spawny = gunDistFromCenter * (float)Math.Sin (angle);
 			bc.vx = bc.speed * (float)Math.Cos(angle);
@@ -125,11 +131,12 @@ public class GunController : MonoBehaviour, EventHandler {
 			trapAngle *= (float)Math.PI / 180;
 			//find where to spawn the trap *****IMPLEMENT LANE-LENGTH AT SOME POINT
 			float trapSpawnRange = range;
-			trapSpawnRange += 0.5f;
+			trapSpawnRange *= TRACK_LENGTH;
 			tp.spawnx = trapSpawnRange * (float)Math.Cos (trapAngle);
 			tp.spawny = trapSpawnRange * (float)Math.Sin (trapAngle);
 			break;
 		case "Shield":
+			DialController dialCon = GameObject.Find ("Dial").gameObject.GetComponent<DialController>();
 			if (dialCon.IsShielded (GetCurrentLaneID() - 1)) //if there's already a shield there
 			{
 				dialCon.DestroyShield(GetCurrentLaneID() - 1); //destroy that shield
@@ -203,6 +210,8 @@ public class GunController : MonoBehaviour, EventHandler {
 			img.sprite.rect.width/img.sprite.bounds.size.x);
 
 		towerType = data ["towerType"] as string;
+		cooldownFactor = (float)(double)data["cooldownFactor"];
+		maxcool = DEF_COOLDOWN * cooldownFactor;
 		dmg = (float)(double)data ["dmg"];
 		speed = (float)(double)data ["speed"];
 		range = (float)(double)data ["range"];
@@ -219,6 +228,7 @@ public class GunController : MonoBehaviour, EventHandler {
 		doesSplit = (bool)data ["doesSplit"];
 		isHoming = (bool)data ["isHoming"];
 		doesArc = (bool)data ["doesArc"];
+		shieldHP = (float)(double)data ["shieldHP"];
 	}
 
 	//Assigns skill values to bullets
@@ -268,7 +278,7 @@ public class GunController : MonoBehaviour, EventHandler {
 		if (shieldHP == 0)
 			print ("Check your shield HP value!  might be 0!");
 		bc.maxHP = shieldHP;
-		bc.regenRate = shieldRegen;
+		//bc.regenRate = shieldRegen; //commented out since regen rate doesn't vary, according to joe
 	}
 
 }

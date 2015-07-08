@@ -6,19 +6,34 @@ public class ButtonController : MonoBehaviour, EventHandler {
 
 	public int buttonID;
 
-	GunController gc;
+	GunController gc = null;
 
 	// Use this for initialization
 	void Start () {
 		EventManager em = EventManager.Instance ();
-		em.RegisterForEventType ("mouse_release",this);
-		GameObject overlayObject = transform.Find("CooldownLayer").gameObject;
+		em.RegisterForEventType ("mouse_release", this);
+		GameObject overlayObject = transform.Find ("CooldownLayer").gameObject;
 		overlayObject.transform.localScale = new Vector3 (0, 0, 1);
-		gc = GameObject.Find ("Gun" + buttonID).GetComponent<GunController> ();
+		GameObject gun = GameObject.Find ("Gun" + buttonID);
+		if (gun != null){
+			gc = gun.GetComponent<GunController> ();
+			SetDecalFromTower (gc);
+		}else {
+			SpriteRenderer sr = transform.FindChild("Label").gameObject.GetComponent<SpriteRenderer>();
+			sr.sprite = null;
+		}
+	}
+	public void SetDecalFromTower(GunController gc){
+		Sprite s = gc.transform.FindChild("Label").gameObject.GetComponent<SpriteRenderer>().sprite;
+		SpriteRenderer sr = transform.FindChild("Label").gameObject.GetComponent<SpriteRenderer>();
+		sr.sprite = s;
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		if (gc == null)
+			return;
 		if (gc.GetCooldown () > 0) {
 			float ratio = gc.GetCooldownRatio();
 			GameObject overlayObject = transform.Find("CooldownLayer").gameObject;
@@ -38,7 +53,7 @@ public class ButtonController : MonoBehaviour, EventHandler {
 		float radius = s.bounds.size.x/2;
 
 
-		if (distance < radius) {
+		if (distance < radius && gc != null) {
 			//Debug.Log ("button released on button " + buttonID);
 			GameEvent nge = new GameEvent("shot_fired");
 			nge.addArgument(buttonID);
