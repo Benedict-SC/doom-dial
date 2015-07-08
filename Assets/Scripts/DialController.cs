@@ -11,6 +11,7 @@ public class DialController : MonoBehaviour,EventHandler {
 	// Use this for initialization
 	void Start () {
 		EventManager.Instance ().RegisterForEventType ("enemy_arrived", this);
+		GameObject.Find ("Gun1").GetComponent<GunController> ().SetValuesFromJSON ("testtower");
 	}
 
 	// Update is called once per frame
