@@ -22,16 +22,43 @@ public class DialController : MonoBehaviour,EventHandler {
 	public void HandleEvent(GameEvent ge){
 		EnemyController enemy = ((GameObject)ge.args [0]).GetComponent<EnemyController>();
 		float rawDamage = enemy.GetDamage ();
-		//check if the shield for enemy.GetTrackID()-1 isn't null
-		//subtract that damage from shield
-		//Destroy(shields[???]); to get rid of shield if it's been depleted 
-		//(this will make the reference in the array null)
-		//calculate the new damage to the dial if the shield was depleted and apply that damage
-		//by changing the line below to subtract the modified damage value
-		health -= rawDamage;
+		if (shields[enemy.GetTrackID () - 1] != null) //if this enemy's lane is shielded
+		{
+			int arrayInd = enemy.GetTrackID () - 1; //index of shield array to reference
+			GameObject shield = shields[enemy.GetTrackID () - 1];
+			ShieldController sc = shield.GetComponent<ShieldController>();
+			float oldHP = sc.hp; //the shield's hp pre-absorbing damage
+			Debug.Log ("old shield HP = " + oldHP);
+			sc.hp -= rawDamage;
+			sc.UpdateHPMeter();
+			sc.PrintHP(); //debug
+			if (sc.hp <= 0.0f) //if the shield's now dead
+			{
+				float dialDamage = (oldHP - rawDamage); //this should be a negative value or 0
+				health += dialDamage; //dial takes damage (adds the negative value)
+				Destroy (shields[arrayInd]); //destroy the shield
+				Debug.Log ("shield destroyed");
+			}
+		}
+		else //if there's no shield
+		{
+			health -= rawDamage;
+		}
 		enemy.Die ();
 	}
 	public void PlaceShield(int id, GameObject shield){
 		shields [id] = shield;
+	}
+
+	public bool IsShielded(int ind)
+	{
+		if (shields[ind] != null)
+			return true;
+		return false;
+	}
+
+	public void DestroyShield(int ind)
+	{
+		Destroy (shields[ind]);
 	}
 }

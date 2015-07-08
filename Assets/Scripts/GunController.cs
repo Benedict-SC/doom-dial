@@ -26,6 +26,10 @@ public class GunController : MonoBehaviour, EventHandler {
 	public bool doesSplit; //whether it splits in 2 at the end of its path/collision
 	public bool isHoming; //whether it homes in on nearest enemy
 	public bool doesArc; //whether it arcs (travels over enemies until it hits the ground at max range)
+
+	public float shieldHP; //shield max HP
+	public float shieldRegen; //shield regen rate
+	public float shieldRange; //just so it's not hardcoded
 	//***Skill values end here***
 
 	/* Another tower attribute
@@ -42,6 +46,8 @@ public class GunController : MonoBehaviour, EventHandler {
 	float defaultBulletSpeed = 0.2f;
 	float defaultBulletRange = 3.0f;
 
+	public DialController dialCon;
+
 	// Use this for initialization
 	void Start () {
 		EventManager.Instance ().RegisterForEventType ("shot_fired", this);
@@ -49,13 +55,14 @@ public class GunController : MonoBehaviour, EventHandler {
 		overlayObject.transform.localScale = new Vector3 (0, 0, 1);
 
 		maxcool = 2.0f * cooldownFactor;
-
-
+		
 		//defaults
-		towerType = "Bullet";
+		towerType = "Shield";
+		shieldRange = 1f;
 		dmg = 10;
 		speed = defaultBulletSpeed;
 		range = defaultBulletRange;
+		shieldHP = 100;
 
 
 	}
@@ -120,7 +127,26 @@ public class GunController : MonoBehaviour, EventHandler {
 			tp.spawny = trapSpawnRange * (float)Math.Sin (trapAngle);
 			break;
 		case "Shield":
-			print ("Shields not implemented yet");
+			if (dialCon.IsShielded (GetCurrentLaneID() - 1)) //if there's already a shield there
+			{
+				dialCon.DestroyShield(GetCurrentLaneID() - 1); //destroy that shield
+				Debug.Log ("destroyed previous shield");
+			}
+			GameObject shield = Instantiate (Resources.Load ("Prefabs/Shield")) as GameObject; //make a shield
+			ShieldController sc = shield.GetComponent<ShieldController>();
+			//make it the type of shield this thing deploys
+			ConfigureShield (sc);
+			//find your angle
+			float shieldOwnangle = this.transform.eulerAngles.z;
+			float shieldAngle = (shieldOwnangle +  90) % 360 ;
+			shieldAngle *= (float)Math.PI / 180;
+			//find where to spawn the shield
+			float shieldSpawnRange = shieldRange;
+			shieldSpawnRange += 0.5f;
+			sc.spawnx = shieldSpawnRange * (float)Math.Cos (shieldAngle);
+			sc.spawny = shieldSpawnRange * (float)Math.Sin (shieldAngle);
+			sc.gameObject.transform.rotation = this.gameObject.transform.rotation;
+			dialCon.PlaceShield (GetCurrentLaneID() - 1, shield); //mark current lane as shielded (placed in array)
 			break;
 		default:
 			print ("Uh oh, I didn't receive a valid towerType string value!");
@@ -180,8 +206,8 @@ public class GunController : MonoBehaviour, EventHandler {
 	//Assigns skill values to traps
 	private void ConfigureTrap(TrapController bc)
 	{
-		if (speed == 0 || range == 0 || dmg == 0)
-			print ("Check your speed, range, and/or dmg!  One might be 0!");
+		if (range == 0 || dmg == 0)
+			print ("Check your range and/or dmg!  One might be 0!");
 		bc.dmg = dmg;
 		bc.range = range;
 		bc.knockback = knockback;
@@ -195,27 +221,14 @@ public class GunController : MonoBehaviour, EventHandler {
 		bc.shieldShred = shieldShred;
 		bc.maxArmingTime = trapArmTime;
 	}
-	/*
+
 	//Assigns skill values to shields
 	private void ConfigureShield(ShieldController bc)
 	{
-		if (speed == 0 || range == 0 || dmg == 0)
-			print ("Check your speed, range, and/or dmg!  One might be 0!");
-		bc.dmg = dmg;
-		bc.speed = speed;
-		bc.range = range;
-		bc.knockback = knockback;
-		bc.lifeDrain = lifeDrain;
-		bc.poison = poison;
-		bc.splash = splash;
-		bc.stun = stun;
-		bc.slowdown = slowdown;
-		bc.spread = spread;
-		bc.penetration = penetration;
-		bc.shieldShred = shieldShred;
-		bc.doesSplit = doesSplit;
-		bc.isHoming = isHoming;
-		bc.doesArc = doesArc;
+		if (shieldHP == 0)
+			print ("Check your shield HP value!  might be 0!");
+		bc.maxHP = shieldHP;
+		bc.regenRate = shieldRegen;
 	}
-	*/
+
 }

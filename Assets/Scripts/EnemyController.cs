@@ -117,7 +117,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		}
 		else if (coll.gameObject.tag == "Shield") //if it's a shield
 		{
-			//do shield stuff here
+			//shield actions are handled in DialController
 		}
 
 	}
