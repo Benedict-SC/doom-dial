@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 using System;
+using MiniJSON;
 
 public class GunController : MonoBehaviour, EventHandler {
 
 	//Tower type: "Bullet", "Trap", or "Shield"
-	public String towerType;
+	public string towerType;
 
 	//***Skill values begin here***
 	public float dmg; //damage dealt out (direct value)
@@ -44,7 +47,7 @@ public class GunController : MonoBehaviour, EventHandler {
 	//in the future, we'll assign this value in scripts to deal with changing gun placements
 
 	float defaultBulletSpeed = 0.2f;
-	float defaultBulletRange = 3.0f;
+	float defaultBulletRange = 1.0f;
 
 	public DialController dialCon;
 
@@ -179,6 +182,43 @@ public class GunController : MonoBehaviour, EventHandler {
 			Debug.Log ("somehow a gun has a very very wrong angle");
 			return -1;
 		}
+	}
+
+	public void SetValuesFromJSON(string filename){
+		FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Towers",filename);
+		string json = fl.Read ();
+		Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
+
+		string imgfilename = data ["decalFilename"] as string;
+		SpriteRenderer img = transform.FindChild("Label").gameObject.GetComponent<SpriteRenderer> ();
+		//Debug.Log ("Sprites" + Path.DirectorySeparatorChar + imgfilename);
+		Texture2D decal = Resources.Load<Texture2D> ("Sprites/" + imgfilename);
+		if (decal == null) {
+			Debug.Log("decal is null");
+		}
+		img.sprite = UnityEngine.Sprite.Create (
+			decal,
+			new Rect(0,0,decal.width,decal.height),
+			new Vector2(0.5f,0.5f),
+			img.sprite.rect.width/img.sprite.bounds.size.x);
+
+		towerType = data ["towerType"] as string;
+		dmg = (float)(double)data ["dmg"];
+		speed = (float)(double)data ["speed"];
+		range = (float)(double)data ["range"];
+		knockback = (float)(double)data ["knockback"];
+		lifeDrain = (float)(double)data ["lifeDrain"];
+		poison = (float)(double)data ["poison"];
+		splash = (float)(double)data ["splash"];
+		stun = (float)(double)data ["stun"];
+		slowdown = (float)(double)data ["slowdown"];
+		penetration = (float)(double)data ["penetration"];
+		shieldShred = (float)(double)data ["shieldShred"];
+		trapArmTime = (float)(double)data ["trapArmTime"];
+		spread = (int)(long)data ["spread"];
+		doesSplit = (bool)data ["doesSplit"];
+		isHoming = (bool)data ["isHoming"];
+		doesArc = (bool)data ["doesArc"];
 	}
 
 	//Assigns skill values to bullets

@@ -3,6 +3,9 @@ using System.Collections;
 using System;
 
 public class BulletController : MonoBehaviour {
+
+	float TRACK_LENGTH = 3.1f; //hard coded to avoid querying track size all the time
+
 	//For bullet types (as opposed to traps and shield types)
 
 	/* The following are stats/skills for bullets
@@ -54,7 +57,7 @@ public class BulletController : MonoBehaviour {
 		//if bullet exceeds its range, disappear
 		float distance = (float)Math.Sqrt ((this.transform.position.x - spawnx) * (this.transform.position.x - spawnx)
 						+ (this.transform.position.y - spawny) * (this.transform.position.y - spawny));
-		if(distance > range){
+		if(distance > range * TRACK_LENGTH){
 			Destroy(this.gameObject);
 			return;
 		}
