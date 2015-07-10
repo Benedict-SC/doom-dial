@@ -18,10 +18,12 @@ public class SpinScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if(Input.GetMouseButtonDown(0)){
+			Debug.Log ("GetMouseButtonDown triggered");
 			//Allows the dial to start spinning
 			spinner = true;
 		}
 		if(Input.GetMouseButtonUp(0)){
+			Debug.Log ("GetMouseButtonUp triggered");
 			//Stops the dial from spinning more
 			spinner = false;
 			//Only tries to lock if the spinner has a chance of moving
@@ -35,6 +37,7 @@ public class SpinScript : MonoBehaviour {
 			clickTime = 0;
 		}
 		if(Input.GetMouseButton(0)){
+			Debug.Log ("GetMouseButton triggered");
 			clickTime += Time.deltaTime;
 			//Only allows the dial to spin if the player has been pressing for over a certain amount of time
 			if(spinner && clickTime > clickDelay){
