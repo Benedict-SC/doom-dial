@@ -17,7 +17,7 @@ public class TrackController : MonoBehaviour, EventHandler {
 	long DEF_LENGTH_IN_MILLIS = 3000;
 	//long DEF_ADVANCE_WARNING = 3000;
 
-	float NORMAL_SPEED = 0.01f;
+	float NORMAL_SPEED = 8.0f;
 
 	long[] startTimes = new long[6];
 
@@ -104,7 +104,7 @@ public class TrackController : MonoBehaviour, EventHandler {
 
 		//set up the track to warn
 		//determine flash speed
-		float flashfactor = ec.GetSpeed () / NORMAL_SPEED;
+		float flashfactor = NORMAL_SPEED / ec.GetImpactTime();
 		//Debug.Log("flashfactor is " + flashfactor + " (" + ec.GetSpeed() + "/" + NORMAL_SPEED + ")");
 		flashes [trackID] = (int)(flashfactor * DEF_FLASHES);
 		if (flashes [trackID] <= 0)

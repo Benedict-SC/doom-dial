@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Wave{
 
-	float radius = 5.0f;
+	float radius = DialController.FULL_LENGTH;
 
 	int levelID;
 	int waveID;
@@ -30,14 +30,16 @@ public class Wave{
 			//give enemy a filename to load from
 			string filename = (string) enemydict["enemyID"];
 			ec.SetSrcFileName(filename);
+			ec.SetTrackID(track);
+			ec.SetTrackLane(trackpos);
 
 			//calculate and set position
 			float degrees = (track-1)*60; //clockwise of y-axis
 			degrees += 15*trackpos; //negative trackpos is left side, positive is right side, 0 is middle
 			degrees = ((360-degrees) + 90)%360; //convert to counterclockwise of x axis
 			degrees *= Mathf.Deg2Rad;
+
 			enemyspawn.transform.position = new Vector3(radius*Mathf.Cos(degrees),radius*Mathf.Sin(degrees),0);
-			ec.SetTrackID(track);
 
 			//set spawn time
 			ec.SetSpawnTime(spawntimeInMillis);

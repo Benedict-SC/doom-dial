@@ -14,5 +14,8 @@ public class Timer
 	public long TimeElapsedMillis(){
 		return Convert.ToInt64 ((DateTime.Now - startTime).TotalMilliseconds);
 	}
+	public float TimeElapsedSecs(){
+		return (float)((DateTime.Now - startTime).TotalSeconds);
+	}
 }
 

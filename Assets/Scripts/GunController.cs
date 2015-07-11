@@ -7,7 +7,7 @@ using MiniJSON;
 
 public class GunController : MonoBehaviour, EventHandler {
 
-	float TRACK_LENGTH = 4.52f; //hard coded to avoid querying track size all the time
+	public readonly float TRACK_LENGTH = 4.52f; //hard coded to avoid querying track size all the time
 	// ^^^ RELATIVE TO CENTER
 
 	//Tower type: "Bullet", "Trap", or "Shield"

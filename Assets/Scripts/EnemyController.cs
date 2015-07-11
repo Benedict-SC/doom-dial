@@ -6,21 +6,29 @@ using MiniJSON;
 
 public class EnemyController : MonoBehaviour,EventHandler {
 
-	float DIAL_RADIUS = 1.5f; //hard coded to avoid constantly querying dial
+	public readonly float DIAL_RADIUS = 1.5f; //hard coded to avoid constantly querying dial
 	//if dial size ever needs to change, replace references to this with calls to a getter
 
 	long spawntime = 0;
 	bool warnedFor = false;
 	int trackID = 0;
+	int trackLane = 0;
 
-	float maxhp = 100;
-	float hp = 100;
+	float maxhp = 100.0f;
+	float hp = 100.0f;
 	string srcFileName;
 
-	float ySpeed;
-	float xSpeed;
+	//float ySpeed;
+	//float xSpeed;
 
-	float speed;
+	Timer timer = new Timer();
+	EnemyMover mover;
+	bool moving = false;
+	float progress = 0.0f;
+	float progressModifier = 1.0f;
+
+
+	float impactTime; //"speed"
 	float impactDamage;
 	float radius;
 	float maxShields;
@@ -35,6 +43,8 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		float rad = sr.bounds.size.x / 2;
 		CircleCollider2D collider = transform.gameObject.GetComponent<CircleCollider2D> ();
 		collider.radius = rad;
+		//timer = new Timer ();
+		mover = new SineMover (this);
 		//Debug.Log ("enemy radius is " + radius);
 
 	}
@@ -48,9 +58,12 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		CircleCollider2D collider = transform.gameObject.GetComponent<CircleCollider2D> ();
 		collider.radius = radius;
 
-		float angle = Mathf.Atan2(transform.position.y , transform.position.x);
-		ySpeed = Mathf.Sin (angle) * speed;
-		xSpeed = Mathf.Cos (angle) * speed;
+		timer.Restart ();
+		moving = true;
+
+		//float angle = Mathf.Atan2(transform.position.y , transform.position.x);
+		//ySpeed = Mathf.Sin (angle) * speed;
+		//xSpeed = Mathf.Cos (angle) * speed;
 	}
 	public void ConfigureEnemy(){
 		FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Bestiary",srcFileName);
@@ -60,7 +73,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		maxhp = (float)(double)data ["maxHP"];
 		hp = (float)(double)data ["HP"];
 		impactDamage = (float)(double)data ["damage"];
-		speed = (float)(double)data ["speed"];
+		impactTime = (float)(double)data ["impactTime"];
 		radius = (float)(double)data ["size"];
 		maxShields = (float)(double)data ["maxShields"];
 		shields = (float)(double)data ["shields"];
@@ -68,11 +81,20 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.position = new Vector3 (transform.position.x - xSpeed, transform.position.y - ySpeed, transform.position.z);
+		if (!moving)
+			return;
+		//make progress
+		float secsPassed = timer.TimeElapsedSecs ();
+		timer.Restart ();
+		float progressIncrement = secsPassed / impactTime;
+		progressIncrement *= progressModifier;
+		progress += progressIncrement;
+
+		//transform.position = new Vector3 (transform.position.x - xSpeed, transform.position.y - ySpeed, transform.position.z);
+		Vector2 point = mover.PositionFromProgress(progress);
+		transform.position = new Vector3 (point.x, point.y, transform.position.z);
 		float distanceFromCenter = Mathf.Sqrt ((transform.position.x) * (transform.position.x) + (transform.position.y) * (transform.position.y));
 		if ( distanceFromCenter < DIAL_RADIUS ) {
-			xSpeed = 0;
-			ySpeed = 0;
 			GameEvent ge = new GameEvent("enemy_arrived");
 			ge.addArgument(transform.gameObject);
 			EventManager.Instance().RaiseEvent(ge);
@@ -140,6 +162,12 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	public int GetTrackID(){
 		return trackID;
 	}
+	public void SetTrackLane(int lane){
+		trackLane = lane;
+	}
+	public int GetTrackLane(){
+		return trackLane;
+	}
 	public float GetDamage(){
 		return impactDamage;
 	}
@@ -149,7 +177,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	public void Warn(){
 		warnedFor = true;
 	}
-	public float GetSpeed(){
-		return speed;
+	public float GetImpactTime(){
+		return impactTime;
 	}
 }

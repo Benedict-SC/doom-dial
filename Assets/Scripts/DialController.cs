@@ -6,6 +6,10 @@ using MiniJSON;
 
 public class DialController : MonoBehaviour,EventHandler {
 
+	public static readonly float FULL_LENGTH = 4.52f;
+	public static readonly float DIAL_RADIUS = 1.5f;
+	public static readonly float TRACK_LENGTH = 3.02f;
+
 	float maxHealth = 100;
 	float health = 100;
 
