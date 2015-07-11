@@ -7,7 +7,11 @@ public class TrapController : MonoBehaviour {
 	float TRACK_LENGTH = 3.1f; //hard coded to avoid querying track size all the time
 
 	//***Skill values begin here***
+
+	//IMPLEMENTED
 	public float dmg; //damage dealt out (direct value)
+
+	//NOT YET IMPLEMENTED
 	public float range; //range -- expressed in percent of the length of the lane
 	public float knockback; //knockback
 	public float lifeDrain; //lifedrain on enemy

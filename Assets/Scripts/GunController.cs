@@ -16,7 +16,7 @@ public class GunController : MonoBehaviour, EventHandler {
 	//***Skill values begin here***
 	float dmg; //damage dealt out (direct value)
 	float speed; //speed of the bullet
-	float range; //range -- expressed in percent of the length of the lane
+	public float range; //range -- expressed in percent of the length of the lane
 	float knockback; //knockback
 	float lifeDrain; //lifedrain on enemy
 	float poison; //poison damage on enemy

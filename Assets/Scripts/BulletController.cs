@@ -12,9 +12,13 @@ public class BulletController : MonoBehaviour {
 	/* The following are stats/skills for bullets
 	 * They are passed to the bullet object from the customized tower
 	 */
+
+	//IMPLEMENTED
 	public float dmg; //damage dealt out
-	public float speed; //speed of the bullet
 	public float range; //range -- expressed in percent of the length of the lane
+	public float speed; //possibly not necessary, as the speed is passed from the GunController
+
+	//NOT YET IMPLEMENTED
 	public float knockback; //knockback
 	public float lifeDrain; //lifedrain on enemy
 	public float poison; //poison damage on enemy
@@ -51,10 +55,15 @@ public class BulletController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//position doesn't let you modify individual fields so this is gonna be wordy
-		this.transform.position = new Vector3(this.transform.position.x + vx, this.transform.position.y + vy, this.transform.position.z);
-		//if bullet exceeds its range, disappear
-		Debug.Log ("x is " + transform.position.x + " and spawnx is " + spawnx);
+		Debug.Log ("homing?" + isHoming);
+		if (!isHoming)
+		{
+			//position doesn't let you modify individual fields so this is gonna be wordy
+			this.transform.position = new Vector3(this.transform.position.x + vx, this.transform.position.y + vy, this.transform.position.z);
+			//if bullet exceeds its range, disappear
+			Debug.Log ("x is " + transform.position.x + " and spawnx is " + spawnx);
+		}
+
 		float distance = (float)Math.Sqrt ((this.transform.position.x - spawnx) * (this.transform.position.x - spawnx)
 						+ (this.transform.position.y - spawny) * (this.transform.position.y - spawny));
 		Debug.Log (distance);

@@ -25,6 +25,7 @@ public class SpinScript : MonoBehaviour {
 		Vector3 mousepos = Camera.main.ScreenToWorldPoint (rawmousepos);
 
 		if(Input.GetMouseButtonDown(0)){
+			Debug.Log ("GetMouseButtonDown triggered");
 			//Allows the dial to start spinning
 			if(spinner == false){
 				originalRot = Mathf.Atan2(mousepos.y,mousepos.x);
@@ -35,6 +36,7 @@ public class SpinScript : MonoBehaviour {
 
 		}
 		if(Input.GetMouseButtonUp(0)){
+			Debug.Log ("GetMouseButtonUp triggered");
 			//Stops the dial from spinning more
 			spinner = false;
 			//Only tries to lock if the spinner has a chance of moving
@@ -48,6 +50,7 @@ public class SpinScript : MonoBehaviour {
 			clickTime = 0;
 		}
 		if(Input.GetMouseButton(0)){
+			Debug.Log ("GetMouseButton triggered");
 			clickTime += Time.deltaTime;
 			//Only allows the dial to spin if the player has been pressing for over a certain amount of time
 			if(spinner && clickTime > clickDelay){
