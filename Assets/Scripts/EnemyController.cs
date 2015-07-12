@@ -115,6 +115,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 			if (bc != null) {
 				if (bc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
 				{
+					StartCoroutine (StatusEffectsBullet (bc));
 					hp -= bc.dmg;
 					bc.Collide();
 					if(hp <= 0){
@@ -129,6 +130,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 			if (tc != null) {
 				if (tc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
 				{
+					StartCoroutine (StatusEffectsTrap (tc));
 					hp -= tc.dmg;
 					tc.Collide();
 					if(hp <= 0){
@@ -143,6 +145,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		}
 
 	}
+
 	public void Die(){
 		//put more dying functionality here
 		Destroy (this.gameObject);
@@ -179,5 +182,66 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	}
 	public float GetImpactTime(){
 		return impactTime;
+	}
+
+	/*Coroutines for Status Effects*/
+	IEnumerator StatusEffectsBullet(BulletController bc)
+	{
+		float lifeDrain = bc.lifeDrain; //lifedrain on enemy
+		float poison = bc.poison; //poison damage on enemy
+		float knockback = bc.knockback; //knockback
+		float stun = bc.stun; //amount (time?) of enemy stun
+		float slowdown = bc.slowdown; //enemy slowdown
+
+		//Life Drain - immediate
+		if (lifeDrain != 0)
+		{
+			//IMPLEMENT
+		}
+
+		//Poison - begins immediately, continues This coroutine w/o waiting to end
+		if (poison != 0)
+		{
+			//IMPLEMENT
+		}
+
+		//Knockback - priority 0
+		if (knockback != 0)
+		{
+			//IMPLEMENT
+		}
+
+		//Stun - priority 1
+		if (stun != 0)
+		{
+			//IMPLEMENT
+		}
+
+		//Slowdown - priority 2
+		if (slowdown != 0)
+		{
+			//IMPLEMENT
+		}
+
+		yield break;
+	}
+
+	IEnumerator StatusEffectsTrap(TrapController tc)
+	{
+		float lifeDrain = tc.lifeDrain; //lifedrain on enemy
+		float poison = tc.poison; //poison damage on enemy
+		float knockback = tc.knockback; //knockback
+		float stun = tc.stun; //amount (time?) of enemy stun
+		float slowdown = tc.slowdown; //enemy slowdown
+
+		yield break;
+	}
+
+	//modifies enemy speed for a given duration -- use for stun, and slowdown
+	IEnumerator ChangeSpeed(float duration, float value)
+	{
+		progressModifier = value;
+		yield return new WaitForSeconds(duration);
+		progressModifier = 1.0f;
 	}
 }

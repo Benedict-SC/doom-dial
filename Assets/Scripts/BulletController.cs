@@ -18,13 +18,14 @@ public class BulletController : MonoBehaviour {
 	public float range; //range -- expressed in percent of the length of the lane
 	public float speed; //possibly not necessary, as the speed is passed from the GunController
 
-	//NOT YET IMPLEMENTED
-	public float knockback; //knockback
+	//BEING WORKED ON
 	public float lifeDrain; //lifedrain on enemy
 	public float poison; //poison damage on enemy
-	public float splash; //radius of splash damage
+	public float knockback; //knockback
 	public float stun; //amount (time?) of enemy stun
 	public float slowdown; //enemy slowdown
+
+	public float splash; //radius of splash damage
 	public float penetration; //ignores this amount of enemy shield
 	public float shieldShred; //lowers enemy shield's max value by this
 
@@ -69,7 +70,7 @@ public class BulletController : MonoBehaviour {
 		Debug.Log (distance);
 		if(distance > range * TRACK_LENGTH){
 			Debug.Log ("we somehow destroyed ourselves");
-			Destroy(this.gameObject);
+			Collide (); //destroys itself and begins any post-death status effects
 			return;
 		}
 
@@ -78,6 +79,16 @@ public class BulletController : MonoBehaviour {
 	}
 	//called when the bullet hits something, from the OnCollisionEnter in EnemyController
 	public void Collide(){
+		if (splash != 0)
+		{
+			if (poison != 0)
+			{
+				//POISON CLOUD HERE
+			}
+			else {
+				//AoE DAMAGE HERE
+			}
+		}
 		Destroy (this.gameObject);
 	}
 
