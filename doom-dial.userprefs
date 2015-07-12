@@ -1,12 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GunController.cs">
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MenuSpinScript.cs">
     <Files>
-      <File FileName="Assets\Scripts\GunController.cs" Line="146" Column="43" />
-      <File FileName="Assets\Scripts\DialController.cs" Line="33" Column="23" />
-      <File FileName="Assets\Scripts\ShieldController.cs" Line="22" Column="13" />
-      <File FileName="Assets\Scripts\EnemyController.cs" Line="120" Column="50" />
-      <File FileName="Assets\Scripts\TrapController.cs" Line="40" Column="28" />
+      <File FileName="Assets\Scripts\SpinScript.cs" Line="70" Column="70" />
+      <File FileName="Assets\Scripts\MenuSpinScript.cs" Line="88" Column="64" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
