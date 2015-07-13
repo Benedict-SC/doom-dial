@@ -54,13 +54,20 @@ public class SpinScript : MonoBehaviour {
 			clickTime += Time.deltaTime;
 			//Only allows the dial to spin if the player has been pressing for over a certain amount of time
 			if(spinner && clickTime > clickDelay){
-				//Probably not the best for dealing with movement on both axis, 
-				//also will change code to touch controls once we start testing the game on mobile
-				float angle = Mathf.Atan2(mousepos.y,mousepos.x);// (mousepos.y,mousepos.x);
-				float degrees = Mathf.Rad2Deg * angle;
-				float origDegrees = Mathf.Rad2Deg * originalRot;
-				transform.rotation = Quaternion.Euler(0,0,(origz + degrees - origDegrees)%360);
-				//transform.Rotate(0, 0, Input.GetAxis("Mouse Y") + Input.GetAxis("Mouse X")* multiplier, Space.World);
+				//Change code to touch control later
+				//Changes direction of spin on each axis based on the location of the input
+				if(Input.mousePosition.x >= Screen.width/2){
+					rotY = Input.GetAxis("Mouse Y");
+				}else{
+					rotY = Input.GetAxis("Mouse Y")* -1;
+				}
+				if(Input.mousePosition.y >= Screen.height/2){
+					rotX = Input.GetAxis("Mouse X")*-1;
+				}else{
+					rotX = Input.GetAxis("Mouse X");
+				}
+				
+				transform.Rotate(0, 0, ((rotX + rotY)* multiplier), Space.World);
 			}
 		}
 	}
