@@ -8,6 +8,7 @@
 	"knockback":0.0,
 	"lifeDrain":0.0,
 	"poison":0.0,
+	"poisonDur":0.0,
 	"splash":0.0,
 	"stun":0.0,
 	"slowdown":0.0,

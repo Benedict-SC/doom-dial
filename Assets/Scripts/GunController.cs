@@ -220,6 +220,7 @@ public class GunController : MonoBehaviour, EventHandler {
 		knockback = (float)(double)data ["knockback"];
 		lifeDrain = (float)(double)data ["lifeDrain"];
 		poison = (float)(double)data ["poison"];
+		poisonDur = (float)(double)data ["poisonDur"];
 		splash = (float)(double)data ["splash"];
 		stun = (float)(double)data ["stun"];
 		slowdown = (float)(double)data ["slowdown"];
