@@ -9,6 +9,10 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	public readonly float DIAL_RADIUS = 1.5f; //hard coded to avoid constantly querying dial
 	//if dial size ever needs to change, replace references to this with calls to a getter
 
+	public readonly float KNOCK_CONSTANT = 2.0f; //constant for knockback distance - ***balance this at some point!
+
+	public DialController dialCon;
+
 	long spawntime = 0;
 	bool warnedFor = false;
 	int trackID = 0;
@@ -81,6 +85,10 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	
 	// Update is called once per frame
 	void Update () {
+		if (hp <= 0.0f)
+		{
+			Die ();
+		}
 		if (!moving)
 			return;
 		//make progress
@@ -185,30 +193,34 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	}
 
 	/*Coroutines for Status Effects*/
+
+	//handles several of the status effect coroutines from Bullets
 	IEnumerator StatusEffectsBullet(BulletController bc)
 	{
+		float trapDamage = bc.dmg; //damage the bullet dealt -- might be used for lifedrain (percentage of dmg)
 		float lifeDrain = bc.lifeDrain; //lifedrain on enemy
 		float poison = bc.poison; //poison damage on enemy
+		float poisonDur = bc.poisonDur; //how long poison lasts
 		float knockback = bc.knockback; //knockback
-		float stun = bc.stun; //amount (time?) of enemy stun
+		float stun = bc.stun; //time of enemy stun
 		float slowdown = bc.slowdown; //enemy slowdown
 
 		//Life Drain - immediate
 		if (lifeDrain != 0)
 		{
-			//IMPLEMENT
+			StartCoroutine (LifeDrain (lifeDrain));
 		}
 
 		//Poison - begins immediately, continues This coroutine w/o waiting to end
 		if (poison != 0)
 		{
-			//IMPLEMENT
+			StartCoroutine (PoisonEffect (poisonDur, poison));
 		}
 
 		//Knockback - priority 0
 		if (knockback != 0)
 		{
-			//IMPLEMENT
+			//IMPLEMENT -- use KNOCK_CONSTANT
 		}
 
 		//Stun - priority 1
@@ -226,14 +238,62 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		yield break;
 	}
 
+	//handles several of the status effect coroutines from Traps
 	IEnumerator StatusEffectsTrap(TrapController tc)
 	{
+		float trapDamage = tc.dmg; //damage the trap dealt -- might be used for lifedrain (percentage of dmg)
 		float lifeDrain = tc.lifeDrain; //lifedrain on enemy
 		float poison = tc.poison; //poison damage on enemy
+		float poisonDur = tc.poisonDur; //how long poison lasts
 		float knockback = tc.knockback; //knockback
-		float stun = tc.stun; //amount (time?) of enemy stun
+		float stun = tc.stun; //time of enemy stun
 		float slowdown = tc.slowdown; //enemy slowdown
 
+		//Life Drain - immediate
+		if (lifeDrain != 0)
+		{
+			StartCoroutine (LifeDrain (lifeDrain));
+		}
+		
+		//Poison - begins immediately, continues This coroutine w/o waiting to end
+		if (poison != 0)
+		{
+			StartCoroutine (PoisonEffect (poisonDur, poison));
+		}
+		
+		//Knockback - priority 0
+		if (knockback != 0)
+		{
+			//IMPLEMENT -- use KNOCK_CONSTANT
+		}
+		
+		//Stun - priority 1
+		if (stun != 0)
+		{
+			//IMPLEMENT
+		}
+		
+		//Slowdown - priority 2
+		if (slowdown != 0)
+		{
+			//IMPLEMENT
+		}
+
+		yield break;
+	}
+
+	//lifeDrain status effect
+	IEnumerator LifeDrain (float amt)
+	{
+		hp -= amt;
+		dialCon.ChangeHealth (amt);
+		yield break;
+	}
+
+	//poison status effect
+	IEnumerator PoisonEffect (float duration, float amt)
+	{
+		//STUFF HERE
 		yield break;
 	}
 

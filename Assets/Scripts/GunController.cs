@@ -20,6 +20,7 @@ public class GunController : MonoBehaviour, EventHandler {
 	float knockback; //knockback
 	float lifeDrain; //lifedrain on enemy
 	float poison; //poison damage on enemy
+	float poisonDur; //how long poison lasts, in seconds
 	float splash; //radius of splash damage
 	float stun; //amount (time?) of enemy stun
 	float slowdown; //enemy slowdown -- scale of 1 to 10, can't go over 8
@@ -243,6 +244,7 @@ public class GunController : MonoBehaviour, EventHandler {
 		bc.knockback = knockback;
 		bc.lifeDrain = lifeDrain;
 		bc.poison = poison;
+		bc.poisonDur = poisonDur;
 		bc.splash = splash;
 		bc.stun = stun;
 		bc.slowdown = slowdown;
@@ -264,6 +266,7 @@ public class GunController : MonoBehaviour, EventHandler {
 		bc.knockback = knockback;
 		bc.lifeDrain = lifeDrain;
 		bc.poison = poison;
+		bc.poisonDur = poisonDur;
 		bc.splash = splash;
 		bc.stun = stun;
 		bc.slowdown = slowdown;

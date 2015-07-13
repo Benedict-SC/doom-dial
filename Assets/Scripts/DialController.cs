@@ -87,4 +87,9 @@ public class DialController : MonoBehaviour,EventHandler {
 	{
 		Destroy (shields[ind]);
 	}
+
+	public void ChangeHealth(float amt)
+	{
+		health += amt;
+	}
 }

@@ -16,6 +16,7 @@ public class TrapController : MonoBehaviour {
 	public float knockback; //knockback
 	public float lifeDrain; //lifedrain on enemy
 	public float poison; //poison damage on enemy
+	public float poisonDur; //how long poison lasts, in seconds
 	public float splash; //radius of splash damage
 	public float stun; //amount (time?) of enemy stun
 	public float slowdown; //enemy slowdown -- scale of 1 to 10, can't go over 8
