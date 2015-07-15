@@ -9,7 +9,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	public readonly float DIAL_RADIUS = 1.5f; //hard coded to avoid constantly querying dial
 	//if dial size ever needs to change, replace references to this with calls to a getter
 
-	public readonly float KNOCK_CONSTANT = 2.0f; //constant for knockback distance - ***balance this at some point!
+	public readonly float KNOCK_CONSTANT = 0.5f; //constant for knockback time - ***balance this at some point!
 
 	public DialController dialCon;
 
@@ -42,6 +42,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 
 	// Use this for initialization
 	void Start () {
+		dialCon = GameObject.FindWithTag ("Dial").GetComponent<DialController>();
 		EventManager.Instance ().RegisterForEventType ("shot_collided", this);
 		SpriteRenderer sr = transform.gameObject.GetComponent<SpriteRenderer> ();
 		float rad = sr.bounds.size.x / 2;
@@ -96,6 +97,8 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		timer.Restart ();
 		float progressIncrement = secsPassed / impactTime;
 		progressIncrement *= progressModifier;
+		Debug.Log ("pMod = " + progressModifier);
+		//Debug.Log ("progressIncrement = " + progressIncrement);
 		progress += progressIncrement;
 
 		//transform.position = new Vector3 (transform.position.x - xSpeed, transform.position.y - ySpeed, transform.position.z);
@@ -197,18 +200,20 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	//handles several of the status effect coroutines from Bullets
 	IEnumerator StatusEffectsBullet(BulletController bc)
 	{
-		float trapDamage = bc.dmg; //damage the bullet dealt -- might be used for lifedrain (percentage of dmg)
+		float bulletDamage = bc.dmg; //damage the bullet dealt -- might be used for lifedrain (percentage of dmg)
 		float lifeDrain = bc.lifeDrain; //lifedrain on enemy
 		float poison = bc.poison; //poison damage on enemy
 		float poisonDur = bc.poisonDur; //how long poison lasts
-		float knockback = bc.knockback; //knockback
+		float knockback = bc.knockback; //knockback -- positive value for distance knocked back
 		float stun = bc.stun; //time of enemy stun
-		float slowdown = bc.slowdown; //enemy slowdown
+		float slowdown = bc.slowdown; //enemy slowdown -- percentage of normal speed
+		float slowDur = bc.slowDur; //how long slowdown lasts
+		Debug.Log ("slowDur is " + slowDur);
 
 		//Life Drain - immediate
 		if (lifeDrain != 0)
 		{
-			StartCoroutine (LifeDrain (lifeDrain));
+			StartCoroutine (LifeDrain (lifeDrain, bulletDamage));
 		}
 
 		//Poison - begins immediately, continues This coroutine w/o waiting to end
@@ -220,19 +225,32 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		//Knockback - priority 0
 		if (knockback != 0)
 		{
-			//IMPLEMENT -- use KNOCK_CONSTANT
+			float oldMod = progressModifier;
+			progressModifier = -knockback;
+			yield return new WaitForSeconds(KNOCK_CONSTANT);
+			progressModifier = oldMod;
 		}
 
 		//Stun - priority 1
 		if (stun != 0)
 		{
-			//IMPLEMENT
+			float oldMod = progressModifier;
+			progressModifier = 0.0f;
+			yield return new WaitForSeconds(stun - KNOCK_CONSTANT);
+			progressModifier = oldMod;
 		}
 
 		//Slowdown - priority 2
 		if (slowdown != 0)
 		{
-			//IMPLEMENT
+			//Debug.Log ("entered slowdown if!");
+			//Debug.Log ("progressmod old: " + progressModifier);
+			float oldMod = progressModifier;
+			progressModifier *= slowdown;
+			//Debug.Log ("progressmod new: " + progressModifier);
+			yield return new WaitForSeconds((slowDur - stun - KNOCK_CONSTANT));
+			//Debug.Log ("final slowdonw time was: " + ((slowDur - stun - KNOCK_CONSTANT)));
+			progressModifier = oldMod;
 		}
 
 		yield break;
@@ -242,17 +260,20 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	IEnumerator StatusEffectsTrap(TrapController tc)
 	{
 		float trapDamage = tc.dmg; //damage the trap dealt -- might be used for lifedrain (percentage of dmg)
-		float lifeDrain = tc.lifeDrain; //lifedrain on enemy
+		float lifeDrain = tc.lifeDrain; //lifedrain on enemy -- percentage of damage given back to player
 		float poison = tc.poison; //poison damage on enemy
 		float poisonDur = tc.poisonDur; //how long poison lasts
 		float knockback = tc.knockback; //knockback
 		float stun = tc.stun; //time of enemy stun
 		float slowdown = tc.slowdown; //enemy slowdown
+		float slowDur = tc.slowDur; //how long slowdown lasts
+		float totalTime = stun + slowDur;
+		Debug.Log ("slowdown:" + slowdown);
 
 		//Life Drain - immediate
 		if (lifeDrain != 0)
 		{
-			StartCoroutine (LifeDrain (lifeDrain));
+			StartCoroutine (LifeDrain (lifeDrain, trapDamage));
 		}
 		
 		//Poison - begins immediately, continues This coroutine w/o waiting to end
@@ -264,36 +285,57 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		//Knockback - priority 0
 		if (knockback != 0)
 		{
-			//IMPLEMENT -- use KNOCK_CONSTANT
+			float oldMod = progressModifier;
+			progressModifier = -knockback;
+			yield return new WaitForSeconds(KNOCK_CONSTANT);
+			progressModifier = oldMod;
 		}
 		
 		//Stun - priority 1
 		if (stun != 0)
 		{
-			//IMPLEMENT
+			float oldMod = progressModifier;
+			progressModifier = 0.0f;
+			yield return new WaitForSeconds(stun - KNOCK_CONSTANT);
+			progressModifier = oldMod;
 		}
 		
 		//Slowdown - priority 2
 		if (slowdown != 0)
 		{
-			//IMPLEMENT
+			float oldMod = progressModifier;
+			progressModifier *= slowdown;
+			yield return new WaitForSeconds(slowDur - stun - KNOCK_CONSTANT);
+			progressModifier = oldMod;
 		}
 
 		yield break;
 	}
 
 	//lifeDrain status effect
-	IEnumerator LifeDrain (float amt)
+	IEnumerator LifeDrain (float amt, float dmg)
 	{
+		//Debug.Log ("lifedrain started");
 		hp -= amt;
-		dialCon.ChangeHealth (amt);
+		dialCon.health += (float)(int)(amt * dmg);
+		if (dialCon.health > dialCon.maxHealth)
+			dialCon.health = dialCon.maxHealth;
+		//Debug.Log ("dial health + " + (float)(int)(amt * dmg));
+		//Debug.Log ("new health: " + dialCon.health);
 		yield break;
 	}
 
 	//poison status effect
 	IEnumerator PoisonEffect (float duration, float amt)
 	{
-		//STUFF HERE
+		//Debug.Log ("poison started");
+		int dur = (int)duration;
+		while (dur > 0)
+		{
+			hp -= amt;
+			dur--;
+			yield return new WaitForSeconds(1);
+		}
 		yield break;
 	}
 

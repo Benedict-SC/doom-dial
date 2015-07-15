@@ -17,14 +17,15 @@ public class BulletController : MonoBehaviour {
 	public float dmg; //damage dealt out
 	public float range; //range -- expressed in percent of the length of the lane
 	public float speed; //possibly not necessary, as the speed is passed from the GunController
-
-	//BEING WORKED ON
-	public float lifeDrain; //lifedrain on enemy
 	public float poison; //poison damage on enemy
 	public float poisonDur; //how long poison lasts, in seconds
-	public float knockback; //knockback
+	public float knockback; //knockback -- positive value for distance knocked back
 	public float stun; //amount (time?) of enemy stun
+	public float lifeDrain; //lifedrain on enemy
 	public float slowdown; //enemy slowdown
+	public float slowDur; //how long slowdown lasts
+
+	//BEING WORKED ON
 
 	public float splash; //radius of splash damage
 	public float penetration; //ignores this amount of enemy shield

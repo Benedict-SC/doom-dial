@@ -10,16 +10,18 @@ public class TrapController : MonoBehaviour {
 
 	//IMPLEMENTED
 	public float dmg; //damage dealt out (direct value)
-
-	//NOT YET IMPLEMENTED
 	public float range; //range -- expressed in percent of the length of the lane
 	public float knockback; //knockback
-	public float lifeDrain; //lifedrain on enemy
 	public float poison; //poison damage on enemy
 	public float poisonDur; //how long poison lasts, in seconds
-	public float splash; //radius of splash damage
 	public float stun; //amount (time?) of enemy stun
+	public float lifeDrain; //lifedrain on enemy
 	public float slowdown; //enemy slowdown -- scale of 1 to 10, can't go over 8
+	public float slowDur; //how long slowdown lasts
+
+	//NOT YET IMPLEMENTED
+
+	public float splash; //radius of splash damage
 	public float penetration; //ignores this amount of enemy shield
 	public float shieldShred; //lowers enemy shield's max value by this
 	

@@ -17,13 +17,14 @@ public class GunController : MonoBehaviour, EventHandler {
 	float dmg; //damage dealt out (direct value)
 	float speed; //speed of the bullet
 	public float range; //range -- expressed in percent of the length of the lane
-	float knockback; //knockback
+	float knockback; //knockback -- positive value for distance knocked back
 	float lifeDrain; //lifedrain on enemy
 	float poison; //poison damage on enemy
 	float poisonDur; //how long poison lasts, in seconds
 	float splash; //radius of splash damage
 	float stun; //amount (time?) of enemy stun
 	float slowdown; //enemy slowdown -- scale of 1 to 10, can't go over 8
+	float slowDur; //how long slowdown lasts
 	float penetration; //ignores this amount of enemy shield
 	float shieldShred; //lowers enemy shield's max value by this
 	float trapArmTime; //time in seconds to arm a trap
@@ -224,6 +225,8 @@ public class GunController : MonoBehaviour, EventHandler {
 		splash = (float)(double)data ["splash"];
 		stun = (float)(double)data ["stun"];
 		slowdown = (float)(double)data ["slowdown"];
+		slowDur = (float)(double)data ["slowDur"];
+		Debug.Log ("gun slowDur is " + slowDur);
 		penetration = (float)(double)data ["penetration"];
 		shieldShred = (float)(double)data ["shieldShred"];
 		trapArmTime = (float)(double)data ["trapArmTime"];
@@ -249,12 +252,14 @@ public class GunController : MonoBehaviour, EventHandler {
 		bc.splash = splash;
 		bc.stun = stun;
 		bc.slowdown = slowdown;
+		bc.slowDur = slowDur;
 		bc.spread = spread;
 		bc.penetration = penetration;
 		bc.shieldShred = shieldShred;
 		bc.doesSplit = doesSplit;
 		bc.isHoming = isHoming;
 		bc.doesArc = doesArc;
+		Debug.Log ("bullet slowDur is " + bc.slowDur);
 	}
 
 	//Assigns skill values to traps
@@ -271,6 +276,7 @@ public class GunController : MonoBehaviour, EventHandler {
 		bc.splash = splash;
 		bc.stun = stun;
 		bc.slowdown = slowdown;
+		bc.slowDur = slowDur;
 		bc.spread = spread;
 		bc.penetration = penetration;
 		bc.shieldShred = shieldShred;

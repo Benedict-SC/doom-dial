@@ -10,8 +10,8 @@ public class DialController : MonoBehaviour,EventHandler {
 	public static readonly float DIAL_RADIUS = 1.5f;
 	public static readonly float TRACK_LENGTH = 3.02f;
 
-	float maxHealth = 100;
-	float health = 100;
+	public float maxHealth = 100;
+	public float health = 100;
 
 	GameObject[] shields = new GameObject[6];
 
@@ -23,8 +23,16 @@ public class DialController : MonoBehaviour,EventHandler {
 
 	// Update is called once per frame
 	void Update () {
+		if (health > maxHealth)
+		{
+			health = maxHealth;
+		}
 		GameObject healthbar = transform.FindChild ("Health").gameObject;
 		healthbar.transform.localScale = new Vector3 (health / maxHealth, health / maxHealth, 1);
+		if (health < 0)
+		{
+			Debug.Log ("health is negative@");
+		}
 	}
 
 	public void HandleEvent(GameEvent ge){
@@ -51,6 +59,7 @@ public class DialController : MonoBehaviour,EventHandler {
 		else //if there's no shield
 		{
 			health -= rawDamage;
+			Debug.Log ("damage taken, new health is " + health);
 		}
 		enemy.Die ();
 	}
@@ -91,5 +100,12 @@ public class DialController : MonoBehaviour,EventHandler {
 	public void ChangeHealth(float amt)
 	{
 		health += amt;
+		if (health > maxHealth)
+		{
+			health = maxHealth;
+		}
+		Debug.Log ("Dial health += " + amt);
+		Debug.Log ("health is " + health);
 	}
+
 }
