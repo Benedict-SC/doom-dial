@@ -10,10 +10,10 @@ public class SpinScript : MonoBehaviour {
 	float clickTime = 0;
 	//Centralized variable for how long the player can hold before it becomes a drag instead of a press
 	float clickDelay = 0.1f;
-
-	float originalRot = 0.0f;
-	float origz = 0.0f;
-
+	float rotX = 0.0f;
+	float rotY = 0.0f;
+	//Allows easy adjustment of spin speed
+	public float multiplier = 5.0f;
 	// Use this for initialization
 	void Start () {
 	
@@ -27,11 +27,6 @@ public class SpinScript : MonoBehaviour {
 		if(Input.GetMouseButtonDown(0)){
 			Debug.Log ("GetMouseButtonDown triggered");
 			//Allows the dial to start spinning
-			if(spinner == false){
-				originalRot = Mathf.Atan2(mousepos.y,mousepos.x);
-				origz = transform.eulerAngles.z;
-				Debug.Log ("new original degrees: " + originalRot);
-			}
 			spinner = true;
 
 		}
