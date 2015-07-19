@@ -45,7 +45,7 @@ public class Wave{
 			ec.SetSpawnTime(spawntimeInMillis);
 			enemies.Add(enemyspawn);
 
-			ec.ConfigureEnemy ();
+			//ec.ConfigureEnemy ();
 		}
 	}
 

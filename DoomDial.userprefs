@@ -1,20 +1,20 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Movers\SineMover.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\EnemyController.cs">
     <Files>
-      <File FileName="Assets\Scripts\Movers\EnemyMover.cs" Line="16" Column="1" />
+      <File FileName="Assets\Scripts\EnemyController.cs" Line="173" Column="22" />
+      <File FileName="Assets\Scripts\Movers\EnemyMover.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\SpinScript.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\InputWatcher.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GunController.cs" Line="10" Column="45" />
+      <File FileName="Assets\Scripts\GunController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\ButtonController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\DialController.cs" Line="21" Column="39" />
-      <File FileName="Assets\Scripts\EnemyController.cs" Line="47" Column="19" />
+      <File FileName="Assets\Scripts\DialController.cs" Line="11" Column="36" />
       <File FileName="Assets\Scripts\BulletController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Movers\LinearMover.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Timer.cs" Line="21" Column="1" />
-      <File FileName="Assets\Scripts\TrackController.cs" Line="107" Column="56" />
-      <File FileName="Assets\Scripts\Wave.cs" Line="37" Column="55" />
-      <File FileName="Assets\Scripts\Movers\SineMover.cs" Line="7" Column="21" />
+      <File FileName="Assets\Scripts\Timer.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\TrackController.cs" Line="14" Column="25" />
+      <File FileName="Assets\Scripts\Wave.cs" Line="48" Column="6" />
+      <File FileName="Assets\Scripts\Movers\SineMover.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

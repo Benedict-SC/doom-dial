@@ -11,13 +11,13 @@ public class TrackController : MonoBehaviour, EventHandler {
 	long[] lengthsInMillis = new long[6];
 	//long[] advanceWarningMillis = new long[6];
 
-	int DEF_INTENSITY_CEILING = 128;
-	int DEF_INTENSITY_FLOOR = 64;
-	int DEF_FLASHES = 3;
-	long DEF_LENGTH_IN_MILLIS = 3000;
+	public static readonly int DEF_INTENSITY_CEILING = 128;
+	public static readonly int DEF_INTENSITY_FLOOR = 64;
+	public static readonly int DEF_FLASHES = 3;
+	public static readonly long DEF_LENGTH_IN_MILLIS = 3000;
 	//long DEF_ADVANCE_WARNING = 3000;
 
-	float NORMAL_SPEED = 8.0f;
+	public static readonly float NORMAL_SPEED = 8.0f;
 
 	long[] startTimes = new long[6];
 

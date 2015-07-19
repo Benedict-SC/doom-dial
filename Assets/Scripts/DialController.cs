@@ -10,8 +10,11 @@ public class DialController : MonoBehaviour,EventHandler {
 	public static readonly float DIAL_RADIUS = 1.5f;
 	public static readonly float TRACK_LENGTH = 3.02f;
 
-	public float maxHealth = 100;
-	public float health = 100;
+	public float maxHealth = 100.0f;
+	public float health = 100.0f;
+
+	public static float inner_radius = 2.2f; //inexact - set this value from function for changing ring sizes
+	public static float middle_radius = 3.5f; //inexact
 
 	GameObject[] shields = new GameObject[6];
 

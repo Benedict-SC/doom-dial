@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -8,8 +9,12 @@ public class EnemyController : MonoBehaviour,EventHandler {
 
 	public readonly float DIAL_RADIUS = 1.5f; //hard coded to avoid constantly querying dial
 	//if dial size ever needs to change, replace references to this with calls to a getter
+	public static readonly float NORMALNESS_RANGE = 2.0f; //constant for determining if an enemy is "slow" or "fast" - ***balance later
+	public static readonly float KNOCK_CONSTANT = 0.5f; //constant for knockback time - ***balance this at some point!
 
-	public readonly float KNOCK_CONSTANT = 0.5f; //constant for knockback time - ***balance this at some point!
+	float highDropRate;
+	float medDropRate;
+	float lowDropRate;
 
 	public DialController dialCon;
 
@@ -48,13 +53,18 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		float rad = sr.bounds.size.x / 2;
 		CircleCollider2D collider = transform.gameObject.GetComponent<CircleCollider2D> ();
 		collider.radius = rad;
+
+		highDropRate = 100.0f;
+		medDropRate = 33.3f;
+		lowDropRate = 0.0f;
+
 		//timer = new Timer ();
 		mover = new SineMover (this);
 		//Debug.Log ("enemy radius is " + radius);
 
 	}
 	public void StartMoving(){
-		//ConfigureEnemy (); //moved to Wave.cs during wave creation
+		ConfigureEnemy (); 
 
 		//some scaling- could maybe be done through transform.scale, but I don't trust Unity to handle the collider
 		SpriteRenderer sr = transform.gameObject.GetComponent<SpriteRenderer> ();
@@ -159,7 +169,54 @@ public class EnemyController : MonoBehaviour,EventHandler {
 
 	public void Die(){
 		//put more dying functionality here
+		System.Random r = new System.Random ();
+		float rng = (float)r.NextDouble() * 100; //random float between 0 and 100
+
+		if (this.impactTime < TrackController.NORMAL_SPEED + NORMALNESS_RANGE 
+		    && this.impactTime > TrackController.NORMAL_SPEED - NORMALNESS_RANGE) { //is "normal speed"
+			Debug.Log ("normal speed enemy died");
+			if(rng < medDropRate){
+				DropPiece();
+			}
+		} else if (this.impactTime >= TrackController.NORMAL_SPEED + NORMALNESS_RANGE) { //is "slow"
+			Debug.Log("slow enemy died");
+			float distanceFromCenter = Mathf.Sqrt ((transform.position.x) * (transform.position.x) + (transform.position.y) * (transform.position.y));
+			if(distanceFromCenter > DialController.middle_radius){ //died in outer ring
+				if(rng < highDropRate){
+					DropPiece();
+				}
+			}else if(distanceFromCenter > DialController.inner_radius){ //died in middle ring
+				if(rng < medDropRate){
+					DropPiece();
+				}
+			}else{ //died in inner ring
+				if(rng < lowDropRate){
+					DropPiece();
+				}
+			}
+
+		} else { //is "fast"
+			Debug.Log("fast enemy died");
+			float distanceFromCenter = Mathf.Sqrt ((transform.position.x) * (transform.position.x) + (transform.position.y) * (transform.position.y));
+			if(distanceFromCenter > DialController.middle_radius){ //died in outer ring
+				if(rng < lowDropRate){
+					DropPiece();
+				}
+			}else if(distanceFromCenter > DialController.inner_radius){ //died in middle ring
+				if(rng < medDropRate){
+					DropPiece();
+				}
+			}else{ //died in inner ring
+				if(rng < highDropRate){
+					DropPiece();
+				}
+			}
+		}
+
 		Destroy (this.gameObject);
+	}
+	public void DropPiece(){
+		Debug.Log ("enemy of speed " + impactTime + " dropped a piece!");
 	}
 	public long GetSpawnTime(){
 		return spawntime;
