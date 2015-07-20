@@ -35,6 +35,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	bool moving = false;
 	float progress = 0.0f;
 	float progressModifier = 1.0f;
+	bool isSlow = false;
 
 	float timesShot = 0.0f;
 
@@ -308,14 +309,20 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		//Slowdown - priority 2
 		if (slowdown != 0)
 		{
-			//Debug.Log ("entered slowdown if!");
-			//Debug.Log ("progressmod old: " + progressModifier);
-			float oldMod = progressModifier;
-			progressModifier *= slowdown;
-			//Debug.Log ("progressmod new: " + progressModifier);
-			yield return new WaitForSeconds((slowDur - stun - KNOCK_CONSTANT));
-			//Debug.Log ("final slowdonw time was: " + ((slowDur - stun - KNOCK_CONSTANT)));
-			progressModifier = oldMod;
+			if (!isSlow)
+			{
+				isSlow = true;
+				//Debug.Log ("entered slowdown if!");
+				//Debug.Log ("progressmod old: " + progressModifier);
+				float oldMod = progressModifier;
+				progressModifier *= slowdown;
+				//Debug.Log ("progressmod new: " + progressModifier);
+				yield return new WaitForSeconds((slowDur - stun - KNOCK_CONSTANT));
+				//Debug.Log ("final slowdonw time was: " + ((slowDur - stun - KNOCK_CONSTANT)));
+				progressModifier = oldMod;
+				isSlow = false;
+			}
+
 		}
 
 		yield break;
@@ -368,10 +375,16 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		//Slowdown - priority 2
 		if (slowdown != 0)
 		{
-			float oldMod = progressModifier;
-			progressModifier *= slowdown;
-			yield return new WaitForSeconds(slowDur - stun - KNOCK_CONSTANT);
-			progressModifier = oldMod;
+			if (!isSlow)
+			{
+				isSlow = true;
+				float oldMod = progressModifier;
+				progressModifier *= slowdown;
+				yield return new WaitForSeconds(slowDur - stun - KNOCK_CONSTANT);
+				progressModifier = oldMod;
+				isSlow = false;
+			}
+
 		}
 
 		yield break;

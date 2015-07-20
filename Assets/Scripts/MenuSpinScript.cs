@@ -4,19 +4,18 @@ using System.Collections;
 public class MenuSpinScript : MonoBehaviour {
 	//Increases spin speed
 	public float multiplier = 10f;
-	public GameObject CamLock1;
-	public GameObject CamLock2;
-	public GameObject CamLock3;
+	public GameObject Child;
 	//Can only spin if this is true;
 	bool spinner = false;
-	bool spinLock = false;
+	public bool spinLock = false;
 	//Implemented early to allow the player to stop over a button and not accidentally trigger it
 	float clickTime = 0;
 	//Centralized variable for how long the player can hold before it becomes a drag instead of a press
 	float clickDelay = 0.1f;
 	float rotX = 0.0f;
 	float rotY = 0.0f;
-	int menuPosition = 0;
+	public int lockThreshold = 72;
+	public int menuPosition = 0;
 	// Use this for initialization
 	void Start () {
 		
@@ -35,28 +34,15 @@ public class MenuSpinScript : MonoBehaviour {
 			if(clickTime > clickDelay){
 				//Locks position to nearest interval of 60
 				float rotation = transform.eulerAngles.z;
-				float lockRot = Mathf.Round(rotation /72)*72;
+				float lockRot = Mathf.Round(rotation /lockThreshold)*lockThreshold;
 
-				menuPosition = (int) lockRot/72;
+				menuPosition = (int) lockRot/lockThreshold;
+				if(Child){
+				Child.GetComponent<MenuClickScript>().menuPosition = menuPosition;
+				}
 				transform.rotation = Quaternion.Euler(0, 0, lockRot);
 
-			}else{
-				RaycastHit targetFind;
-				Ray targetSeek = Camera.main.ScreenPointToRay (Input.mousePosition);
-					if (Physics.Raycast (targetSeek, out targetFind)) {
-							//gets stats of clicked building, triggers the GUI popups
-							if (targetFind.collider.gameObject.tag == "Button") {
-						//what triggers changes based on what menu the camera is focused on.
-						if(targetFind.transform.position.x == 0.0f){
-							ButtonClick();
-						}else if(targetFind.transform.position.x < 0.0f){
-							ReturnMain(0);
-						}else{
-							ReturnMain(1);
-						}
-							}
-						}
-					}
+			}
 			//resets time
 			clickTime = 0;
 		}
@@ -83,47 +69,5 @@ public class MenuSpinScript : MonoBehaviour {
 			}
 		}
 	}
-	void ButtonClick(){
-		//Location of the menu dial determines the result
-		//Commenting out LoadLevel calls until we have levels to load
-		switch (menuPosition) {
-		case 0:
-			//Loads the scene used for playing the game
-			//Application.LoadLevel ("TestScene");
-			break;
-		case 1:
-			//Simple menu like this might as well exist within the scene to save on load times
-			Camera.main.transform.position = CamLock2.transform.position;
-			transform.localEulerAngles = new Vector3(0,0,0);
-			spinLock = true;
-			Debug.Log ("Settings");
-			break;
-		case 2:
-			//Same as the settings menu
-			Camera.main.transform.position = CamLock3.transform.position;
-			transform.localEulerAngles = new Vector3(0,0,0);
-			spinLock = true;
-			Debug.Log ("Limiters");
-			break;
-		case 3:
-			//This and 4 load more levels
-			//Application.LoadLevel ("AltSceneTest");
-			break;
-		case 4:
-			//Application.LoadLevel ("AltSceneTest");
-			break;
-		case 5:
-			//The way menuPosition is assigned results in it being 5 if the dial is released at a certain point
-			//Application.LoadLevel ("TestScene");
-			break;
-		default:
-			break;
-		}
-	}
 
-	void ReturnMain(int currentMenu){
-		//Later on currentMenu will be used to only save stuff that might have been changed in that menu
-		spinLock = false;
-		Camera.main.transform.position = CamLock1.transform.position;
-	}
 }
