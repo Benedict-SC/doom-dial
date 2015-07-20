@@ -36,6 +36,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	float progress = 0.0f;
 	float progressModifier = 1.0f;
 
+	float timesShot = 0.0f;
 
 	float impactTime; //"speed"
 	float impactDamage;
@@ -139,6 +140,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 					StartCoroutine (StatusEffectsBullet (bc));
 					hp -= bc.dmg;
 					bc.Collide();
+					timesShot++;
 					if(hp <= 0){
 						Die ();
 					}
@@ -174,12 +176,12 @@ public class EnemyController : MonoBehaviour,EventHandler {
 
 		if (this.impactTime < TrackController.NORMAL_SPEED + NORMALNESS_RANGE 
 		    && this.impactTime > TrackController.NORMAL_SPEED - NORMALNESS_RANGE) { //is "normal speed"
-			Debug.Log ("normal speed enemy died");
+			//Debug.Log ("normal speed enemy died");
 			if(rng < medDropRate){
 				DropPiece();
 			}
 		} else if (this.impactTime >= TrackController.NORMAL_SPEED + NORMALNESS_RANGE) { //is "slow"
-			Debug.Log("slow enemy died");
+			//Debug.Log("slow enemy died");
 			float distanceFromCenter = Mathf.Sqrt ((transform.position.x) * (transform.position.x) + (transform.position.y) * (transform.position.y));
 			if(distanceFromCenter > DialController.middle_radius){ //died in outer ring
 				if(rng < highDropRate){
@@ -196,7 +198,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 			}
 
 		} else { //is "fast"
-			Debug.Log("fast enemy died");
+			//Debug.Log("fast enemy died");
 			float distanceFromCenter = Mathf.Sqrt ((transform.position.x) * (transform.position.x) + (transform.position.y) * (transform.position.y));
 			if(distanceFromCenter > DialController.middle_radius){ //died in outer ring
 				if(rng < lowDropRate){
@@ -216,7 +218,13 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		Destroy (this.gameObject);
 	}
 	public void DropPiece(){
-		Debug.Log ("enemy of speed " + impactTime + " dropped a piece!");
+		GameObject piece = Instantiate (Resources.Load ("Prefabs/DroppedPiece")) as GameObject;
+		Vector3 position = new Vector3 (transform.position.x, transform.position.y, transform.position.z);
+		piece.transform.position = position;
+
+		GameEvent ge = new GameEvent ("piece_dropped"); //in case other systems need to know about drop events
+		//add relevant arguments
+		ge.addArgument (position);
 	}
 	public long GetSpawnTime(){
 		return spawntime;

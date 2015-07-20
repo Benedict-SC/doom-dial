@@ -1,20 +1,19 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\EnemyController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\DropController.cs">
     <Files>
-      <File FileName="Assets\Scripts\EnemyController.cs" Line="173" Column="22" />
+      <File FileName="Assets\Scripts\DropController.cs" Line="23" Column="59" />
+      <File FileName="Assets\Scripts\EnemyController.cs" Line="186" Column="36" />
       <File FileName="Assets\Scripts\Movers\EnemyMover.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\SpinScript.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\InputWatcher.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GunController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ButtonController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\DialController.cs" Line="11" Column="36" />
+      <File FileName="Assets\Scripts\GunController.cs" Line="109" Column="86" />
+      <File FileName="Assets\Scripts\ButtonController.cs" Line="62" Column="3" />
+      <File FileName="Assets\Scripts\DialController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BulletController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Movers\LinearMover.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Timer.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\TrackController.cs" Line="14" Column="25" />
-      <File FileName="Assets\Scripts\Wave.cs" Line="48" Column="6" />
-      <File FileName="Assets\Scripts\Movers\SineMover.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\TrackController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Wave.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Events\EventManager.cs" Line="73" Column="7" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

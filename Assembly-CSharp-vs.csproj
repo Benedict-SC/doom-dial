@@ -50,6 +50,7 @@
      <Compile Include="Assets\Scripts\BulletController.cs" />
      <Compile Include="Assets\Scripts\ButtonController.cs" />
      <Compile Include="Assets\Scripts\DialController.cs" />
+     <Compile Include="Assets\Scripts\DropController.cs" />
      <Compile Include="Assets\Scripts\EnemyController.cs" />
      <Compile Include="Assets\Scripts\Events\EventComponent.cs" />
      <Compile Include="Assets\Scripts\Events\EventHandler.cs" />

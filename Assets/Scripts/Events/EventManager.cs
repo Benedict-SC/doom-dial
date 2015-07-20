@@ -9,6 +9,7 @@ using System.Collections.Generic;
  * shot_collided
  * enemy_arrived
  * warning
+ * piece_dropped
  */
 
 public class EventManager{
@@ -67,8 +68,9 @@ public class EventManager{
 					continue;
 				}
 				foreach(EventHandler eh in handlers){
-					if(eh != null) //in case a listener has been destroyed
+					if(eh != null && !eh.Equals(null)){ //in case a listener has been destroyed
 						eh.HandleEvent(ge);
+					}
 				}
 			}
 		}
