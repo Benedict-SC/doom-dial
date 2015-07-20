@@ -59,8 +59,10 @@
      <Compile Include="Assets\Scripts\FileLoader.cs" />
      <Compile Include="Assets\Scripts\GunController.cs" />
      <Compile Include="Assets\Scripts\InputWatcher.cs" />
+     <Compile Include="Assets\Scripts\MenuClickScript.cs" />
      <Compile Include="Assets\Scripts\MenuReturn.cs" />
      <Compile Include="Assets\Scripts\MenuScaleEffect.cs" />
+     <Compile Include="Assets\Scripts\MenuSelectScaleEffect.cs" />
      <Compile Include="Assets\Scripts\MenuSpinScript.cs" />
      <Compile Include="Assets\Scripts\MiniJSON.cs" />
      <Compile Include="Assets\Scripts\Movers\EnemyMover.cs" />

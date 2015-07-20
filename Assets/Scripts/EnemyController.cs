@@ -175,47 +175,48 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		System.Random r = new System.Random ();
 		float rng = (float)r.NextDouble() * 100; //random float between 0 and 100
 
-		if (this.impactTime < TrackController.NORMAL_SPEED + NORMALNESS_RANGE 
-		    && this.impactTime > TrackController.NORMAL_SPEED - NORMALNESS_RANGE) { //is "normal speed"
-			//Debug.Log ("normal speed enemy died");
-			if(rng < medDropRate){
-				DropPiece();
-			}
-		} else if (this.impactTime >= TrackController.NORMAL_SPEED + NORMALNESS_RANGE) { //is "slow"
-			//Debug.Log("slow enemy died");
-			float distanceFromCenter = Mathf.Sqrt ((transform.position.x) * (transform.position.x) + (transform.position.y) * (transform.position.y));
-			if(distanceFromCenter > DialController.middle_radius){ //died in outer ring
-				if(rng < highDropRate){
-					DropPiece();
-				}
-			}else if(distanceFromCenter > DialController.inner_radius){ //died in middle ring
-				if(rng < medDropRate){
-					DropPiece();
-				}
-			}else{ //died in inner ring
-				if(rng < lowDropRate){
-					DropPiece();
-				}
-			}
 
-		} else { //is "fast"
-			//Debug.Log("fast enemy died");
-			float distanceFromCenter = Mathf.Sqrt ((transform.position.x) * (transform.position.x) + (transform.position.y) * (transform.position.y));
-			if(distanceFromCenter > DialController.middle_radius){ //died in outer ring
-				if(rng < lowDropRate){
-					DropPiece();
+		if (hp <= 0.0f) {
+			if (this.impactTime < TrackController.NORMAL_SPEED + NORMALNESS_RANGE 
+					&& this.impactTime > TrackController.NORMAL_SPEED - NORMALNESS_RANGE) { //is "normal speed"
+				//Debug.Log ("normal speed enemy died");
+				if (rng < medDropRate) {
+					DropPiece ();
 				}
-			}else if(distanceFromCenter > DialController.inner_radius){ //died in middle ring
-				if(rng < medDropRate){
-					DropPiece();
+			} else if (this.impactTime >= TrackController.NORMAL_SPEED + NORMALNESS_RANGE) { //is "slow"
+				//Debug.Log("slow enemy died");
+				float distanceFromCenter = Mathf.Sqrt ((transform.position.x) * (transform.position.x) + (transform.position.y) * (transform.position.y));
+				if (distanceFromCenter > DialController.middle_radius) { //died in outer ring
+					if (rng < highDropRate) {
+						DropPiece ();
+					}
+				} else if (distanceFromCenter > DialController.inner_radius) { //died in middle ring
+					if (rng < medDropRate) {
+						DropPiece ();
+					}
+				} else { //died in inner ring
+					if (rng < lowDropRate) {
+						DropPiece ();
+					}
 				}
-			}else{ //died in inner ring
-				if(rng < highDropRate){
-					DropPiece();
+			} else { //is "fast"
+				//Debug.Log("fast enemy died");
+				float distanceFromCenter = Mathf.Sqrt ((transform.position.x) * (transform.position.x) + (transform.position.y) * (transform.position.y));
+				if (distanceFromCenter > DialController.middle_radius) { //died in outer ring
+					if (rng < lowDropRate) {
+						DropPiece ();
+					}
+				} else if (distanceFromCenter > DialController.inner_radius) { //died in middle ring
+					if (rng < medDropRate) {
+						DropPiece ();
+					}
+				} else { //died in inner ring
+					if (rng < highDropRate) {
+						DropPiece ();
+					}
 				}
 			}
 		}
-
 		Destroy (this.gameObject);
 	}
 	public void DropPiece(){
