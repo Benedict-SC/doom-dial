@@ -12,10 +12,6 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	public static readonly float NORMALNESS_RANGE = 2.0f; //constant for determining if an enemy is "slow" or "fast" - ***balance later
 	public static readonly float KNOCK_CONSTANT = 0.5f; //constant for knockback time - ***balance this at some point!
 
-	float highDropRate;
-	float medDropRate;
-	float lowDropRate;
-
 	public DialController dialCon;
 
 	long spawntime = 0;
@@ -44,6 +40,15 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	float radius;
 	float maxShields;
 	float shields;
+
+	float highDropRate;
+	float medDropRate;
+	float lowDropRate;
+	bool rarityUpWithHits;
+	int rareDropThreshold;
+	float rareChance;
+	float normalChance;
+
 	//ability?
 	//weakness?
 
@@ -94,6 +99,11 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		radius = (float)(double)data ["size"];
 		maxShields = (float)(double)data ["maxShields"];
 		shields = (float)(double)data ["shields"];
+
+		rarityUpWithHits = (bool)data ["rarityUpWithHits"];
+		rareDropThreshold = (int)(long)data ["rareDropThreshold"];
+		rareChance = (float)(double)data ["rareChance"];
+		normalChance = (float)(double)data ["normalChance"];
 	}
 	
 	// Update is called once per frame
@@ -223,6 +233,24 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		GameObject piece = Instantiate (Resources.Load ("Prefabs/DroppedPiece")) as GameObject;
 		Vector3 position = new Vector3 (transform.position.x, transform.position.y, transform.position.z);
 		piece.transform.position = position;
+		DropController dc = piece.GetComponent<DropController> ();
+
+		System.Random r = new System.Random ();
+		float rng = (float)r.NextDouble() * 100; //random float between 0 and 100
+		//note: threshold values are exclusive, which means if timesShot is equal to it, it's considered outside the rarity threshold
+		bool outsideThreshold = (rarityUpWithHits && timesShot <= rareDropThreshold) 
+						|| (!rarityUpWithHits && timesShot >= rareDropThreshold);
+		if (outsideThreshold) {
+			if(rng < normalChance){
+				dc.MakeRare();
+			}
+		} else {
+			if(rng < rareChance){
+				dc.MakeRare();
+			}
+		}
+
+		//piece.GetComponent<DropController> ().MakeRare ();
 
 		GameEvent ge = new GameEvent ("piece_dropped"); //in case other systems need to know about drop events
 		//add relevant arguments

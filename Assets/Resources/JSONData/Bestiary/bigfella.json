@@ -5,5 +5,10 @@
 	"impactTime":30.0,
 	"size":0.8,
 	"maxShields":0.0,
-	"shields":0.0
+	"shields":0.0,
+	
+	"rarityUpWithHits":false,
+	"rareDropThreshold":10,
+	"rareChance":25.0,
+	"normalChance":5.0
 }

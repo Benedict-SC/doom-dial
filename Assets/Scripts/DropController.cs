@@ -28,4 +28,16 @@ public class DropController : MonoBehaviour, EventHandler {
 			Destroy (this.gameObject); //temporary! we don't have an inventory yet!
 		}
 	}
+	public void MakeRare(){
+		SpriteRenderer img = gameObject.GetComponent<SpriteRenderer> ();
+		Texture2D decal = Resources.Load<Texture2D> ("Sprites/" + "PieceRareDrop");
+		if (decal == null) {
+			Debug.Log("decal is null");
+		}
+		img.sprite = UnityEngine.Sprite.Create (
+			decal,
+			new Rect(0,0,decal.width,decal.height),
+			new Vector2(0.5f,0.5f),
+			img.sprite.rect.width/img.sprite.bounds.size.x);
+	}
 }
