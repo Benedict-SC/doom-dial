@@ -16,7 +16,7 @@
 	"penetration":0.0,
 	"shieldShred":0.0,
 	"trapArmTime":0.0,
-	"spread":1,
+	"spread":2,
 	"doesSplit":false,
 	"isHoming":false,
 	"doesArc":false,

@@ -70,7 +70,8 @@ public class GunController : MonoBehaviour, EventHandler {
 		shieldHP = 100;*/
 		shieldRange = 1.0f;
 
-
+		if (spread > 2)
+			spread = 2;
 	}
 	
 	// Update is called once per frame
@@ -106,37 +107,46 @@ public class GunController : MonoBehaviour, EventHandler {
 		switch (towerType)
 		{
 		case "Bullet":
-			GameObject bullet = Instantiate (Resources.Load ("Prefabs/Bullet")) as GameObject; //make a bullet
-			BulletController bc = bullet.GetComponent<BulletController>();
-			//make it the type of bullet this thing fires
-			ConfigureBullet (bc);
-			//find your angle
-			float ownangle = this.transform.eulerAngles.z;
-			float angle = (ownangle +  90) % 360 ;
-			angle *= (float)Math.PI / 180;
-			//find where to spawn the bullet
-			float gunDistFromCenter = (float)Math.Sqrt (transform.position.x*transform.position.x + transform.position.y*transform.position.y);
-			gunDistFromCenter += 0.47f;
-			bc.spawnx = gunDistFromCenter * (float)Math.Cos (angle);
-			bc.spawny = gunDistFromCenter * (float)Math.Sin (angle);
-			bc.transform.position = new Vector3(bc.spawnx,bc.spawny,bc.transform.position.z);
-			bc.vx = bc.speed * (float)Math.Cos(angle);
-			bc.vy = bc.speed * (float)Math.Sin(angle);
+			for (int i = 1; i <= spread; i++)
+			{
+				GameObject bullet = Instantiate (Resources.Load ("Prefabs/Bullet")) as GameObject; //make a bullet
+				BulletController bc = bullet.GetComponent<BulletController>();
+				//make it the type of bullet this thing fires
+				ConfigureBullet (bc);
+				//find your angle
+				float ownangle = this.transform.eulerAngles.z;
+				float angle = (ownangle +  90) % 360 ;
+				angle *= (float)Math.PI / 180;
+				Debug.Log ("original angle: " + angle);
+				angle = (angle - (float)Math.PI / 6f) + ((((float)Math.PI / 3f) / (spread + 1)) * i); //handles spread effect
+				//find where to spawn the bullet
+				float gunDistFromCenter = (float)Math.Sqrt (transform.position.x*transform.position.x + transform.position.y*transform.position.y);
+				gunDistFromCenter += 0.47f;
+				bc.spawnx = gunDistFromCenter * (float)Math.Cos (angle);
+				bc.spawny = gunDistFromCenter * (float)Math.Sin (angle);
+				bc.transform.position = new Vector3(bc.spawnx,bc.spawny,bc.transform.position.z);
+				bc.vx = bc.speed * (float)Math.Cos(angle);
+				bc.vy = bc.speed * (float)Math.Sin(angle);
+			}
 			break;
 		case "Trap":
-			GameObject trap = Instantiate (Resources.Load ("Prefabs/Trap")) as GameObject; //make a trap
-			TrapController tp = trap.GetComponent<TrapController>();
-			//make it the type of trap this thing deploys
-			ConfigureTrap (tp);
-			//find your angle
-			float trapOwnangle = this.transform.eulerAngles.z;
-			float trapAngle = (trapOwnangle +  90) % 360 ;
-			trapAngle *= (float)Math.PI / 180;
-			//find where to spawn the trap *****IMPLEMENT LANE-LENGTH AT SOME POINT
-			float trapSpawnRange = range;
-			trapSpawnRange *= TRACK_LENGTH;
-			tp.spawnx = trapSpawnRange * (float)Math.Cos (trapAngle);
-			tp.spawny = trapSpawnRange * (float)Math.Sin (trapAngle);
+			for (int i = 1; i <= spread; i++)
+			{
+				GameObject trap = Instantiate (Resources.Load ("Prefabs/Trap")) as GameObject; //make a trap
+				TrapController tp = trap.GetComponent<TrapController>();
+				//make it the type of trap this thing deploys
+				ConfigureTrap (tp);
+				//find your angle
+				float trapOwnangle = this.transform.eulerAngles.z;
+				float trapAngle = (trapOwnangle +  90) % 360 ;
+				trapAngle *= (float)Math.PI / 180;
+				trapAngle = (trapAngle - (float)Math.PI / 6f) + ((((float)Math.PI / 3f) / (spread + 1)) * i); //handles spread effect
+				//find where to spawn the trap *****IMPLEMENT LANE-LENGTH AT SOME POINT
+				float trapSpawnRange = range;
+				trapSpawnRange *= TRACK_LENGTH;
+				tp.spawnx = trapSpawnRange * (float)Math.Cos (trapAngle);
+				tp.spawny = trapSpawnRange * (float)Math.Sin (trapAngle);
+			}
 			break;
 		case "Shield":
 			DialController dialCon = GameObject.Find ("Dial").gameObject.GetComponent<DialController>();
@@ -226,7 +236,6 @@ public class GunController : MonoBehaviour, EventHandler {
 		stun = (float)(double)data ["stun"];
 		slowdown = (float)(double)data ["slowdown"];
 		slowDur = (float)(double)data ["slowDur"];
-		Debug.Log ("gun slowDur is " + slowDur);
 		penetration = (float)(double)data ["penetration"];
 		shieldShred = (float)(double)data ["shieldShred"];
 		trapArmTime = (float)(double)data ["trapArmTime"];
@@ -253,7 +262,6 @@ public class GunController : MonoBehaviour, EventHandler {
 		bc.stun = stun;
 		bc.slowdown = slowdown;
 		bc.slowDur = slowDur;
-		bc.spread = spread;
 		bc.penetration = penetration;
 		bc.shieldShred = shieldShred;
 		bc.doesSplit = doesSplit;
@@ -277,7 +285,6 @@ public class GunController : MonoBehaviour, EventHandler {
 		bc.stun = stun;
 		bc.slowdown = slowdown;
 		bc.slowDur = slowDur;
-		bc.spread = spread;
 		bc.penetration = penetration;
 		bc.shieldShred = shieldShred;
 		bc.maxArmingTime = trapArmTime;

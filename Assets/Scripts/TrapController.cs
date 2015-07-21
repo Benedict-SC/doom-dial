@@ -24,8 +24,6 @@ public class TrapController : MonoBehaviour {
 	public float splash; //radius of splash damage
 	public float penetration; //ignores this amount of enemy shield
 	public float shieldShred; //lowers enemy shield's max value by this
-	
-	public int spread; //number of shots fired at once, default should be 1.
 	//***Skill values end here***
 
 	private bool isActive; //whether it's armed
