@@ -1,19 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\InputWatcher.cs">
     <Files>
-      <File FileName="Assets\Scripts\InputWatcher.cs" Line="63" Column="36" />
-      <File FileName="Assets\Scripts\DropController.cs" Line="19" Column="47" />
-      <File FileName="Assets\Scripts\GunController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\EnemyController.cs" Line="253" Column="5" />
-      <File FileName="Assets\Scripts\Movers\EnemyMover.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\SpinScript.cs" Line="69" Column="88" />
-      <File FileName="Assets\Scripts\ButtonController.cs" Line="48" Column="108" />
-      <File FileName="Assets\Scripts\DialController.cs" Line="65" Column="6" />
-      <File FileName="Assets\Scripts\BulletController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\TrackController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Wave.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Events\EventManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\InputWatcher.cs" Line="92" Column="16" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

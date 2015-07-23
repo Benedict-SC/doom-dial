@@ -81,4 +81,15 @@ public class InputWatcher : MonoBehaviour {
 				return Camera.main.ScreenToWorldPoint (Input.GetTouch(0).position);
 		}
 	}
+	
+	public static bool IsInputDown(){
+		if(INPUT_DEBUG){
+			return Input.GetMouseButtonDown(0);
+		}else{
+			if(Input.touchCount == 0){
+				return false;
+			}
+			return true;
+		}
+	}
 }
