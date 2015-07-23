@@ -16,7 +16,7 @@ public class DropController : MonoBehaviour, EventHandler {
 	public void HandleEvent(GameEvent ge){ //REVISE FOR TOUCH LATER
 		Vector3 pos = this.transform.position;
 		Vector3 mousepos = (Vector3)ge.args [0];
-		Vector3 newmousepos = Camera.main.ScreenToWorldPoint (mousepos);
+		Vector3 newmousepos = mousepos; //Camera.main.ScreenToWorldPoint (mousepos); //handled in InputWatcher now
 		newmousepos.z = 0;
 		float distance = (newmousepos - pos).magnitude;
 		//calculate radius of buttons

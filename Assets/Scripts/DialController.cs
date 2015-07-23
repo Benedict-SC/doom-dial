@@ -62,7 +62,7 @@ public class DialController : MonoBehaviour,EventHandler {
 		else //if there's no shield
 		{
 			health -= rawDamage;
-			Debug.Log ("damage taken, new health is " + health);
+			//Debug.Log ("damage taken, new health is " + health);
 		}
 		enemy.Die ();
 	}
