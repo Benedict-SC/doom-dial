@@ -1,8 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\InputWatcher.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\DialController.cs">
     <Files>
-      <File FileName="Assets\Scripts\InputWatcher.cs" Line="92" Column="16" />
+      <File FileName="Assets\Scripts\DialController.cs" Line="35" Column="19" />
+      <File FileName="Assets\Scripts\EnemyController.cs" Line="190" Column="35" />
+      <File FileName="Assets\Scripts\InputWatcher.cs" Line="6" Column="48" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

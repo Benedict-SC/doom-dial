@@ -187,6 +187,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 
 
 		if (hp <= 0.0f) {
+			dialCon.IncreaseSuperPercent();
 			if (this.impactTime < TrackController.NORMAL_SPEED + NORMALNESS_RANGE 
 					&& this.impactTime > TrackController.NORMAL_SPEED - NORMALNESS_RANGE) { //is "normal speed"
 				//Debug.Log ("normal speed enemy died");

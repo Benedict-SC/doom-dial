@@ -15,6 +15,13 @@ public class DialController : MonoBehaviour,EventHandler {
 
 	public static float inner_radius = 2.2f; //inexact - set this value from function for changing ring sizes
 	public static float middle_radius = 3.5f; //inexact
+	
+	GameObject[] superBars = new GameObject[3];
+	float superPercentage = 0.0f; //percentage between 0 and 1
+	float goodLifeBonus = 0.05f;
+	float halfLifeFullLifeConsequences = 0.08f;
+	float quarterLifeHalfwayToDestruction = 0.1f;
+	float tenthLifeBonus = 0.2f;
 
 	GameObject[] shields = new GameObject[6];
 
@@ -22,8 +29,16 @@ public class DialController : MonoBehaviour,EventHandler {
 	void Start () {
 		EventManager.Instance ().RegisterForEventType ("enemy_arrived", this);
 		LoadDialConfigFromJSON ("testdial");
+		
+		superBars[0] = GameObject.Find("Super1").gameObject;
+		superBars[1] = GameObject.Find("Super2").gameObject;
+		superBars[2] = GameObject.Find("Super3").gameObject;
+		for(int i = 0; i < 3; i++){
+			Transform bar = superBars[i].transform;
+			bar.localScale = new Vector3(0.0f, bar.localScale.y,bar.localScale.z);
+		}
 	}
-
+	
 	// Update is called once per frame
 	void Update () {
 		if (health > maxHealth)
@@ -34,7 +49,32 @@ public class DialController : MonoBehaviour,EventHandler {
 		healthbar.transform.localScale = new Vector3 (health / maxHealth, health / maxHealth, 1);
 		if (health < 0)
 		{
+			health = 0.0f;
 			Debug.Log ("health is negative@");
+		}
+	}
+	
+	public void IncreaseSuperPercent(){
+		float healthPercent = health/maxHealth;
+		if(healthPercent > 0.5f){
+			superPercentage += goodLifeBonus;
+		}else if(healthPercent > 0.25f){
+			superPercentage += halfLifeFullLifeConsequences;
+		}else if(healthPercent > 0.1f){
+			superPercentage += quarterLifeHalfwayToDestruction;
+		}else{
+			superPercentage += tenthLifeBonus;
+		}
+		if(superPercentage > 1.0f){
+			superPercentage = 1.0f;
+		}
+		
+		float baseWidth = DIAL_RADIUS / FULL_LENGTH;
+		float multiplier = 1-baseWidth; //TRACK_LENGTH / FULL_LENGTH;
+		
+		for(int i = 0; i < 3; i++){
+			Transform bar = superBars[i].transform;
+			bar.localScale = new Vector3(baseWidth + (multiplier*superPercentage), bar.localScale.y,bar.localScale.z);
 		}
 	}
 
