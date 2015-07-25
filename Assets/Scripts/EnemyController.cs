@@ -185,9 +185,9 @@ public class EnemyController : MonoBehaviour,EventHandler {
 			{
 				BulletController bc = ac.aoeBulletCon;
 				if (bc != null) {
-					StartCoroutine (StatusEffectsBullet (bc));
+					//StartCoroutine (StatusEffectsBullet (bc));
 					hp -= bc.dmg;
-					timesShot++;
+					//timesShot++;
 					if(hp <= 0){
 						Die ();
 					}
@@ -197,7 +197,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 			{
 				TrapController tc = ac.aoeTrapCon;
 				if (tc != null) {
-					StartCoroutine (StatusEffectsTrap (tc));
+					//StartCoroutine (StatusEffectsTrap (tc));
 					hp -= tc.dmg;
 					if(hp <= 0){
 						Die ();
