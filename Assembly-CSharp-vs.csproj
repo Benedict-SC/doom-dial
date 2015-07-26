@@ -68,6 +68,7 @@
      <Compile Include="Assets\Scripts\Movers\EnemyMover.cs" />
      <Compile Include="Assets\Scripts\Movers\LinearMover.cs" />
      <Compile Include="Assets\Scripts\Movers\SineMover.cs" />
+     <Compile Include="Assets\Scripts\Movers\ZigzagMover.cs" />
      <Compile Include="Assets\Scripts\ShieldController.cs" />
      <Compile Include="Assets\Scripts\SpinScript.cs" />
      <Compile Include="Assets\Scripts\Timer.cs" />

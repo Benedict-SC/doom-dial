@@ -66,7 +66,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		lowDropRate = 0.0f;
 
 		//timer = new Timer ();
-		mover = new SineMover (this);
+		mover = new ZigzagMover (this);
 		//Debug.Log ("enemy radius is " + radius);
 
 	}
@@ -271,6 +271,26 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	}
 	public int GetTrackID(){
 		return trackID;
+	}
+	public int GetCurrentTrackID(){ //in case it's moved between lanes without having set the track ID on purpose
+		float degrees = Mathf.Atan2(transform.position.y,transform.position.x) * Mathf.Rad2Deg;
+		if(degrees >= 30.0 && degrees < 90.0){
+			return 2;
+		}else if(degrees >= 90.0 && degrees < 150.0){
+			return 3;
+		}else if(degrees >= 150.0 && degrees < 210.0){
+			return 4;
+		}else if(degrees >= 210.0 && degrees < 270.0){
+			return 5;
+		}else if(degrees >= 270.0 && degrees < 330.0){
+			return 6;
+		}else if(degrees >= 330.0 || degrees < 30.0){
+			return 1;
+		}else{
+			//what the heck, this shouldn't happen
+			Debug.Log ("What the heck, this shouldn't happen");
+			return 0;
+		}
 	}
 	public void SetTrackLane(int lane){
 		trackLane = lane;

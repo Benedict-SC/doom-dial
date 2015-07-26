@@ -6,6 +6,8 @@ public class SineMover : EnemyMover{
 	float pies = 4.0f;
 	float devWidth = 11.0f * Mathf.Deg2Rad;
 	
+	bool mirrored = false;
+	
 	public SineMover(EnemyController ec){
 		parent = ec;
 	}
@@ -14,6 +16,8 @@ public class SineMover : EnemyMover{
 		float angle = RealRadiansOfEnemy (parent);
 		float scaledProgress = progress * pies * Mathf.PI;
 		float deviation = Mathf.Sin (scaledProgress);
+		if(mirrored)
+			deviation *= -1.0f;
 		angle += devWidth * deviation;
 
 		float lineDistance = progress * DialController.TRACK_LENGTH;
@@ -21,6 +25,10 @@ public class SineMover : EnemyMover{
 		float x = distFromCenter * Mathf.Cos (angle);
 		float y = distFromCenter * Mathf.Sin (angle);
 		return new Vector2 (x, y);
+	}
+	
+	public void Mirror(){
+		mirrored = !mirrored;
 	}
 }
 
