@@ -79,6 +79,7 @@ public class BulletController : MonoBehaviour {
 	}
 	//called when the bullet hits something, from the OnCollisionEnter in EnemyController
 	public void Collide(){
+		Debug.Log ("collided");
 		if (splash != 0)
 		{
 			if (poison != 0)
@@ -87,9 +88,19 @@ public class BulletController : MonoBehaviour {
 			}
 			else {
 				//AoE DAMAGE HERE
+				if (doesArc) //circle splash
+				{
+					//Debug.Log ("got to splash");
+					GameObject splashCircle = Instantiate (Resources.Load ("Prefabs/SplashCircle")) as GameObject;
+					splashCircle.transform.position = this.transform.position;
+					AoEController ac = splashCircle.GetComponent<AoEController>();
+					ac.scale = splash;
+					ac.parent = "Bullet";
+					ac.aoeBulletCon = this;
+				}
 			}
 		}
-		Destroy (this.gameObject);
+		gameObject.SetActive (false);
 	}
 
 	public bool CheckActive(){

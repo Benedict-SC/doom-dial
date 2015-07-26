@@ -96,7 +96,27 @@ public class TrapController : MonoBehaviour {
 	//called when the bullet hits something, from the OnCollisionEnter in EnemyController
 	public void Collide(){
 		//Add other destruction stuff here
-		Destroy (this.gameObject);
+		gameObject.SetActive (false);
+		if (splash != 0)
+		{
+			if (poison != 0)
+			{
+				//POISON CLOUD HERE
+			}
+			else {
+				//AoE DAMAGE HERE
+				//Debug.Log ("got to splash");
+				slowdown = 0f; //to avoid stacking slowdown effect
+				knockback = 0f; //to avoid stacking knockback
+				stun = 0f; //to avoid stacking stun effect
+				GameObject splashCircle = Instantiate (Resources.Load ("Prefabs/SplashCircle")) as GameObject;
+				splashCircle.transform.position = this.transform.position;
+				AoEController ac = splashCircle.GetComponent<AoEController>();
+				ac.scale = splash;
+				ac.parent = "Trap";
+				ac.aoeTrapCon = this;
+			}
+		}
 	}
 
 	public float GetAge(){

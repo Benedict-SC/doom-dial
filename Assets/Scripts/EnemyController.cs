@@ -119,7 +119,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		timer.Restart ();
 		float progressIncrement = secsPassed / impactTime;
 		progressIncrement *= progressModifier;
-		Debug.Log ("pMod = " + progressModifier);
+		//Debug.Log ("pMod = " + progressModifier);
 		//Debug.Log ("progressIncrement = " + progressIncrement);
 		progress += progressIncrement;
 
@@ -177,6 +177,36 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		{
 			//shield actions are handled in DialController
 		}
+		else if (coll.gameObject.tag == "AoE")
+		{
+			GameObject obj = coll.gameObject;
+			AoEController ac = obj.GetComponent<AoEController>();
+			if (ac.parent == "Bullet")
+			{
+				BulletController bc = ac.aoeBulletCon;
+				if (bc != null) {
+					//StartCoroutine (StatusEffectsBullet (bc));
+					hp -= bc.dmg;
+					//timesShot++;
+					if(hp <= 0){
+						Die ();
+					}
+				}
+			}
+			else if (ac.parent == "Trap")
+			{
+				TrapController tc = ac.aoeTrapCon;
+				if (tc != null) {
+					//StartCoroutine (StatusEffectsTrap (tc));
+					hp -= tc.dmg;
+					if(hp <= 0){
+						Die ();
+					}
+				}
+			}
+
+		}
+		//other types of collision?
 
 	}
 
