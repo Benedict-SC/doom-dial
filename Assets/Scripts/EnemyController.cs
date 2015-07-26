@@ -66,7 +66,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		lowDropRate = 0.0f;
 
 		//timer = new Timer ();
-		mover = new ZigzagMover (this);
+		mover = new StrafingMover (this);
 		//Debug.Log ("enemy radius is " + radius);
 
 	}
