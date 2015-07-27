@@ -52,8 +52,8 @@ public class GunController : MonoBehaviour, EventHandler {
 	public int buttonID; //assign in the Unity Editor to match the corresponding button
 	//in the future, we'll assign this value in scripts to deal with changing gun placements
 
-	float defaultBulletSpeed = 0.2f;
-	float defaultBulletRange = 1.0f;
+	//float defaultBulletSpeed = 0.2f;
+	//float defaultBulletRange = 1.0f;
 
 	// Use this for initialization
 	void Start () {

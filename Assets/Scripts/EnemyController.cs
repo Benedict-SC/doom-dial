@@ -56,10 +56,10 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	void Start () {
 		dialCon = GameObject.FindWithTag ("Dial").GetComponent<DialController>();
 		EventManager.Instance ().RegisterForEventType ("shot_collided", this);
-		SpriteRenderer sr = transform.gameObject.GetComponent<SpriteRenderer> ();
-		float rad = sr.bounds.size.x / 2;
-		CircleCollider2D collider = transform.gameObject.GetComponent<CircleCollider2D> ();
-		collider.radius = rad;
+		//SpriteRenderer sr = transform.gameObject.GetComponent<SpriteRenderer> ();
+		//float rad = sr.bounds.size.x / 2;
+		//CircleCollider2D collider = transform.gameObject.GetComponent<CircleCollider2D> ();
+		//collider.radius = rad;
 
 		highDropRate = 100.0f;
 		medDropRate = 33.3f;
@@ -76,8 +76,8 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		SpriteRenderer sr = transform.gameObject.GetComponent<SpriteRenderer> ();
 		float scalefactor = (radius * 2) / sr.bounds.size.x;
 		transform.localScale = new Vector3 (scalefactor, scalefactor, 1);
-		CircleCollider2D collider = transform.gameObject.GetComponent<CircleCollider2D> ();
-		collider.radius = radius;
+		//CircleCollider2D collider = transform.gameObject.GetComponent<CircleCollider2D> ();
+		//collider.radius = scalefactor/2;
 
 		timer.Restart ();
 		moving = true;

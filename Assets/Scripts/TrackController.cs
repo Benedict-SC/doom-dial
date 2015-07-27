@@ -17,7 +17,7 @@ public class TrackController : MonoBehaviour, EventHandler {
 	public static readonly long DEF_LENGTH_IN_MILLIS = 3000;
 	//long DEF_ADVANCE_WARNING = 3000;
 
-	public static readonly float NORMAL_SPEED = 8.0f;
+	public static readonly float NORMAL_SPEED = 7.0f;
 
 	long[] startTimes = new long[6];
 
