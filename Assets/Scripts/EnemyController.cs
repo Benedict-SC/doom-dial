@@ -66,7 +66,6 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		lowDropRate = 0.0f;
 
 		//timer = new Timer ();
-		mover = new StrafingMover (this);
 		//Debug.Log ("enemy radius is " + radius);
 
 	}
@@ -104,6 +103,30 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		rareDropThreshold = (int)(long)data ["rareDropThreshold"];
 		rareChance = (float)(double)data ["rareChance"];
 		normalChance = (float)(double)data ["normalChance"];
+		
+		//movement types
+		string moveString = (string)data["movementType"];
+		if(moveString.Equals("Linear")){
+			mover = new LinearMover(this);
+		}else if(moveString.Equals ("Zigzag")){
+			mover = new ZigzagMover(this);
+		}else if(moveString.Equals ("Zigzag_Mirror")){
+			ZigzagMover zm = new ZigzagMover(this);
+			zm.Mirror();
+			mover = zm;
+		}else if(moveString.Equals ("Strafing")){
+			mover = new StrafingMover(this);
+		}else if(moveString.Equals ("Strafing_Mirror")){
+			StrafingMover sm = new StrafingMover(this);
+			sm.Mirror();
+			mover = sm;
+		}else if(moveString.Equals ("Sine")){
+			mover = new SineMover(this);
+		}else if(moveString.Equals ("Sine_Mirror")){
+			SineMover sm = new SineMover(this);
+			sm.Mirror();
+			mover = sm;
+		}
 	}
 	
 	// Update is called once per frame

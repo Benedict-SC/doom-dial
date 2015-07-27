@@ -1,4 +1,5 @@
 {
+	"movementType":"Zigzag_Mirror",
 	"maxHP":60.0,
 	"HP":60.0,
 	"damage":20.0,
