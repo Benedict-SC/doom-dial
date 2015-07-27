@@ -326,7 +326,8 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		return trackID;
 	}
 	public int GetCurrentTrackID(){ //in case it's moved between lanes without having set the track ID on purpose
-		float degrees = Mathf.Atan2(transform.position.y,transform.position.x) * Mathf.Rad2Deg;
+		float degrees = ((360-Mathf.Atan2(transform.position.y,transform.position.x) * Mathf.Rad2Deg)+90 + 360)%360;
+		Debug.Log(degrees);
 		if(degrees >= 30.0 && degrees < 90.0){
 			return 2;
 		}else if(degrees >= 90.0 && degrees < 150.0){
