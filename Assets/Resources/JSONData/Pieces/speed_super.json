@@ -1,0 +1,32 @@
+{
+	"cooldownFactor":0.0,
+	"dmg":0.0,
+	"speed":-0.45,
+	"range":-0.1,
+	"knockback":0.0,
+	"lifeDrain":0.0,
+	"poison":0.0,
+	"poisonDur":0.0,
+	"splash":0.0,
+	"stun":0.0,
+	"slowdownMin":0.0,
+	"slowdownMax":0.0,
+	"penetration":0.0,
+	"shieldShred":0.0,
+	"trapArmTime":0.0,
+	"spread":1,
+	"split":0,
+	"homing":0.0,
+	"arc":0.0,
+	
+	"width":6,
+	"height":6,
+	"blockMap": [
+		[false,false,false,false,false,true ],
+		[false,false,false,false,true ,false],
+		[false,false,false,true ,false,false],
+		[false,false,true ,false,false,false],
+		[false,true ,false,false,false,false],
+		[true ,false,false,false,false,false]
+	]
+}
