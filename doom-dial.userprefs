@@ -1,13 +1,16 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\TrapController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MenuClickScript.cs">
     <Files>
-      <File FileName="Assets\Scripts\BulletController.cs" Line="102" Column="4" />
-      <File FileName="Assets\Scripts\DialController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GunController.cs" Line="108" Column="4" />
-      <File FileName="Assets\Scripts\AoEController.cs" Line="30" Column="2" />
-      <File FileName="Assets\Scripts\EnemyController.cs" Line="204" Column="7" />
-      <File FileName="Assets\Scripts\TrapController.cs" Line="111" Column="47" />
+      <File FileName="Assets\Scripts\MenuSpinScript.cs" Line="64" Column="3" />
+      <File FileName="Assets\Scripts\GunController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\SpinScript.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Events\EventHandler.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Events\EventManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\InputWatcher.cs" Line="94" Column="37" />
+      <File FileName="Assets\Scripts\WorldSelect.cs" Line="31" Column="3" />
+      <File FileName="Assets\Scripts\ButtonController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MenuClickScript.cs" Line="38" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
