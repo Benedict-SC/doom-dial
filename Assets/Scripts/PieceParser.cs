@@ -22,7 +22,7 @@ public class PieceParser{
 		//defaults
 		//ALL THESE VALUES ARE NOT ACTUAL BULLET PROPERTIES
 		//VALUES MUST BE CONVERTED TO APPROPRIATE TOWER TYPE
-		float damage = 0.0f;
+		float damage = 2.0f;
 		float speed = 1.0f;
 		float range = 0.5f;
 		float cooldown = 1.0f;
@@ -39,6 +39,8 @@ public class PieceParser{
 		int splitType = 0;
 		float homingStrength = 0.0f;
 		float arcBoost = 0.0f;
+
+		float SPEED_CONSTANT = 5;
 		
 		int splashBonusCount = 0;
 		int penetrationBonusCount = 0;
@@ -67,6 +69,24 @@ public class PieceParser{
 		int spreadCount = 0;
 		int homeCount = 0;
 		int cdrCount = 0;
+
+		float pdamage = 5;
+		float prange = 0;
+		float pspeed = 0;
+		float pcool = 0;
+		float ppoison = 0;
+		float pminslow = 0;
+		float pmaxslow = 0;
+		float pknockback = 0;
+		float pdrain = 0;
+		float psplash = 0;
+		float pstun = 0;
+		float ppene = 0;
+		float pshred = 0;
+		int pspread = 1;
+		int psplit = 0;
+		float phome = 0;
+		float parc = 0;
 		
 		foreach(string pfilename in pieceFilenames){
 			FileLoader pieceLoader = new FileLoader("JSONData" + Path.DirectorySeparatorChar + "Pieces", pfilename);
@@ -75,12 +95,12 @@ public class PieceParser{
 			
 			//read values
 			//damage - straightforward
-			float pdamage = (float)(double)pdata["dmg"];
+			pdamage = (float)(double)pdata["dmg"];
 			if(pdamage > 0.0f)
 				damageCount++;
 			damage += pdamage;
 			//range - in percent of track
-			float prange = (float)(double)pdata["range"];
+			prange = (float)(double)pdata["range"];
 			range += prange;
 			if(range > 1.0f)
 				range = 1.0f;
@@ -89,27 +109,27 @@ public class PieceParser{
 			if(prange > 0.0f)
 				rangeCount++;
 			//speed - in terms of seconds it takes to reach the end of the track. will need to be converted to actual game velocity
-			float pspeed = (float)(double)pdata["speed"];
+			pspeed = (float)(double)pdata["speed"];
 			speed += pspeed;
 			if(speed < 0.1f)
 				speed = 0.1f;
 			if(pspeed > 0.0f)
 				speedCount++;
 			//cooldown - as number of seconds
-			float pcool = (float)(double)pdata["cooldownFactor"];
+			pcool = (float)(double)pdata["cooldownFactor"];
 			cooldown += pcool;
 			if(cooldown < 0.25f)
 				cooldown = 0.25f;
 			if(pcool < 0.0f)
 				cdrCount++;
-			//poison - percent of health to remove over the course of 3 seconds
-			float ppoison = (float)(double)pdata["poison"];
+			//poison - percent of health to remove every 0.5 seconds over the course of 3 seconds
+			ppoison = (float)(double)pdata["poison"];
 			if(ppoison > 0.0f)
 				poisonCount++;
 			//slow - in percent of enemy speed to subtract
-			float pminslow = (float)(double)pdata["slowdownMin"];
+			pminslow = (float)(double)pdata["slowdownMin"];
 			slowdownMin += pminslow;
-			float pmaxslow = (float)(double)pdata["slowdownMax"];
+			pmaxslow = (float)(double)pdata["slowdownMax"];
 			slowdownMax += pmaxslow;
 			if(slowdownMin < -1.0f)
 				slowdownMin = -1.0f;
@@ -118,94 +138,102 @@ public class PieceParser{
 			if(pmaxslow < 0.0f)
 				slowCount++;
 			//knockback - in terms of percent progress to roll back. value needs to be converted to an actual speed somehow. will take some fiddling with
-			float pknockback = (float)(double)pdata["knockback"];
+			pknockback = (float)(double)pdata["knockback"];
 			knockback += pknockback;
 			if(knockback > 0.5f)
 				knockback = 0.5f;
 			if(pknockback > 0.0f)
 				knockbackCount++;
 			//life drain - in percent of damage dealt to drain to dial
-			float pdrain = (float)(double)pdata["lifeDrain"];
+			pdrain = (float)(double)pdata["lifeDrain"];
 			lifeDrain += pdrain;
 			if(lifeDrain > 1.0f)
 				lifeDrain = 1.0f;
 			if(pdrain > 0.0f)
 				drainCount++;
 			//splash - not in radius, but in percent of its effects to apply to enemies in AOE
-			float psplash = (float)(double)pdata["splash"];
+			psplash = (float)(double)pdata["splash"];
 			if(psplash > splashEffectPercent)
 				splashEffectPercent = psplash; //only strongest piece is counted
 			if(psplash > 0.0f)
 				splashCount++;
 			//stun - in seconds
-			float pstun = (float)(double)pdata["stun"];
+			pstun = (float)(double)pdata["stun"];
 			stun += pstun;
 			if(stun > 5.0f)
 				stun = 5.0f;
 			if(pstun > 0.0f)
 				stunCount++;
 			//penetration - in... percentage of whatever penetration does
-			float ppene = (float)(double)pdata["penetration"];
+			ppene = (float)(double)pdata["penetration"];
 			penetration += ppene;
 			if(penetration > 1.0f)
 				penetration = 1.0f;
 			if(ppene > 0.0f)
 				peneCount++;
 			//shieldShred - in percentage
-			float pshred = (float)(double)pdata["shieldShred"];
+			pshred = (float)(double)pdata["shieldShred"];
 			shieldShred += pshred;
 			if(shieldShred > 1.0f)
 				shieldShred = 1.0f;
 			if(pshred > 0.0f)
 				shredCount++;
 			//spread - spread has different patterns - 1 is normal fire, 2 is side fire, 3 is alternating normal and side fire, and 4 is 3-way fire
-			int pspread = (int)(long)pdata["spread"];
+			pspread = (int)(long)pdata["spread"];
 			if(pspread > spread)
 				spread = pspread;
 			if(pspread > 1)
 				spreadCount++;
 			//split - again pattern-based. 0 is no split, 1-3 are the normal through rare effects described in the Tower Pieces spreadsheet
-			int psplit = (int)(long)pdata["split"];
+			psplit = (int)(long)pdata["split"];
 			if(psplit > splitType)
 				splitType = psplit;
 			if(psplit > 0)
 				splitCount++;
 			//homing - above 0.0 and it will home, the number describes the strength of the pull
-			float phome = (float)(double)pdata["homing"];
+			phome = (float)(double)pdata["homing"];
 			if(phome > homingStrength)
 				homingStrength = phome;
 			if(phome > 0.0f)
 				homeCount++;
 			//arc - above 0.0 and it'll arc, the number describes the damage bonus
-			float parc = (float)(double)pdata["arc"];
+			parc = (float)(double)pdata["arc"];
 			if(parc > arcBoost)
 				arcBoost = parc;
 			if(parc > 0.0f)
 				arcCount++;
-				
-			penetrationBonusCount = Math.Min(speedCount,peneCount);
-			splashBonusCount = Math.Min(splashCount,rangeCount);
-			regenBonusCount = Math.Min(shredCount,slowCount);
-			hijackRegenBonus = Math.Min (drainCount,peneCount) > 0;
-			chainStunBonus = Math.Min (stunCount,knockbackCount) > 0;
-			chainPoisonBonus = Math.Min (spreadCount,poisonCount) > 0;
-			lethargyPoisonBonus = Math.Min (slowCount,poisonCount) > 0;
-			recursiveSplitBonus = Math.Min (splitCount,spreadCount) > 0;
-			circleExplosionBonus = Math.Min (arcCount,splashCount) > 0;
-			
-			//DONE GETTING RAW VALUES
-			
-			//Set tower stats based on these values
-			if(gc.GetTowerType().Equals ("Bullet")){
-			
-			}else if(gc.GetTowerType().Equals("Trap")){
-			
-			}else if(gc.GetTowerType().Equals ("Shield")){
-			
-			}
-			
 		} 
+
+		penetrationBonusCount = Math.Min(speedCount,peneCount);
+		splashBonusCount = Math.Min(splashCount,rangeCount);
+		regenBonusCount = Math.Min(shredCount,slowCount);
+		hijackRegenBonus = Math.Min (drainCount,peneCount) > 0;
+		chainStunBonus = Math.Min (stunCount,knockbackCount) > 0;
+		chainPoisonBonus = Math.Min (spreadCount,poisonCount) > 0;
+		lethargyPoisonBonus = Math.Min (slowCount,poisonCount) > 0;
+		recursiveSplitBonus = Math.Min (splitCount,spreadCount) > 0;
+		circleExplosionBonus = Math.Min (arcCount,splashCount) > 0;
 		
+		//DONE GETTING RAW VALUES
+		
+		//Set tower stats based on these values
+		if(gc.GetTowerType().Equals ("Bullet")){
+			//Damage
+			gc.SetDmg (pdamage);
+			//Range
+			gc.SetRange (prange);
+			//Speed
+			gc.SetSpeed (pspeed * SPEED_CONSTANT);
+			//Cooldown
+			gc.SetCooldown (pcool);
+			//Poison
+			gc.SetPoison (ppoison);
+			gc.SetPoisonDur (3f);
+		}else if(gc.GetTowerType().Equals("Trap")){
+			
+		}else if(gc.GetTowerType().Equals ("Shield")){
+			
+		}
 	}
 
 }

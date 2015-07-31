@@ -511,12 +511,12 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	IEnumerator PoisonEffect (float duration, float amt)
 	{
 		//Debug.Log ("poison started");
-		int dur = (int)duration;
+		float dur = duration;
 		while (dur > 0)
 		{
-			hp -= amt;
-			dur--;
-			yield return new WaitForSeconds(1);
+			hp -= maxhp * amt;
+			dur -= 0.5f;
+			yield return new WaitForSeconds(0.5f);
 		}
 		yield break;
 	}

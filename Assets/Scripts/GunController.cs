@@ -92,6 +92,7 @@ public class GunController : MonoBehaviour, EventHandler {
 		if ((int)ge.args [0] != buttonID)
 			return;
 		if (cooldown > 0) {
+			Debug.Log ("cooldown > 0");
 			return;
 		}
 		if (GameObject.Find ("Dial").GetComponent<SpinScript> ().IsSpinning ()) {
@@ -109,6 +110,7 @@ public class GunController : MonoBehaviour, EventHandler {
 		case "Bullet":
 			for (int i = 1; i <= spread; i++)
 			{
+				Debug.Log ("called instantiate bullet");
 				GameObject bullet = Instantiate (Resources.Load ("Prefabs/Bullet")) as GameObject; //make a bullet
 				BulletController bc = bullet.GetComponent<BulletController>();
 				//make it the type of bullet this thing fires
@@ -311,4 +313,93 @@ public class GunController : MonoBehaviour, EventHandler {
 	}
 	//put getters/setters here?
 
+	public void SetDmg(float pdmg)
+	{
+		dmg = pdmg;
+		Debug.Log ("Set tower damage to " + dmg);
+	}
+	public void SetSpeed(float pspeed)
+	{
+		speed = pspeed;
+	}
+	public void SetRange(float prange)
+	{
+		range = prange;
+	}
+	public void SetKnockback(float pknockback)
+	{
+		knockback = pknockback;
+	}
+	public void SetLifeDrain(float pLifeDrain)
+	{
+		lifeDrain = pLifeDrain;
+	}
+	public void SetPoison(float pPoison)
+	{
+		poison = pPoison;
+	}
+	public void SetPoisonDur(float pPoisonDur)
+	{
+		poisonDur = pPoisonDur;
+	}
+	public void SetSplash(float pSplash)
+	{
+		splash = pSplash;
+	}
+	public void SetStun(float pStun)
+	{
+		stun = pStun;
+	}
+	public void SetSlowdown(float pSlowdown)
+	{
+		slowdown = pSlowdown;
+	}
+	public void SetSlowDur(float pSlowDur)
+	{
+		slowDur = pSlowDur;
+	}
+	public void SetPenetration(float pPenetration)
+	{
+		penetration = pPenetration;
+	}
+	public void SetShieldShred(float pShieldShred)
+	{
+		shieldShred = pShieldShred;
+	}
+	public void SetTrapArmTime(float pTrapArmTime)
+	{
+		trapArmTime = pTrapArmTime;
+	}
+	public void SetSpread(int pSpread)
+	{
+		spread = pSpread;
+	}
+	public void SetDoesSplit(bool pDoesSplit)
+	{
+		doesSplit = pDoesSplit;
+	}
+	public void SetIsHoming(bool pIsHoming)
+	{
+		isHoming = pIsHoming;
+	}
+	public void SetDoesArc(bool pDoesArc)
+	{
+		doesArc = pDoesArc;
+	}
+	public void SetShieldHP(float pShieldHP)
+	{
+		shieldHP = pShieldHP;
+	}
+	public void SetShieldRegen(float pShieldRegen)
+	{
+		shieldRegen = pShieldRegen;
+	}
+	public void SetShieldRange(float pShieldRange)
+	{
+		shieldRange = pShieldRange;
+	}
+	public void SetCooldown(float pCooldown)
+	{
+		maxcool = pCooldown;
+	}
 }
