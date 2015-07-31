@@ -1,4 +1,5 @@
 {
+	"movementType":"Sine",
 	"maxHP":400.0,
 	"HP":400.0,
 	"damage":90.0,

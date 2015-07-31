@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Misc\TouchTester.cs" />
+     <Compile Include="Assets\Scripts\AoEController.cs" />
      <Compile Include="Assets\Scripts\BulletController.cs" />
      <Compile Include="Assets\Scripts\ButtonController.cs" />
      <Compile Include="Assets\Scripts\DialController.cs" />
@@ -68,6 +69,9 @@
      <Compile Include="Assets\Scripts\Movers\EnemyMover.cs" />
      <Compile Include="Assets\Scripts\Movers\LinearMover.cs" />
      <Compile Include="Assets\Scripts\Movers\SineMover.cs" />
+     <Compile Include="Assets\Scripts\Movers\StrafingMover.cs" />
+     <Compile Include="Assets\Scripts\Movers\ZigzagMover.cs" />
+     <Compile Include="Assets\Scripts\PieceParser.cs" />
      <Compile Include="Assets\Scripts\ShieldController.cs" />
      <Compile Include="Assets\Scripts\SpinScript.cs" />
      <Compile Include="Assets\Scripts\Timer.cs" />
@@ -75,6 +79,7 @@
      <Compile Include="Assets\Scripts\TrapController.cs" />
      <Compile Include="Assets\Scripts\Wave.cs" />
      <Compile Include="Assets\Scripts\WaveManager.cs" />
+     <Compile Include="Assets\Scripts\WorldSelect.cs" />
      <None Include="Assets\Misc\BulletEffectsLog.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

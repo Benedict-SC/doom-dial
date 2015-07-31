@@ -1,4 +1,5 @@
 {
+	"movementType":"Linear",
 	"maxHP":100.0,
 	"HP":100.0,
 	"damage":10.0,

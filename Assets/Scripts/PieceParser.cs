@@ -2,6 +2,7 @@ using MiniJSON;
 using System.IO;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class PieceParser{
 
@@ -218,16 +219,17 @@ public class PieceParser{
 		
 		//Set tower stats based on these values
 		if(gc.GetTowerType().Equals ("Bullet")){
+			Debug.Log("cooldown is " + cooldown);
 			//Damage
-			gc.SetDmg (pdamage);
+			gc.SetDmg (damage);
 			//Range
-			gc.SetRange (prange);
+			gc.SetRange (range);
 			//Speed
-			gc.SetSpeed (pspeed * SPEED_CONSTANT);
+			gc.SetSpeed (speed * SPEED_CONSTANT);
 			//Cooldown
-			gc.SetCooldown (pcool);
+			gc.SetCooldown (cooldown);
 			//Poison
-			gc.SetPoison (ppoison);
+			gc.SetPoison (poison);
 			gc.SetPoisonDur (3f);
 		}else if(gc.GetTowerType().Equals("Trap")){
 			
