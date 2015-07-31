@@ -106,9 +106,9 @@ public class TrapController : MonoBehaviour {
 			else {
 				//AoE DAMAGE HERE
 				//Debug.Log ("got to splash");
-				slowdown = 0f; //to avoid stacking slowdown effect
 				knockback = 0f; //to avoid stacking knockback
 				stun = 0f; //to avoid stacking stun effect
+				penetration = 0f;
 				GameObject splashCircle = Instantiate (Resources.Load ("Prefabs/SplashCircle")) as GameObject;
 				splashCircle.transform.position = this.transform.position;
 				AoEController ac = splashCircle.GetComponent<AoEController>();

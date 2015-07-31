@@ -91,6 +91,9 @@ public class BulletController : MonoBehaviour {
 				if (doesArc) //circle splash
 				{
 					//Debug.Log ("got to splash");
+					knockback = 0f;
+					stun = 0f;
+					penetration = 0f;
 					GameObject splashCircle = Instantiate (Resources.Load ("Prefabs/SplashCircle")) as GameObject;
 					splashCircle.transform.position = this.transform.position;
 					AoEController ac = splashCircle.GetComponent<AoEController>();

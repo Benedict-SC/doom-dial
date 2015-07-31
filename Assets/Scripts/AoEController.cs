@@ -32,7 +32,7 @@ public class AoEController : MonoBehaviour {
 	void Update () {
 
 		transform.localScale = Vector3.Lerp (transform.localScale, transform.localScale * scale, lerpTime);
-		colRad = Mathf.Lerp (transform.localScale.x, transform.localScale.x * scale, lerpTime);
+		colRad = Mathf.Lerp (transform.localScale.x + 0.5f, transform.localScale.x * scale, lerpTime);
 		Debug.Log ("colRad: " + colRad);
 		if (transform.localScale.x >= originalScale.x * scale)
 		{
