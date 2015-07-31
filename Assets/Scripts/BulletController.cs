@@ -4,7 +4,7 @@ using System;
 
 public class BulletController : MonoBehaviour {
 
-	float TRACK_LENGTH = 3.1f; //hard coded to avoid querying track size all the time
+	float TRACK_LENGTH = 3.02f; //hard coded to avoid querying track size all the time
 	// ^^^ RELATIVE TO WHERE BULLET STARTS, NOT CENTER
 
 	//For bullet types (as opposed to traps and shield types)
@@ -67,7 +67,7 @@ public class BulletController : MonoBehaviour {
 
 		float distance = (float)Math.Sqrt ((this.transform.position.x - spawnx) * (this.transform.position.x - spawnx)
 						+ (this.transform.position.y - spawny) * (this.transform.position.y - spawny));
-		Debug.Log (distance);
+		Debug.Log ("distance is " + distance + " and range is " + (range*DialController.TRACK_LENGTH) );
 		if(distance > range * TRACK_LENGTH){
 			Debug.Log ("we somehow destroyed ourselves");
 			Collide (); //destroys itself and begins any post-death status effects

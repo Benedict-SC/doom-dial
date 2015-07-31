@@ -90,15 +90,18 @@ public class GunController : MonoBehaviour, EventHandler {
 
 		//various conditions under which bullet shouldn't fire
 		if ((int)ge.args [0] != buttonID)
+			//Debug.Log ("not tower " + buttonID);
 			return;
 		if (cooldown > 0) {
 			Debug.Log ("cooldown > 0");
 			return;
 		}
 		if (GameObject.Find ("Dial").GetComponent<SpinScript> ().IsSpinning ()) {
+			Debug.Log ("dial is spinning");
 			return;
 		}
 		if (transform.gameObject.activeSelf != true) {
+			Debug.Log ("we're not active");
 			return;
 		}
 
@@ -108,6 +111,7 @@ public class GunController : MonoBehaviour, EventHandler {
 		switch (towerType)
 		{
 		case "Bullet":
+			//Debug.Log ("it's a bullet yo (spread is " + spread + ")");
 			for (int i = 1; i <= spread; i++)
 			{
 				Debug.Log ("called instantiate bullet");

@@ -221,7 +221,7 @@ public class PieceParser{
 		
 		//Set tower stats based on these values
 		if(gc.GetTowerType().Equals ("Bullet")){
-			Debug.Log("cooldown is " + cooldown);
+			Debug.Log("speed is " + (speed * SPEED_CONSTANT));
 			//Damage
 			gc.SetDmg (damage);
 			//Range
@@ -233,6 +233,7 @@ public class PieceParser{
 			//Poison
 			gc.SetPoison (poison);
 			gc.SetPoisonDur (3f);
+			gc.SetSpread(spread);
 		}else if(gc.GetTowerType().Equals("Trap")){
 			
 		}else if(gc.GetTowerType().Equals ("Shield")){

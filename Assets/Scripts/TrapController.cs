@@ -96,7 +96,7 @@ public class TrapController : MonoBehaviour {
 	//called when the bullet hits something, from the OnCollisionEnter in EnemyController
 	public void Collide(){
 		//Add other destruction stuff here
-		gameObject.SetActive (false);
+		//gameObject.SetActive (false);
 		if (splash != 0)
 		{
 			if (poison != 0)
@@ -117,6 +117,7 @@ public class TrapController : MonoBehaviour {
 				ac.aoeTrapCon = this;
 			}
 		}
+		Destroy (this.gameObject);
 	}
 
 	public float GetAge(){
