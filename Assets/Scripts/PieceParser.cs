@@ -71,6 +71,7 @@ public class PieceParser{
 		int homeCount = 0;
 		int cdrCount = 0;
 
+		/*
 		float pdamage = 5;
 		float prange = 0;
 		float pspeed = 0;
@@ -88,6 +89,7 @@ public class PieceParser{
 		int psplit = 0;
 		float phome = 0;
 		float parc = 0;
+		*/
 		
 		foreach(string pfilename in pieceFilenames){
 			FileLoader pieceLoader = new FileLoader("JSONData" + Path.DirectorySeparatorChar + "Pieces", pfilename);
@@ -96,12 +98,12 @@ public class PieceParser{
 			
 			//read values
 			//damage - straightforward
-			pdamage = (float)(double)pdata["dmg"];
+			float pdamage = (float)(double)pdata["dmg"];
 			if(pdamage > 0.0f)
 				damageCount++;
 			damage += pdamage;
 			//range - in percent of track
-			prange = (float)(double)pdata["range"];
+			float prange = (float)(double)pdata["range"];
 			range += prange;
 			if(range > 1.0f)
 				range = 1.0f;
@@ -110,27 +112,27 @@ public class PieceParser{
 			if(prange > 0.0f)
 				rangeCount++;
 			//speed - in terms of seconds it takes to reach the end of the track. will need to be converted to actual game velocity
-			pspeed = (float)(double)pdata["speed"];
+			float pspeed = (float)(double)pdata["speed"];
 			speed += pspeed;
 			if(speed < 0.1f)
 				speed = 0.1f;
 			if(pspeed > 0.0f)
 				speedCount++;
 			//cooldown - as number of seconds
-			pcool = (float)(double)pdata["cooldownFactor"];
+			float pcool = (float)(double)pdata["cooldownFactor"];
 			cooldown += pcool;
 			if(cooldown < 0.25f)
 				cooldown = 0.25f;
 			if(pcool < 0.0f)
 				cdrCount++;
 			//poison - percent of health to remove every 0.5 seconds over the course of 3 seconds
-			ppoison = (float)(double)pdata["poison"];
+			float ppoison = (float)(double)pdata["poison"];
 			if(ppoison > 0.0f)
 				poisonCount++;
 			//slow - in percent of enemy speed to subtract
-			pminslow = (float)(double)pdata["slowdownMin"];
+			float pminslow = (float)(double)pdata["slowdownMin"];
 			slowdownMin += pminslow;
-			pmaxslow = (float)(double)pdata["slowdownMax"];
+			float pmaxslow = (float)(double)pdata["slowdownMax"];
 			slowdownMax += pmaxslow;
 			if(slowdownMin < -1.0f)
 				slowdownMin = -1.0f;
@@ -139,66 +141,66 @@ public class PieceParser{
 			if(pmaxslow < 0.0f)
 				slowCount++;
 			//knockback - in terms of percent progress to roll back. value needs to be converted to an actual speed somehow. will take some fiddling with
-			pknockback = (float)(double)pdata["knockback"];
+			float pknockback = (float)(double)pdata["knockback"];
 			knockback += pknockback;
 			if(knockback > 0.5f)
 				knockback = 0.5f;
 			if(pknockback > 0.0f)
 				knockbackCount++;
 			//life drain - in percent of damage dealt to drain to dial
-			pdrain = (float)(double)pdata["lifeDrain"];
+			float pdrain = (float)(double)pdata["lifeDrain"];
 			lifeDrain += pdrain;
 			if(lifeDrain > 1.0f)
 				lifeDrain = 1.0f;
 			if(pdrain > 0.0f)
 				drainCount++;
 			//splash - not in radius, but in percent of its effects to apply to enemies in AOE
-			psplash = (float)(double)pdata["splash"];
+			float psplash = (float)(double)pdata["splash"];
 			if(psplash > splashEffectPercent)
 				splashEffectPercent = psplash; //only strongest piece is counted
 			if(psplash > 0.0f)
 				splashCount++;
 			//stun - in seconds
-			pstun = (float)(double)pdata["stun"];
+			float pstun = (float)(double)pdata["stun"];
 			stun += pstun;
 			if(stun > 5.0f)
 				stun = 5.0f;
 			if(pstun > 0.0f)
 				stunCount++;
 			//penetration - in... percentage of whatever penetration does
-			ppene = (float)(double)pdata["penetration"];
+			float ppene = (float)(double)pdata["penetration"];
 			penetration += ppene;
 			if(penetration > 1.0f)
 				penetration = 1.0f;
 			if(ppene > 0.0f)
 				peneCount++;
 			//shieldShred - in percentage
-			pshred = (float)(double)pdata["shieldShred"];
+			float pshred = (float)(double)pdata["shieldShred"];
 			shieldShred += pshred;
 			if(shieldShred > 1.0f)
 				shieldShred = 1.0f;
 			if(pshred > 0.0f)
 				shredCount++;
 			//spread - spread has different patterns - 1 is normal fire, 2 is side fire, 3 is alternating normal and side fire, and 4 is 3-way fire
-			pspread = (int)(long)pdata["spread"];
+			int pspread = (int)(long)pdata["spread"];
 			if(pspread > spread)
 				spread = pspread;
 			if(pspread > 1)
 				spreadCount++;
 			//split - again pattern-based. 0 is no split, 1-3 are the normal through rare effects described in the Tower Pieces spreadsheet
-			psplit = (int)(long)pdata["split"];
+			int psplit = (int)(long)pdata["split"];
 			if(psplit > splitType)
 				splitType = psplit;
 			if(psplit > 0)
 				splitCount++;
 			//homing - above 0.0 and it will home, the number describes the strength of the pull
-			phome = (float)(double)pdata["homing"];
+			float phome = (float)(double)pdata["homing"];
 			if(phome > homingStrength)
 				homingStrength = phome;
 			if(phome > 0.0f)
 				homeCount++;
 			//arc - above 0.0 and it'll arc, the number describes the damage bonus
-			parc = (float)(double)pdata["arc"];
+			float parc = (float)(double)pdata["arc"];
 			if(parc > arcBoost)
 				arcBoost = parc;
 			if(parc > 0.0f)
