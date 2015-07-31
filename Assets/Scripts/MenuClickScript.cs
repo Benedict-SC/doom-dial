@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MenuClickScript : MonoBehaviour {
+public class MenuClickScript : MonoBehaviour, EventHandler {
 	public GameObject CamLock1;
 	public GameObject CamLock2;
 	public GameObject CamLock3;
@@ -9,14 +9,14 @@ public class MenuClickScript : MonoBehaviour {
 	public int menuPosition = 0;
 	// Use this for initialization
 	void Start () {
-	
+		EventManager em = EventManager.Instance ();
+		em.RegisterForEventType ("mouse_release", this);
+		em.RegisterForEventType ("mouse_click", this);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (Input.GetMouseButtonUp (0)) {
+	public void HandleEvent(GameEvent ge){
+		if (ge.type.Equals ("mouse_release")) {
 			RaycastHit targetFind;
-			Ray targetSeek = Camera.main.ScreenPointToRay (Input.mousePosition);
+			Ray targetSeek = Camera.main.ScreenPointToRay (InputWatcher.GetTouchPosition());
 			if (Physics.Raycast (targetSeek, out targetFind)) {
 				//gets stats of clicked building, triggers the GUI popups
 				if (targetFind.collider.gameObject.tag == "Button") {
@@ -30,7 +30,12 @@ public class MenuClickScript : MonoBehaviour {
 					}
 				}
 			}
+			
 		}
+	}
+	// Update is called once per frame
+	void Update () {
+
 	}
 	void ButtonClick(){
 		//Location of the menu dial determines the result

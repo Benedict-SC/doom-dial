@@ -56,17 +56,16 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	void Start () {
 		dialCon = GameObject.FindWithTag ("Dial").GetComponent<DialController>();
 		EventManager.Instance ().RegisterForEventType ("shot_collided", this);
-		SpriteRenderer sr = transform.gameObject.GetComponent<SpriteRenderer> ();
-		float rad = sr.bounds.size.x / 2;
-		CircleCollider2D collider = transform.gameObject.GetComponent<CircleCollider2D> ();
-		collider.radius = rad;
+		//SpriteRenderer sr = transform.gameObject.GetComponent<SpriteRenderer> ();
+		//float rad = sr.bounds.size.x / 2;
+		//CircleCollider2D collider = transform.gameObject.GetComponent<CircleCollider2D> ();
+		//collider.radius = rad;
 
 		highDropRate = 100.0f;
 		medDropRate = 33.3f;
 		lowDropRate = 0.0f;
 
 		//timer = new Timer ();
-		mover = new SineMover (this);
 		//Debug.Log ("enemy radius is " + radius);
 
 	}
@@ -77,8 +76,8 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		SpriteRenderer sr = transform.gameObject.GetComponent<SpriteRenderer> ();
 		float scalefactor = (radius * 2) / sr.bounds.size.x;
 		transform.localScale = new Vector3 (scalefactor, scalefactor, 1);
-		CircleCollider2D collider = transform.gameObject.GetComponent<CircleCollider2D> ();
-		collider.radius = radius;
+		//CircleCollider2D collider = transform.gameObject.GetComponent<CircleCollider2D> ();
+		//collider.radius = scalefactor/2;
 
 		timer.Restart ();
 		moving = true;
@@ -104,6 +103,30 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		rareDropThreshold = (int)(long)data ["rareDropThreshold"];
 		rareChance = (float)(double)data ["rareChance"];
 		normalChance = (float)(double)data ["normalChance"];
+		
+		//movement types
+		string moveString = (string)data["movementType"];
+		if(moveString.Equals("Linear")){
+			mover = new LinearMover(this);
+		}else if(moveString.Equals ("Zigzag")){
+			mover = new ZigzagMover(this);
+		}else if(moveString.Equals ("Zigzag_Mirror")){
+			ZigzagMover zm = new ZigzagMover(this);
+			zm.Mirror();
+			mover = zm;
+		}else if(moveString.Equals ("Strafing")){
+			mover = new StrafingMover(this);
+		}else if(moveString.Equals ("Strafing_Mirror")){
+			StrafingMover sm = new StrafingMover(this);
+			sm.Mirror();
+			mover = sm;
+		}else if(moveString.Equals ("Sine")){
+			mover = new SineMover(this);
+		}else if(moveString.Equals ("Sine_Mirror")){
+			SineMover sm = new SineMover(this);
+			sm.Mirror();
+			mover = sm;
+		}
 	}
 	
 	// Update is called once per frame
@@ -301,6 +324,27 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	}
 	public int GetTrackID(){
 		return trackID;
+	}
+	public int GetCurrentTrackID(){ //in case it's moved between lanes without having set the track ID on purpose
+		float degrees = ((360-Mathf.Atan2(transform.position.y,transform.position.x) * Mathf.Rad2Deg)+90 + 360)%360;
+		Debug.Log(degrees);
+		if(degrees >= 30.0 && degrees < 90.0){
+			return 2;
+		}else if(degrees >= 90.0 && degrees < 150.0){
+			return 3;
+		}else if(degrees >= 150.0 && degrees < 210.0){
+			return 4;
+		}else if(degrees >= 210.0 && degrees < 270.0){
+			return 5;
+		}else if(degrees >= 270.0 && degrees < 330.0){
+			return 6;
+		}else if(degrees >= 330.0 || degrees < 30.0){
+			return 1;
+		}else{
+			//what the heck, this shouldn't happen
+			Debug.Log ("What the heck, this shouldn't happen");
+			return 0;
+		}
 	}
 	public void SetTrackLane(int lane){
 		trackLane = lane;

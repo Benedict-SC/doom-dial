@@ -81,6 +81,19 @@ public class InputWatcher : MonoBehaviour {
 				return Camera.main.ScreenToWorldPoint (Input.GetTouch(0).position);
 		}
 	}
+
+	public static Vector3 GetTouchPosition(){
+		if (INPUT_DEBUG) { //return mouse position in world
+			return Input.mousePosition;
+		} else { //return first finger position in world, or null if no touches exist
+			Touch t = Input.GetTouch(0); 
+			//apparently there's no null touch or null vector3, which is inconvenient
+			/*if(t == null)
+				return null;
+			else*/
+			return Input.GetTouch(0).position;
+		}
+	}
 	
 	public static bool IsInputDown(){
 		if(INPUT_DEBUG){

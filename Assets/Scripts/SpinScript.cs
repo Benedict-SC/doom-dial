@@ -55,7 +55,7 @@ public class SpinScript : MonoBehaviour, EventHandler {
 	// Update is called once per frame
 	void Update () {
 		Vector3 mousepos = InputWatcher.GetInputPosition ();
-		//Debug.Log (touchDown);
+		Debug.Log (touchDown);
 		if(touchDown){
 			//Debug.Log ("mouse down");
 			clickTime += Time.deltaTime;

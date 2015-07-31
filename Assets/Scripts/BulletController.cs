@@ -103,7 +103,8 @@ public class BulletController : MonoBehaviour {
 				}
 			}
 		}
-		gameObject.SetActive (false);
+		//gameObject.SetActive (false);
+		Destroy(gameObject);
 	}
 
 	public bool CheckActive(){

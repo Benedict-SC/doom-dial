@@ -79,12 +79,17 @@ public class DialController : MonoBehaviour,EventHandler {
 	}
 
 	public void HandleEvent(GameEvent ge){
-		EnemyController enemy = ((GameObject)ge.args [0]).GetComponent<EnemyController>();
+		GameObject eh = (GameObject)ge.args[0];
+		if(eh == null || eh.Equals(null) ){
+			return;
+		}
+		EnemyController enemy = eh.GetComponent<EnemyController>();
 		float rawDamage = enemy.GetDamage ();
-		if (shields[enemy.GetTrackID () - 1] != null) //if this enemy's lane is shielded
+		int trackID = enemy.GetCurrentTrackID();
+		if (shields[trackID - 1] != null) //if this enemy's lane is shielded
 		{
-			int arrayInd = enemy.GetTrackID () - 1; //index of shield array to reference
-			GameObject shield = shields[enemy.GetTrackID () - 1];
+			int arrayInd = trackID - 1; //index of shield array to reference
+			GameObject shield = shields[trackID - 1];
 			ShieldController sc = shield.GetComponent<ShieldController>();
 			float oldHP = sc.hp; //the shield's hp pre-absorbing damage
 			Debug.Log ("old shield HP = " + oldHP);

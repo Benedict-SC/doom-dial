@@ -52,8 +52,8 @@ public class GunController : MonoBehaviour, EventHandler {
 	public int buttonID; //assign in the Unity Editor to match the corresponding button
 	//in the future, we'll assign this value in scripts to deal with changing gun placements
 
-	float defaultBulletSpeed = 0.2f;
-	float defaultBulletRange = 1.0f;
+	//float defaultBulletSpeed = 0.2f;
+	//float defaultBulletRange = 1.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -77,7 +77,7 @@ public class GunController : MonoBehaviour, EventHandler {
 	// Update is called once per frame
 	void Update () {
 		if (cooldown > 0) {
-			cooldown -= 0.05f;
+			cooldown -= 0.05f; //tweak this for a one-second cooldown from 1.0f
 			//SpriteRenderer overlay = this.gameObject.GetComponentInChildren<SpriteRenderer> ();
 			GameObject overlayObject = transform.Find("CooldownLayer").gameObject;
 			overlayObject.transform.localScale = new Vector3 (cooldown / maxcool, cooldown / maxcool, 1);
@@ -178,6 +178,108 @@ public class GunController : MonoBehaviour, EventHandler {
 		}
 
 	}
+	
+	public void SetValuesFromJSON(string filename){
+		FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Towers",filename);
+		string json = fl.Read ();
+		Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
+		
+		string imgfilename = data ["decalFilename"] as string;
+		SpriteRenderer img = transform.FindChild("Label").gameObject.GetComponent<SpriteRenderer> ();
+		//Debug.Log ("Sprites" + Path.DirectorySeparatorChar + imgfilename);
+		Texture2D decal = Resources.Load<Texture2D> ("Sprites/" + imgfilename);
+		if (decal == null) {
+			Debug.Log("decal is null");
+		}
+		img.sprite = UnityEngine.Sprite.Create (
+			decal,
+			new Rect(0,0,decal.width,decal.height),
+			new Vector2(0.5f,0.5f),
+			img.sprite.rect.width/img.sprite.bounds.size.x);
+		
+		towerType = data ["towerType"] as string;
+		
+		if(filename.Equals("piecetower")){
+			PieceParser.FillController(this,filename);
+			return;
+		}
+		
+		cooldownFactor = (float)(double)data["cooldownFactor"];
+		maxcool = DEF_COOLDOWN * cooldownFactor;
+		dmg = (float)(double)data ["dmg"];
+		speed = (float)(double)data ["speed"];
+		range = (float)(double)data ["range"];
+		knockback = (float)(double)data ["knockback"];
+		lifeDrain = (float)(double)data ["lifeDrain"];
+		poison = (float)(double)data ["poison"];
+		poisonDur = (float)(double)data ["poisonDur"];
+		splash = (float)(double)data ["splash"];
+		stun = (float)(double)data ["stun"];
+		slowdown = (float)(double)data ["slowdown"];
+		slowDur = (float)(double)data ["slowDur"];
+		penetration = (float)(double)data ["penetration"];
+		shieldShred = (float)(double)data ["shieldShred"];
+		trapArmTime = (float)(double)data ["trapArmTime"];
+		spread = (int)(long)data ["spread"];
+		doesSplit = (bool)data ["doesSplit"];
+		isHoming = (bool)data ["isHoming"];
+		doesArc = (bool)data ["doesArc"];
+		shieldHP = (float)(double)data ["shieldHP"];
+	}
+	
+	//Assigns skill values to bullets
+	private void ConfigureBullet(BulletController bc)
+	{
+		if (speed == 0 || range == 0 || dmg == 0)
+			Debug.Log("Check your speed, range, and/or dmg!  One might be 0!");
+		bc.dmg = dmg;
+		bc.speed = speed;
+		bc.range = range;
+		bc.knockback = knockback;
+		bc.lifeDrain = lifeDrain;
+		bc.poison = poison;
+		bc.poisonDur = poisonDur;
+		bc.splash = splash;
+		bc.stun = stun;
+		bc.slowdown = slowdown;
+		bc.slowDur = slowDur;
+		bc.penetration = penetration;
+		bc.shieldShred = shieldShred;
+		bc.doesSplit = doesSplit;
+		bc.isHoming = isHoming;
+		bc.doesArc = doesArc;
+		Debug.Log ("bullet slowDur is " + bc.slowDur);
+	}
+	
+	//Assigns skill values to traps
+	private void ConfigureTrap(TrapController bc)
+	{
+		if (range == 0 || dmg == 0)
+			print ("Check your range and/or dmg!  One might be 0!");
+		bc.dmg = dmg;
+		bc.range = range;
+		bc.knockback = knockback;
+		bc.lifeDrain = lifeDrain;
+		bc.poison = poison;
+		bc.poisonDur = poisonDur;
+		bc.splash = splash;
+		bc.stun = stun;
+		bc.slowdown = slowdown;
+		bc.slowDur = slowDur;
+		bc.penetration = penetration;
+		bc.shieldShred = shieldShred;
+		bc.maxArmingTime = trapArmTime;
+	}
+	
+	//Assigns skill values to shields
+	private void ConfigureShield(ShieldController bc)
+	{
+		if (shieldHP == 0)
+			print ("Check your shield HP value!  might be 0!");
+		bc.maxHP = shieldHP;
+		//bc.regenRate = shieldRegen; //commented out since regen rate doesn't vary, according to joe
+	}
+	
 	public float GetCooldownRatio(){
 		return cooldown / maxcool;
 	}
@@ -203,100 +305,10 @@ public class GunController : MonoBehaviour, EventHandler {
 			return -1;
 		}
 	}
-
-	public void SetValuesFromJSON(string filename){
-		FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Towers",filename);
-		string json = fl.Read ();
-		Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
-
-		string imgfilename = data ["decalFilename"] as string;
-		SpriteRenderer img = transform.FindChild("Label").gameObject.GetComponent<SpriteRenderer> ();
-		//Debug.Log ("Sprites" + Path.DirectorySeparatorChar + imgfilename);
-		Texture2D decal = Resources.Load<Texture2D> ("Sprites/" + imgfilename);
-		if (decal == null) {
-			Debug.Log("decal is null");
-		}
-		img.sprite = UnityEngine.Sprite.Create (
-			decal,
-			new Rect(0,0,decal.width,decal.height),
-			new Vector2(0.5f,0.5f),
-			img.sprite.rect.width/img.sprite.bounds.size.x);
-
-		towerType = data ["towerType"] as string;
-		cooldownFactor = (float)(double)data["cooldownFactor"];
-		maxcool = DEF_COOLDOWN * cooldownFactor;
-		dmg = (float)(double)data ["dmg"];
-		speed = (float)(double)data ["speed"];
-		range = (float)(double)data ["range"];
-		knockback = (float)(double)data ["knockback"];
-		lifeDrain = (float)(double)data ["lifeDrain"];
-		poison = (float)(double)data ["poison"];
-		poisonDur = (float)(double)data ["poisonDur"];
-		splash = (float)(double)data ["splash"];
-		stun = (float)(double)data ["stun"];
-		slowdown = (float)(double)data ["slowdown"];
-		slowDur = (float)(double)data ["slowDur"];
-		penetration = (float)(double)data ["penetration"];
-		shieldShred = (float)(double)data ["shieldShred"];
-		trapArmTime = (float)(double)data ["trapArmTime"];
-		spread = (int)(long)data ["spread"];
-		doesSplit = (bool)data ["doesSplit"];
-		isHoming = (bool)data ["isHoming"];
-		doesArc = (bool)data ["doesArc"];
-		shieldHP = (float)(double)data ["shieldHP"];
+	
+	public string GetTowerType(){
+		return towerType;
 	}
-
-	//Assigns skill values to bullets
-	private void ConfigureBullet(BulletController bc)
-	{
-		if (speed == 0 || range == 0 || dmg == 0)
-			Debug.Log("Check your speed, range, and/or dmg!  One might be 0!");
-		bc.dmg = dmg;
-		bc.speed = speed;
-		bc.range = range;
-		bc.knockback = knockback;
-		bc.lifeDrain = lifeDrain;
-		bc.poison = poison;
-		bc.poisonDur = poisonDur;
-		bc.splash = splash;
-		bc.stun = stun;
-		bc.slowdown = slowdown;
-		bc.slowDur = slowDur;
-		bc.penetration = penetration;
-		bc.shieldShred = shieldShred;
-		bc.doesSplit = doesSplit;
-		bc.isHoming = isHoming;
-		bc.doesArc = doesArc;
-		Debug.Log ("bullet slowDur is " + bc.slowDur);
-	}
-
-	//Assigns skill values to traps
-	private void ConfigureTrap(TrapController bc)
-	{
-		if (range == 0 || dmg == 0)
-			print ("Check your range and/or dmg!  One might be 0!");
-		bc.dmg = dmg;
-		bc.range = range;
-		bc.knockback = knockback;
-		bc.lifeDrain = lifeDrain;
-		bc.poison = poison;
-		bc.poisonDur = poisonDur;
-		bc.splash = splash;
-		bc.stun = stun;
-		bc.slowdown = slowdown;
-		bc.slowDur = slowDur;
-		bc.penetration = penetration;
-		bc.shieldShred = shieldShred;
-		bc.maxArmingTime = trapArmTime;
-	}
-
-	//Assigns skill values to shields
-	private void ConfigureShield(ShieldController bc)
-	{
-		if (shieldHP == 0)
-			print ("Check your shield HP value!  might be 0!");
-		bc.maxHP = shieldHP;
-		//bc.regenRate = shieldRegen; //commented out since regen rate doesn't vary, according to joe
-	}
+	//put getters/setters here?
 
 }
