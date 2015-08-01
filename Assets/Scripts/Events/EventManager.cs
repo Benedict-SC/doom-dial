@@ -68,6 +68,11 @@ public class EventManager{
 					continue;
 				}
 				foreach(EventHandler eh in handlers){
+					if(eh.Equals (null)){
+						Debug.Log ("Null handler for event type " + s);
+						continue;
+					}
+					Debug.Log (eh.ToString());
 					GameObject go = ((MonoBehaviour)eh).gameObject;
 					if(go != null && !go.Equals(null)){ //in case a listener has been destroyed
 						eh.HandleEvent(ge);

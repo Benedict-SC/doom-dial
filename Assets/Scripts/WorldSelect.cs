@@ -23,7 +23,7 @@ public class WorldSelect : MonoBehaviour, EventHandler {
 			if (Physics.Raycast (targetSeek, out targetFind)) {
 				//gets stats of clicked building, triggers the GUI popups
 				if (targetFind.collider.gameObject == startButton) {
-
+					//Debug.Log ("try and load level select");
 					Application.LoadLevel(levelName);
 				}
 			}
