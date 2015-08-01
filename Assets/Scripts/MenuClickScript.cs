@@ -43,7 +43,7 @@ public class MenuClickScript : MonoBehaviour, EventHandler {
 		switch (menuPosition) {
 		case 0:
 			//Loads the scene used for playing the game
-			//Application.LoadLevel ("TestScene");
+			Application.LoadLevel ("WorldSelect");
 			break;
 		case 1:
 			//This and 3 load more levels
