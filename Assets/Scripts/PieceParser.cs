@@ -41,7 +41,7 @@ public class PieceParser{
 		float homingStrength = 0.0f;
 		float arcBoost = 0.0f;
 
-		float SPEED_CONSTANT = 5;
+		float SPEED_CONSTANT = 0.2f;
 		
 		int splashBonusCount = 0;
 		int penetrationBonusCount = 0;

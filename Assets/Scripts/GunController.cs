@@ -130,6 +130,7 @@ public class GunController : MonoBehaviour, EventHandler {
 				gunDistFromCenter += 0.47f;
 				bc.spawnx = gunDistFromCenter * (float)Math.Cos (angle);
 				bc.spawny = gunDistFromCenter * (float)Math.Sin (angle);
+				//Debug.Log (bc.speed);
 				bc.transform.position = new Vector3(bc.spawnx,bc.spawny,bc.transform.position.z);
 				bc.vx = bc.speed * (float)Math.Cos(angle);
 				bc.vy = bc.speed * (float)Math.Sin(angle);

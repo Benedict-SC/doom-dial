@@ -56,20 +56,22 @@ public class BulletController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log ("homing?" + isHoming);
+		//Debug.Log ("bullet at " + transform.position.x + ", " + transform.position.y);
+		//Debug.Log ("velocity: " + vx + ", " + vy);
+		//Debug.Log ("homing?" + isHoming);
 		if (!isHoming)
 		{
 			//position doesn't let you modify individual fields so this is gonna be wordy
 			this.transform.position = new Vector3(this.transform.position.x + vx, this.transform.position.y + vy, this.transform.position.z);
 			//if bullet exceeds its range, disappear
-			Debug.Log ("x is " + transform.position.x + " and spawnx is " + spawnx);
+			//Debug.Log ("x is " + transform.position.x + " and spawnx is " + spawnx);
 		}
-
+		
 		float distance = (float)Math.Sqrt ((this.transform.position.x - spawnx) * (this.transform.position.x - spawnx)
 						+ (this.transform.position.y - spawny) * (this.transform.position.y - spawny));
-		Debug.Log ("distance is " + distance + " and range is " + (range*DialController.TRACK_LENGTH) );
+		//Debug.Log ("distance is " + distance + " and range is " + (range*TRACK_LENGTH) );
 		if(distance > range * TRACK_LENGTH){
-			Debug.Log ("we somehow destroyed ourselves");
+			Debug.Log ("we somehow destroyed ourselves / at (" + transform.position.x + "," + transform.position.y + ")");
 			Collide (); //destroys itself and begins any post-death status effects
 			return;
 		}
