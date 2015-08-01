@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MenuSpinScript : MonoBehaviour, EventHandler {
 	//Increases spin speed
-	public float multiplier = 10f;
+	float multiplier = 1.0f;
 	public GameObject Child;
 	//Can only spin if this is true;
 	bool spinner = false;
@@ -31,6 +31,7 @@ public class MenuSpinScript : MonoBehaviour, EventHandler {
 	public void HandleEvent(GameEvent ge){
 		Debug.Log ("test");
 		Vector3 mousepos = InputWatcher.GetInputPosition ();
+		mousepos = new Vector3(mousepos.x - transform.position.x,mousepos.y-transform.position.y,mousepos.z);
 		if (ge.type.Equals ("mouse_release")) {
 			//Stops the dial from spinning more
 			spinner = false;
@@ -65,6 +66,7 @@ public class MenuSpinScript : MonoBehaviour, EventHandler {
 	// Update is called once per frame
 	void Update () {
 		Vector3 mousepos = InputWatcher.GetInputPosition ();
+		mousepos = new Vector3(mousepos.x - transform.position.x,mousepos.y-transform.position.y,mousepos.z);
 		float rotX = mousepos.x;
 		float rotY = mousepos.y;
 		//Debug.Log (touchDown);
