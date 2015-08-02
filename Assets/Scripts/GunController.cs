@@ -28,12 +28,11 @@ public class GunController : MonoBehaviour, EventHandler {
 	float penetration; //ignores this amount of enemy shield
 	float shieldShred; //lowers enemy shield's max value by this
 	float trapArmTime; //time in seconds to arm a trap
+	float splitCount; //number of pieces it splits into
+	float homingStrength; //strength of homing :P
+	float arcDmg; //dmg bonus of arc -- if above 0, it will arc
 
 	int spread; //number of shots fired at once, default should be 1.
-
-	bool doesSplit; //whether it splits in 2 at the end of its path/collision
-	bool isHoming; //whether it homes in on nearest enemy
-	bool doesArc; //whether it arcs (travels over enemies until it hits the ground at max range)
 
 	float shieldHP; //shield max HP
 	float shieldRegen; //shield regen rate
@@ -228,9 +227,9 @@ public class GunController : MonoBehaviour, EventHandler {
 		shieldShred = (float)(double)data ["shieldShred"];
 		trapArmTime = (float)(double)data ["trapArmTime"];
 		spread = (int)(long)data ["spread"];
-		doesSplit = (bool)data ["doesSplit"];
-		isHoming = (bool)data ["isHoming"];
-		doesArc = (bool)data ["doesArc"];
+		splitCount = (int)(double)data ["doesSplit"];
+		homingStrength = (float)(double)data ["isHoming"];
+		arcDmg = (float)(double)data ["doesArc"];
 		shieldHP = (float)(double)data ["shieldHP"];
 	}
 	
@@ -252,9 +251,9 @@ public class GunController : MonoBehaviour, EventHandler {
 		bc.slowDur = slowDur;
 		bc.penetration = penetration;
 		bc.shieldShred = shieldShred;
-		bc.doesSplit = doesSplit;
-		bc.isHoming = isHoming;
-		bc.doesArc = doesArc;
+		bc.splitCount = splitCount;
+		bc.homingStrength = homingStrength;
+		bc.arcDmg = arcDmg;
 		Debug.Log ("bullet slowDur is " + bc.slowDur);
 	}
 	
@@ -379,17 +378,17 @@ public class GunController : MonoBehaviour, EventHandler {
 	{
 		spread = pSpread;
 	}
-	public void SetDoesSplit(bool pDoesSplit)
+	public void SetSplit(int pDoesSplit)
 	{
-		doesSplit = pDoesSplit;
+		splitCount = pDoesSplit;
 	}
-	public void SetIsHoming(bool pIsHoming)
+	public void SetIsHoming(float pIsHoming)
 	{
-		isHoming = pIsHoming;
+		homingStrength = pIsHoming;
 	}
-	public void SetDoesArc(bool pDoesArc)
+	public void SetDoesArc(float pDoesArc)
 	{
-		doesArc = pDoesArc;
+		arcDmg = pDoesArc;
 	}
 	public void SetShieldHP(float pShieldHP)
 	{

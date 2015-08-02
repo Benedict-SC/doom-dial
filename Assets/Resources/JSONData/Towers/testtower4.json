@@ -17,8 +17,8 @@
 	"shieldShred":0.0,
 	"trapArmTime":0.0,
 	"spread":3,
-	"doesSplit":false,
-	"isHoming":false,
-	"doesArc":false,
+	"doesSplit":0.0,
+	"isHoming":0.0,
+	"doesArc":0.0,
 	"shieldHP":0.0
 }

@@ -27,13 +27,12 @@ public class BulletController : MonoBehaviour {
 
 	//BEING WORKED ON
 
+	public float splitCount; //number of pieces it splits into
 	public float splash; //radius of splash damage
 	public float penetration; //ignores this amount of enemy shield
 	public float shieldShred; //lowers enemy shield's max value by this
-
-	public bool doesSplit; //whether it splits in 2 at the end of its path/collision
-	public bool isHoming; //whether it homes in on nearest enemy
-	public bool doesArc; //whether it arcs (travels over enemies until it hits the ground at max range)
+	public float homingStrength; //strength of homing effect
+	public float arcDmg; //dmg bonus from arcing - if above 0 it arcs
 	/*
 	 * End of attributes passed from tower
 	 */
@@ -59,7 +58,7 @@ public class BulletController : MonoBehaviour {
 		//Debug.Log ("bullet at " + transform.position.x + ", " + transform.position.y);
 		//Debug.Log ("velocity: " + vx + ", " + vy);
 		//Debug.Log ("homing?" + isHoming);
-		if (!isHoming)
+		if (homingStrength == 0)
 		{
 			//position doesn't let you modify individual fields so this is gonna be wordy
 			this.transform.position = new Vector3(this.transform.position.x + vx, this.transform.position.y + vy, this.transform.position.z);
@@ -90,7 +89,7 @@ public class BulletController : MonoBehaviour {
 			}
 			else {
 				//AoE DAMAGE HERE
-				if (doesArc) //circle splash
+				if (arcDmg > 0) //circle splash
 				{
 					//Debug.Log ("got to splash");
 					knockback = 0f;
@@ -101,6 +100,7 @@ public class BulletController : MonoBehaviour {
 					AoEController ac = splashCircle.GetComponent<AoEController>();
 					ac.scale = splash;
 					ac.parent = "Bullet";
+					dmg += arcDmg;
 					ac.aoeBulletCon = this;
 				}
 			}

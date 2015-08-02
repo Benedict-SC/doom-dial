@@ -31,6 +31,7 @@ public class PieceParser{
 		float lifeDrain = 0.0f;
 		float poison = 0.0f;
 		float splashEffectPercent = 0.0f;
+		float splash = 0.0f;
 		float stun = 0.0f;
 		float slowdownMin = 0.0f;
 		float slowdownMax = 0.0f;
@@ -129,7 +130,7 @@ public class PieceParser{
 			float ppoison = (float)(double)pdata["poison"];
 			if(ppoison > 0.0f)
 				poisonCount++;
-			//slow - in percent of enemy speed to subtract
+			//slow - in percent of enemy speed - set enemy speed to this percent
 			float pminslow = (float)(double)pdata["slowdownMin"];
 			slowdownMin += pminslow;
 			float pmaxslow = (float)(double)pdata["slowdownMax"];
@@ -156,6 +157,7 @@ public class PieceParser{
 				drainCount++;
 			//splash - not in radius, but in percent of its effects to apply to enemies in AOE
 			float psplash = (float)(double)pdata["splash"];
+			splash += psplash;
 			if(psplash > splashEffectPercent)
 				splashEffectPercent = psplash; //only strongest piece is counted
 			if(psplash > 0.0f)
@@ -233,7 +235,29 @@ public class PieceParser{
 			//Poison
 			gc.SetPoison (poison);
 			gc.SetPoisonDur (3f);
+			//Slowdown
+			gc.SetSlowdown (slowdownMax); //for now.  eventually add in that scaling system for slow/fast enemies?
+			gc.SetSlowDur (0.75f);
+			//Knockback
+			gc.SetKnockback(knockback);
+			//Lifedrain
+			gc.SetLifeDrain (lifeDrain);
+			//Splash
+			gc.SetSplash (splash);
+			//Stun
+			gc.SetStun (stun);
+			//Penetration
+			gc.SetPenetration (penetration);
+			//Shieldshred
+			gc.SetShieldShred (shieldShred);
+			//Spread
 			gc.SetSpread(spread);
+			//SplitCount
+			gc.SetSplit (splitType);
+			//Homing
+			gc.SetIsHoming (homingStrength);
+			//ArcStrength
+			gc.SetDoesArc (arcBoost);
 		}else if(gc.GetTowerType().Equals("Trap")){
 			
 		}else if(gc.GetTowerType().Equals ("Shield")){
