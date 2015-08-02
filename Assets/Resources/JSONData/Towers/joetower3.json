@@ -1,0 +1,8 @@
+{
+	"decalFilename":"Tower3",
+	"towerType":"Bullet",
+	
+	"pieces":[
+		{"anchorX":0, "anchorY":0, "rotation":0 , "pieceFilename":"joe_prebaked_3"}
+	]
+}
