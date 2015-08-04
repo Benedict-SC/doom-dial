@@ -48,6 +48,9 @@ public class MenuSpinScript : MonoBehaviour, EventHandler {
 				if(Child.GetComponent<WorldSelect>() != null){
 					Child.GetComponent<WorldSelect>().menuPosition = menuPosition % 4;
 				}
+				if(Child.GetComponent<LevelSelect>() != null){
+					Child.GetComponent<LevelSelect>().menuPosition = menuPosition % 4;
+				}
 			}
 			//resets time
 			clickTime = 0;

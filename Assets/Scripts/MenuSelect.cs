@@ -1,21 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LevelSelect : MonoBehaviour, EventHandler {
+public class MenuSelect : MonoBehaviour, EventHandler {
 	public int menuPosition = 0;
 	public GameObject textMesh;
 	public GameObject startButton;
-	public WorldData WorldData;
 	public GameObject menuButton;
-	string levelName = "LevelHolder";
+	public GameObject worldHolder;
+	string levelName = "WorldSelect";
 	int lastPosition = 1;
+	public string test;
 	// Use this for initialization
 	void Start () {
 		EventManager em = EventManager.Instance ();
 		em.RegisterForEventType ("mouse_release", this);
 		em.RegisterForEventType ("mouse_click", this);
-		//Need to find old object by hand as it isn't on the scene to start.
-		WorldData = GameObject.FindWithTag ("DataHolder").GetComponent<WorldData> ();
+		worldHolder = GameObject.FindWithTag ("DataHolder");
 	}
 	public void HandleEvent(GameEvent ge){
 		if (ge.type.Equals ("mouse_release")) {
@@ -25,13 +25,13 @@ public class LevelSelect : MonoBehaviour, EventHandler {
 			if (Physics.Raycast (targetSeek, out targetFind)) {
 				//sees if ray collided with the start button
 				if (targetFind.collider.gameObject == startButton) {
-					
+					//Debug.Log ("try and load level select");
 					//Application.LoadLevel(levelName);
 				}
 				if (targetFind.collider.gameObject == menuButton) {
 					Debug.Log("Test");
-					WorldData.lastScene = "LevelSelect";
-					Application.LoadLevel("Menu");
+					test = worldHolder.GetComponent<WorldData>().lastScene;
+					Application.LoadLevel(test);
 				}
 			}
 			
@@ -44,24 +44,16 @@ public class LevelSelect : MonoBehaviour, EventHandler {
 			switch(menuPosition){
 				//Sets values for WorldData, the on screen text, and the level that will be loaded
 			case 0:
-				textMesh.GetComponent<TextMesh>().text = WorldData.worldSelected + "-2";
-				WorldData.levelSelected = "2";
-				levelName = "TestScene";
+
 				break;
 			case 1:
-				textMesh.GetComponent<TextMesh>().text = WorldData.worldSelected + "-3";
-				WorldData.levelSelected = "3";
-				levelName = "TestScene";
+
 				break;
 			case 2:
-				textMesh.GetComponent<TextMesh>().text = WorldData.worldSelected + "-4";
-				WorldData.levelSelected = "4";
-				levelName = "TestScene";
+
 				break;
 			case 3:
-				textMesh.GetComponent<TextMesh>().text = WorldData.worldSelected + "-1";
-				WorldData.levelSelected = "1";
-				levelName = "TestScene";
+
 				break;
 			default:
 				break;
