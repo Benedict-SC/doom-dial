@@ -28,7 +28,8 @@ public class BulletController : MonoBehaviour {
 	//BEING WORKED ON
 
 	public float splitCount; //number of pieces it splits into
-	public float splash; //radius of splash damage
+	public float splash; //percentage of fx to transfer to hits
+	public float splashRad; //radius of splash damage
 	public float penetration; //ignores this amount of enemy shield
 	public float shieldShred; //lowers enemy shield's max value by this
 	public float homingStrength; //strength of homing effect
@@ -98,7 +99,26 @@ public class BulletController : MonoBehaviour {
 					GameObject splashCircle = Instantiate (Resources.Load ("Prefabs/SplashCircle")) as GameObject;
 					splashCircle.transform.position = this.transform.position;
 					AoEController ac = splashCircle.GetComponent<AoEController>();
-					ac.scale = splash;
+					ac.scale = splashRad;
+					//Debug.Log ("splashRad is " + splashRad);
+					ac.parent = "Bullet";
+					dmg += arcDmg;
+					ac.aoeBulletCon = this;
+				}
+				else //normal cone splash
+				{
+					knockback = 0f;
+					stun = 0f;
+					penetration = 0f;
+					GameObject splashCone = Instantiate (Resources.Load ("Prefabs/SplashCone")) as GameObject;
+					splashCone.transform.position = this.transform.position;
+					splashCone.transform.rotation = new Quaternion(gameObject.transform.rotation.x,
+					                                               gameObject.transform.rotation.y,
+					                                               gameObject.transform.rotation.z,
+					                                               gameObject.transform.rotation.w);
+					AoEController ac = splashCone.GetComponent<AoEController>();
+					ac.scale = splashRad;
+					//Debug.Log ("splashRad is " + splashRad);
 					ac.parent = "Bullet";
 					dmg += arcDmg;
 					ac.aoeBulletCon = this;

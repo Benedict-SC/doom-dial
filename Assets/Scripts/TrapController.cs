@@ -21,7 +21,8 @@ public class TrapController : MonoBehaviour {
 
 	//NOT YET IMPLEMENTED
 
-	public float splash; //radius of splash damage
+	public float splash; //percent of effects to transfer to enemy affected
+	public float splashRad; //radius of splash dmg
 	public float penetration; //ignores this amount of enemy shield
 	public float shieldShred; //lowers enemy shield's max value by this
 	//***Skill values end here***

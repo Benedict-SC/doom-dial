@@ -11,7 +11,7 @@ public class AoEController : MonoBehaviour {
 	public BulletController aoeBulletCon;
 	public TrapController aoeTrapCon;
 
-	CircleCollider2D collide;
+	Collider collide;
 	float colRad;
 	float orRad;
 
@@ -22,9 +22,10 @@ public class AoEController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 	
+		//Debug.Log ("started AoEController");
 		originalScale = transform.localScale;
-		collide = GetComponent<CircleCollider2D>();
-		colRad = collide.radius;
+		collide = GetComponent<Collider>();
+		colRad = gameObject.transform.localScale.x / 2;
 		orRad = colRad; //original radius
 	}
 	

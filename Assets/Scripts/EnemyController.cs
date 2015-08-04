@@ -202,6 +202,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		}
 		else if (coll.gameObject.tag == "AoE")
 		{
+			Debug.Log ("enemy collided with AoE");
 			GameObject obj = coll.gameObject;
 			AoEController ac = obj.GetComponent<AoEController>();
 			if (ac.parent == "Bullet")

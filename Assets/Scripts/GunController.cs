@@ -21,7 +21,8 @@ public class GunController : MonoBehaviour, EventHandler {
 	float lifeDrain; //lifedrain on enemy
 	float poison; //poison damage on enemy
 	float poisonDur; //how long poison lasts, in seconds
-	float splash; //radius of splash damage
+	float splash; //percent (0.0f - .75f) of effects to carry to enemies hit by splash
+	float splashRad = 4.0f; //radius of splash damage (default for now)
 	float stun; //amount (time?) of enemy stun
 	float slowdown; //enemy slowdown -- scale of 1 to 10, can't go over 8
 	float slowDur; //how long slowdown lasts
@@ -246,6 +247,7 @@ public class GunController : MonoBehaviour, EventHandler {
 		bc.poison = poison;
 		bc.poisonDur = poisonDur;
 		bc.splash = splash;
+		bc.splashRad = splashRad;
 		bc.stun = stun;
 		bc.slowdown = slowdown;
 		bc.slowDur = slowDur;
@@ -269,6 +271,7 @@ public class GunController : MonoBehaviour, EventHandler {
 		bc.poison = poison;
 		bc.poisonDur = poisonDur;
 		bc.splash = splash;
+		bc.splashRad = splashRad;
 		bc.stun = stun;
 		bc.slowdown = slowdown;
 		bc.slowDur = slowDur;
