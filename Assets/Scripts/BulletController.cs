@@ -112,10 +112,11 @@ public class BulletController : MonoBehaviour {
 					penetration = 0f;
 					GameObject splashCone = Instantiate (Resources.Load ("Prefabs/SplashCone")) as GameObject;
 					splashCone.transform.position = this.transform.position;
-					splashCone.transform.rotation = new Quaternion(gameObject.transform.rotation.x,
+					splashCone.transform.rotation = this.transform.rotation;
+					/*splashCone.transform.rotation = new Quaternion(gameObject.transform.rotation.x,
 					                                               gameObject.transform.rotation.y,
 					                                               gameObject.transform.rotation.z,
-					                                               gameObject.transform.rotation.w);
+					                                               gameObject.transform.rotation.w);*/
 					AoEController ac = splashCone.GetComponent<AoEController>();
 					ac.scale = splashRad;
 					//Debug.Log ("splashRad is " + splashRad);

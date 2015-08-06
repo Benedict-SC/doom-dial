@@ -1,7 +1,7 @@
 {
 	"movementType":"Sine",
-	"maxHP":400.0,
-	"HP":400.0,
+	"maxHP":80.0,
+	"HP":80.0,
 	"damage":90.0,
 	"impactTime":30.0,
 	"size":0.8,
