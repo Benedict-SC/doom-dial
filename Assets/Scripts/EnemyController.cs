@@ -207,25 +207,23 @@ public class EnemyController : MonoBehaviour,EventHandler {
 			AoEController ac = obj.GetComponent<AoEController>();
 			if (ac.parent == "Bullet")
 			{
+				//Debug.Log ("parent is bullet@");
 				BulletController bc = ac.aoeBulletCon;
-				if (bc != null) {
-					StartCoroutine (StatusEffectsBullet (bc));
-					hp -= bc.dmg;
-					//timesShot++;
-					if(hp <= 0){
-						Die ();
-					}
+				StartCoroutine (StatusEffectsBullet (bc));
+				hp -= bc.dmg;
+				Debug.Log ("damage taken: " + bc.dmg);
+				//timesShot++;
+				if(hp <= 0){
+				Die ();
 				}
 			}
 			else if (ac.parent == "Trap")
 			{
 				TrapController tc = ac.aoeTrapCon;
-				if (tc != null) {
-					StartCoroutine (StatusEffectsTrap (tc));
-					hp -= tc.dmg;
-					if(hp <= 0){
-						Die ();
-					}
+				StartCoroutine (StatusEffectsTrap (tc));
+				hp -= tc.dmg;
+				if(hp <= 0){
+				Die ();
 				}
 			}
 

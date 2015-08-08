@@ -18,11 +18,11 @@ public class TrapController : MonoBehaviour {
 	public float lifeDrain; //lifedrain on enemy
 	public float slowdown; //enemy slowdown -- scale of 1 to 10, can't go over 8
 	public float slowDur; //how long slowdown lasts
+	public float splash; //percent of effects to transfer to enemy affected
+	public float splashRad; //radius of splash dmg
 
 	//NOT YET IMPLEMENTED
 
-	public float splash; //percent of effects to transfer to enemy affected
-	public float splashRad; //radius of splash dmg
 	public float penetration; //ignores this amount of enemy shield
 	public float shieldShred; //lowers enemy shield's max value by this
 	//***Skill values end here***
@@ -113,9 +113,10 @@ public class TrapController : MonoBehaviour {
 				GameObject splashCircle = Instantiate (Resources.Load ("Prefabs/SplashCircle")) as GameObject;
 				splashCircle.transform.position = this.transform.position;
 				AoEController ac = splashCircle.GetComponent<AoEController>();
-				ac.scale = splash;
+				ac.scale = splashRad;
 				ac.parent = "Trap";
 				ac.aoeTrapCon = this;
+				ac.ScaleProps (splash);
 			}
 		}
 		Destroy (this.gameObject);
