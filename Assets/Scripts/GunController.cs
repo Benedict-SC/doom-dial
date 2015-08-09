@@ -32,8 +32,7 @@ public class GunController : MonoBehaviour, EventHandler {
 	float splitCount; //number of pieces it splits into
 	float homingStrength; //strength of homing :P
 	float arcDmg; //dmg bonus of arc -- if above 0, it will arc
-
-	int spread; //number of shots fired at once, default should be 1.
+	int spread; //1 is normal, 2 is V, 3 is alternating V and I, 4 is three shots
 
 	float shieldHP; //shield max HP
 	float shieldRegen; //shield regen rate
@@ -48,6 +47,8 @@ public class GunController : MonoBehaviour, EventHandler {
 
 	float cooldown = 0.0f;
 	float maxcool;
+
+	bool shootingV = true; //for use by spread 3 -- are we shooting in a v this turn or not?
 
 	public int buttonID; //assign in the Unity Editor to match the corresponding button
 	//in the future, we'll assign this value in scripts to deal with changing gun placements
@@ -70,8 +71,10 @@ public class GunController : MonoBehaviour, EventHandler {
 		shieldHP = 100;*/
 		shieldRange = 1.0f;
 
-		if (spread > 2)
-			spread = 2;
+		if (spread > 4)
+			spread = 4;
+		if (spread < 1)
+			spread = 1;
 	}
 	
 	// Update is called once per frame
@@ -111,31 +114,97 @@ public class GunController : MonoBehaviour, EventHandler {
 		switch (towerType)
 		{
 		case "Bullet":
-			//Debug.Log ("it's a bullet yo (spread is " + spread + ")");
-			for (int i = 1; i <= spread; i++)
+			switch (spread)
 			{
-				Debug.Log ("called instantiate bullet");
-				GameObject bullet = Instantiate (Resources.Load ("Prefabs/Bullet")) as GameObject; //make a bullet
-				BulletController bc = bullet.GetComponent<BulletController>();
-				//make it the type of bullet this thing fires
-				ConfigureBullet (bc);
-				//find your angle
-				float ownangle = this.transform.eulerAngles.z;
-				float angle = (ownangle +  90) % 360 ;
-				angle *= (float)Math.PI / 180;
-				Debug.Log ("original angle: " + angle);
-				angle = (angle - (float)Math.PI / 6f) + ((((float)Math.PI / 3f) / (spread + 1)) * i); //handles spread effect
-				//find where to spawn the bullet
-				float gunDistFromCenter = (float)Math.Sqrt (transform.position.x*transform.position.x + transform.position.y*transform.position.y);
-				gunDistFromCenter += 0.47f;
-				bc.spawnx = gunDistFromCenter * (float)Math.Cos (angle);
-				bc.spawny = gunDistFromCenter * (float)Math.Sin (angle);
-				//Debug.Log (bc.speed);
-				bc.transform.position = new Vector3(bc.spawnx,bc.spawny,bc.transform.position.z);
-				bc.transform.rotation = transform.rotation;
-				bc.vx = bc.speed * (float)Math.Cos(angle);
-				bc.vy = bc.speed * (float)Math.Sin(angle);
+			case 1:
+				SpawnBulletI ();
+				break;
+			case 2:
+				SpawnBulletV ();
+				break;
+			case 3:
+				if (shootingV)
+				{
+					SpawnBulletV ();
+					shootingV = false;
+				}
+				else if (!shootingV)
+				{
+					SpawnBulletI ();
+					shootingV = true;
+				}
+				break;
+			case 4:
+				SpawnBulletI ();
+				SpawnBulletWideV ();
+				break;
+			default:
+				Debug.Log ("Spread error in GunController Bullet firing");
+				break;
 			}
+			//Debug.Log ("it's a bullet yo (spread is " + spread + ")");
+			/*
+			if (spread == 1 || spread == 2 || spread == 4)
+			{
+				if (spread == 4)
+				{
+					for (int i = 1; i <= 3; i++)
+					{
+						Debug.Log ("called instantiate bullet");
+						GameObject bullet = Instantiate (Resources.Load ("Prefabs/Bullet")) as GameObject; //make a bullet
+						BulletController bc = bullet.GetComponent<BulletController>();
+						//make it the type of bullet this thing fires
+						ConfigureBullet (bc);
+						//find your angle
+						float ownangle = this.transform.eulerAngles.z;
+						float angle = (ownangle +  90) % 360 ;
+						angle *= (float)Math.PI / 180;
+						Debug.Log ("original angle: " + angle);
+						angle = (angle - (float)Math.PI / 6f) + ((((float)Math.PI / 3f) / (spread + 1)) * i); //handles spread effect
+						//find where to spawn the bullet
+						float gunDistFromCenter = (float)Math.Sqrt (transform.position.x*transform.position.x + transform.position.y*transform.position.y);
+						gunDistFromCenter += 0.47f;
+						bc.spawnx = gunDistFromCenter * (float)Math.Cos (angle);
+						bc.spawny = gunDistFromCenter * (float)Math.Sin (angle);
+						//Debug.Log (bc.speed);
+						bc.transform.position = new Vector3(bc.spawnx,bc.spawny,bc.transform.position.z);
+						bc.transform.rotation = transform.rotation;
+						bc.vx = bc.speed * (float)Math.Cos(angle);
+						bc.vy = bc.speed * (float)Math.Sin(angle);
+					}
+				}
+
+				else if (spread == 1 || spread == 2)
+				{
+					for (int i = 1; i <= spread; i++)
+					{
+						Debug.Log ("called instantiate bullet");
+						GameObject bullet = Instantiate (Resources.Load ("Prefabs/Bullet")) as GameObject; //make a bullet
+						BulletController bc = bullet.GetComponent<BulletController>();
+						//make it the type of bullet this thing fires
+						ConfigureBullet (bc);
+						//find your angle
+						float ownangle = this.transform.eulerAngles.z;
+						float angle = (ownangle +  90) % 360 ;
+						angle *= (float)Math.PI / 180;
+						Debug.Log ("original angle: " + angle);
+						angle = (angle - (float)Math.PI / 6f) + ((((float)Math.PI / 3f) / (spread + 1)) * i); //handles spread effect
+						//find where to spawn the bullet
+						float gunDistFromCenter = (float)Math.Sqrt (transform.position.x*transform.position.x + transform.position.y*transform.position.y);
+						gunDistFromCenter += 0.47f;
+						bc.spawnx = gunDistFromCenter * (float)Math.Cos (angle);
+						bc.spawny = gunDistFromCenter * (float)Math.Sin (angle);
+						//Debug.Log (bc.speed);
+						bc.transform.position = new Vector3(bc.spawnx,bc.spawny,bc.transform.position.z);
+						bc.transform.rotation = transform.rotation;
+						bc.vx = bc.speed * (float)Math.Cos(angle);
+						bc.vy = bc.speed * (float)Math.Sin(angle);
+					}
+				}
+
+			}
+			*/
+
 			break;
 		case "Trap":
 			for (int i = 1; i <= spread; i++)
@@ -185,6 +254,97 @@ public class GunController : MonoBehaviour, EventHandler {
 			break;
 		}
 
+	}
+
+	void SpawnBulletI()
+	{
+		for (int i = 1; i <= 1; i++)
+		{
+			Debug.Log ("called instantiate bullet");
+			GameObject bullet = Instantiate (Resources.Load ("Prefabs/Bullet")) as GameObject; //make a bullet
+			BulletController bc = bullet.GetComponent<BulletController>();
+			//make it the type of bullet this thing fires
+			ConfigureBullet (bc);
+			//find your angle
+			float ownangle = this.transform.eulerAngles.z;
+			float angle = (ownangle +  90) % 360 ;
+			angle *= (float)Math.PI / 180;
+			Debug.Log ("original angle: " + angle);
+			angle = (angle - (float)Math.PI / 6f) + ((((float)Math.PI / 3f) / (2)) * i); //handles spread effect
+			//find where to spawn the bullet
+			float gunDistFromCenter = (float)Math.Sqrt (transform.position.x*transform.position.x + transform.position.y*transform.position.y);
+			gunDistFromCenter += 0.47f;
+			bc.spawnx = gunDistFromCenter * (float)Math.Cos (angle);
+			bc.spawny = gunDistFromCenter * (float)Math.Sin (angle);
+			//Debug.Log (bc.speed);
+			bc.transform.position = new Vector3(bc.spawnx,bc.spawny,bc.transform.position.z);
+			bc.transform.rotation = transform.rotation;
+			bc.vx = bc.speed * (float)Math.Cos(angle);
+			bc.vy = bc.speed * (float)Math.Sin(angle);
+		}
+
+	}
+
+	void SpawnBulletV()
+	{
+		for (int i = 1; i <= 2; i++)
+		{
+			Debug.Log ("called instantiate bullet");
+			GameObject bullet = Instantiate (Resources.Load ("Prefabs/Bullet")) as GameObject; //make a bullet
+			BulletController bc = bullet.GetComponent<BulletController>();
+			//make it the type of bullet this thing fires
+			ConfigureBullet (bc);
+			//find your angle
+			float ownangle = this.transform.eulerAngles.z;
+			float angle = (ownangle +  90) % 360 ;
+			angle *= (float)Math.PI / 180;
+			Debug.Log ("original angle: " + angle);
+			angle = (angle - (float)Math.PI / 6f) + ((((float)Math.PI / 3f) / (3)) * i); //handles spread effect
+			//find where to spawn the bullet
+			float gunDistFromCenter = (float)Math.Sqrt (transform.position.x*transform.position.x + transform.position.y*transform.position.y);
+			gunDistFromCenter += 0.47f;
+			bc.spawnx = gunDistFromCenter * (float)Math.Cos (angle);
+			bc.spawny = gunDistFromCenter * (float)Math.Sin (angle);
+			//Debug.Log (bc.speed);
+			bc.transform.position = new Vector3(bc.spawnx,bc.spawny,bc.transform.position.z);
+			bc.transform.rotation = transform.rotation;
+			bc.vx = bc.speed * (float)Math.Cos(angle);
+			bc.vy = bc.speed * (float)Math.Sin(angle);
+		}
+
+	}
+
+	void SpawnBulletWideV()
+	{
+		for (int i = 1; i <= 2; i++)
+		{
+			Debug.Log ("called instantiate bullet");
+			GameObject bullet = Instantiate (Resources.Load ("Prefabs/Bullet")) as GameObject; //make a bullet
+			BulletController bc = bullet.GetComponent<BulletController>();
+			//make it the type of bullet this thing fires
+			ConfigureBullet (bc);
+			//find your angle
+			float ownangle = this.transform.eulerAngles.z;
+			float angle = (ownangle +  90) % 360 ;
+			angle *= (float)Math.PI / 180;
+			Debug.Log ("original angle: " + angle);
+			float mult = 1f;
+			if (i == 2)
+			{
+				mult = 1.5f; //so it skips the middle and spawns the second one at the 3/4 angle
+			}
+			angle = (angle - (float)Math.PI / 6f) + ((((float)Math.PI / 3f) / (4 /*wideness const*/)) * (i * mult)); //handles spread effect
+			//find where to spawn the bullet
+			float gunDistFromCenter = (float)Math.Sqrt (transform.position.x*transform.position.x + transform.position.y*transform.position.y);
+			gunDistFromCenter += 0.47f;
+			bc.spawnx = gunDistFromCenter * (float)Math.Cos (angle);
+			bc.spawny = gunDistFromCenter * (float)Math.Sin (angle);
+			//Debug.Log (bc.speed);
+			bc.transform.position = new Vector3(bc.spawnx,bc.spawny,bc.transform.position.z);
+			bc.transform.rotation = transform.rotation;
+			bc.vx = bc.speed * (float)Math.Cos(angle);
+			bc.vy = bc.speed * (float)Math.Sin(angle);
+		}
 	}
 	
 	public void SetValuesFromJSON(string filename){

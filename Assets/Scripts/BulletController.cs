@@ -45,6 +45,8 @@ public class BulletController : MonoBehaviour {
 	public float spawnx;
 	public float spawny;
 
+	public GameObject enemyHit; //for use by AoE
+
 	// Use this for initialization
 	void Start () {
 		SpriteRenderer sr = transform.gameObject.GetComponent<SpriteRenderer> ();

@@ -34,6 +34,8 @@ public class TrapController : MonoBehaviour {
 	public float spawnx;
 	public float spawny;
 
+	public GameObject enemyHit; //for use by AoE
+
 	private float age; //age of the trap -- used to determine which of two overlaid traps to destroy
 	
 	// Use this for initialization
