@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class PieceGrid{
 
 	public static readonly int GRID_SIZE = 7;
@@ -13,38 +15,38 @@ public class PieceGrid{
 		public PieceController south = null;
 		public PieceController west = null;
 		
-		public void IsEmpty(){
+		public bool IsEmpty(){
 			return north==null && east==null && south==null && west==null;
 		}
-		public void IsFull(){
+		public bool IsFull(){
 			return north!=null && east!=null && south!=null && west!=null;
 		}
 	}
 	
-	Occupancy[][] grid = new Occupancy[GRID_SIZE][GRID_SIZE];
+	Occupancy[,] grid = new Occupancy[GRID_SIZE,GRID_SIZE];
 	
 	//idk if this will use Start() or a constructor
-	start(){
+	public void Start(){
 		for(int i = 0; i < GRID_SIZE; i++){
 			for(int j = 0; j < GRID_SIZE; j++){
-				grid[i][j] = new Occupancy();
+				grid[i,j] = new Occupancy();
 			}
 		}
 	}
 	
-	public boolean PieceFits(GameObject piece){
-		PieceController p = piece.GetComponent<Piece>();
+	public bool PieceFits(GameObject piece){
+		PieceController p = piece.GetComponent<PieceController>();
 		
 		//figure out where it's going to snap to on the grid
 			//find top left corner of piece sprite as vector3
-		Vector3 topLeftCorner = piece.GetComponent<SpriteRenderer>.bounds.min; //this doesn't account for rotation- fix it
+		Vector3 topLeftCorner = piece.GetComponent<SpriteRenderer>().bounds.min; //this doesn't account for rotation- fix it
 			//find x and y distance of that corner from top left corner of grid
-		float xdist; //ACTUALLY GET
-		float ydist; //ACTUALLY GET
+		float xdist = 0; //ACTUALLY GET
+		float ydist = 0; //ACTUALLY GET
 			//produce vector3 corresponding to position relative to top left of grid
 		Vector3 relativePos = new Vector3(topLeftCorner.x-xdist,topLeftCorner.y-ydist,topLeftCorner.z);
 			//add half grid square length to x and y of vector for rounding purposes
-		float squareWidth; //ACTUALLY GET
+		float squareWidth = 0; //ACTUALLY GET
 		relativePos = new Vector3(relativePos.x + squareWidth/2, relativePos.y + squareWidth/2, relativePos.z);
 			//if either dimension is negative, return false
 		if(relativePos.x < 0.0f || relativePos.y < 0.0f)
@@ -63,7 +65,7 @@ public class PieceGrid{
 			
 		//get 2d int array from piece- ideally by calling an internal method that returns
 		//	an appropriately sized array based on the piece's internal rotation
-		int[][] pieceValues = p.GetArray();
+		int[,] pieceValues = p.GetArray();
 		
 		//make sure its width/height actually fit
 			//if xcounter + length > GRID_SIZE, return false
@@ -72,18 +74,18 @@ public class PieceGrid{
 		//at this point we know it at least fits within the bounds of the grid
 		
 		//compare each grid square
-		for(int i = 0; i < pieceValues.length; i++){
-			for(int j = 0; j < pieceValues[0].length; j++){
-				Occupancy o = grid[ycounter + i][xcounter + j];
-				int shapecode = pieceValues[i][j];
+		for(int i = 0; i < pieceValues.GetLength(0); i++){
+			for(int j = 0; j < pieceValues.GetLength(1); j++){
+				Occupancy o = grid[ycounter + i,xcounter + j];
+				int shapecode = pieceValues[i,j];
 				
 				//do some simple checks
-				if(shapecode == 0 || o.IsEmpty())
+				if(shapecode == 0 || o.IsEmpty()){
 					continue;
-				if(shapecode == 1 && !o.IsEmpty(){
+				}if(shapecode == 1 && !o.IsEmpty()){
 					return false;
 				}
-				if(shapecode != 0 && o.IsFull(){
+				if(shapecode != 0 && o.IsFull()){
 					return false;
 				}
 				

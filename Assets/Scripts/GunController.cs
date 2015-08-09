@@ -366,12 +366,14 @@ public class GunController : MonoBehaviour, EventHandler {
 			img.sprite.rect.width/img.sprite.bounds.size.x);
 		
 		towerType = data ["towerType"] as string;
+		Debug.Log (filename + " tower type is " + towerType);
 		
-		if(filename.Equals("piecetower")){
-			PieceParser.FillController(this,filename);
-			return;
-		}
-		
+		//if(filename.Equals("piecetower")){
+		//	PieceParser.FillController(this,filename);
+		//	return;
+		//}
+		PieceParser.FillController(this,filename);
+		/*
 		cooldownFactor = (float)(double)data["cooldownFactor"];
 		maxcool = DEF_COOLDOWN * cooldownFactor;
 		dmg = (float)(double)data ["dmg"];
@@ -392,7 +394,7 @@ public class GunController : MonoBehaviour, EventHandler {
 		splitCount = (int)(double)data ["doesSplit"];
 		homingStrength = (float)(double)data ["isHoming"];
 		arcDmg = (float)(double)data ["doesArc"];
-		shieldHP = (float)(double)data ["shieldHP"];
+		shieldHP = (float)(double)data ["shieldHP"];*/
 	}
 	
 	//Assigns skill values to bullets
