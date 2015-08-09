@@ -171,6 +171,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 			if (bc != null) {
 				if (bc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
 				{
+					bc.enemyHit = this.gameObject;
 					StartCoroutine (StatusEffectsBullet (bc));
 					hp -= bc.dmg;
 					bc.Collide();
@@ -187,6 +188,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 			if (tc != null) {
 				if (tc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
 				{
+					tc.enemyHit = this.gameObject;
 					StartCoroutine (StatusEffectsTrap (tc));
 					hp -= tc.dmg;
 					tc.Collide();
@@ -207,10 +209,13 @@ public class EnemyController : MonoBehaviour,EventHandler {
 			AoEController ac = obj.GetComponent<AoEController>();
 			if (ac.parent == "Bullet")
 			{
-				BulletController bc = ac.aoeBulletCon;
-				if (bc != null) {
+				if (ac.aoeBulletCon.enemyHit != this.gameObject) //if this isn't the enemy originally hit
+				{
+					//Debug.Log ("parent is bullet@");
+					BulletController bc = ac.aoeBulletCon;
 					StartCoroutine (StatusEffectsBullet (bc));
 					hp -= bc.dmg;
+					Debug.Log ("damage taken: " + bc.dmg);
 					//timesShot++;
 					if(hp <= 0){
 						Die ();
@@ -219,8 +224,9 @@ public class EnemyController : MonoBehaviour,EventHandler {
 			}
 			else if (ac.parent == "Trap")
 			{
-				TrapController tc = ac.aoeTrapCon;
-				if (tc != null) {
+				if (ac.aoeTrapCon.enemyHit != this.gameObject) //if this isn't the enemy originally hit
+				{
+					TrapController tc = ac.aoeTrapCon;
 					StartCoroutine (StatusEffectsTrap (tc));
 					hp -= tc.dmg;
 					if(hp <= 0){

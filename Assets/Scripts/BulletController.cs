@@ -24,12 +24,12 @@ public class BulletController : MonoBehaviour {
 	public float lifeDrain; //lifedrain on enemy
 	public float slowdown; //enemy slowdown
 	public float slowDur; //how long slowdown lasts
+	public float splash; //percentage of fx to transfer to hits
+	public float splashRad; //radius of splash damage
 
 	//BEING WORKED ON
 
 	public float splitCount; //number of pieces it splits into
-	public float splash; //percentage of fx to transfer to hits
-	public float splashRad; //radius of splash damage
 	public float penetration; //ignores this amount of enemy shield
 	public float shieldShred; //lowers enemy shield's max value by this
 	public float homingStrength; //strength of homing effect
@@ -44,6 +44,8 @@ public class BulletController : MonoBehaviour {
 	public float vy;
 	public float spawnx;
 	public float spawny;
+
+	public GameObject enemyHit; //for use by AoE
 
 	// Use this for initialization
 	void Start () {
@@ -104,6 +106,7 @@ public class BulletController : MonoBehaviour {
 					ac.parent = "Bullet";
 					dmg += arcDmg;
 					ac.aoeBulletCon = this;
+					ac.ScaleProps(splash);
 				}
 				else //normal cone splash
 				{
@@ -119,10 +122,14 @@ public class BulletController : MonoBehaviour {
 					                                               gameObject.transform.rotation.w);*/
 					AoEController ac = splashCone.GetComponent<AoEController>();
 					ac.scale = splashRad;
+					Debug.Log ("old splash damage: " + dmg);
+					Debug.Log ("old splash lifedrain: " + lifeDrain);
 					//Debug.Log ("splashRad is " + splashRad);
 					ac.parent = "Bullet";
-					dmg += arcDmg;
 					ac.aoeBulletCon = this;
+					ac.ScaleProps(splash);
+					Debug.Log ("new splash damage: " + ac.aoeBulletCon.dmg);
+					Debug.Log ("new splash life: " + ac.aoeBulletCon.lifeDrain);
 				}
 			}
 		}
