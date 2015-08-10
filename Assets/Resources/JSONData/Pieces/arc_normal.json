@@ -7,7 +7,7 @@
 	"lifeDrain":0.0,
 	"poison":0.0,
 	"poisonDur":0.0,
-	"splash":0.0,
+	"splash":0.15,
 	"stun":0.0,
 	"slowdownMin":0.0,
 	"slowdownMax":0.0,

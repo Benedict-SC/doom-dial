@@ -173,7 +173,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 				{
 					bc.enemyHit = this.gameObject;
 					StartCoroutine (StatusEffectsBullet (bc));
-					hp -= bc.dmg;
+					hp -= bc.dmg + bc.arcDmg;
 					bc.Collide();
 					timesShot++;
 					if(hp <= 0){

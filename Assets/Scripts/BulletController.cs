@@ -38,7 +38,7 @@ public class BulletController : MonoBehaviour {
 	 * End of attributes passed from tower
 	 */
 
-	private bool isActive; //for use by arcing projectiles
+	private bool isActive = true; //for use by arcing projectiles
 
 	public float vx;
 	public float vy;
@@ -47,13 +47,21 @@ public class BulletController : MonoBehaviour {
 
 	public GameObject enemyHit; //for use by AoE
 
+	CircleCollider2D collide2D;
+
 	// Use this for initialization
 	void Start () {
 		SpriteRenderer sr = transform.gameObject.GetComponent<SpriteRenderer> ();
 		float radius = sr.bounds.size.x / 2;
 		CircleCollider2D collider = transform.gameObject.GetComponent<CircleCollider2D> ();
 		collider.radius = radius;
+		collide2D = collider;
 		//Debug.Log ("bullet radius is: " + radius);
+		if (arcDmg > 0)
+		{
+			isActive = false;
+			collider.enabled = false;
+		}
 	}
 	
 	// Update is called once per frame
@@ -72,6 +80,11 @@ public class BulletController : MonoBehaviour {
 		float distance = (float)Math.Sqrt ((this.transform.position.x - spawnx) * (this.transform.position.x - spawnx)
 						+ (this.transform.position.y - spawny) * (this.transform.position.y - spawny));
 		//Debug.Log ("distance is " + distance + " and range is " + (range*TRACK_LENGTH) );
+		if (distance > (range * TRACK_LENGTH) - 0.5f) //give a bit of a window for an arcing projectile hitting
+		{
+			isActive = true;
+			collide2D.enabled = true;
+		}
 		if(distance > range * TRACK_LENGTH){
 			Debug.Log ("we somehow destroyed ourselves / at (" + transform.position.x + "," + transform.position.y + ")");
 			Collide (); //destroys itself and begins any post-death status effects
@@ -138,7 +151,7 @@ public class BulletController : MonoBehaviour {
 	}
 
 	public bool CheckActive(){
-		return true;
+		return isActive;
 	}
 
 }
