@@ -1,12 +1,12 @@
 {
-	"imgfile":"Piece_Damage_SR",
+	"imgfile":"Piece_LifeDrain_R",
 
 	"cooldownFactor":0.0,
-	"dmg":20.0,
-	"speed":0.1,
+	"dmg":0.0,
+	"speed":0.0,
 	"range":0.0,
 	"knockback":0.0,
-	"lifeDrain":0.0,
+	"lifeDrain":0.2,
 	"poison":0.0,
 	"splash":0.0,
 	"stun":0.0,
@@ -19,12 +19,11 @@
 	"homing":0.0,
 	"arc":0.0,
 	
-	"width":2,
-	"height":4,
+	"width":1,
+	"height":3,
 	"blockMap": [
-		[5,0],
-		[1,4],
-		[1,1],
-		[1,1]
+		[4],
+		[1],
+		[2]
 	]
 }

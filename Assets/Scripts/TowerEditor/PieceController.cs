@@ -14,7 +14,6 @@ public class PieceController : MonoBehaviour{
 	int[,] codes;
 	
 	public void Start(){
-		ConfigureFromJSON("slow_normal");
 	}
 	public void Update(){
 	
@@ -28,7 +27,7 @@ public class PieceController : MonoBehaviour{
 		string imgfilename = (string)data["imgfile"];
 		Debug.Log (imgfilename);
 		SpriteRenderer img = transform.gameObject.GetComponent<SpriteRenderer> ();
-		Texture2D decal = Resources.Load<Texture2D> ("Sprites/" + imgfilename);
+		Texture2D decal = Resources.Load<Texture2D> ("Sprites/PieceSprites/" + imgfilename);
 		if (decal == null)
 			Debug.Log("decal is null");
 		img.sprite = UnityEngine.Sprite.Create (
@@ -50,6 +49,28 @@ public class PieceController : MonoBehaviour{
 			}
 		}
 		//PrintArray(GetArray ());
+	}
+	public void SetRotation(int rot){
+		rotation = rot;
+		rot = (360-rot)%360;
+		transform.eulerAngles = new Vector3(transform.rotation.eulerAngles.x,transform.rotation.eulerAngles.y,rot);
+	}
+	public Vector3 GetTopLeftCorner(){
+		SpriteRenderer sprite = transform.gameObject.GetComponent<SpriteRenderer>();
+		return new Vector3(sprite.bounds.min.x,sprite.bounds.max.y,transform.position.z);
+		//all this stuff was supposed to compensate for rotation, but it apparently doesn't matter
+		/*if(rotation == 0){
+			return sprite.bounds.min;
+		}else if(rotation == 90){
+			return new Vector3(sprite.bounds.min.x,sprite.bounds.max.y,0f);
+		}else if(rotation == 180){
+			return sprite.bounds.max;
+		}else if(rotation == 270){
+			return new Vector3(sprite.bounds.max.x,sprite.bounds.max.y,0f);
+		}else{
+			Debug.Log ("piece has rotation that should be impossible");
+			return sprite.bounds.min;
+		}*/
 	}
 	public static void PrintArray(int[,] array){
 		string arrayPrint = "[\n";
@@ -80,8 +101,9 @@ public class PieceController : MonoBehaviour{
 			int[,] result = new int[codes.GetLength(1),codes.GetLength(0)];
 			for(int i = 0; i < result.GetLength(0); i++){
 				for(int j = 0; j < result.GetLength(1); j++){
-					int ycoord = codes.GetLength(1)-1-j;
+					int ycoord = codes.GetLength(0)-1-j;
 					int xcoord = i;
+					//Debug.Log(ycoord + ", " + xcoord);
 					int codeAtLocation = codes[ycoord,xcoord];
 					//Debug.Log ("i=" + i + ",j="+j + " is " + ycoord + ", " + xcoord + " (" + codeAtLocation + ")");
 					//rotate half blocks
@@ -96,7 +118,7 @@ public class PieceController : MonoBehaviour{
 			}
 			return result;
 		}else if(rotation == 180){
-			int[,] result = new int[codes.GetLength(1),codes.GetLength(0)];
+			int[,] result = new int[codes.GetLength(0),codes.GetLength(1)];
 			for(int i = 0; i < result.GetLength(0); i++){
 				for(int j = 0; j < result.GetLength(1); j++){
 					int codeAtLocation = codes[codes.GetLength(0)-1-i,codes.GetLength(1)-1-j];
@@ -115,7 +137,7 @@ public class PieceController : MonoBehaviour{
 			int[,] result = new int[codes.GetLength(1),codes.GetLength(0)];
 			for(int i = 0; i < result.GetLength(0); i++){
 				for(int j = 0; j < result.GetLength(1); j++){
-					int codeAtLocation = codes[j,codes.GetLength(0)-1-i];
+					int codeAtLocation = codes[j,codes.GetLength(1)-1-i];
 					//rotate half blocks
 					if(codeAtLocation > 1){
 						codeAtLocation += 3;

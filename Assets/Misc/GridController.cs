@@ -1,4 +1,7 @@
 using UnityEngine;
+using MiniJSON;
+using System.Collections.Generic;
+using System.IO;
 
 public class GridController : MonoBehaviour{
 
@@ -26,10 +29,14 @@ public class GridController : MonoBehaviour{
 	Occupancy[,] grid = new Occupancy[GRID_SIZE,GRID_SIZE];
 	SpriteRenderer[,] overlays = new SpriteRenderer[GRID_SIZE,GRID_SIZE];
 	
+	List<PieceController> allPieces = new List<PieceController>();
+	
 	int xcounter = -1;
 	int ycounter = -1;
 	
 	float squareWidth;
+	Vector3 gridCorner;
+	float gridLength;
 	
 	Sprite blank;
 	Sprite full;
@@ -40,13 +47,15 @@ public class GridController : MonoBehaviour{
 	
 	public void Start(){
 		SpriteRenderer gridSprite = transform.gameObject.GetComponent<SpriteRenderer>();
-		squareWidth = gridSprite.bounds.size.x / (float)GRID_SIZE;
+		gridCorner = gridSprite.bounds.min;
+		gridLength = gridSprite.bounds.size.x;
+		squareWidth = gridLength / (float)GRID_SIZE;
 		for(int i = 0; i < GRID_SIZE; i++){
 			for(int j = 0; j < GRID_SIZE; j++){
 				grid[i,j] = new Occupancy();
 				GameObject go = Instantiate (Resources.Load ("Prefabs/ValidOverlay")) as GameObject;
-				go.transform.position = new Vector3(gridSprite.bounds.min.x + (squareWidth/2) + j*squareWidth,
-				                           gridSprite.bounds.min.y + (squareWidth/2) + i*squareWidth,
+				go.transform.position = new Vector3(gridCorner.x + (squareWidth/2) + j*squareWidth,
+				                           gridCorner.y + gridLength - (squareWidth/2) - i*squareWidth,
 				                           go.transform.position.z);
 				overlays[i,j] = go.GetComponent<SpriteRenderer>();
 			}
@@ -94,6 +103,12 @@ public class GridController : MonoBehaviour{
 			new Rect(0,0,tSW.width,tSW.height),
 			new Vector2(0.5f,0.5f),
 			80f);
+			
+		PieceController piece = GameObject.Find ("Piece").GetComponent<PieceController>();
+		piece.ConfigureFromJSON("damage_super");
+		piece.SetRotation(180);
+		
+		LoadTower("drainpunch");
 	}
 	public void Update(){
 		GameObject piece = GameObject.Find ("Piece"); //this is not how we will get the piece. doing a find every timestep is a bad idea
@@ -152,9 +167,7 @@ public class GridController : MonoBehaviour{
 			return 0;
 		}else{
 			//Debug.Log("i-y:" + i + "-" + y + " j-x:" + j + "-" + x);
-			return pieceValues[pieceValues.GetLength (0)-1-(i-y),j-x];
-			//WARNING: I HAVE NO IDEA WHY I HAVE TO MIRROR THE Y COORDINATE HERE. 
-			//IT SHOULDN'T HAPPEN AND INDICATES THAT SOMETHING MAY BE CRITICALLY FUCKED UP.
+			return pieceValues[/*pieceValues.GetLength (0)-1-*/(i-y),j-x];
 		}
 	}
 	
@@ -163,23 +176,14 @@ public class GridController : MonoBehaviour{
 		
 		//figure out where it's going to snap to on the grid
 			//find top left corner of piece sprite as vector3
-		Vector3 topLeftCorner = new Vector3(0f,0f,0f);
+		Vector3 topLeftCorner = p.GetTopLeftCorner();
+		topLeftCorner = new Vector3(topLeftCorner.x,topLeftCorner.y+gridLength,topLeftCorner.z);
 		SpriteRenderer sprite = piece.GetComponent<SpriteRenderer>();
-		if(p.GetRotation() == 0){
-			topLeftCorner = sprite.bounds.min;
-		}else if(p.GetRotation() == 90){
-			topLeftCorner = new Vector3(sprite.bounds.min.x,sprite.bounds.max.y,0f);
-		}else if(p.GetRotation() == 180){
-			topLeftCorner = sprite.bounds.max;
-		}else if(p.GetRotation() == 270){
-			topLeftCorner = new Vector3(sprite.bounds.max.x,sprite.bounds.max.y,0f);
-		}
 		
 			//find x and y distance of that corner from top left corner of grid
-		SpriteRenderer gridSprite = transform.gameObject.GetComponent<SpriteRenderer>();
-		Vector3 gridCorner = gridSprite.bounds.min;
+		//SpriteRenderer gridSprite = transform.gameObject.GetComponent<SpriteRenderer>();
 		float xdist = topLeftCorner.x - gridCorner.x;
-		float ydist = topLeftCorner.y - gridCorner.y;
+		float ydist = topLeftCorner.y - (gridCorner.y + gridLength + squareWidth); //THIS IS BAD
 			//produce vector3 corresponding to position relative to top left of grid
 		Vector3 relativePos = new Vector3(xdist,ydist,topLeftCorner.z);
 			//add half grid square length to x and y of vector for rounding purposes
@@ -199,8 +203,11 @@ public class GridController : MonoBehaviour{
 		}
 		
 		//if either dimension is negative, return false
+		ycounter = GRID_SIZE-1-ycounter;
+		//Debug.Log (ycounter);
 		if(ycounter < 0 || xcounter < 0)
 			return false;
+		
 		//counters are now the grid coordinates, probably
 		
 			//make sure its width/height actually fit
@@ -247,6 +254,57 @@ public class GridController : MonoBehaviour{
 		return true;
 	}
 	
-	
+	public void LoadTower(string filename){
+		FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Towers",filename);
+		string json = fl.Read ();
+		Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
+		
+		List<System.Object> pieces = data["pieces"] as List<System.Object>;
+		foreach(System.Object pObj in pieces){
+			Dictionary<string,System.Object> pdata = pObj as Dictionary<string,System.Object>;
+			int x = (int)(long)pdata["anchorX"];
+			int y = (int)(long)pdata["anchorY"];
+			int rot = (int)(long)pdata["rotation"];
+			string piecefile = (string)pdata["pieceFilename"];
+			
+			GameObject go = Instantiate (Resources.Load ("Prefabs/ExistingPiece")) as GameObject;
+			PieceController p = go.GetComponent<PieceController>();
+			p.ConfigureFromJSON(piecefile);
+			p.SetRotation(rot);
+			allPieces.Add(p);
+			
+			SpriteRenderer sr = go.GetComponent<SpriteRenderer>();
+			Vector3 gridTopCorner = new Vector3(gridCorner.x,gridCorner.y+gridLength,gridCorner.z);
+			go.transform.position = gridTopCorner + new Vector3(squareWidth*x + sr.bounds.extents.x,
+																-squareWidth*y - sr.bounds.extents.y,
+																transform.position.z);
+																
+			int[,] values = p.GetArray(); //we assume all pieces fit- no error checking
+			for(int i = 0; i < values.GetLength(0); i++){
+				for(int j = 0; j < values.GetLength(1);j++){
+					int value = values[i,j];
+					Occupancy o = grid[y+i,x+j];
+					if(value == 1){
+						o.north = p;
+						o.east = p;
+						o.south = p;
+						o.west = p;
+					}else if(value == PieceController.NORTHWEST_CODE){
+						o.north = p;
+						o.west = p;
+					}else if(value == PieceController.NORTHEAST_CODE){
+						o.north = p;
+						o.east = p;
+					}else if(value == PieceController.SOUTHEAST_CODE){
+						o.east = p;
+						o.south = p;
+					}else if(value == PieceController.SOUTHWEST_CODE){
+						o.south = p;
+						o.west = p;
+					}
+				}
+			}
+		}		
+	}
 
 }
