@@ -7,7 +7,7 @@ public class LevelSelect : MonoBehaviour, EventHandler {
 	public GameObject startButton;
 	public WorldData WorldData;
 	public GameObject menuButton;
-	string levelName = "LevelHolder";
+	string levelName = "TestScene";
 	int lastPosition = 1;
 	// Use this for initialization
 	void Start () {
@@ -26,7 +26,7 @@ public class LevelSelect : MonoBehaviour, EventHandler {
 				//sees if ray collided with the start button
 				if (targetFind.collider.gameObject == startButton) {
 					
-					//Application.LoadLevel(levelName);
+					Application.LoadLevel(levelName);
 				}
 				if (targetFind.collider.gameObject == menuButton) {
 					Debug.Log("Test");
@@ -45,22 +45,22 @@ public class LevelSelect : MonoBehaviour, EventHandler {
 				//Sets values for WorldData, the on screen text, and the level that will be loaded
 			case 0:
 				textMesh.GetComponent<TextMesh>().text = WorldData.worldSelected + "-2";
-				WorldData.levelSelected = "2";
+				WorldData.levelSelected = "Level2";
 				levelName = "TestScene";
 				break;
 			case 1:
 				textMesh.GetComponent<TextMesh>().text = WorldData.worldSelected + "-3";
-				WorldData.levelSelected = "3";
+				WorldData.levelSelected = "Level3";
 				levelName = "TestScene";
 				break;
 			case 2:
 				textMesh.GetComponent<TextMesh>().text = WorldData.worldSelected + "-4";
-				WorldData.levelSelected = "4";
+				WorldData.levelSelected = "Level4";
 				levelName = "TestScene";
 				break;
 			case 3:
 				textMesh.GetComponent<TextMesh>().text = WorldData.worldSelected + "-1";
-				WorldData.levelSelected = "1";
+				WorldData.levelSelected = "Level1";
 				levelName = "TestScene";
 				break;
 			default:

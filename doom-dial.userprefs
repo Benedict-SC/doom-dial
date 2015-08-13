@@ -1,17 +1,19 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\WorldSelect.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MenuClickScript.cs">
     <Files>
-      <File FileName="Assets\Scripts\WorldSelect.cs" Line="53" Column="67" />
-      <File FileName="Assets\Scripts\MenuSpinScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GunController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\SpinScript.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\WaveManager.cs" Line="25" Column="4" />
+      <File FileName="Assets\Scripts\WorldSelect.cs" Line="10" Column="2" />
       <File FileName="Assets\Scripts\Events\EventHandler.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Events\EventManager.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\InputWatcher.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\ButtonController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MenuClickScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\WorldData.cs" Line="5" Column="9" />
+      <File FileName="Assets\Scripts\MenuClickScript.cs" Line="18" Column="4" />
+      <File FileName="Assets\Scripts\WorldData.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\LevelSelect.cs" Line="29" Column="6" />
+      <File FileName="Assets\Resources\JSONData\Worlds\World1\Level2\wavedata.json" Line="3" Column="25" />
+      <File FileName="Assets\Resources\JSONData\Worlds\World1\Level3\wavedata.json" Line="3" Column="25" />
+      <File FileName="Assets\Resources\JSONData\Worlds\World2\Level1\wavedata.json" Line="3" Column="25" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

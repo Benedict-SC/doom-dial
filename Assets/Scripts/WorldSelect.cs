@@ -43,22 +43,22 @@ public class WorldSelect : MonoBehaviour, EventHandler {
 			switch(menuPosition){
 				//Sets values for WorldData, the on screen text, and the level that will be loaded
 			case 0:
-				worldHolder.GetComponent<WorldData>().worldSelected = "World 2";
+				worldHolder.GetComponent<WorldData>().worldSelected = "World2";
 				textMesh.GetComponent<TextMesh>().text = "World 2";
 				levelName = "LevelSelect";
 				break;
 			case 1:
-				worldHolder.GetComponent<WorldData>().worldSelected = "World 3";
+				worldHolder.GetComponent<WorldData>().worldSelected = "World3";
 				textMesh.GetComponent<TextMesh>().text = "World 3";
 				levelName = "LevelSelect";
 				break;
 			case 2:
-				worldHolder.GetComponent<WorldData>().worldSelected = "World 4";
+				worldHolder.GetComponent<WorldData>().worldSelected = "World4";
 				textMesh.GetComponent<TextMesh>().text = "World 4";
 				levelName = "LevelSelect";
 				break;
 			case 3:
-				worldHolder.GetComponent<WorldData>().worldSelected = "World 1";
+				worldHolder.GetComponent<WorldData>().worldSelected = "World1";
 				textMesh.GetComponent<TextMesh>().text = "World 1";
 				levelName = "LevelSelect";
 				break;

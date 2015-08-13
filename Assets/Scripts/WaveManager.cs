@@ -11,17 +11,22 @@ public class WaveManager : MonoBehaviour {
 	Wave activeWave;
 	int activeWaveIndex;
 	TrackController ring;
-
+	string worldVar = "World1";
+	string levelVar = "Level1";
+	public WorldData WorldData;
 	bool onBreather = false;
 
 	// Use this for initialization
 	void Start () {
+		WorldData = GameObject.FindWithTag ("DataHolder").GetComponent<WorldData> ();
 		ring = GameObject.Find ("OuterRing").gameObject.GetComponent<TrackController>();
-
+		if (WorldData) {
+			setLocations (WorldData.worldSelected, WorldData.levelSelected);
+		}
 		waves = new List<Wave> ();
 
 		//do a ton of JSON parsing
-		FileLoader leveldata = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Levels", "testlevel");
+		FileLoader leveldata = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Worlds" + Path.DirectorySeparatorChar + worldVar + Path.DirectorySeparatorChar + levelVar, "wavedata");
 		Dictionary<string,System.Object> levelraw = Json.Deserialize (leveldata.Read ()) as Dictionary<string,System.Object>;
 		List<System.Object> wavesdata = levelraw ["waves"] as List<System.Object>;
 		foreach (System.Object thing in wavesdata) {
@@ -84,5 +89,9 @@ public class WaveManager : MonoBehaviour {
 			timer.Restart();
 			onBreather = true;
 		}
+	}
+	public void setLocations(string world, string level){
+		worldVar = world;
+		levelVar = level;
 	}
 }
