@@ -45,7 +45,7 @@ public class GridController : MonoBehaviour{
 	Sprite se;
 	Sprite sw;
 	
-	public EditorController editor = null;
+	//public EditorController editor = null;
 	
 	public void Start(){
 		SpriteRenderer gridSprite = transform.gameObject.GetComponent<SpriteRenderer>();
@@ -109,7 +109,7 @@ public class GridController : MonoBehaviour{
 		LoadTower("drainpunch");
 	}
 	public void Update(){
-		PieceController p = editor.GetFloatingPiece();
+		PieceController p = EditorController.GetFloatingPiece();
 		if(p == null)
 			return;
 		int[,] pieceValues = p.GetArray(); //do it here so we only have to call this once

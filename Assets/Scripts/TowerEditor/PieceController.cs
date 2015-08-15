@@ -9,7 +9,9 @@ public class PieceController : MonoBehaviour, EventHandler{
 	public static readonly int NORTHEAST_CODE = 3;
 	public static readonly int SOUTHEAST_CODE = 4;
 	public static readonly int SOUTHWEST_CODE = 5;
-	
+
+	string file = "";
+			
 	int rotation = 0;
 	int[,] codes;
 	
@@ -46,13 +48,65 @@ public class PieceController : MonoBehaviour, EventHandler{
 			moving = false;
 		}
 	}
-	bool TouchIsOnMe(Vector3 touchpos){
+	public bool TouchIsOnMe(Vector3 touchpos){
+		PieceController floatcheck = EditorController.GetFloatingPiece();
+		if(floatcheck != this && floatcheck != null){
+			if(floatcheck.TouchIsOnMe(touchpos))
+				return false;
+		}	
+	
 		SpriteRenderer sr = transform.gameObject.GetComponent<SpriteRenderer>();
-		return sr.bounds.IntersectRay(new Ray(touchpos,transform.forward));
-		//will need more complicated logic for concave pieces
+		
+		bool rectangleOverlap = sr.bounds.IntersectRay(new Ray(touchpos,transform.forward));
+		if(!rectangleOverlap)
+			return false;
+		//find local x and y of touch
+		int[,] contents = GetArray ();
+		float squareWidth = sr.bounds.size.y / (float)contents.GetLength(0);
+		Vector3 relativePos = new Vector3(touchpos.x - sr.bounds.min.x, sr.bounds.max.y - touchpos.y,transform.position.z);
+		//Debug.Log (relativePos.x + ", " + relativePos.y);
+		//Debug.Log (squareWidth);
+		int xcount = -1;
+		int ycount = -1;
+		while(relativePos.x >= 0){
+			relativePos = new Vector3(relativePos.x - squareWidth,relativePos.y,relativePos.z);
+			xcount++;
+		}
+		while(relativePos.y >= 0){
+			relativePos = new Vector3(relativePos.x,relativePos.y - squareWidth,relativePos.z);
+			ycount++;
+		}
+		Debug.Log(file + rotation + " x and y: " + xcount + ", " + ycount);
+		int code = contents[ycount,xcount];
+		bool result = TouchHelper (relativePos,squareWidth,code);
+			
+		return result;
+		
+	}
+	private bool TouchHelper(Vector3 relativePos, float squareWidth, int code){
+		if(code == 0)
+			return false;
+		if(code == 1)
+			return true;
+		Vector3 internalPos = new Vector3(relativePos.x + squareWidth, relativePos.y + squareWidth, relativePos.z);
+		if(code == NORTHWEST_CODE){
+			return (internalPos.x + internalPos.y < squareWidth);
+		}
+		if(code == NORTHEAST_CODE){
+			return (internalPos.x + (squareWidth - internalPos.y) > squareWidth);
+		}
+		if(code == SOUTHEAST_CODE){
+			return (internalPos.x + internalPos.y > squareWidth);
+		}
+		if(code == SOUTHWEST_CODE){
+			return (internalPos.x + (squareWidth - internalPos.y) < squareWidth);
+		}
+		Debug.Log ("the shape code is wrong");
+		return false;
 	}
 	
 	public void ConfigureFromJSON(string filename){
+		file = filename;
 		FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Pieces",filename);
 		string json = fl.Read ();
 		Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);

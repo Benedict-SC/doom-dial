@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class EditorController : MonoBehaviour,EventHandler{
 
-	PieceController floatingPiece = null;
+	static PieceController floatingPiece = null; //yeah, making this static is cheating, but whatever
 	GridController grid;
 	
 	public void Start(){
 		grid = GameObject.Find("Grid").GetComponent<GridController>();
-		grid.editor = this;
+		//grid.editor = this;
 		
 		EventManager em = EventManager.Instance();
 		em.RegisterForEventType("piece_tapped",this);
@@ -39,12 +39,13 @@ public class EditorController : MonoBehaviour,EventHandler{
 		if(floatingPiece != null){
 			Destroy (floatingPiece.gameObject); //ACTUALLY RETURN TO INVENTORY, DON'T DESTROY
 		}
+		//p.transform.position = new Vector3(p.transform.position.x,p.transform.position.y,-1f);
 		floatingPiece = p;
 		p.SetGridLock(false);
 		grid.RemovePiece(p);
 	}
 	
-	public PieceController GetFloatingPiece(){
+	public static PieceController GetFloatingPiece(){
 		return floatingPiece;
 	}
 }
