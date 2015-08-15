@@ -3,7 +3,7 @@ using System.Collections;
 
 public class InputWatcher : MonoBehaviour {
 
-	public static readonly bool INPUT_DEBUG = false;
+	public static readonly bool INPUT_DEBUG = true;
 
 	// Use this for initialization
 	void Start () {
@@ -24,6 +24,11 @@ public class InputWatcher : MonoBehaviour {
 						GameEvent releaseEvent = new GameEvent ("mouse_release");
 						releaseEvent.addArgument (GetInputPosition ());
 						EventManager.Instance ().RaiseEvent (releaseEvent);
+						if(tapLengthWatcher.TimeElapsedMillis() < 200){
+							GameEvent tapEvent = new GameEvent("tap");
+							tapEvent.addArgument(GetInputPosition());
+							EventManager.Instance().RaiseEvent(tapEvent);
+						}
 					}
 				} else {
 					bool down = Input.GetMouseButton (0);
@@ -32,6 +37,7 @@ public class InputWatcher : MonoBehaviour {
 						GameEvent clickEvent = new GameEvent ("mouse_click");
 						clickEvent.addArgument (GetInputPosition ());
 						EventManager.Instance ().RaiseEvent (clickEvent);
+						tapLengthWatcher.Restart();
 					}
 				}
 		} else {
