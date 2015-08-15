@@ -3,13 +3,13 @@ using System.Collections;
 
 public class InputWatcher : MonoBehaviour {
 
-	public static readonly bool INPUT_DEBUG = true;
+	public static readonly bool INPUT_DEBUG = false;
 
 	// Use this for initialization
 	void Start () {
-	
+		tapLengthWatcher = new Timer();
 	}
-
+	private Timer tapLengthWatcher;
 	private bool isdown = false;
 	private TouchPhase lastPhase = TouchPhase.Ended;
 
@@ -36,6 +36,8 @@ public class InputWatcher : MonoBehaviour {
 				}
 		} else {
 			//first handle the main touch
+			if(Input.touchCount < 1)
+				return;
 			Touch main = Input.GetTouch(0);
 			switch(main.phase){
 				case TouchPhase.Began:
@@ -45,6 +47,8 @@ public class InputWatcher : MonoBehaviour {
 				clickEvent.addArgument (GetInputPosition ());
 				EventManager.Instance ().RaiseEvent (clickEvent);
 				lastPhase = TouchPhase.Began;
+				//start timer for taps
+				tapLengthWatcher.Restart();
 				break;
 				case TouchPhase.Ended:
 				if(lastPhase.Equals(TouchPhase.Ended) || lastPhase.Equals (TouchPhase.Canceled))
@@ -53,6 +57,11 @@ public class InputWatcher : MonoBehaviour {
 				clickEvent2.addArgument (GetInputPosition ());
 				EventManager.Instance ().RaiseEvent (clickEvent2);
 				lastPhase = TouchPhase.Ended;
+				if(tapLengthWatcher.TimeElapsedMillis() < 200){
+					GameEvent tapEvent = new GameEvent("tap");
+					tapEvent.addArgument(GetInputPosition());
+					EventManager.Instance().RaiseEvent(tapEvent);
+				}
 				break;
 				case TouchPhase.Canceled:
 				if(lastPhase.Equals(TouchPhase.Ended) || lastPhase.Equals (TouchPhase.Canceled))
@@ -61,6 +70,11 @@ public class InputWatcher : MonoBehaviour {
 				clickEvent3.addArgument (GetInputPosition ());
 				EventManager.Instance ().RaiseEvent (clickEvent3);
 				lastPhase = TouchPhase.Canceled;
+				if(tapLengthWatcher.TimeElapsedMillis() < 200){
+					GameEvent tapEvent = new GameEvent("tap");
+					tapEvent.addArgument(GetInputPosition());
+					EventManager.Instance().RaiseEvent(tapEvent);
+				}
 				break;
 				default:
 				break;
@@ -82,7 +96,7 @@ public class InputWatcher : MonoBehaviour {
 		}
 	}
 
-	public static Vector3 GetTouchPosition(){
+	public static Vector3 GetTouchPosition(){ //??? what's this secondary thing doing here? it doesn't convert the thing?
 		if (INPUT_DEBUG) { //return mouse position in world
 			return Input.mousePosition;
 		} else { //return first finger position in world, or null if no touches exist
@@ -91,7 +105,7 @@ public class InputWatcher : MonoBehaviour {
 			/*if(t == null)
 				return null;
 			else*/
-			return Input.GetTouch(0).position;
+			return t.position;
 		}
 	}
 	

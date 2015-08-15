@@ -46,7 +46,6 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Misc\GridController.cs" />
      <Compile Include="Assets\Misc\TouchTester.cs" />
      <Compile Include="Assets\Scripts\AoEController.cs" />
      <Compile Include="Assets\Scripts\BulletController.cs" />
@@ -78,6 +77,8 @@
      <Compile Include="Assets\Scripts\ShieldController.cs" />
      <Compile Include="Assets\Scripts\SpinScript.cs" />
      <Compile Include="Assets\Scripts\Timer.cs" />
+     <Compile Include="Assets\Scripts\TowerEditor\EditorController.cs" />
+     <Compile Include="Assets\Scripts\TowerEditor\GridController.cs" />
      <Compile Include="Assets\Scripts\TowerEditor\PieceController.cs" />
      <Compile Include="Assets\Scripts\TrackController.cs" />
      <Compile Include="Assets\Scripts\TrapController.cs" />

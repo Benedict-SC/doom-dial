@@ -10,6 +10,9 @@ using System.Collections.Generic;
  * enemy_arrived
  * warning
  * piece_dropped
+ *
+ * tap
+ * piece_tapped
  */
 
 public class EventManager{
@@ -72,7 +75,7 @@ public class EventManager{
 						Debug.Log ("Null handler for event type " + s);
 						continue;
 					}
-					Debug.Log (eh.ToString());
+					//Debug.Log (eh.ToString());
 					GameObject go = ((MonoBehaviour)eh).gameObject;
 					if(go != null && !go.Equals(null)){ //in case a listener has been destroyed
 						eh.HandleEvent(ge);

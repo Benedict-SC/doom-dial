@@ -45,6 +45,8 @@ public class GridController : MonoBehaviour{
 	Sprite se;
 	Sprite sw;
 	
+	public EditorController editor = null;
+	
 	public void Start(){
 		SpriteRenderer gridSprite = transform.gameObject.GetComponent<SpriteRenderer>();
 		gridCorner = gridSprite.bounds.min;
@@ -103,18 +105,15 @@ public class GridController : MonoBehaviour{
 			new Rect(0,0,tSW.width,tSW.height),
 			new Vector2(0.5f,0.5f),
 			80f);
-			
-		PieceController piece = GameObject.Find ("Piece").GetComponent<PieceController>();
-		piece.ConfigureFromJSON("damage_super");
-		piece.SetRotation(180);
 		
 		LoadTower("drainpunch");
 	}
 	public void Update(){
-		GameObject piece = GameObject.Find ("Piece"); //this is not how we will get the piece. doing a find every timestep is a bad idea
-		PieceController p = piece.GetComponent<PieceController>();
+		PieceController p = editor.GetFloatingPiece();
+		if(p == null)
+			return;
 		int[,] pieceValues = p.GetArray(); //do it here so we only have to call this once
-		if(PieceFits (piece,pieceValues)){
+		if(PieceFits (p.gameObject,pieceValues)){
 			//xcounter and ycounter should be the grid coordinates of the piece drop location
 			for(int i = 0; i < GRID_SIZE; i++){
 				for(int j = 0; j < GRID_SIZE; j++){
@@ -269,6 +268,7 @@ public class GridController : MonoBehaviour{
 			
 			GameObject go = Instantiate (Resources.Load ("Prefabs/ExistingPiece")) as GameObject;
 			PieceController p = go.GetComponent<PieceController>();
+			p.SetGridLock(true);
 			p.ConfigureFromJSON(piecefile);
 			p.SetRotation(rot);
 			allPieces.Add(p);
@@ -305,6 +305,76 @@ public class GridController : MonoBehaviour{
 				}
 			}
 		}		
+	}
+	public void RemovePiece(PieceController pc){
+		allPieces.Remove(pc);
+		for(int i = 0; i < GRID_SIZE; i++){
+			for(int j = 0; j < GRID_SIZE; j++){
+				Occupancy o = grid[i,j];
+				if(o.north == pc)
+					o.north = null;
+				if(o.east == pc)
+					o.east = null;
+				if(o.south == pc)
+					o.south = null;
+				if(o.west == pc)
+					o.west = null;
+			}
+		}
+	}
+	int drop_xcounter = -1;
+	int drop_ycounter = -1;
+	
+	public bool TryAddPiece(PieceController pc){
+		bool fits = PieceFits(pc.gameObject,pc.GetArray());
+		
+		if(!fits){
+			Debug.Log ("didn't fit");
+			return false;
+		}
+		
+		int[,] pieceValues = pc.GetArray();
+		//we've gone through and there've been no collisions
+		//actually add the piece
+		allPieces.Add(pc);
+		for(int i = 0; i < pieceValues.GetLength(0); i++){
+			for(int j = 0; j < pieceValues.GetLength(1); j++){
+				Occupancy o = grid[ycounter + i,xcounter + j];
+				int shapecode = pieceValues[i,j];
+				if(shapecode == 0){
+					continue;
+				}if(shapecode == 1){
+					o.north = pc;
+					o.east = pc;
+					o.south = pc;
+					o.west = pc;
+				}if(shapecode == NORTHWEST_CODE){
+					o.north = pc;
+					o.west = pc;
+				}if(shapecode == NORTHEAST_CODE){
+					o.north = pc;
+					o.east = pc;
+				}if(shapecode == SOUTHEAST_CODE){
+					o.south = pc;
+					o.east = pc;
+				}if(shapecode == SOUTHWEST_CODE){
+					o.south = pc;
+					o.west = pc;
+				}
+				
+			}
+		}
+		SpriteRenderer sr = pc.gameObject.GetComponent<SpriteRenderer>();
+		pc.gameObject.transform.position = new Vector3(xcounter*squareWidth + gridCorner.x + sr.bounds.extents.x,
+													gridCorner.y + gridLength - (ycounter*squareWidth) - sr.bounds.extents.y,
+													pc.transform.position.z);
+		for(int i = 0; i < GRID_SIZE; i++){
+			for(int j = 0; j < GRID_SIZE; j++){
+				overlays[i,j].sprite = blank;
+			}
+		}
+		Debug.Log ("it fit");
+		return fits;
 	}
 
 }

@@ -3,7 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using MiniJSON;
 
-public class PieceController : MonoBehaviour{
+public class PieceController : MonoBehaviour, EventHandler{
 
 	public static readonly int NORTHWEST_CODE = 2;
 	public static readonly int NORTHEAST_CODE = 3;
@@ -13,10 +13,43 @@ public class PieceController : MonoBehaviour{
 	int rotation = 0;
 	int[,] codes;
 	
+	bool lockedToGrid = false;
+	bool moving = false;
+	Vector3 dragPoint = new Vector3(0,0,0);
+	
 	public void Start(){
+		EventManager em = EventManager.Instance ();
+		em.RegisterForEventType ("tap", this);
+		em.RegisterForEventType ("mouse_click", this);		
+		em.RegisterForEventType ("mouse_release", this);
 	}
 	public void Update(){
+		if(moving){
+			transform.position = InputWatcher.GetInputPosition() - dragPoint;
+		}
+	}
 	
+	public void HandleEvent(GameEvent ge){
+		Vector3 pos = (Vector3)ge.args[0];
+		if(ge.type.Equals("tap")){
+			if(TouchIsOnMe(pos)){
+				GameEvent tapped = new GameEvent("piece_tapped");
+				tapped.addArgument(this);
+				EventManager.Instance().RaiseEvent(tapped);				
+			}
+		}else if(ge.type.Equals("mouse_click")){
+			if(TouchIsOnMe(pos) && !lockedToGrid){
+				dragPoint = pos - transform.position;
+				moving = true;
+			}
+		}else if(ge.type.Equals("mouse_release")){
+			moving = false;
+		}
+	}
+	bool TouchIsOnMe(Vector3 touchpos){
+		SpriteRenderer sr = transform.gameObject.GetComponent<SpriteRenderer>();
+		return sr.bounds.IntersectRay(new Ray(touchpos,transform.forward));
+		//will need more complicated logic for concave pieces
 	}
 	
 	public void ConfigureFromJSON(string filename){
@@ -54,6 +87,12 @@ public class PieceController : MonoBehaviour{
 		rotation = rot;
 		rot = (360-rot)%360;
 		transform.eulerAngles = new Vector3(transform.rotation.eulerAngles.x,transform.rotation.eulerAngles.y,rot);
+	}
+	public void SetGridLock(bool glock){
+		lockedToGrid = glock;
+	}
+	public bool GetGridLock(){
+		return lockedToGrid;
 	}
 	public Vector3 GetTopLeftCorner(){
 		SpriteRenderer sprite = transform.gameObject.GetComponent<SpriteRenderer>();
