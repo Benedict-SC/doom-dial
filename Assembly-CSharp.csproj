@@ -61,6 +61,7 @@
      <Compile Include="Assets\Scripts\GunController.cs" />
      <Compile Include="Assets\Scripts\InputWatcher.cs" />
      <Compile Include="Assets\Scripts\LevelSelect.cs" />
+     <Compile Include="Assets\Scripts\MenuButton.cs" />
      <Compile Include="Assets\Scripts\MenuClickScript.cs" />
      <Compile Include="Assets\Scripts\MenuReturn.cs" />
      <Compile Include="Assets\Scripts\MenuScaleEffect.cs" />

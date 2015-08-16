@@ -21,6 +21,7 @@ public class WaveManager : MonoBehaviour {
 		WorldData = GameObject.FindWithTag ("DataHolder").GetComponent<WorldData> ();
 		ring = GameObject.Find ("OuterRing").gameObject.GetComponent<TrackController>();
 		if (WorldData) {
+
 			setLocations (WorldData.worldSelected, WorldData.levelSelected);
 		}
 		waves = new List<Wave> ();

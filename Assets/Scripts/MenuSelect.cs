@@ -26,7 +26,7 @@ public class MenuSelect : MonoBehaviour, EventHandler {
 				//sees if ray collided with the start button
 				if (targetFind.collider.gameObject == startButton) {
 					//Debug.Log ("try and load level select");
-					//Application.LoadLevel(levelName);
+					Application.LoadLevel(levelName);
 				}
 				if (targetFind.collider.gameObject == menuButton) {
 					Debug.Log("Test");
@@ -53,7 +53,8 @@ public class MenuSelect : MonoBehaviour, EventHandler {
 
 				break;
 			case 3:
-
+				textMesh.GetComponent<TextMesh>().text = "Main Menu";
+				levelName = "MenuTest";
 				break;
 			default:
 				break;

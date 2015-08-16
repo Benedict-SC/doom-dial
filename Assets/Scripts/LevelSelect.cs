@@ -28,11 +28,7 @@ public class LevelSelect : MonoBehaviour, EventHandler {
 					
 					Application.LoadLevel(levelName);
 				}
-				if (targetFind.collider.gameObject == menuButton) {
-					Debug.Log("Test");
-					WorldData.lastScene = "LevelSelect";
-					Application.LoadLevel("Menu");
-				}
+
 			}
 			
 		}
