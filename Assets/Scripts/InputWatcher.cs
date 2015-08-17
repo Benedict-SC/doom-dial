@@ -3,7 +3,7 @@ using System.Collections;
 
 public class InputWatcher : MonoBehaviour {
 
-	public static readonly bool INPUT_DEBUG = true;
+	public static readonly bool INPUT_DEBUG = false;
 
 	// Use this for initialization
 	void Start () {
@@ -88,29 +88,36 @@ public class InputWatcher : MonoBehaviour {
 			
 		}
 	}
-
+	static Vector3 lastPos = new Vector3(0f,0f,0f);
 	public static Vector3 GetInputPosition(){
 		if (INPUT_DEBUG) { //return mouse position in world
 			return Camera.main.ScreenToWorldPoint (Input.mousePosition);
-		} else { //return first finger position in world, or null if no touches exist
+		} else { //return first finger position in world, or 0,0,0 if no touches exist
+			if(Input.touchCount < 1){
+				return lastPos;
+			}
 			Touch t = Input.GetTouch(0); 
 			//apparently there's no null touch or null vector3, which is inconvenient
 			/*if(t == null)
 				return null;
 			else*/
-				return Camera.main.ScreenToWorldPoint (Input.GetTouch(0).position);
+			lastPos = Camera.main.ScreenToWorldPoint (Input.GetTouch(0).position);
+			return lastPos;
 		}
 	}
-
+	static Vector3 lastTouch = new Vector3(0f,0f,0f);
 	public static Vector3 GetTouchPosition(){ //??? what's this secondary thing doing here? it doesn't convert the thing?
 		if (INPUT_DEBUG) { //return mouse position in world
 			return Input.mousePosition;
-		} else { //return first finger position in world, or null if no touches exist
+		} else { //return first finger position in world, or 0,0,0 if no touches exist
+			if(Input.touchCount < 1)
+				return lastTouch;
 			Touch t = Input.GetTouch(0); 
 			//apparently there's no null touch or null vector3, which is inconvenient
 			/*if(t == null)
 				return null;
 			else*/
+			lastTouch = t.position;
 			return t.position;
 		}
 	}

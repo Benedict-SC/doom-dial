@@ -58,7 +58,7 @@ public class MenuSpinScript : MonoBehaviour, EventHandler {
 		}else if(ge.type.Equals("mouse_click")){
 			//Allows the dial to start spinning
 			if(spinner == false){
-				originalRot = Mathf.Atan2(mousepos.y,mousepos.x);
+				originalRot = Mathf.Atan2(mousepos.y-transform.position.y,mousepos.x-transform.position.x);
 				origz = transform.eulerAngles.z;
 				//Debug.Log ("new original degrees: " + originalRot);
 			}

@@ -4,9 +4,11 @@ public class EditorController : MonoBehaviour,EventHandler{
 
 	static PieceController floatingPiece = null; //yeah, making this static is cheating, but whatever
 	GridController grid;
+	EditorWheelController ewc;
 	
 	public void Start(){
 		grid = GameObject.Find("Grid").GetComponent<GridController>();
+		ewc = GameObject.Find("SpinWheel").GetComponent<EditorWheelController>();
 		//grid.editor = this;
 		
 		EventManager em = EventManager.Instance();
@@ -16,6 +18,8 @@ public class EditorController : MonoBehaviour,EventHandler{
 		floatingPiece = go.GetComponent<PieceController>();
 		floatingPiece.ConfigureFromJSON("damage_super");
 		floatingPiece.SetRotation(180);
+		
+		ewc.transform.rotation = floatingPiece.transform.rotation;
 		
 	}
 	public void Update(){

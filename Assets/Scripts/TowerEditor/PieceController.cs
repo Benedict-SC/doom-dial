@@ -13,6 +13,8 @@ public class PieceController : MonoBehaviour, EventHandler{
 	string file = "";
 			
 	int rotation = 0;
+	Vector3 boundsmin;
+	Vector3 boundsmax;
 	int[,] codes;
 	
 	bool lockedToGrid = false;
@@ -24,10 +26,14 @@ public class PieceController : MonoBehaviour, EventHandler{
 		em.RegisterForEventType ("tap", this);
 		em.RegisterForEventType ("mouse_click", this);		
 		em.RegisterForEventType ("mouse_release", this);
+		boundsmin = transform.gameObject.GetComponent<SpriteRenderer>().bounds.min;
+		boundsmax = transform.gameObject.GetComponent<SpriteRenderer>().bounds.max;
 	}
 	public void Update(){
 		if(moving){
 			transform.position = InputWatcher.GetInputPosition() - dragPoint;
+			boundsmin = transform.gameObject.GetComponent<SpriteRenderer>().bounds.min;
+			boundsmax = transform.gameObject.GetComponent<SpriteRenderer>().bounds.max;
 		}
 	}
 	
@@ -138,9 +144,30 @@ public class PieceController : MonoBehaviour, EventHandler{
 		//PrintArray(GetArray ());
 	}
 	public void SetRotation(int rot){
+		if(rot == 360)
+			rot = 0;
 		rotation = rot;
 		rot = (360-rot)%360;
 		transform.eulerAngles = new Vector3(transform.rotation.eulerAngles.x,transform.rotation.eulerAngles.y,rot);
+		boundsmin = transform.gameObject.GetComponent<SpriteRenderer>().bounds.min;
+		boundsmax = transform.gameObject.GetComponent<SpriteRenderer>().bounds.max;
+	}
+	public void SetRotation(float fRot){
+		int rot = (int)fRot;
+		if(rot > 88 && rot < 92){
+			rot = 90;
+		}else if(rot > 178 && rot < 182){
+			rot = 180;
+		}else if(rot > 268 && rot < 272){
+			rot = 270;
+		}else if(rot > 358 || rot < 2){
+			rot = 0;
+		}
+		rotation = rot;
+		rot = (360-rot)%360;
+		transform.eulerAngles = new Vector3(transform.rotation.eulerAngles.x,transform.rotation.eulerAngles.y,rot);
+		boundsmin = transform.gameObject.GetComponent<SpriteRenderer>().bounds.min;
+		boundsmax = transform.gameObject.GetComponent<SpriteRenderer>().bounds.max;
 	}
 	public void SetGridLock(bool glock){
 		lockedToGrid = glock;
@@ -150,7 +177,7 @@ public class PieceController : MonoBehaviour, EventHandler{
 	}
 	public Vector3 GetTopLeftCorner(){
 		SpriteRenderer sprite = transform.gameObject.GetComponent<SpriteRenderer>();
-		return new Vector3(sprite.bounds.min.x,sprite.bounds.max.y,transform.position.z);
+		return new Vector3(boundsmin.x,boundsmax.y,transform.position.z);
 		//all this stuff was supposed to compensate for rotation, but it apparently doesn't matter
 		/*if(rotation == 0){
 			return sprite.bounds.min;
