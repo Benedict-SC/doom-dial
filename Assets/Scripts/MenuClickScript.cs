@@ -12,6 +12,12 @@ public class MenuClickScript : MonoBehaviour, EventHandler {
 		EventManager em = EventManager.Instance ();
 		em.RegisterForEventType ("mouse_release", this);
 		em.RegisterForEventType ("mouse_click", this);
+		GameObject[] temp = new GameObject[2];
+		temp =  GameObject.FindGameObjectsWithTag("DataHolder");
+		if (temp.Length > 1) {
+			Destroy (temp [1].gameObject);
+		}
+
 	}
 	public void HandleEvent(GameEvent ge){
 		if (ge.type.Equals ("mouse_release")) {

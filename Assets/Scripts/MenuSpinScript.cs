@@ -51,6 +51,9 @@ public class MenuSpinScript : MonoBehaviour, EventHandler {
 				if(Child.GetComponent<LevelSelect>() != null){
 					Child.GetComponent<LevelSelect>().menuPosition = menuPosition % 4;
 				}
+				if(Child.GetComponent<MenuSelect>() != null){
+					Child.GetComponent<MenuSelect>().menuPosition = menuPosition % 4;
+				}
 			}
 			//resets time
 			clickTime = 0;
