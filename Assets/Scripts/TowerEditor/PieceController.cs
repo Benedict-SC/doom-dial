@@ -207,6 +207,9 @@ public class PieceController : MonoBehaviour, EventHandler{
 	public int GetRotation(){
 		return rotation;
 	}
+	public string GetFilename(){
+		return file;
+	}
 	
 	public int[,] GetArray(){
 		if(rotation == 0){

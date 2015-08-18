@@ -14,6 +14,11 @@ public class FileLoader{
 		this.folder = folder;
 		this.path = "Assets"  + Path.DirectorySeparatorChar + "Resources"  + Path.DirectorySeparatorChar + folder;
 	}
+	public FileLoader(string path, string folder, string fileName){
+		this.fileName = fileName;
+		this.folder = folder;
+		this.path = path;
+	}
 	
 	public string Read()
 	{

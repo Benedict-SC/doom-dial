@@ -16,7 +16,7 @@ public class EditorController : MonoBehaviour,EventHandler{
 		
 		GameObject go = Instantiate (Resources.Load ("Prefabs/ExistingPiece")) as GameObject;
 		floatingPiece = go.GetComponent<PieceController>();
-		floatingPiece.ConfigureFromJSON("damage_super");
+		floatingPiece.ConfigureFromJSON("penetration_normal");
 		floatingPiece.SetRotation(180);
 		
 		ewc.transform.rotation = floatingPiece.transform.rotation;
@@ -29,6 +29,13 @@ public class EditorController : MonoBehaviour,EventHandler{
 		if(ge.type.Equals("piece_tapped")){
 			PieceController tappedPiece = (PieceController)ge.args[0];
 			if(tappedPiece.GetGridLock()){
+				if(floatingPiece != null){
+					bool success = grid.TryAddPiece(floatingPiece);
+					if(success){
+						floatingPiece.SetGridLock(true);
+						floatingPiece = null;
+					}
+				}
 				Activate (tappedPiece);
 			}else{
 				bool success = grid.TryAddPiece(tappedPiece);

@@ -29,7 +29,9 @@ public class GridController : MonoBehaviour{
 	Occupancy[,] grid = new Occupancy[GRID_SIZE,GRID_SIZE];
 	SpriteRenderer[,] overlays = new SpriteRenderer[GRID_SIZE,GRID_SIZE];
 	
-	List<PieceController> allPieces = new List<PieceController>();
+	List<PieceRecord> allPieces = new List<PieceRecord>();
+	string decalFilename = "";
+	string towerType = "";
 	
 	int xcounter = -1;
 	int ycounter = -1;
@@ -45,9 +47,19 @@ public class GridController : MonoBehaviour{
 	Sprite se;
 	Sprite sw;
 	
-	//public EditorController editor = null;
-	
+	public class PieceRecord{
+		public PieceController pc;
+		public int x;
+		public int y;
+		public PieceRecord(PieceController p, int nx, int ny){
+			pc = p;
+			x = nx;
+			y = ny;
+		}
+	}
+	//Timer test = new Timer();
 	public void Start(){
+		Debug.Log (Application.persistentDataPath);
 		SpriteRenderer gridSprite = transform.gameObject.GetComponent<SpriteRenderer>();
 		gridCorner = gridSprite.bounds.min;
 		gridLength = gridSprite.bounds.size.x;
@@ -107,8 +119,15 @@ public class GridController : MonoBehaviour{
 			80f);
 		
 		LoadTower("drainpunch");
+		
+		//test.Restart();
+		
 	}
 	public void Update(){
+		/*if(test.TimeElapsedSecs() >= 20){
+			test.Restart();
+			SaveTower();
+		}*/
 		PieceController p = EditorController.GetFloatingPiece();
 		if(p == null)
 			return;
@@ -258,6 +277,9 @@ public class GridController : MonoBehaviour{
 		string json = fl.Read ();
 		Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
 		
+		decalFilename = (string)data["decalFilename"];
+		towerType = (string)data["towerType"];
+		
 		List<System.Object> pieces = data["pieces"] as List<System.Object>;
 		foreach(System.Object pObj in pieces){
 			Dictionary<string,System.Object> pdata = pObj as Dictionary<string,System.Object>;
@@ -271,7 +293,7 @@ public class GridController : MonoBehaviour{
 			p.SetGridLock(true);
 			p.ConfigureFromJSON(piecefile);
 			p.SetRotation(rot);
-			allPieces.Add(p);
+			allPieces.Add(new PieceRecord(p,x,y));
 			
 			SpriteRenderer sr = go.GetComponent<SpriteRenderer>();
 			Vector3 gridTopCorner = new Vector3(gridCorner.x,gridCorner.y+gridLength,gridCorner.z);
@@ -306,8 +328,39 @@ public class GridController : MonoBehaviour{
 			}
 		}		
 	}
+	public void SaveTower(){
+		FileLoader fl = new FileLoader (Application.persistentDataPath,"Towers","testSaveLocation");
+		string json = "";
+		json += "{\n";
+		json += "\t\"decalFilename\":\"" + decalFilename + "\",\n";
+		json += "\t\"towerType\":\"" + towerType + "\",\n";
+		json += "\n";
+		json += "\t\"pieces\":[\n";
+		for(int i = 0; i < allPieces.Count; i++){
+			PieceRecord pr = allPieces[i];
+			string line = "\t\t{";
+			line += "\"anchorX\":" + pr.x + ", ";
+			line += "\"anchorY\":" + pr.y + ", ";
+			line += "\"rotation\":" + pr.pc.GetRotation() + ", ";
+			line += "\"pieceFilename\":\"" + pr.pc.GetFilename() + "\"}";
+			if(i != allPieces.Count - 1){
+				line += ",";
+			}
+			line += "\n";
+			json += line;
+		}
+		json += "\t]\n";
+		json += "}";
+		Debug.Log(json);
+		fl.Write(json);
+	}
 	public void RemovePiece(PieceController pc){
-		allPieces.Remove(pc);
+		foreach(PieceRecord pr in allPieces){
+			if(pr.pc == pc){
+				allPieces.Remove(pr);
+				break;
+			}
+		}
 		for(int i = 0; i < GRID_SIZE; i++){
 			for(int j = 0; j < GRID_SIZE; j++){
 				Occupancy o = grid[i,j];
@@ -336,7 +389,7 @@ public class GridController : MonoBehaviour{
 		int[,] pieceValues = pc.GetArray();
 		//we've gone through and there've been no collisions
 		//actually add the piece
-		allPieces.Add(pc);
+		allPieces.Add(new PieceRecord(pc,xcounter,ycounter));
 		for(int i = 0; i < pieceValues.GetLength(0); i++){
 			for(int j = 0; j < pieceValues.GetLength(1); j++){
 				Occupancy o = grid[ycounter + i,xcounter + j];
