@@ -419,6 +419,7 @@ public class GunController : MonoBehaviour, EventHandler {
 		bc.splitCount = splitCount;
 		bc.homingStrength = homingStrength;
 		bc.arcDmg = arcDmg;
+		bc.isSplitBullet = false;
 		Debug.Log ("bullet slowDur is " + bc.slowDur);
 	}
 	

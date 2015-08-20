@@ -4,6 +4,5 @@
 	
 	"pieces":[
 		{"anchorX":0, "anchorY":0, "rotation":0 , "pieceFilename":"joe_prebaked_3"}
-		{"anchorX":1, "anchorY":1, "rotation":90, "pieceFilename":"arc_normal"}
 	]
 }

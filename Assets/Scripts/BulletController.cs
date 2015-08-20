@@ -27,6 +27,11 @@ public class BulletController : MonoBehaviour {
 	public float splash; //percentage of fx to transfer to hits
 	public float splashRad; //radius of splash damage
 
+	public bool isSplitBullet; //whether it's the result of a split
+	public BulletController splitParent; //source of the split bullet
+	public int dirScalar; //1 or -1 to determine direction
+	public float splitCenterDist; //distance from the center to the split bullet
+
 	//BEING WORKED ON
 
 	public float splitCount; //number of pieces it splits into
@@ -66,32 +71,40 @@ public class BulletController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//Debug.Log ("bullet at " + transform.position.x + ", " + transform.position.y);
-		//Debug.Log ("velocity: " + vx + ", " + vy);
-		//Debug.Log ("homing?" + isHoming);
-		if (homingStrength == 0)
+		if (!isSplitBullet)
 		{
-			//position doesn't let you modify individual fields so this is gonna be wordy
-			this.transform.position = new Vector3(this.transform.position.x + vx, this.transform.position.y + vy, this.transform.position.z);
-			//if bullet exceeds its range, disappear
-			//Debug.Log ("x is " + transform.position.x + " and spawnx is " + spawnx);
+			//Debug.Log ("is not a split bullet!");
+			//Debug.Log ("bullet at " + transform.position.x + ", " + transform.position.y);
+			//Debug.Log ("velocity: " + vx + ", " + vy);
+			//Debug.Log ("homing?" + isHoming);
+			if (homingStrength == 0)
+			{
+				//position doesn't let you modify individual fields so this is gonna be wordy
+				this.transform.position = new Vector3(this.transform.position.x + vx, this.transform.position.y + vy, this.transform.position.z);
+				//if bullet exceeds its range, disappear
+				//Debug.Log ("x is " + transform.position.x + " and spawnx is " + spawnx);
+			}
+			
+			float distance = (float)Math.Sqrt ((this.transform.position.x - spawnx) * (this.transform.position.x - spawnx)
+			                                   + (this.transform.position.y - spawny) * (this.transform.position.y - spawny));
+			//Debug.Log ("distance is " + distance + " and range is " + (range*TRACK_LENGTH) );
+			if (distance > (range * TRACK_LENGTH) - 0.5f) //give a bit of a window for an arcing projectile hitting
+			{
+				isActive = true;
+				collide2D.enabled = true;
+			}
+			if(distance > range * TRACK_LENGTH){
+				Debug.Log ("we somehow destroyed ourselves / at (" + transform.position.x + "," + transform.position.y + ")");
+				Collide (); //destroys itself and begins any post-death status effects
+				return;
+			}
+			
+			//after moving, check collision with enemies
 		}
-		
-		float distance = (float)Math.Sqrt ((this.transform.position.x - spawnx) * (this.transform.position.x - spawnx)
-						+ (this.transform.position.y - spawny) * (this.transform.position.y - spawny));
-		//Debug.Log ("distance is " + distance + " and range is " + (range*TRACK_LENGTH) );
-		if (distance > (range * TRACK_LENGTH) - 0.5f) //give a bit of a window for an arcing projectile hitting
+		else if (isSplitBullet)
 		{
-			isActive = true;
-			collide2D.enabled = true;
+			//splitbullet movement behavior
 		}
-		if(distance > range * TRACK_LENGTH){
-			Debug.Log ("we somehow destroyed ourselves / at (" + transform.position.x + "," + transform.position.y + ")");
-			Collide (); //destroys itself and begins any post-death status effects
-			return;
-		}
-
-		//after moving, check collision with enemies
 
 	}
 	//called when the bullet hits something, from the OnCollisionEnter in EnemyController
@@ -135,15 +148,38 @@ public class BulletController : MonoBehaviour {
 					                                               gameObject.transform.rotation.w);*/
 					AoEController ac = splashCone.GetComponent<AoEController>();
 					ac.scale = splashRad;
-					Debug.Log ("old splash damage: " + dmg);
-					Debug.Log ("old splash lifedrain: " + lifeDrain);
+					/*Debug.Log ("old splash damage: " + dmg);
+					Debug.Log ("old splash lifedrain: " + lifeDrain);*/
 					//Debug.Log ("splashRad is " + splashRad);
 					ac.parent = "Bullet";
 					ac.aoeBulletCon = this;
 					ac.ScaleProps(splash);
-					Debug.Log ("new splash damage: " + ac.aoeBulletCon.dmg);
-					Debug.Log ("new splash life: " + ac.aoeBulletCon.lifeDrain);
+					/*Debug.Log ("new splash damage: " + ac.aoeBulletCon.dmg);
+					Debug.Log ("new splash life: " + ac.aoeBulletCon.lifeDrain);*/
 				}
+			}
+		}
+		Debug.Log ("splitCount is " + splitCount);
+		if (splitCount > 0)
+		{
+			if (!isSplitBullet) //only pre-split bullets
+			{
+				Debug.Log ("spawned 2 split bullets");
+				ScaleProps(0.5f);
+
+				GameObject split1 = Instantiate (Resources.Load ("Prefabs/Bullet")) as GameObject;
+				BulletController splitbc = split1.GetComponent<BulletController>();
+				splitbc.SetSplitProps(this);
+				splitbc.dirScalar = -1;
+				splitbc.splitParent = this;
+				split1.transform.position = this.transform.position;
+
+				GameObject split2 = Instantiate (Resources.Load ("Prefabs/Bullet")) as GameObject;
+				BulletController splitbc2 = split2.GetComponent<BulletController>();
+				splitbc2.SetSplitProps(this);
+				splitbc2.dirScalar = 1;
+				splitbc2.splitParent = this;
+				split2.transform.position = this.transform.position;
 			}
 		}
 		//gameObject.SetActive (false);
@@ -152,6 +188,44 @@ public class BulletController : MonoBehaviour {
 
 	public bool CheckActive(){
 		return isActive;
+	}
+
+	void ScaleProps(float pc)
+	{
+		dmg *= pc; //damage dealt out
+		poison *= pc; //poison damage on enemy
+		stun *= pc; //amount (time?) of enemy stun
+		lifeDrain *= pc; //lifedrain on enemy
+		slowdown *= pc; //enemy slowdown
+		splash *= pc; //percentage of fx to transfer to hits
+		splashRad *= pc; //radius of splash damage
+		penetration *= pc; //ignores this amount of enemy shield
+		shieldShred *= pc; //lowers enemy shield's max value by this
+	}
+
+	public void SetSplitProps(BulletController bc)
+	{
+		dmg = bc.dmg; //damage dealt out
+		speed = bc.speed; //possibly not necessary, as the speed is passed from the GunController
+		poison = bc.poison; //poison damage on enemy
+		poisonDur = bc.poisonDur; //how long poison lasts, in seconds
+		knockback = 0f; //knockback -- positive value for distance knocked back
+		stun = bc.stun; //amount (time?) of enemy stun
+		lifeDrain = bc.lifeDrain; //lifedrain on enemy
+		slowdown = bc.slowdown; //enemy slowdown
+		slowDur = bc.slowDur; //how long slowdown lasts
+		splash = bc.splash; //percentage of fx to transfer to hits
+		splashRad = bc.splashRad; //radius of splash damage
+		splitCount = bc.splitCount; //number of pieces it splits into
+		penetration = bc.penetration; //ignores this amount of enemy shield
+		shieldShred = bc.shieldShred; //lowers enemy shield's max value by this
+		homingStrength = 0f; //strength of homing effect
+		arcDmg = 0f; //dmg bonus from arcing - if above 0 it arcs
+	}
+
+	public void SetSplitDist()
+	{
+		//splitCenterDist = [calculate distance from center]
 	}
 
 }
