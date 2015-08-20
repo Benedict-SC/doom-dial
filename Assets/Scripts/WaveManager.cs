@@ -13,17 +13,16 @@ public class WaveManager : MonoBehaviour {
 	TrackController ring;
 	string worldVar = "World1";
 	string levelVar = "Level1";
-	public WorldData WorldData;
+	//public WorldData worldData;
 	bool onBreather = false;
 
 	// Use this for initialization
 	void Start () {
-		WorldData = GameObject.FindWithTag ("DataHolder").GetComponent<WorldData> ();
+		//worldData = GameObject.FindWithTag ("DataHolder").GetComponent<WorldData> ();
 		ring = GameObject.Find ("OuterRing").gameObject.GetComponent<TrackController>();
-		if (WorldData) {
-
-			setLocations (WorldData.worldSelected, WorldData.levelSelected);
-		}
+		//if (worldData) {
+		//	setLocations (worldData.worldSelected, worldData.levelSelected);
+		//}
 		waves = new List<Wave> ();
 
 		//do a ton of JSON parsing
