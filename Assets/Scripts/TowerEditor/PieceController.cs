@@ -275,5 +275,7 @@ public class PieceController : MonoBehaviour, EventHandler{
 		}
 		else return null;
 	}
-
+	public bool IsMoving(){
+		return moving;
+	}
 }

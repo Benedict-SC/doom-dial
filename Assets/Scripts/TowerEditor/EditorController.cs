@@ -1,14 +1,17 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EditorController : MonoBehaviour,EventHandler{
 
 	static PieceController floatingPiece = null; //yeah, making this static is cheating, but whatever
 	GridController grid;
 	EditorWheelController ewc;
+	ScrollRect sr;
 	
 	public void Start(){
 		grid = GameObject.Find("Grid").GetComponent<GridController>();
 		ewc = GameObject.Find("SpinWheel").GetComponent<EditorWheelController>();
+		sr = GameObject.Find("InvScroll").GetComponent<ScrollRect>();
 		//grid.editor = this;
 		
 		EventManager em = EventManager.Instance();
@@ -23,7 +26,13 @@ public class EditorController : MonoBehaviour,EventHandler{
 		
 	}
 	public void Update(){
-	
+		if(floatingPiece != null && floatingPiece.IsMoving()){
+			if(sr.vertical)
+				sr.vertical = false;
+		}else{
+			if(!sr.vertical)
+				sr.vertical = true;
+		}
 	}
 	public void HandleEvent(GameEvent ge){
 		if(ge.type.Equals("piece_tapped")){
