@@ -299,7 +299,7 @@ public class GridController : MonoBehaviour{
 			Vector3 gridTopCorner = new Vector3(gridCorner.x,gridCorner.y+gridLength,gridCorner.z);
 			go.transform.position = gridTopCorner + new Vector3(squareWidth*x + sr.bounds.extents.x,
 																-squareWidth*y - sr.bounds.extents.y,
-																transform.position.z);
+																go.transform.position.z);
 																
 			int[,] values = p.GetArray(); //we assume all pieces fit- no error checking
 			for(int i = 0; i < values.GetLength(0); i++){
