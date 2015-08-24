@@ -83,6 +83,7 @@
      <Compile Include="Assets\Scripts\TowerEditor\GridController.cs" />
      <Compile Include="Assets\Scripts\TowerEditor\InventoryWindowController.cs" />
      <Compile Include="Assets\Scripts\TowerEditor\PieceController.cs" />
+     <Compile Include="Assets\Scripts\TowerEditor\PieceTemplateController.cs" />
      <Compile Include="Assets\Scripts\TrackController.cs" />
      <Compile Include="Assets\Scripts\TrapController.cs" />
      <Compile Include="Assets\Scripts\UIRectTranslator.cs" />

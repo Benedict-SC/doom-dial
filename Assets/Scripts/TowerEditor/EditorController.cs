@@ -67,6 +67,7 @@ public class EditorController : MonoBehaviour,EventHandler{
 		floatingPiece = p;
 		p.SetGridLock(false);
 		grid.RemovePiece(p);
+		ewc.transform.rotation = floatingPiece.transform.rotation;
 	}
 	
 	public static PieceController GetFloatingPiece(){
