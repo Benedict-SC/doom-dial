@@ -7,17 +7,21 @@ public class EditorController : MonoBehaviour,EventHandler{
 	GridController grid;
 	EditorWheelController ewc;
 	ScrollRect sr;
+	Canvas canvas;
 	
 	public void Start(){
 		grid = GameObject.Find("Grid").GetComponent<GridController>();
 		ewc = GameObject.Find("SpinWheel").GetComponent<EditorWheelController>();
 		sr = GameObject.Find("InvScroll").GetComponent<ScrollRect>();
+		canvas = GameObject.Find ("Canvas").GetComponent<Canvas>();
 		//grid.editor = this;
 		
 		EventManager em = EventManager.Instance();
 		em.RegisterForEventType("piece_tapped",this);
 		
 		GameObject go = Instantiate (Resources.Load ("Prefabs/ExistingPiece")) as GameObject;
+		go.transform.SetParent(canvas.transform,false);
+		go.transform.position = new Vector3(go.transform.position.x-2,go.transform.position.y,go.transform.position.z);
 		floatingPiece = go.GetComponent<PieceController>();
 		floatingPiece.ConfigureFromJSON("penetration_normal");
 		floatingPiece.SetRotation(180);

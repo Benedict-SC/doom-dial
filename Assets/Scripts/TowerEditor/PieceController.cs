@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.IO;
 using System.Collections.Generic;
 using MiniJSON;
@@ -13,8 +14,8 @@ public class PieceController : MonoBehaviour, EventHandler{
 	string file = "";
 			
 	int rotation = 0;
-	Vector3 boundsmin;
-	Vector3 boundsmax;
+	//Vector3 boundsmin;
+	//Vector3 boundsmax;
 	int[,] codes;
 	
 	bool lockedToGrid = false;
@@ -26,14 +27,24 @@ public class PieceController : MonoBehaviour, EventHandler{
 		em.RegisterForEventType ("tap", this);
 		em.RegisterForEventType ("mouse_click", this);		
 		em.RegisterForEventType ("mouse_release", this);
-		boundsmin = transform.gameObject.GetComponent<SpriteRenderer>().bounds.min;
-		boundsmax = transform.gameObject.GetComponent<SpriteRenderer>().bounds.max;
+		/*RectTransform rt = (RectTransform)transform;
+		Vector3 eulerSave = rt.eulerAngles;
+		rt.eulerAngles = new Vector3(0f,0f,0f);
+		boundsmin = rt.TransformPoint(rt.rect.min);
+		boundsmax = rt.TransformPoint(rt.rect.max);
+		rt.eulerAngles = eulerSave;*/
+		//boundsmin = transform.gameObject.GetComponent<SpriteRenderer>().bounds.min;
+		//boundsmax = transform.gameObject.GetComponent<SpriteRenderer>().bounds.max;
 	}
 	public void Update(){
 		if(moving){
 			transform.position = InputWatcher.GetInputPosition() - dragPoint;
-			boundsmin = transform.gameObject.GetComponent<SpriteRenderer>().bounds.min;
-			boundsmax = transform.gameObject.GetComponent<SpriteRenderer>().bounds.max;
+			/*RectTransform rt = (RectTransform)transform;
+			Vector3 eulerSave = rt.eulerAngles;
+			rt.eulerAngles = new Vector3(0f,0f,0f);
+			boundsmin = rt.TransformPoint(rt.rect.min);
+			boundsmax = rt.TransformPoint(rt.rect.max);
+			rt.eulerAngles = eulerSave;*/
 		}
 	}
 	
@@ -60,18 +71,37 @@ public class PieceController : MonoBehaviour, EventHandler{
 			if(floatcheck.TouchIsOnMe(touchpos))
 				return false;
 		}	
-	
-		SpriteRenderer sr = transform.gameObject.GetComponent<SpriteRenderer>();
+		RectTransform rt = (RectTransform)transform;
+		UIRectTranslator translate = transform.gameObject.GetComponent<UIRectTranslator>();
 		
-		bool rectangleOverlap = sr.bounds.IntersectRay(new Ray(touchpos,transform.forward));
+		bool rectangleOverlap = rt.rect.Contains(rt.InverseTransformPoint(new Vector2(touchpos.x,touchpos.y)));//sr.bounds.IntersectRay(new Ray(touchpos,transform.forward));
+		
 		if(!rectangleOverlap)
 			return false;
 		//find local x and y of touch
 		int[,] contents = GetArray ();
-		float squareWidth = sr.bounds.size.y / (float)contents.GetLength(0);
-		Vector3 relativePos = new Vector3(touchpos.x - sr.bounds.min.x, sr.bounds.max.y - touchpos.y,transform.position.z);
-		//Debug.Log (relativePos.x + ", " + relativePos.y);
+		
+		Vector3 worldSize = translate.WorldSize(rt);	
+		Debug.Log("Rsize: " + rt.rect.size.x + "," + rt.rect.size.y);
+		Debug.Log("worldsize: " + worldSize.x + "," + worldSize.y);
+		float squareWidth = worldSize.y / (float)contents.GetLength(0);
+		
+		Vector3[] corners = new Vector3[4];
+		rt.GetWorldCorners(corners);
+		Vector3 rCorner = translate.WorldTopLeftCorner(rt);
+			
+		Vector3 relativePos = 	new Vector3(touchpos.x - rCorner.x, 
+											rCorner.y - touchpos.y,
+											transform.position.z);
+		
+		//Debug.Log (file + " touchpos: " + touchpos.x + "," + touchpos.y);
+		//Debug.Log (file + " rcorner: " + rCorner.x + "," + rCorner.y);
+		//Debug.Log (file + " relative: " + relativePos.x + "," + relativePos.y);
 		//Debug.Log (squareWidth);
+		if(squareWidth <= 0){
+			Debug.Log ("BAD BAD TIMES");
+			return false;
+		}
 		int xcount = -1;
 		int ycount = -1;
 		while(relativePos.x >= 0){
@@ -119,7 +149,7 @@ public class PieceController : MonoBehaviour, EventHandler{
 		
 		string imgfilename = (string)data["imgfile"];
 		Debug.Log (imgfilename);
-		SpriteRenderer img = transform.gameObject.GetComponent<SpriteRenderer> ();
+		Image img = transform.gameObject.GetComponent<Image> ();
 		Texture2D decal = Resources.Load<Texture2D> ("Sprites/PieceSprites/" + imgfilename);
 		if (decal == null)
 			Debug.Log("decal is null");
@@ -141,6 +171,12 @@ public class PieceController : MonoBehaviour, EventHandler{
 				codes[i,j] = number;
 			}
 		}
+		
+		RectTransform rt = (RectTransform)transform;
+		float squareWidth = img.sprite.bounds.size.x / (float)width * 1.7f; //arbitrary multiplier to fit things...?
+		Vector3 sizeStuff = new Vector3(width*squareWidth,height*squareWidth,transform.position.z);
+		sizeStuff = rt.InverseTransformVector(sizeStuff);
+		rt.sizeDelta = sizeStuff;
 		//PrintArray(GetArray ());
 	}
 	public void SetRotation(int rot){
@@ -149,8 +185,12 @@ public class PieceController : MonoBehaviour, EventHandler{
 		rotation = rot;
 		rot = (360-rot)%360;
 		transform.eulerAngles = new Vector3(transform.rotation.eulerAngles.x,transform.rotation.eulerAngles.y,rot);
-		boundsmin = transform.gameObject.GetComponent<SpriteRenderer>().bounds.min;
-		boundsmax = transform.gameObject.GetComponent<SpriteRenderer>().bounds.max;
+		/*RectTransform rt = (RectTransform)transform;
+		Vector3 eulerSave = rt.eulerAngles;
+		rt.eulerAngles = new Vector3(0f,0f,0f);
+		boundsmin = rt.TransformPoint(rt.rect.min);
+		boundsmax = rt.TransformPoint(rt.rect.max);
+		rt.eulerAngles = eulerSave;*/
 	}
 	public void SetRotation(float fRot){
 		int rot = (int)fRot;
@@ -166,8 +206,12 @@ public class PieceController : MonoBehaviour, EventHandler{
 		rotation = rot;
 		rot = (360-rot)%360;
 		transform.eulerAngles = new Vector3(transform.rotation.eulerAngles.x,transform.rotation.eulerAngles.y,rot);
-		boundsmin = transform.gameObject.GetComponent<SpriteRenderer>().bounds.min;
-		boundsmax = transform.gameObject.GetComponent<SpriteRenderer>().bounds.max;
+		/*RectTransform rt = (RectTransform)transform;
+		Vector3 eulerSave = rt.eulerAngles;
+		rt.eulerAngles = new Vector3(0f,0f,0f);
+		boundsmin = rt.TransformPoint(rt.rect.min);
+		boundsmax = rt.TransformPoint(rt.rect.max);
+		rt.eulerAngles = eulerSave;*/
 	}
 	public void SetGridLock(bool glock){
 		lockedToGrid = glock;
@@ -176,8 +220,10 @@ public class PieceController : MonoBehaviour, EventHandler{
 		return lockedToGrid;
 	}
 	public Vector3 GetTopLeftCorner(){
-		SpriteRenderer sprite = transform.gameObject.GetComponent<SpriteRenderer>();
-		return new Vector3(boundsmin.x,boundsmax.y,transform.position.z);
+		RectTransform rt = (RectTransform)transform;
+		UIRectTranslator translate = transform.gameObject.GetComponent<UIRectTranslator>();
+		return translate.WorldTopLeftCorner(rt);
+		//return new Vector3(boundsmin.x,boundsmax.y,transform.position.z);
 		//all this stuff was supposed to compensate for rotation, but it apparently doesn't matter
 		/*if(rotation == 0){
 			return sprite.bounds.min;
