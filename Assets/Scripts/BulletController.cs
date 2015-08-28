@@ -16,7 +16,7 @@ public class BulletController : MonoBehaviour {
 	//IMPLEMENTED
 	public float dmg; //damage dealt out
 	public float range; //range -- expressed in percent of the length of the lane
-	public float speed; //possibly not necessary, as the speed is passed from the GunController
+	public float speed; //speed of the bullet -- used for split bullets
 	public float poison; //poison damage on enemy
 	public float poisonDur; //how long poison lasts, in seconds
 	public float knockback; //knockback -- positive value for distance knocked back
@@ -26,11 +26,13 @@ public class BulletController : MonoBehaviour {
 	public float slowDur; //how long slowdown lasts
 	public float splash; //percentage of fx to transfer to hits
 	public float splashRad; //radius of splash damage
+	public float arcDmg; //dmg bonus from arcing - if above 0 it arcs
 
 	public bool isSplitBullet; //whether it's the result of a split
 	public BulletController splitParent; //source of the split bullet
 	public int dirScalar; //1 or -1 to determine direction
-	public float splitCenterDist; //distance from the center to the split bullet
+	public float splitRadius; //distance from the center to the split bullet
+	public float angleLimit; //max range of a split bullet, in radians
 
 	//BEING WORKED ON
 
@@ -38,7 +40,7 @@ public class BulletController : MonoBehaviour {
 	public float penetration; //ignores this amount of enemy shield
 	public float shieldShred; //lowers enemy shield's max value by this
 	public float homingStrength; //strength of homing effect
-	public float arcDmg; //dmg bonus from arcing - if above 0 it arcs
+
 	/*
 	 * End of attributes passed from tower
 	 */
@@ -66,6 +68,10 @@ public class BulletController : MonoBehaviour {
 		{
 			isActive = false;
 			collider.enabled = false;
+		}
+		if (isSplitBullet)
+		{
+			//Debug.Log ("started split bullet");
 		}
 	}
 	
@@ -101,9 +107,18 @@ public class BulletController : MonoBehaviour {
 			
 			//after moving, check collision with enemies
 		}
-		else if (isSplitBullet)
+		else if (isSplitBullet) //splitbullet movement behavior
 		{
-			//splitbullet movement behavior
+			Debug.Log ("split bullet behavior");
+			float x;
+			float y;
+			float angle = Mathf.Atan2 (transform.position.y,transform.position.x);
+
+			angle += speed * .3f * dirScalar; //constant scalar
+
+			x = splitRadius * Mathf.Cos (angle);
+			y = splitRadius * Mathf.Sin (angle);
+			transform.position = new Vector3(x, y, transform.position.z);
 		}
 
 	}
@@ -169,17 +184,18 @@ public class BulletController : MonoBehaviour {
 
 				GameObject split1 = Instantiate (Resources.Load ("Prefabs/Bullet")) as GameObject;
 				BulletController splitbc = split1.GetComponent<BulletController>();
-				splitbc.SetSplitProps(this);
 				splitbc.dirScalar = -1;
 				splitbc.splitParent = this;
+				splitbc.arcDmg = 5f;
 				split1.transform.position = this.transform.position;
+				splitbc.SetSplitProps(this);
 
 				GameObject split2 = Instantiate (Resources.Load ("Prefabs/Bullet")) as GameObject;
 				BulletController splitbc2 = split2.GetComponent<BulletController>();
-				splitbc2.SetSplitProps(this);
 				splitbc2.dirScalar = 1;
 				splitbc2.splitParent = this;
 				split2.transform.position = this.transform.position;
+				splitbc2.SetSplitProps(this);
 			}
 		}
 		//gameObject.SetActive (false);
@@ -206,7 +222,7 @@ public class BulletController : MonoBehaviour {
 	public void SetSplitProps(BulletController bc)
 	{
 		dmg = bc.dmg; //damage dealt out
-		speed = bc.speed; //possibly not necessary, as the speed is passed from the GunController
+		speed = bc.speed; //speed of the bullet
 		poison = bc.poison; //poison damage on enemy
 		poisonDur = bc.poisonDur; //how long poison lasts, in seconds
 		knockback = 0f; //knockback -- positive value for distance knocked back
@@ -216,11 +232,15 @@ public class BulletController : MonoBehaviour {
 		slowDur = bc.slowDur; //how long slowdown lasts
 		splash = bc.splash; //percentage of fx to transfer to hits
 		splashRad = bc.splashRad; //radius of splash damage
-		splitCount = bc.splitCount; //number of pieces it splits into
+		splitCount = bc.splitCount; //split-result bullets don't split themselves
 		penetration = bc.penetration; //ignores this amount of enemy shield
 		shieldShred = bc.shieldShred; //lowers enemy shield's max value by this
 		homingStrength = 0f; //strength of homing effect
 		arcDmg = 0f; //dmg bonus from arcing - if above 0 it arcs
+		isSplitBullet = true; //is the result of a split
+		splitRadius = Mathf.Abs(transform.position.x / Mathf.Cos(Mathf.Atan2 (transform.position.y,transform.position.x)));
+		Debug.Log ("splitRadius is " + splitRadius);
+		angleLimit = Mathf.Atan2 (transform.position.y,transform.position.x) + (dirScalar * Mathf.PI);
 	}
 
 	public void SetSplitDist()
