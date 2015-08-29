@@ -19,7 +19,7 @@
 		{"filename":"poison_rare","owned":0},
 		{"filename":"poison_super","owned":0},
 		{"filename":"drain_normal","owned":0},
-		{"filename":"drain_rare","owned":20},
+		{"filename":"drain_rare","owned":2},
 		{"filename":"drain_super","owned":0},
 		{"filename":"penetration_normal","owned":20},
 		{"filename":"penetration_rare","owned":0},

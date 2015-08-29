@@ -38,7 +38,9 @@ public class PieceController : MonoBehaviour, EventHandler{
 	}
 	public void Update(){
 		if(moving){
-			transform.position = InputWatcher.GetInputPosition() - dragPoint;
+			Vector3 inputPos = InputWatcher.GetInputPosition();
+			transform.position = inputPos - dragPoint;
+			transform.position = new Vector3(transform.position.x,transform.position.y,-1.0f);
 			/*RectTransform rt = (RectTransform)transform;
 			Vector3 eulerSave = rt.eulerAngles;
 			rt.eulerAngles = new Vector3(0f,0f,0f);
@@ -62,7 +64,17 @@ public class PieceController : MonoBehaviour, EventHandler{
 				moving = true;
 			}
 		}else if(ge.type.Equals("mouse_release")){
-			moving = false;
+			
+			if(TouchIsOnMe(pos) && !lockedToGrid){
+				//check if hovering over left of screen
+				if(transform.position.x < 0.0){
+					GameEvent dropped = new GameEvent("piece_dropped_on_inventory");
+					dropped.addArgument(this);
+					EventManager.Instance().RaiseEvent(dropped);
+				}
+					//if so: do a tap event on it
+				moving = false;
+			}
 		}
 	}
 	public bool TouchIsOnMe(Vector3 touchpos){
@@ -82,8 +94,8 @@ public class PieceController : MonoBehaviour, EventHandler{
 		int[,] contents = GetArray ();
 		
 		Vector3 worldSize = translate.WorldSize(rt);	
-		Debug.Log("Rsize: " + rt.rect.size.x + "," + rt.rect.size.y);
-		Debug.Log("worldsize: " + worldSize.x + "," + worldSize.y);
+		//Debug.Log("Rsize: " + rt.rect.size.x + "," + rt.rect.size.y);
+		//Debug.Log("worldsize: " + worldSize.x + "," + worldSize.y);
 		float squareWidth = worldSize.y / (float)contents.GetLength(0);
 		
 		Vector3[] corners = new Vector3[4];
@@ -112,7 +124,7 @@ public class PieceController : MonoBehaviour, EventHandler{
 			relativePos = new Vector3(relativePos.x,relativePos.y - squareWidth,relativePos.z);
 			ycount++;
 		}
-		Debug.Log(file + rotation + " x and y: " + xcount + ", " + ycount);
+		//Debug.Log(file + rotation + " x and y: " + xcount + ", " + ycount);
 		int code = contents[ycount,xcount];
 		bool result = TouchHelper (relativePos,squareWidth,code);
 			
@@ -323,5 +335,8 @@ public class PieceController : MonoBehaviour, EventHandler{
 	}
 	public bool IsMoving(){
 		return moving;
+	}
+	public void SetMoving(bool mov){
+		moving = mov;
 	}
 }

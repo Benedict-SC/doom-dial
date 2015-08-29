@@ -13,6 +13,8 @@ using System.Collections.Generic;
  *
  * tap
  * piece_tapped
+ * template_tapped
+ * piece_dropped_on_inventory
  */
 
 public class EventManager{
@@ -80,6 +82,21 @@ public class EventManager{
 					if(go != null && !go.Equals(null)){ //in case a listener has been destroyed
 						eh.HandleEvent(ge);
 					}
+				}
+			}
+		}
+		//clear any null handlers
+		List<string> rKeys = new List<string>();
+		foreach (string s in registry.Keys) {
+			rKeys.Add(s);
+		}
+		foreach(string s in rKeys){
+			List<EventHandler> handlers = registry[s];
+			for(int i = 0; i < handlers.Count; i++){
+				EventHandler eh = handlers[i];
+				if(eh.Equals (null)){
+					handlers.RemoveAt(i);
+					i--;
 				}
 			}
 		}
