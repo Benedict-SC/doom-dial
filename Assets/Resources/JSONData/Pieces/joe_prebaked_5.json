@@ -12,7 +12,7 @@
 	"slowdownMax":0.0,
 	"penetration":0.0,
 	"shieldShred":0.0,
-	"spread":2,
+	"spread":4,
 	"split":0,
 	"homing":0.0,
 	"arc":0.0

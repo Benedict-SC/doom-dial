@@ -119,6 +119,32 @@ public class BulletController : MonoBehaviour {
 			x = splitRadius * Mathf.Cos (angle);
 			y = splitRadius * Mathf.Sin (angle);
 			transform.position = new Vector3(x, y, transform.position.z);
+
+			if (angle < 0f)
+			{
+				angle += 2*Mathf.PI;
+			}
+
+			if (dirScalar < 0) //clockwise -- only works for negative angles atm??
+			{
+				if (angle <= angleLimit)
+				{
+					Debug.Log ("angle:" + angle);
+					Debug.Log ("angleLimit:" + angleLimit);
+					Debug.Log ("split max range");
+					Collide ();
+				}
+			}
+			else if (dirScalar > 0) //counterclockwise -- only works for positive angles atm??
+			{
+				Debug.Log ("angle:" + angle);
+				Debug.Log ("angleLimit:" + angleLimit);
+				if (angle >= angleLimit) //max range
+				{
+					Collide ();
+				}
+			}
+
 		}
 
 	}
@@ -240,7 +266,11 @@ public class BulletController : MonoBehaviour {
 		isSplitBullet = true; //is the result of a split
 		splitRadius = Mathf.Abs(transform.position.x / Mathf.Cos(Mathf.Atan2 (transform.position.y,transform.position.x)));
 		Debug.Log ("splitRadius is " + splitRadius);
-		angleLimit = Mathf.Atan2 (transform.position.y,transform.position.x) + (dirScalar * Mathf.PI);
+		angleLimit = Mathf.Atan2 (transform.position.y,transform.position.x) + (splitCount * dirScalar * ((Mathf.PI)/3f));
+		if (angleLimit < 0f)
+		{
+			angleLimit += 2*Mathf.PI;
+		}
 	}
 
 	public void SetSplitDist()
