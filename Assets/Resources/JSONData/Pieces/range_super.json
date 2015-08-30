@@ -1,4 +1,6 @@
 {
+	"imgfile":"Piece_Range_SR",
+	
 	"cooldownFactor":0.1,
 	"dmg":0.0,
 	"speed":0.0,
@@ -6,27 +8,26 @@
 	"knockback":0.0,
 	"lifeDrain":0.0,
 	"poison":0.0,
-	"poisonDur":0.0,
 	"splash":0.0,
 	"stun":0.0,
 	"slowdownMin":0.0,
 	"slowdownMax":0.0,
 	"penetration":0.0,
 	"shieldShred":0.0,
-	"trapArmTime":0.0,
 	"spread":1,
 	"split":0,
 	"homing":0.0,
 	"arc":0.0,
 	
 	"width":1,
-	"height":6,
+	"height":7,
 	"blockMap": [
-		[true],
-		[true],
-		[true],
-		[true],
-		[true],
-		[true]
+		[1],
+		[1],
+		[1],
+		[1],
+		[1],
+		[1],
+		[1]
 	]
 }

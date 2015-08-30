@@ -1,18 +1,18 @@
 {
-	"imgfile":"Piece_Penetration_SR",
-	
-	"cooldownFactor":0.1,
-	"dmg":0.0,
+	"imgfile":"Piece_Knockback_SR",
+
+	"cooldownFactor":0.0,
+	"dmg":-10.0,
 	"speed":0.0,
 	"range":0.0,
-	"knockback":0.0,
+	"knockback":0.5,
 	"lifeDrain":0.0,
 	"poison":0.0,
 	"splash":0.0,
 	"stun":0.0,
 	"slowdownMin":0.0,
 	"slowdownMax":0.0,
-	"penetration":0.5,
+	"penetration":0.0,
 	"shieldShred":0.0,
 	"spread":1,
 	"split":0,
@@ -20,10 +20,11 @@
 	"arc":0.0,
 	
 	"width":4,
-	"height":3,
+	"height":4,
 	"blockMap": [
-		[0,4,5,0],
-		[4,1,1,5],
-		[2,2,3,3]
+		[1,1,0,0],
+		[0,1,1,0],
+		[0,0,1,1],
+		[0,0,0,1]
 	]
 }

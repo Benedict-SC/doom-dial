@@ -65,7 +65,7 @@ public class PieceController : MonoBehaviour, EventHandler{
 			}
 		}else if(ge.type.Equals("mouse_release")){
 			
-			if(TouchIsOnMe(pos) && !lockedToGrid){
+			if(!lockedToGrid){ //TouchIsOnMe(pos) && 
 				//check if hovering over left of screen
 				if(transform.position.x < 0.0){
 					GameEvent dropped = new GameEvent("piece_dropped_on_inventory");

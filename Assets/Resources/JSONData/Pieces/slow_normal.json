@@ -1,5 +1,5 @@
 {
-	"imgfile":"Slow_N",
+	"imgfile":"Piece_Slow_N",
 
 	"cooldownFactor":0.0,
 	"dmg":0.0,
@@ -22,7 +22,7 @@
 	"width":2,
 	"height":2,
 	"blockMap": [
-		[1,0],
-		[1,1]
+		[4,0],
+		[3,2]
 	]
 }

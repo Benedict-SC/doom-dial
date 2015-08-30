@@ -99,7 +99,7 @@ public class PieceTemplateController : MonoBehaviour,EventHandler{
 		RectTransform rt = (RectTransform)transform;
 		//float scale;
 		float squareWidth;
-		if(rt.rect.size.x > rt.rect.size.y){
+		if(width > height){
 			squareWidth = maxWidth / width;
 		}else{
 			squareWidth = maxHeight / height;

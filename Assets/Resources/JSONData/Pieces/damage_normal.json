@@ -1,4 +1,6 @@
 {
+	"imgfile":"Piece_Damage_N",
+
 	"cooldownFactor":0.0,
 	"dmg":1.0,
 	"speed":0.0,
@@ -20,8 +22,9 @@
 	"arc":0.0,
 	
 	"width":1,
-	"height":1,
+	"height":2,
 	"blockMap": [
-		[true]
+		[5],
+		[1]
 	]
 }
