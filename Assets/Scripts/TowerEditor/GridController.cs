@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using MiniJSON;
 using System.Collections.Generic;
 using System.IO;
@@ -26,8 +27,10 @@ public class GridController : MonoBehaviour{
 		}
 	}
 	
+	Canvas canvas;
+	
 	Occupancy[,] grid = new Occupancy[GRID_SIZE,GRID_SIZE];
-	SpriteRenderer[,] overlays = new SpriteRenderer[GRID_SIZE,GRID_SIZE];
+	Image[,] overlays = new Image[GRID_SIZE,GRID_SIZE];
 	
 	List<PieceRecord> allPieces = new List<PieceRecord>();
 	string decalFilename = "";
@@ -60,18 +63,27 @@ public class GridController : MonoBehaviour{
 	//Timer test = new Timer();
 	public void Start(){
 		Debug.Log (Application.persistentDataPath);
-		SpriteRenderer gridSprite = transform.gameObject.GetComponent<SpriteRenderer>();
-		gridCorner = gridSprite.bounds.min;
-		gridLength = gridSprite.bounds.size.x;
+		RectTransform rt = (RectTransform)transform;
+		UIRectTranslator translate = transform.gameObject.GetComponent<UIRectTranslator>();
+		canvas = GameObject.Find ("Canvas").GetComponent<Canvas>();
+		//SpriteRenderer gridSprite = transform.gameObject.GetComponent<SpriteRenderer>();
+		Vector3[] corners = new Vector3[4];
+		rt.GetWorldCorners(corners);
+		gridCorner = corners[0];//rt.TransformVector(rt.rect.min) + transform.position;//gridSprite.bounds.min;
+		gridLength = translate.WorldSize(rt).x;//rt.TransformVector(rt.rect.size).x; //gridSprite.bounds.size.x;
 		squareWidth = gridLength / (float)GRID_SIZE;
+		//Debug.Log("SW: " + squareWidth);
 		for(int i = 0; i < GRID_SIZE; i++){
 			for(int j = 0; j < GRID_SIZE; j++){
 				grid[i,j] = new Occupancy();
 				GameObject go = Instantiate (Resources.Load ("Prefabs/ValidOverlay")) as GameObject;
+				go.transform.SetParent(canvas.transform,false);
 				go.transform.position = new Vector3(gridCorner.x + (squareWidth/2) + j*squareWidth,
-				                           gridCorner.y + gridLength - (squareWidth/2) - i*squareWidth,
-				                           go.transform.position.z);
-				overlays[i,j] = go.GetComponent<SpriteRenderer>();
+				                                    gridCorner.y + gridLength - (squareWidth/2) - i*squareWidth,
+				                           			go.transform.position.z);
+				//Debug.Log (go.transform.position.x + "," + go.transform.position.y);
+				//Debug.Log ("GC: " + gridCorner.x + "," + gridCorner.y);
+				overlays[i,j] = go.GetComponent<Image>();
 			}
 		}
 		
@@ -196,12 +208,12 @@ public class GridController : MonoBehaviour{
 			//find top left corner of piece sprite as vector3
 		Vector3 topLeftCorner = p.GetTopLeftCorner();
 		topLeftCorner = new Vector3(topLeftCorner.x,topLeftCorner.y+gridLength,topLeftCorner.z);
-		SpriteRenderer sprite = piece.GetComponent<SpriteRenderer>();
+		//SpriteRenderer sprite = piece.GetComponent<SpriteRenderer>();
 		
 			//find x and y distance of that corner from top left corner of grid
 		//SpriteRenderer gridSprite = transform.gameObject.GetComponent<SpriteRenderer>();
 		float xdist = topLeftCorner.x - gridCorner.x;
-		float ydist = topLeftCorner.y - (gridCorner.y + gridLength + squareWidth); //THIS IS BAD
+		float ydist = topLeftCorner.y - (gridCorner.y + gridLength + 2*squareWidth); //THIS IS BAD
 			//produce vector3 corresponding to position relative to top left of grid
 		Vector3 relativePos = new Vector3(xdist,ydist,topLeftCorner.z);
 			//add half grid square length to x and y of vector for rounding purposes
@@ -289,18 +301,27 @@ public class GridController : MonoBehaviour{
 			string piecefile = (string)pdata["pieceFilename"];
 			
 			GameObject go = Instantiate (Resources.Load ("Prefabs/ExistingPiece")) as GameObject;
+			go.transform.SetParent(canvas.transform,false);
 			PieceController p = go.GetComponent<PieceController>();
 			p.SetGridLock(true);
 			p.ConfigureFromJSON(piecefile);
 			p.SetRotation(rot);
 			allPieces.Add(new PieceRecord(p,x,y));
 			
-			SpriteRenderer sr = go.GetComponent<SpriteRenderer>();
-			Vector3 gridTopCorner = new Vector3(gridCorner.x,gridCorner.y+gridLength,gridCorner.z);
-			go.transform.position = gridTopCorner + new Vector3(squareWidth*x + sr.bounds.extents.x,
-																-squareWidth*y - sr.bounds.extents.y,
-																transform.position.z);
-																
+			//SpriteRenderer sr = go.GetComponent<SpriteRenderer>();
+			//PutThatThingBackWhereItCameFromOrSoHelpMe(go.GetComponent<PieceController>());
+			RectTransform prt = (RectTransform)go.transform;
+			RectTransform rt = (RectTransform)transform;
+			UIRectTranslator translate = transform.gameObject.GetComponent<UIRectTranslator>();
+			Vector3[] corners = new Vector3[4];
+			rt.GetWorldCorners(corners);
+			Vector3 gridTopCorner = corners[1];//new Vector3(gridCorner.x,gridCorner.y+gridLength,gridCorner.z);
+			Vector3 extents = translate.WorldSize(prt)/2;
+			go.transform.position = gridTopCorner + new Vector3(squareWidth*x + extents.x,
+																-squareWidth*(y) - extents.y,
+																go.transform.position.z);
+			
+			
 			int[,] values = p.GetArray(); //we assume all pieces fit- no error checking
 			for(int i = 0; i < values.GetLength(0); i++){
 				for(int j = 0; j < values.GetLength(1);j++){
@@ -417,10 +438,20 @@ public class GridController : MonoBehaviour{
 				
 			}
 		}
-		SpriteRenderer sr = pc.gameObject.GetComponent<SpriteRenderer>();
-		pc.gameObject.transform.position = new Vector3(xcounter*squareWidth + gridCorner.x + sr.bounds.extents.x,
-													gridCorner.y + gridLength - (ycounter*squareWidth) - sr.bounds.extents.y,
-													pc.transform.position.z);
+		//SpriteRenderer sr = pc.gameObject.GetComponent<SpriteRenderer>();
+		
+		PutThatThingBackWhereItCameFromOrSoHelpMe(pc,xcounter,ycounter);
+		/*RectTransform prt = (RectTransform)pc.transform;
+		RectTransform rt = (RectTransform)transform;
+		UIRectTranslator translate = transform.gameObject.GetComponent<UIRectTranslator>();
+		Vector3[] corners = new Vector3[4];
+		rt.GetWorldCorners(corners);
+		Vector3 gridTopCorner = corners[1];//new Vector3(gridCorner.x,gridCorner.y+gridLength,gridCorner.z);
+		Vector3 extents = translate.WorldSize(prt)/2;
+		pc.transform.position = new Vector3(xcounter*squareWidth + gridCorner.x + extents.x,
+		                                    gridCorner.y + gridLength - ((ycounter-1)*squareWidth) - extents.y,
+		                                    pc.transform.position.z);*/
+		
 		for(int i = 0; i < GRID_SIZE; i++){
 			for(int j = 0; j < GRID_SIZE; j++){
 				overlays[i,j].sprite = blank;
@@ -428,6 +459,18 @@ public class GridController : MonoBehaviour{
 		}
 		Debug.Log ("it fit");
 		return fits;
+	}
+	public void PutThatThingBackWhereItCameFromOrSoHelpMe(PieceController pc,int x, int y){
+		RectTransform prt = (RectTransform)pc.transform;
+		RectTransform rt = (RectTransform)transform;
+		UIRectTranslator translate = transform.gameObject.GetComponent<UIRectTranslator>();
+		Vector3[] corners = new Vector3[4];
+		rt.GetWorldCorners(corners);
+		Vector3 gridTopCorner = corners[1];//new Vector3(gridCorner.x,gridCorner.y+gridLength,gridCorner.z);
+		Vector3 extents = translate.WorldSize(prt)/2;
+		pc.transform.position = gridTopCorner + new Vector3(squareWidth*x + extents.x,
+		                                                    -squareWidth*(y) - extents.y,
+		                                                    pc.transform.position.z);
 	}
 
 }

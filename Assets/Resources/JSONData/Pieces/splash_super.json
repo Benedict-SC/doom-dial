@@ -1,0 +1,31 @@
+{
+	"imgfile":"Piece_SplashDamage_SR",
+	
+	"cooldownFactor":0.0,
+	"dmg":0.0,
+	"speed":0.0,
+	"range":0.0,
+	"knockback":0.0,
+	"lifeDrain":0.0,
+	"poison":0.0,
+	"splash":0.75,
+	"stun":0.0,
+	"slowdownMin":0.0,
+	"slowdownMax":0.0,
+	"penetration":0.0,
+	"shieldShred":0.0,
+	"spread":1,
+	"split":0,
+	"homing":0.0,
+	"arc":0.0,
+	
+	"width":5,
+	"height":5,
+	"blockMap": [
+		[0,0,0,5,0]
+		[4,5,3,2,0],
+		[0,2,1,4,0],
+		[0,4,5,3,2],
+		[0,3,0,0,0]
+	]
+}

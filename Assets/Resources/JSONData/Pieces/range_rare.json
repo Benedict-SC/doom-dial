@@ -1,4 +1,6 @@
 {
+	"imgfile":"Piece_Range_R",
+	
 	"cooldownFactor":0.0,
 	"dmg":0.0,
 	"speed":0.0,
@@ -20,12 +22,11 @@
 	"arc":0.0,
 	
 	"width":1,
-	"height":5,
+	"height":4,
 	"blockMap": [
-		[true],
-		[true],
-		[true],
-		[true],
-		[true]
+		[1],
+		[1],
+		[1],
+		[1]
 	]
 }
