@@ -6,7 +6,9 @@ public class AoEController : MonoBehaviour {
 	float LERPDUR = 400; //number of frames the splash effect lasts
 	float lerpTime = 0; //amt of time it takes to expand to max size
 	public float scale;
-
+	GameObject pauseButton;
+	GamePause pauseCheck;
+	bool isPaused;
 	public string parent;
 	public BulletController aoeBulletCon;
 	public TrapController aoeTrapCon;
@@ -21,7 +23,8 @@ public class AoEController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		pauseButton = GameObject.Find ("Pause");
+		pauseCheck = pauseButton.GetComponent<GamePause> ();
 		//Debug.Log ("started AoEController");
 		originalScale = transform.localScale;
 		collide = GetComponent<Collider>();
@@ -31,14 +34,16 @@ public class AoEController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.localScale = Vector3.Lerp (transform.localScale, transform.localScale * scale, lerpTime);
-		colRad = Mathf.Lerp (transform.localScale.x + 0.5f, transform.localScale.x * scale, lerpTime);
-		//Debug.Log ("colRad: " + colRad);
-		if (transform.localScale.x >= originalScale.x * scale)
-		{
-			Destroy (gameObject);
+		isPaused = pauseCheck.isPaused;
+		if (!isPaused) {
+			transform.localScale = Vector3.Lerp (transform.localScale, transform.localScale * scale, lerpTime);
+			colRad = Mathf.Lerp (transform.localScale.x + 0.5f, transform.localScale.x * scale, lerpTime);
+			//Debug.Log ("colRad: " + colRad);
+			if (transform.localScale.x >= originalScale.x * scale) {
+				Destroy (gameObject);
+			}
+			lerpTime += 1f / LERPDUR;
 		}
-		lerpTime += 1f / LERPDUR;
 	}
 
 	public void ScaleProps(float pcent)

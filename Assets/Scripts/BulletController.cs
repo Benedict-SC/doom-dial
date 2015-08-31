@@ -56,6 +56,8 @@ public class BulletController : MonoBehaviour {
 
 	CircleCollider2D collide2D;
 
+	bool isPaused = false;
+
 	// Use this for initialization
 	void Start () {
 		SpriteRenderer sr = transform.gameObject.GetComponent<SpriteRenderer> ();
@@ -86,7 +88,9 @@ public class BulletController : MonoBehaviour {
 			if (homingStrength == 0)
 			{
 				//position doesn't let you modify individual fields so this is gonna be wordy
+				if(!isPaused){
 				this.transform.position = new Vector3(this.transform.position.x + vx, this.transform.position.y + vy, this.transform.position.z);
+				}
 				//if bullet exceeds its range, disappear
 				//Debug.Log ("x is " + transform.position.x + " and spawnx is " + spawnx);
 			}
@@ -118,7 +122,9 @@ public class BulletController : MonoBehaviour {
 
 			x = splitRadius * Mathf.Cos (angle);
 			y = splitRadius * Mathf.Sin (angle);
+			if(!isPaused){
 			transform.position = new Vector3(x, y, transform.position.z);
+			}
 
 			if (angle < 0f)
 			{
@@ -276,6 +282,9 @@ public class BulletController : MonoBehaviour {
 	public void SetSplitDist()
 	{
 		//splitCenterDist = [calculate distance from center]
+	}
+	public void TriggerPause(){
+		isPaused = !isPaused;
 	}
 
 }

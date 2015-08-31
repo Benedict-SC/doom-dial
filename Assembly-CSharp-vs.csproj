@@ -59,6 +59,7 @@
      <Compile Include="Assets\Scripts\Events\GameEvent.cs" />
      <Compile Include="Assets\Scripts\FileLoader.cs" />
      <Compile Include="Assets\Scripts\GamePause.cs" />
+     <Compile Include="Assets\Scripts\GameReturn.cs" />
      <Compile Include="Assets\Scripts\GunController.cs" />
      <Compile Include="Assets\Scripts\InputWatcher.cs" />
      <Compile Include="Assets\Scripts\LevelSelect.cs" />

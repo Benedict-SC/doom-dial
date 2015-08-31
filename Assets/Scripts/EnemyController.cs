@@ -12,6 +12,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	public static readonly float NORMALNESS_RANGE = 2.0f; //constant for determining if an enemy is "slow" or "fast" - ***balance later
 	public static readonly float KNOCK_CONSTANT = 0.5f; //constant for knockback time - ***balance this at some point!
 
+
 	public DialController dialCon;
 
 	long spawntime = 0;
@@ -28,7 +29,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 
 	Timer timer = new Timer();
 	EnemyMover mover;
-	bool moving = false;
+	public bool moving = false;
 	float progress = 0.0f;
 	float progressModifier = 1.0f;
 	bool isSlow = false;
@@ -534,5 +535,9 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		progressModifier = value;
 		yield return new WaitForSeconds(duration);
 		progressModifier = 1.0f;
+	}
+	public void Freeze(){
+		timer.PauseTrigger();
+		moving = !moving;
 	}
 }

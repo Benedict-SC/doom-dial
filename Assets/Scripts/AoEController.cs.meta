@@ -1,10 +1,13 @@
 fileFormatVersion: 2
 guid: 63ed8d135428c804183868a6c617df7f
-timeCreated: 1437775150
+timeCreated: 1440958906
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - pauseButton: {fileID: 139186, guid: c7b1b864ec641654c85b680a440ea258, type: 2}
+  - aoeBulletCon: {instanceID: 0}
+  - aoeTrapCon: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

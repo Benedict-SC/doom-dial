@@ -49,7 +49,7 @@ public class GunController : MonoBehaviour, EventHandler {
 	float maxcool;
 
 	bool shootingV = true; //for use by spread 3 -- are we shooting in a v this turn or not?
-
+	bool isPaused = false;
 	public int buttonID; //assign in the Unity Editor to match the corresponding button
 	//in the future, we'll assign this value in scripts to deal with changing gun placements
 
@@ -79,13 +79,15 @@ public class GunController : MonoBehaviour, EventHandler {
 	
 	// Update is called once per frame
 	void Update () {
-		if (cooldown > 0) {
-			cooldown -= 0.05f; //tweak this for a one-second cooldown from 1.0f
-			//SpriteRenderer overlay = this.gameObject.GetComponentInChildren<SpriteRenderer> ();
-			GameObject overlayObject = transform.Find("CooldownLayer").gameObject;
-			overlayObject.transform.localScale = new Vector3 (cooldown / maxcool, cooldown / maxcool, 1);
-			if(cooldown < 0)
-				cooldown = 0;
+		if (!isPaused) {
+			if (cooldown > 0) {
+				cooldown -= 0.05f; //tweak this for a one-second cooldown from 1.0f
+				//SpriteRenderer overlay = this.gameObject.GetComponentInChildren<SpriteRenderer> ();
+				GameObject overlayObject = transform.Find ("CooldownLayer").gameObject;
+				overlayObject.transform.localScale = new Vector3 (cooldown / maxcool, cooldown / maxcool, 1);
+				if (cooldown < 0)
+					cooldown = 0;
+			}
 		}
 	}
 
@@ -572,5 +574,8 @@ public class GunController : MonoBehaviour, EventHandler {
 	public void SetCooldown(float pCooldown)
 	{
 		maxcool = pCooldown;
+	}
+	public void triggerPause(){
+		isPaused = !isPaused;
 	}
 }

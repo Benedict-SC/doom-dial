@@ -5,7 +5,7 @@ using System.Collections;
 public class ButtonController : MonoBehaviour, EventHandler {
 
 	public int buttonID;
-
+	bool isPaused = false;
 	GunController gc = null;
 
 	// Use this for initialization
@@ -43,21 +43,27 @@ public class ButtonController : MonoBehaviour, EventHandler {
 	}
 
 	public void HandleEvent(GameEvent ge){ //REVISE FOR TOUCH LATER
-		Vector3 pos = this.transform.position;
-		Vector3 mousepos = (Vector3)ge.args [0];
-		Vector3 newmousepos = mousepos;//Camera.main.ScreenToWorldPoint (mousepos); //handled in inputwatcher now
-		newmousepos.z = 0;
-		float distance = (newmousepos - pos).magnitude;
-		//calculate radius of buttons
-		SpriteRenderer s = this.GetComponent<SpriteRenderer> ();
-		float radius = s.bounds.size.x/2;
+		if (!isPaused) {
+			Vector3 pos = this.transform.position;
+			Vector3 mousepos = (Vector3)ge.args [0];
+			Vector3 newmousepos = mousepos;//Camera.main.ScreenToWorldPoint (mousepos); //handled in inputwatcher now
+			newmousepos.z = 0;
+			float distance = (newmousepos - pos).magnitude;
+			//calculate radius of buttons
+			SpriteRenderer s = this.GetComponent<SpriteRenderer> ();
+			float radius = s.bounds.size.x / 2;
 
 
-		if (distance < radius && gc != null) {
-			//Debug.Log ("button released on button " + buttonID);
-			GameEvent nge = new GameEvent("shot_fired");
-			nge.addArgument(buttonID);
-			EventManager.Instance().RaiseEvent(nge);
+			if (distance < radius && gc != null) {
+				//Debug.Log ("button released on button " + buttonID);
+				GameEvent nge = new GameEvent ("shot_fired");
+				nge.addArgument (buttonID);
+				EventManager.Instance ().RaiseEvent (nge);
+			}
 		}
+	}
+	public void TriggerPause(){
+		isPaused = !isPaused;
+		gc.triggerPause ();
 	}
 }

@@ -14,7 +14,9 @@ public class WaveManager : MonoBehaviour {
 	string worldVar = "World1";
 	string levelVar = "Level1";
 	bool onBreather = false;
-
+	bool isPaused = false;
+	long ellapsedTime = 0;
+	long pauseTime = 0;
 	// Use this for initialization
 	void Start () {
 		ring = GameObject.Find ("OuterRing").gameObject.GetComponent<TrackController>();
@@ -43,50 +45,64 @@ public class WaveManager : MonoBehaviour {
 
 		timer = new Timer ();
 		timer.Restart ();
+		pauseTime = 0;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (onBreather) {
-			//Debug.Log("on breather");
-			if(timer.TimeElapsedMillis() > 8000){
-				onBreather = false;
-				activeWaveIndex++;
-				if(activeWaveIndex < waves.Count){
-					activeWave = waves[activeWaveIndex];
+		ellapsedTime = timer.TimeElapsedMillis() + pauseTime;
+		if (!isPaused) {
+
+			if (onBreather) {
+				//Debug.Log("on breather");
+				if (ellapsedTime > 8000) {
+					onBreather = false;
+					activeWaveIndex++;
+					if (activeWaveIndex < waves.Count) {
+						activeWave = waves [activeWaveIndex];
+					}
+					timer.Restart ();
+					pauseTime = 0;
 				}
-				timer.Restart();
+				return;
 			}
-			return;
-		}
 
-		List<GameObject> spawnedThisCycle = new List<GameObject> ();
-		foreach (GameObject enemy in activeWave.GetEnemies()) {
-			EnemyController e = enemy.GetComponent<EnemyController>();
-			if(e.GetSpawnTime() - ring.GetHeadStartOfTrack(e.GetTrackID()) < timer.TimeElapsedMillis()
-							   && !e.HasWarned()){
-				e.Warn();
-				GameEvent warning = new GameEvent("warning");
-				warning.addArgument(e);
-				EventManager.Instance().RaiseEvent(warning);
+			List<GameObject> spawnedThisCycle = new List<GameObject> ();
+			foreach (GameObject enemy in activeWave.GetEnemies()) {
+				EnemyController e = enemy.GetComponent<EnemyController> ();
+				if (e.GetSpawnTime () - ring.GetHeadStartOfTrack (e.GetTrackID ()) < ellapsedTime
+					&& !e.HasWarned ()) {
+					e.Warn ();
+					GameEvent warning = new GameEvent ("warning");
+					warning.addArgument (e);
+					EventManager.Instance ().RaiseEvent (warning);
+				}
+				if (e.GetSpawnTime () < ellapsedTime) {
+					spawnedThisCycle.Add (enemy);
+					enemy.SetActive (true);
+					e.StartMoving ();
+				}
 			}
-			if(e.GetSpawnTime() < timer.TimeElapsedMillis()){
-				spawnedThisCycle.Add(enemy);
-				enemy.SetActive(true);
-				e.StartMoving();
+			foreach (GameObject spawned in spawnedThisCycle) {
+				activeWave.RemoveEnemy (spawned);
 			}
-		}
-		foreach (GameObject spawned in spawnedThisCycle) {
-			activeWave.RemoveEnemy(spawned);
-		}
 
-		if (activeWave.IsEverythingDead ()) {
-			timer.Restart();
-			onBreather = true;
+			if (activeWave.IsEverythingDead ()) {
+				timer.Restart ();
+				pauseTime = 0;
+				onBreather = true;
+			}
 		}
 	}
 	public void setLocations(string world, string level){
 		worldVar = world;
 		levelVar = level;
+	}
+	public void triggerFreeze(){
+		if (!isPaused) {
+			pauseTime = timer.TimeElapsedMillis() + pauseTime;
+		} 
+		timer.PauseTrigger ();
+		isPaused = !isPaused;
 	}
 }
