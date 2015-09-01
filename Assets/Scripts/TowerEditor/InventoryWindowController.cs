@@ -18,6 +18,7 @@ public class InventoryWindowController : MonoBehaviour{
 			template = t.GetComponent<PieceTemplateController>();
 			if(c > 0){
 				template.transform.SetParent(frame.transform,true);
+				t.transform.SetAsFirstSibling();
 				template.transform.localPosition = new Vector3(98f,0f,0.01f);
 				template.ConfigureFromJSON(pfn);
 				template.SetCount(c);
@@ -35,12 +36,16 @@ public class InventoryWindowController : MonoBehaviour{
 			template = t.GetComponent<PieceTemplateController>();
 			if(c > 0){
 				template.transform.SetParent(frame.transform,true);
+				t.transform.SetAsFirstSibling();
 				template.transform.localPosition = new Vector3(98f,0f,0.01f);
 				template.ConfigureFromJSON(pfn);
 				template.SetCount(c);
 			}else{
 				template = null;
 				Destroy (t);
+			}
+			if(f != null && GetCount() > 0){
+				SetCount (c);
 			}
 		}
 		public int GetCount(){
@@ -56,10 +61,18 @@ public class InventoryWindowController : MonoBehaviour{
 			}else if(count > 0){
 				//create a temporary template to hold the thing
 				GameObject t = Instantiate (Resources.Load ("Prefabs/PieceTemplate")) as GameObject;
+				t.transform.SetAsFirstSibling();
 				template = t.GetComponent<PieceTemplateController>();
 				template.SetCount(count);
 			}
 			//don't forget to update the frame's text element for tracking count
+			if(frame != null)
+				UpdateText (count);
+		}
+		public void UpdateText(int count){
+			Transform cTransform = frame.transform.FindChild("CountText");
+			Text countText = cTransform.gameObject.GetComponent<Text>();
+			countText.text = "" + count;
 		}
 	}
 
@@ -74,7 +87,6 @@ public class InventoryWindowController : MonoBehaviour{
 		PopulateInventoryFromJSON();
 	}
 	public void Update(){
-	
 	}
 	
 	public void PopulateInventoryFromJSON(){
@@ -116,6 +128,10 @@ public class InventoryWindowController : MonoBehaviour{
 			    added++;
 			}
 			InventoryRecord ir = new InventoryRecord(go,count,piecefile);
+			if(ir.frame != null){
+				ir.SetCount(count);
+			}
+			
 			fullList.Add(ir);
 		}
 	}

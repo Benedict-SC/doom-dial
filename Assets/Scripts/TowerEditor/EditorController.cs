@@ -23,14 +23,14 @@ public class EditorController : MonoBehaviour,EventHandler{
 		em.RegisterForEventType("template_tapped",this);
 		em.RegisterForEventType("piece_dropped_on_inventory",this);
 		
-		GameObject go = Instantiate (Resources.Load ("Prefabs/ExistingPiece")) as GameObject;
+		/*GameObject go = Instantiate (Resources.Load ("Prefabs/ExistingPiece")) as GameObject;
 		go.transform.SetParent(canvas.transform,false);
 		go.transform.position = new Vector3(go.transform.position.x-2,go.transform.position.y,go.transform.position.z);
 		floatingPiece = go.GetComponent<PieceController>();
 		floatingPiece.ConfigureFromJSON("penetration_normal");
-		floatingPiece.SetRotation(180);
+		floatingPiece.SetRotation(180);*/
 		
-		ewc.transform.rotation = floatingPiece.transform.rotation;
+		//ewc.transform.rotation = floatingPiece.transform.rotation;
 		
 	}
 	public void Update(){
