@@ -77,6 +77,7 @@
      <Compile Include="Assets\Scripts\Movers\StrafingMover.cs" />
      <Compile Include="Assets\Scripts\Movers\ZigzagMover.cs" />
      <Compile Include="Assets\Scripts\PieceParser.cs" />
+     <Compile Include="Assets\Scripts\RunOnceOnGameStartup.cs" />
      <Compile Include="Assets\Scripts\ShieldController.cs" />
      <Compile Include="Assets\Scripts\SpinScript.cs" />
      <Compile Include="Assets\Scripts\Timer.cs" />
@@ -94,6 +95,7 @@
      <Compile Include="Assets\Scripts\WorldData.cs" />
      <Compile Include="Assets\Scripts\WorldSelect.cs" />
      <None Include="Assets\Misc\BulletEffectsLog.txt" />
+     <None Include="Assets\Resources\JSONData\MiscData\inventorybackup.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

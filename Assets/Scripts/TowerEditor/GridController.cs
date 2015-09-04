@@ -27,12 +27,25 @@ public class GridController : MonoBehaviour{
 		}
 	}
 	
+	public class PieceRecord{
+		public PieceController pc;
+		public int x;
+		public int y;
+		public PieceRecord(PieceController p, int nx, int ny){
+			pc = p;
+			x = nx;
+			y = ny;
+		}
+	}
+	
 	Canvas canvas;
+	InputField nameEntry;
 	
 	Occupancy[,] grid = new Occupancy[GRID_SIZE,GRID_SIZE];
 	Image[,] overlays = new Image[GRID_SIZE,GRID_SIZE];
 	
 	List<PieceRecord> allPieces = new List<PieceRecord>();
+	string towerName = "";
 	string decalFilename = "";
 	string towerType = "";
 	
@@ -50,22 +63,14 @@ public class GridController : MonoBehaviour{
 	Sprite se;
 	Sprite sw;
 	
-	public class PieceRecord{
-		public PieceController pc;
-		public int x;
-		public int y;
-		public PieceRecord(PieceController p, int nx, int ny){
-			pc = p;
-			x = nx;
-			y = ny;
-		}
-	}
+	
 	//Timer test = new Timer();
 	public void Start(){
 		Debug.Log (Application.persistentDataPath);
 		RectTransform rt = (RectTransform)transform;
 		UIRectTranslator translate = transform.gameObject.GetComponent<UIRectTranslator>();
 		canvas = GameObject.Find ("Canvas").GetComponent<Canvas>();
+		nameEntry = canvas.gameObject.transform.FindChild("NameEntry").GetComponent<InputField>();
 		//SpriteRenderer gridSprite = transform.gameObject.GetComponent<SpriteRenderer>();
 		Vector3[] corners = new Vector3[4];
 		rt.GetWorldCorners(corners);
@@ -285,12 +290,16 @@ public class GridController : MonoBehaviour{
 	}
 	
 	public void LoadTower(string filename){
-		FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Towers",filename);
+		FileLoader fl = new FileLoader (Application.persistentDataPath,"Towers","testSaveLocation");
+		//FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Towers",filename);
 		string json = fl.Read ();
 		Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
 		
+		towerName = (string)data["towerName"];
 		decalFilename = (string)data["decalFilename"];
 		towerType = (string)data["towerType"];
+		
+		nameEntry.text = towerName;
 		
 		List<System.Object> pieces = data["pieces"] as List<System.Object>;
 		foreach(System.Object pObj in pieces){
@@ -353,6 +362,7 @@ public class GridController : MonoBehaviour{
 		FileLoader fl = new FileLoader (Application.persistentDataPath,"Towers","testSaveLocation");
 		string json = "";
 		json += "{\n";
+		json += "\t\"towerName\":\"" + nameEntry.text + "\",\n";
 		json += "\t\"decalFilename\":\"" + decalFilename + "\",\n";
 		json += "\t\"towerType\":\"" + towerType + "\",\n";
 		json += "\n";

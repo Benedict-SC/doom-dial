@@ -90,7 +90,7 @@ public class InventoryWindowController : MonoBehaviour{
 	}
 	
 	public void PopulateInventoryFromJSON(){
-		FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "MiscData","inventory");
+		FileLoader fl = new FileLoader (Application.persistentDataPath,"Inventory","inventory");
 		string json = fl.Read ();
 		Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
 		
@@ -134,6 +134,25 @@ public class InventoryWindowController : MonoBehaviour{
 			
 			fullList.Add(ir);
 		}
+	}
+	public void SaveInventory(){
+		FileLoader fl = new FileLoader (Application.persistentDataPath,"Inventory","inventory");
+		
+		Dictionary<string,System.Object> data = new Dictionary<string,System.Object>();
+		List<System.Object> pieces = new List<System.Object>();
+		for(int i = 0; i < fullList.Count; i++){
+			InventoryRecord ir = fullList[i];
+			Dictionary<string,System.Object> invObject = new Dictionary<string,System.Object>();
+			string filename = ir.pieceFileName;
+			int count = ir.GetCount();
+			invObject.Add("filename",filename);
+			invObject.Add("owned",count);
+			pieces.Add(invObject);
+		}
+		data.Add("pieces",pieces);		
+		
+		string filedata = Json.Serialize(data);
+		fl.Write(filedata);
 	}
 	public void AddPiece(PieceController p){
 		string fname = p.GetFilename();
