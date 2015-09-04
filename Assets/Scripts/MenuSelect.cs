@@ -28,13 +28,7 @@ public class MenuSelect : MonoBehaviour, EventHandler {
 					//Debug.Log ("try and load level select");
 					Application.LoadLevel(levelName);
 				}
-				if (targetFind.collider.gameObject == menuButton) {
-					Debug.Log("Test");
-					test = worldHolder.GetComponent<WorldData>().lastScene;
-					Application.LoadLevel(test);
-				}
-			}
-			
+			}	
 		}
 	}
 	// Update is called once per frame
@@ -44,13 +38,17 @@ public class MenuSelect : MonoBehaviour, EventHandler {
 			switch(menuPosition){
 				//Sets values for WorldData, the on screen text, and the level that will be loaded
 			case 0:
-
+				textMesh.GetComponent<TextMesh>().text = "Settings";
+				Debug.Log("Settings not done, add in later");
 				break;
 			case 1:
-
+				textMesh.GetComponent<TextMesh>().text = "Library";
+				Debug.Log("Library not done, add in later");
+				//levelName = "MenuTest";
 				break;
 			case 2:
-
+				textMesh.GetComponent<TextMesh>().text = "Back";
+				levelName = worldHolder.GetComponent<WorldData>().lastScene;
 				break;
 			case 3:
 				textMesh.GetComponent<TextMesh>().text = "Main Menu";
