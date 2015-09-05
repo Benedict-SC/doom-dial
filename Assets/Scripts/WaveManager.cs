@@ -51,6 +51,7 @@ public class WaveManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		ellapsedTime = timer.TimeElapsedMillis() + pauseTime;
+		//stops any spawning from happening while paused
 		if (!isPaused) {
 
 			if (onBreather) {
@@ -99,9 +100,12 @@ public class WaveManager : MonoBehaviour {
 		levelVar = level;
 	}
 	public void triggerFreeze(){
+
 		if (!isPaused) {
-			pauseTime = timer.TimeElapsedMillis() + pauseTime;
+			//gets current time when paused, to keep enemy spawning from desyncing when unpaused
+			pauseTime += timer.TimeElapsedMillis();
 		} 
+		//stop timer
 		timer.PauseTrigger ();
 		isPaused = !isPaused;
 	}

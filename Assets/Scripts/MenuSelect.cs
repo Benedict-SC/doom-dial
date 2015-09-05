@@ -7,6 +7,9 @@ public class MenuSelect : MonoBehaviour, EventHandler {
 	public GameObject startButton;
 	public GameObject menuButton;
 	public GameObject worldHolder;
+	public GameObject returnButton;
+	public GameObject cameraLock1;
+	public GameObject cameraLock2;
 	string levelName = "WorldSelect";
 	int lastPosition = 1;
 	public string test;
@@ -26,7 +29,13 @@ public class MenuSelect : MonoBehaviour, EventHandler {
 				//sees if ray collided with the start button
 				if (targetFind.collider.gameObject == startButton) {
 					//Debug.Log ("try and load level select");
+					if(menuPosition != 0){
 					Application.LoadLevel(levelName);
+					}else{
+						Camera.main.transform.position = cameraLock2.transform.position;
+					}
+				}else if (targetFind.collider.gameObject == returnButton){
+					Camera.main.transform.position = cameraLock1.transform.position;
 				}
 			}	
 		}

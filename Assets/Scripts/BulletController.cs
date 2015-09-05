@@ -56,6 +56,7 @@ public class BulletController : MonoBehaviour {
 
 	CircleCollider2D collide2D;
 
+	//var to stop the bullet during pause
 	bool isPaused = false;
 
 	// Use this for initialization
@@ -89,6 +90,7 @@ public class BulletController : MonoBehaviour {
 			{
 				//position doesn't let you modify individual fields so this is gonna be wordy
 				if(!isPaused){
+					//Stops bullet during pause
 				this.transform.position = new Vector3(this.transform.position.x + vx, this.transform.position.y + vy, this.transform.position.z);
 				}
 				//if bullet exceeds its range, disappear
@@ -122,6 +124,7 @@ public class BulletController : MonoBehaviour {
 
 			x = splitRadius * Mathf.Cos (angle);
 			y = splitRadius * Mathf.Sin (angle);
+			//stops bullet during pause
 			if(!isPaused){
 			transform.position = new Vector3(x, y, transform.position.z);
 			}
@@ -284,6 +287,7 @@ public class BulletController : MonoBehaviour {
 		//splitCenterDist = [calculate distance from center]
 	}
 	public void TriggerPause(){
+		//toggles between paused and unpaused
 		isPaused = !isPaused;
 	}
 
