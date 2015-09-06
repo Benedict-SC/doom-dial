@@ -30,9 +30,10 @@ public class DialController : MonoBehaviour,EventHandler {
 		EventManager.Instance ().RegisterForEventType ("enemy_arrived", this);
 		LoadDialConfigFromJSON ("testdial");
 		
-		superBars[0] = GameObject.Find("Super1").gameObject;
-		superBars[1] = GameObject.Find("Super2").gameObject;
-		superBars[2] = GameObject.Find("Super3").gameObject;
+		GameObject zoneLines = GameObject.Find("ZoneLines").gameObject;
+		superBars[0] = zoneLines.transform.FindChild("Super1").gameObject;
+		superBars[1] = zoneLines.transform.FindChild("Super2").gameObject;
+		superBars[2] = zoneLines.transform.FindChild("Super3").gameObject;
 		for(int i = 0; i < 3; i++){
 			Transform bar = superBars[i].transform;
 			bar.localScale = new Vector3(0.0f, bar.localScale.y,bar.localScale.z);
@@ -73,7 +74,8 @@ public class DialController : MonoBehaviour,EventHandler {
 		float multiplier = 1-baseWidth; //TRACK_LENGTH / FULL_LENGTH;
 		
 		for(int i = 0; i < 3; i++){
-			Transform bar = superBars[i].transform;
+			GameObject barObj = superBars[i];
+			Transform bar = barObj.transform;
 			bar.localScale = new Vector3(baseWidth + (multiplier*superPercentage), bar.localScale.y,bar.localScale.z);
 		}
 	}
