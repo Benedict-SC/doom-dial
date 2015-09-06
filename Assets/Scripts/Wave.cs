@@ -83,6 +83,14 @@ public class Wave{
 			Debug.Log ("spawntimes and enemies don't match! (" + spawntimesInMillis.Count + "/" + enemyjson.Count + ")"); 
 		}
 		
+		//shuffle the enemy order (fisher-yates)
+		for(int i = enemyjson.Count - 1; i > 0; i--){
+			int j = rand.Next(i+1);
+			System.Object temp = enemyjson[i];
+			enemyjson[i] = enemyjson[j];
+			enemyjson[j] = temp;
+		}
+		
 		for(int i = 0; i < enemyjson.Count; i++){
 			System.Object enemy = enemyjson[i];
 			Dictionary<string,System.Object> enemydict = (Dictionary<string,System.Object>)enemy;
