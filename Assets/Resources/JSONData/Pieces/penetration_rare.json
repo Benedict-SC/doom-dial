@@ -25,5 +25,7 @@
 		[4,5],
 		[1,1],
 		[2,3]
-	]
+	],
+	
+	"bulletText":"Projectiles will be more effective against shielded enemies, ignoring +35% of their shield."
 }

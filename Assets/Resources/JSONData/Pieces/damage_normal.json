@@ -26,5 +26,7 @@
 	"blockMap": [
 		[5],
 		[1]
-	]
+	],
+	
+	"bulletText":"Projectiles will deal +1 damage to enemies."
 }

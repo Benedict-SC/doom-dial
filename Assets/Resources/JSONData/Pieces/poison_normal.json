@@ -25,5 +25,7 @@
 		[0,5],
 		[4,2],
 		[3,0]
-	]
+	],
+	
+	"bulletText":"Projectiles cause enemies to slowly decay, removing +10% enemy HP over 3 seconds. Each hit will refresh the decay timer."
 }

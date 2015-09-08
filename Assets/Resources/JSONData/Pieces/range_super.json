@@ -29,5 +29,7 @@
 		[1],
 		[1],
 		[1]
-	]
+	],
+	
+	"bulletText":"Projectiles travel farther, increasing their max distance by 25% of the track."
 }

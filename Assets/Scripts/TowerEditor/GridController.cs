@@ -135,7 +135,7 @@ public class GridController : MonoBehaviour{
 			new Vector2(0.5f,0.5f),
 			80f);
 		
-		LoadTower("drainpunch");
+		//LoadTower("drainpunch");
 		
 		//test.Restart();
 		

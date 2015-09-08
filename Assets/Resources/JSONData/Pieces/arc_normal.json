@@ -24,5 +24,7 @@
 	"blockMap": [
 		[0,4,5,0],
 		[4,0,0,5]
-	]
+	],
+	
+	"bulletText":"Projectiles will warp to their max distance, phase back in, and deal 30% extra damage, ignoring all shields."
 }

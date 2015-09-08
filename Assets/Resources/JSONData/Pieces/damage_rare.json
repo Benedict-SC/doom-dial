@@ -27,5 +27,7 @@
 		[5,0],
 		[1,5],
 		[1,1]
-	]
+	],
+	
+	"bulletText":"Projectiles will deal +6 damage to enemies."
 }

@@ -25,5 +25,7 @@
 		[4,0,0],
 		[1,1,0],
 		[3,1,2]
-	]
+	],
+	
+	"bulletText":"Projectiles cause gravity to increase around enemies, causing them to move between +20% and +30% slower."
 }

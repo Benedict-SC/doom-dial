@@ -24,5 +24,7 @@
 	"blockMap": [
 		[4],
 		[2]
-	]
+	],
+	
+	"bulletText":"Projectiles will leech the enemy's life force, healing you for +10% of the damage dealt."
 }

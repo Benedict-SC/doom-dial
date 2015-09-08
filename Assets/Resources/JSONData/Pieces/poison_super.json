@@ -26,5 +26,7 @@
 		[4,2,1],
 		[1,4,2],
 		[0,3,0]
-	]
+	],
+	
+	"bulletText":"Projectiles cause enemies to slowly decay, removing +20% enemy HP over 3 seconds. -20 damage penalty."
 }
