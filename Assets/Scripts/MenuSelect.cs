@@ -51,9 +51,8 @@ public class MenuSelect : MonoBehaviour, EventHandler {
 				Debug.Log("Settings not done, add in later");
 				break;
 			case 1:
-				textMesh.GetComponent<TextMesh>().text = "Library";
-				Debug.Log("Library not done, add in later");
-				//levelName = "MenuTest";
+				textMesh.GetComponent<TextMesh>().text = "Tower Editor";
+				levelName = "TowerEditor";
 				break;
 			case 2:
 				textMesh.GetComponent<TextMesh>().text = "Back";

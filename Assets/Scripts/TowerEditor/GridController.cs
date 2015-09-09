@@ -138,7 +138,9 @@ public class GridController : MonoBehaviour{
 		//LoadTower("drainpunch");
 		
 		//test.Restart();
-		
+		GameObject loader = GameObject.Find ("NameHolder");
+		LoadTower (loader.GetComponent<TowerLoad> ().towerName);
+		Destroy (loader);
 	}
 	public void Update(){
 		/*if(test.TimeElapsedSecs() >= 20){
@@ -290,8 +292,8 @@ public class GridController : MonoBehaviour{
 	}
 	
 	public void LoadTower(string filename){
-		FileLoader fl = new FileLoader (Application.persistentDataPath,"Towers","testSaveLocation");
-		//FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Towers",filename);
+		//FileLoader fl = new FileLoader (Application.persistentDataPath,"Towers","testSaveLocation");
+		FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Towers",filename);
 		string json = fl.Read ();
 		Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
 		
