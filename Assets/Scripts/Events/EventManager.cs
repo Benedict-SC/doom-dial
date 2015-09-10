@@ -15,6 +15,7 @@ using System.Collections.Generic;
  * piece_tapped
  * template_tapped
  * piece_dropped_on_inventory
+ * readout_update
  */
 
 public class EventManager{

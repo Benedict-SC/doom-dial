@@ -135,7 +135,7 @@ public class GridController : MonoBehaviour{
 			new Vector2(0.5f,0.5f),
 			80f);
 		
-		//LoadTower("drainpunch");
+		LoadTower("drainpunch");
 		
 		//test.Restart();
 		
@@ -356,7 +356,8 @@ public class GridController : MonoBehaviour{
 					}
 				}
 			}
-		}		
+		}
+		UpdateReadout();		
 	}
 	public void SaveTower(){
 		FileLoader fl = new FileLoader (Application.persistentDataPath,"Towers","testSaveLocation");
@@ -389,6 +390,7 @@ public class GridController : MonoBehaviour{
 		foreach(PieceRecord pr in allPieces){
 			if(pr.pc == pc){
 				allPieces.Remove(pr);
+				UpdateReadout();
 				break;
 			}
 		}
@@ -421,6 +423,7 @@ public class GridController : MonoBehaviour{
 		//we've gone through and there've been no collisions
 		//actually add the piece
 		allPieces.Add(new PieceRecord(pc,xcounter,ycounter));
+		UpdateReadout();
 		for(int i = 0; i < pieceValues.GetLength(0); i++){
 			for(int j = 0; j < pieceValues.GetLength(1); j++){
 				Occupancy o = grid[ycounter + i,xcounter + j];
@@ -481,6 +484,18 @@ public class GridController : MonoBehaviour{
 		pc.transform.position = gridTopCorner + new Vector3(squareWidth*x + extents.x,
 		                                                    -squareWidth*(y) - extents.y,
 		                                                    pc.transform.position.z);
+	}
+	public void UpdateReadout(){
+		List<string> filenames = new List<string>();
+		foreach(PieceRecord pr in allPieces){
+			filenames.Add(pr.pc.GetFilename());
+		}
+		Dictionary<string,float> updatedDict = PieceParser.GetStatsFromGrid(filenames);
+		//fire off an update event
+		GameEvent ge = new GameEvent("readout_update");
+		ge.addArgument(updatedDict);
+		EventManager.Instance().RaiseEvent(ge);
+		Debug.Log ("we read the thing");
 	}
 
 }
