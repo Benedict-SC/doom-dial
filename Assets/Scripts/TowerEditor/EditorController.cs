@@ -41,7 +41,9 @@ public class EditorController : MonoBehaviour,EventHandler{
 	public void Update(){
 		if(!gridloaded){
 			gridloaded = true;
-			LoadTower ("drainpunch");
+			GameObject loader = GameObject.Find ("NameHolder");
+			LoadTower (loader.GetComponent<TowerLoad> ().towerName);
+			Destroy (loader);
 		}
 	
 		if(floatingPiece != null && floatingPiece.IsMoving()){

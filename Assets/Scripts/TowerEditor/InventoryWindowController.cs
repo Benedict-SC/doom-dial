@@ -174,7 +174,7 @@ public class InventoryWindowController : MonoBehaviour{
 		
 		string filedata = Json.Serialize(data);
 		fl.Write(filedata);
-		Application.LoadLevel("Menu");
+		Application.LoadLevel("TestScene 1");
 	}
 	public void AddPiece(PieceController p){
 		string fname = p.GetFilename();
