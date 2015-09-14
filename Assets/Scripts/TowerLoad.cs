@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class TowerLoad : MonoBehaviour {
-	public string towerName = "joetower1";
+	public string towerName = "drainpunch";
 	bool killCheck = true;
 	// Use this for initialization
 	void Start () {

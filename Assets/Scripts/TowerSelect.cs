@@ -23,7 +23,7 @@ public class TowerSelect : MonoBehaviour, EventHandler {
 			if (menuPosition == 6){
 				menuPosition = 0;
 			}
-			loader.towerName = "joetower" + (menuPosition+1).ToString();
+			loader.towerName = "devtest" + (menuPosition+1).ToString();
 		}else if(ge.type.Equals("mouse_click")){
 			RaycastHit targetFind;
 			

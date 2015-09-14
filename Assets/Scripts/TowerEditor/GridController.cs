@@ -44,6 +44,7 @@ public class GridController : MonoBehaviour{
 	Occupancy[,] grid = new Occupancy[GRID_SIZE,GRID_SIZE];
 	Image[,] overlays = new Image[GRID_SIZE,GRID_SIZE];
 	
+	string towerFileName = "";
 	List<PieceRecord> allPieces = new List<PieceRecord>();
 	string towerName = "";
 	string decalFilename = "";
@@ -292,6 +293,7 @@ public class GridController : MonoBehaviour{
 	}
 	
 	public void LoadTower(string filename){
+		towerFileName = filename;
 		//FileLoader fl = new FileLoader (Application.persistentDataPath,"Towers","testSaveLocation");
 		FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Towers",filename);
 		string json = fl.Read ();
@@ -361,7 +363,8 @@ public class GridController : MonoBehaviour{
 		}		
 	}
 	public void SaveTower(){
-		FileLoader fl = new FileLoader (Application.persistentDataPath,"Towers","testSaveLocation");
+		//FileLoader fl = new FileLoader (Application.persistentDataPath,"Towers","testSaveLocation");
+		FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Towers",towerFileName);
 		string json = "";
 		json += "{\n";
 		json += "\t\"towerName\":\"" + nameEntry.text + "\",\n";
