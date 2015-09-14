@@ -181,16 +181,16 @@ public class InventoryWindowController : MonoBehaviour{
 		for(int i = 0; i < fullList.Count; i++){
 			InventoryRecord ir = fullList[i];
 			if(fname.Equals(ir.pieceFileName)){
-				Debug.Log("old count is " + ir.GetCount()); 
+				//Debug.Log("old count is " + ir.GetCount()); 
 				ir.SetCount(ir.GetCount()+1);
-				Debug.Log ("new count is " + ir.GetCount());
+				//Debug.Log ("new count is " + ir.GetCount());
 				if(ir.GetCount() == 1){
-					Debug.Log ("we just tried refreshing");
+					//Debug.Log ("we just tried refreshing");
 					RefreshList();
 				}
 				break;
 			}else{
-				Debug.Log(fname + " doesn't equal " + ir.pieceFileName);
+				//Debug.Log(fname + " doesn't equal " + ir.pieceFileName);
 			}
 		}
 	}
