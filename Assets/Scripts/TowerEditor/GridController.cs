@@ -136,12 +136,12 @@ public class GridController : MonoBehaviour{
 			new Vector2(0.5f,0.5f),
 			80f);
 		
-		LoadTower("drainpunch");
+		//LoadTower("drainpunch");
 		
 		//test.Restart();
-		GameObject loader = GameObject.Find ("NameHolder");
-		LoadTower (loader.GetComponent<TowerLoad> ().towerName);
-		Destroy (loader);
+		//GameObject loader = GameObject.Find ("NameHolder");
+		//LoadTower (loader.GetComponent<TowerLoad> ().towerName);
+		//Destroy (loader);
 	}
 	public void Update(){
 		/*if(test.TimeElapsedSecs() >= 20){

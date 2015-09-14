@@ -87,6 +87,7 @@
      <Compile Include="Assets\Scripts\TowerEditor\InventoryWindowController.cs" />
      <Compile Include="Assets\Scripts\TowerEditor\PieceController.cs" />
      <Compile Include="Assets\Scripts\TowerEditor\PieceTemplateController.cs" />
+     <Compile Include="Assets\Scripts\TowerEditor\StatReadout.cs" />
      <Compile Include="Assets\Scripts\TowerLoad.cs" />
      <Compile Include="Assets\Scripts\TowerSelect.cs" />
      <Compile Include="Assets\Scripts\TrackController.cs" />
