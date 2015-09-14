@@ -290,8 +290,8 @@ public class GridController : MonoBehaviour{
 	}
 	
 	public void LoadTower(string filename){
-		FileLoader fl = new FileLoader (Application.persistentDataPath,"Towers","testSaveLocation");
-		//FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Towers",filename);
+		//FileLoader fl = new FileLoader (Application.persistentDataPath,"Towers","testSaveLocation");
+		FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Towers",filename);
 		string json = fl.Read ();
 		Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
 		
@@ -299,7 +299,7 @@ public class GridController : MonoBehaviour{
 		decalFilename = (string)data["decalFilename"];
 		towerType = (string)data["towerType"];
 		
-		nameEntry.text = towerName;
+		//nameEntry.text = towerName;
 		
 		List<System.Object> pieces = data["pieces"] as List<System.Object>;
 		foreach(System.Object pObj in pieces){

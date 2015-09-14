@@ -1,5 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
+using MiniJSON;
+using System.IO;
+using System.Collections.Generic;
 
 public class EditorController : MonoBehaviour,EventHandler{
 
@@ -8,7 +11,15 @@ public class EditorController : MonoBehaviour,EventHandler{
 	EditorWheelController ewc;
 	InventoryWindowController iwc;
 	ScrollRect sr;
+	InputField nameEntry;
+	Image decalButtonImg;
 	Canvas canvas;
+	
+	string towerName;
+	string decalFilename;
+	string towerType;
+	
+	bool gridloaded = false;
 	
 	public void Start(){
 		grid = GameObject.Find("Grid").GetComponent<GridController>();
@@ -16,6 +27,8 @@ public class EditorController : MonoBehaviour,EventHandler{
 		sr = GameObject.Find("InvScroll").GetComponent<ScrollRect>();
 		iwc = GameObject.Find("InvContent").GetComponent<InventoryWindowController>();
 		canvas = GameObject.Find ("Canvas").GetComponent<Canvas>();
+		nameEntry = canvas.gameObject.transform.FindChild("NameEntry").GetComponent<InputField>();
+		decalButtonImg = canvas.gameObject.transform.FindChild("DecalButton").FindChild("Decal").GetComponent<Image>();
 		//grid.editor = this;
 		
 		EventManager em = EventManager.Instance();
@@ -23,17 +36,14 @@ public class EditorController : MonoBehaviour,EventHandler{
 		em.RegisterForEventType("template_tapped",this);
 		em.RegisterForEventType("piece_dropped_on_inventory",this);
 		
-		/*GameObject go = Instantiate (Resources.Load ("Prefabs/ExistingPiece")) as GameObject;
-		go.transform.SetParent(canvas.transform,false);
-		go.transform.position = new Vector3(go.transform.position.x-2,go.transform.position.y,go.transform.position.z);
-		floatingPiece = go.GetComponent<PieceController>();
-		floatingPiece.ConfigureFromJSON("penetration_normal");
-		floatingPiece.SetRotation(180);*/
-		
-		//ewc.transform.rotation = floatingPiece.transform.rotation;
-		
+		//LoadTower("drainpunch");
 	}
 	public void Update(){
+		if(!gridloaded){
+			gridloaded = true;
+			LoadTower ("drainpunch");
+		}
+	
 		if(floatingPiece != null && floatingPiece.IsMoving()){
 			if(sr.vertical)
 				sr.vertical = false;
@@ -41,6 +51,26 @@ public class EditorController : MonoBehaviour,EventHandler{
 			if(!sr.vertical)
 				sr.vertical = true;
 		}
+	}
+	public void LoadTower(string jsonfile){
+		grid.LoadTower(jsonfile);
+		FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Towers",jsonfile);
+		string json = fl.Read ();
+		Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
+		
+		towerName = (string)data["towerName"];
+		decalFilename = (string)data["decalFilename"];
+		towerType = (string)data["towerType"];
+		
+		nameEntry.text = towerName;
+		Texture2D decal = Resources.Load<Texture2D> ("Sprites/" + decalFilename);
+		if (decal == null)
+			Debug.Log("decal is null");
+		decalButtonImg.sprite = UnityEngine.Sprite.Create (
+			decal,
+			new Rect(0,0,decal.width,decal.height),
+			new Vector2(0.5f,0.5f),
+			100f);
 	}
 	public void HandleEvent(GameEvent ge){
 		if(ge.type.Equals("piece_tapped")){
