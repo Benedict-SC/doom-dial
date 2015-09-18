@@ -13,11 +13,13 @@ public class TowerLoad : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
-	if(Application.loadedLevelName == "TestScene 1" || Application.loadedLevelName == "TowerEditor"){ 
+	if (Application.loadedLevelName == "TestScene 1" || Application.loadedLevelName == "TowerEditor") { 
 			killCheck = false;
-		   }
+		} else {
+			killCheck = true;
+		}
 		if(killCheck){
-			Destroy(this);
+			Destroy(gameObject);
 		}
 	}
 }
