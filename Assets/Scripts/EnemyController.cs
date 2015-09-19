@@ -172,11 +172,24 @@ public class EnemyController : MonoBehaviour,EventHandler {
 			if (bc != null) {
 				if (bc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
 				{
-					bc.enemyHit = this.gameObject;
-					StartCoroutine (StatusEffectsBullet (bc));
-					hp -= bc.dmg + bc.arcDmg;
-					bc.Collide();
-					timesShot++;
+					if (bc.isSplitBullet && bc.timerElapsed || !bc.isSplitBullet)
+					{
+						bc.enemyHit = this.gameObject;
+						StartCoroutine (StatusEffectsBullet (bc));
+						hp -= bc.dmg + bc.arcDmg;
+						timesShot++;
+					}
+					if (!bc.isSplitBullet)
+					{
+						bc.Collide();
+					}
+					else if (bc.isSplitBullet)
+					{
+						if (bc.timerElapsed)
+						{
+							bc.Collide ();
+						}
+					}
 					if(hp <= 0){
 						Die ();
 					}
