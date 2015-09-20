@@ -28,6 +28,7 @@ public class SpinScript : MonoBehaviour, EventHandler {
 	public void HandleEvent(GameEvent ge){
 		Vector3 mousepos = InputWatcher.GetInputPosition ();
 		if (ge.type.Equals ("mouse_release")) {
+
 			//Stops the dial from spinning more
 			spinner = false;
 			//Only tries to lock if the spinner has a chance of moving
@@ -45,7 +46,7 @@ public class SpinScript : MonoBehaviour, EventHandler {
 			if(spinner == false){
 				originalRot = Mathf.Atan2(mousepos.y,mousepos.x);
 				origz = transform.eulerAngles.z;
-				Debug.Log ("new original degrees: " + originalRot);
+				//Debug.Log ("new original degrees: " + originalRot);
 			}
 			spinner = true;
 			touchDown = true;
@@ -57,15 +58,18 @@ public class SpinScript : MonoBehaviour, EventHandler {
 		Vector3 mousepos = InputWatcher.GetInputPosition ();
 		//Debug.Log (touchDown);
 		if(touchDown){
+
 			//Debug.Log ("mouse down");
 			clickTime += Time.deltaTime;
 			//Only allows the dial to spin if the player has been pressing for over a certain amount of time
 			if(spinner && clickTime > clickDelay){
+
 				//Probably not the best for dealing with movement on both axis, 
 				//also will change code to touch controls once we start testing the game on mobile
 				float angle = Mathf.Atan2(mousepos.y,mousepos.x);// (mousepos.y,mousepos.x);
 				float degrees = (Mathf.Rad2Deg * angle);
 				float origDegrees = Mathf.Rad2Deg * originalRot;
+
 				transform.rotation = Quaternion.Euler(0,0,(origz + (degrees - origDegrees)*rotScale)%360);
 				//transform.Rotate(0, 0, Input.GetAxis("Mouse Y") + Input.GetAxis("Mouse X")* multiplier, Space.World);
 			}

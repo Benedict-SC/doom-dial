@@ -24,5 +24,7 @@
 	"blockMap": [
 		[4,5],
 		[2,3]
-	]
+	],
+	
+	"bulletText":"Projectiles will be more effective against shielded enemies, ignoring +20% of their shield."
 }

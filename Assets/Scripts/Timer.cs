@@ -17,6 +17,7 @@ public class Timer
 	}
 	public long TimeElapsedMillis(){
 		if (!isPaused) {
+			//hold time in variable to stop timer from returning 0 when paused
 			milliHolder = Convert.ToInt64 ((DateTime.Now - startTime).TotalMilliseconds);
 			return milliHolder;
 		} else {
@@ -32,6 +33,7 @@ public class Timer
 		}
 	}
 	public void PauseTrigger(){
+		//restart timer because otherwise all enemies will jump forward base on how long game is paused
 		if (isPaused) {
 			Restart ();
 		}

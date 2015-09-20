@@ -17,7 +17,9 @@ public class GameReturn : MonoBehaviour, EventHandler {
 			if (Physics.Raycast (targetSeek, out targetFind)) {
 				//sees if ray collided with the start button
 				if (targetFind.collider.gameObject == this.gameObject) {
-					Application.LoadLevel("WorldSelect");
+					GameObject temp = GameObject.FindGameObjectWithTag("DataHolder");
+					temp.GetComponent<WorldData>().lastScene = "TestScene";
+					Application.LoadLevel("Menu");
 				}
 			}
 		}

@@ -1,0 +1,13 @@
+{
+	"towerName":"Dizzy Punch",
+	"decalFilename":"Tower3",
+	"towerType":"Bullet",
+
+	"pieces":[
+		{"anchorX":4, "anchorY":4, "rotation":0, "pieceFilename":"stun_super"},
+		{"anchorX":4, "anchorY":2, "rotation":0, "pieceFilename":"stun_normal"},
+		{"anchorX":4, "anchorY":1, "rotation":0, "pieceFilename":"stun_normal"},
+		{"anchorX":0, "anchorY":4, "rotation":0, "pieceFilename":"damage_rare"},
+		{"anchorX":0, "anchorY":3, "rotation":180, "pieceFilename":"damage_normal"}
+	]
+}

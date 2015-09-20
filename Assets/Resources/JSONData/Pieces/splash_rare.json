@@ -25,5 +25,7 @@
 		[5,3,2],
 		[2,1,4],
 		[4,5,3]
-	]
+	],
+	
+	"bulletText":"Spent projectiles explode in a cone-shaped Area of Effect that applies +50% of its damage and status effects."
 }

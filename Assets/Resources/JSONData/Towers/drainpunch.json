@@ -1,5 +1,6 @@
-{
-	"decalFilename":"TowerPink",
+{	
+	"towerName":"Drain Punch",
+	"decalFilename":"Tower3",
 	"towerType":"Bullet",
 	
 	"pieces":[

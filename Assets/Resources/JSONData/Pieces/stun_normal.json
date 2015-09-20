@@ -24,5 +24,7 @@
 	"blockMap": [
 		[0,1,0],
 		[1,0,1]
-	]
+	],
+	
+	"bulletText":"Projectiles will freeze enemies in place for .5 seconds."
 }

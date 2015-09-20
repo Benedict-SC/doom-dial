@@ -1,6 +1,8 @@
 {
 	"levelID": 0,
 	"waveID": 2,
+	"maxMilliseconds": 30000,
+	"minimumInterval": 1000,
 	"enemies": [
 		{"enemyID":"testenemy","spawntime":4000,"trackID":1,"trackpos":0},
 		{"enemyID":"steve","spawntime":6000,"trackID":2,"trackpos":0},

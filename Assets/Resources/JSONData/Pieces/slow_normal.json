@@ -24,5 +24,7 @@
 	"blockMap": [
 		[4,0],
 		[3,2]
-	]
+	],
+	
+	"bulletText":"Projectiles cause gravity to increase around enemies, causing them to move between +2.5% and +5% slower."
 }

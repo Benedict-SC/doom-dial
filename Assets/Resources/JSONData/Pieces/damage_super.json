@@ -26,5 +26,7 @@
 		[1,4],
 		[1,1],
 		[1,1]
-	]
+	],
+	
+	"bulletText":"Projectiles will deal +20 damage to enemies, but travel slightly slower."
 }

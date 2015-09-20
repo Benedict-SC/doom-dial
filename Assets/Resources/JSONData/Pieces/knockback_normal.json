@@ -24,5 +24,7 @@
 	"blockMap": [
 		[1,1,0],
 		[0,1,1]
-	]
+	],
+	
+	"bulletText":"Projectiles will knock enemies back by +5% of the path they've travelled."
 }

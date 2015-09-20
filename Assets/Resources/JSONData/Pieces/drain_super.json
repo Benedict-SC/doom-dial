@@ -27,5 +27,7 @@
 		[3,1,5],
 		[0,1,0],
 		[0,2,0]
-	]
+	],
+	
+	"bulletText":"Projectiles will leech the enemy's life force, healing you for +50% of the damage dealt. Cooldown .1 seconds longer."
 }

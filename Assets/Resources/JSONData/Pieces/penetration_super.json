@@ -25,5 +25,7 @@
 		[0,4,5,0],
 		[4,1,1,5],
 		[2,2,3,3]
-	]
+	],
+	
+	"bulletText":"Projectiles will be more effective against shielded enemies, ignoring +50% of their shield. Cooldown .1 seconds longer."
 }

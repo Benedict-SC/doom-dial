@@ -10,8 +10,10 @@ public class InventoryWindowController : MonoBehaviour{
 		public GameObject frame;
 		public string pieceFileName;
 		public PieceTemplateController template = null;
+		public InventoryWindowController parent = null;
 		
-		public InventoryRecord(GameObject f,int c, string pfn){
+		public InventoryRecord(GameObject f,int c, string pfn, InventoryWindowController par){
+			parent = par;
 			frame = f;
 			pieceFileName = pfn;
 			GameObject t = Instantiate (Resources.Load ("Prefabs/PieceTemplate")) as GameObject;
@@ -21,6 +23,7 @@ public class InventoryWindowController : MonoBehaviour{
 				t.transform.SetAsFirstSibling();
 				template.transform.localPosition = new Vector3(98f,0f,0.01f);
 				template.ConfigureFromJSON(pfn);
+				UpdateDescriptiveText();
 				template.SetCount(c);
 			}else{
 				template = null;
@@ -39,6 +42,7 @@ public class InventoryWindowController : MonoBehaviour{
 				t.transform.SetAsFirstSibling();
 				template.transform.localPosition = new Vector3(98f,0f,0.01f);
 				template.ConfigureFromJSON(pfn);
+				UpdateDescriptiveText();
 				template.SetCount(c);
 			}else{
 				template = null;
@@ -67,29 +71,46 @@ public class InventoryWindowController : MonoBehaviour{
 			}
 			//don't forget to update the frame's text element for tracking count
 			if(frame != null)
-				UpdateText (count);
+				UpdateCountText (count);
 		}
-		public void UpdateText(int count){
+		public void UpdateCountText(int count){
 			Transform cTransform = frame.transform.FindChild("CountText");
 			Text countText = cTransform.gameObject.GetComponent<Text>();
 			countText.text = "" + count;
+		}
+		public void UpdateDescriptiveText(){
+			if(parent.towerType.Equals("Bullet")){
+				FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Pieces",pieceFileName);
+				string json = fl.Read ();
+				Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
+				
+				string bulletText = (string)data["bulletText"];
+				Text text = frame.transform.FindChild("StatsText").gameObject.GetComponent<Text>();
+				text.text = bulletText;				
+			}else{
+				Debug.Log ("it ain't bullet");
+			}
 		}
 	}
 
 	static GameObject canvas;
 	List<InventoryRecord> fullList;
+	public string towerType;
 	
 	float pieceHeight = 1f;
 	
 	public void Start(){
+		towerType = "Bullet";
 		canvas = GameObject.Find("Canvas");
 		fullList = new List<InventoryRecord>();
 		PopulateInventoryFromJSON();
+		
 	}
 	public void Update(){
 	}
 	
 	public void PopulateInventoryFromJSON(){
+		//FileLoader fl = new FileLoader (Application.persistentDataPath,"Inventory","inventory");
 		FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "MiscData","inventory");
 		string json = fl.Read ();
 		Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
@@ -127,7 +148,7 @@ public class InventoryWindowController : MonoBehaviour{
 			                                    transform.position.z);
 			    added++;
 			}
-			InventoryRecord ir = new InventoryRecord(go,count,piecefile);
+			InventoryRecord ir = new InventoryRecord(go,count,piecefile,this);
 			if(ir.frame != null){
 				ir.SetCount(count);
 			}
@@ -135,21 +156,41 @@ public class InventoryWindowController : MonoBehaviour{
 			fullList.Add(ir);
 		}
 	}
+	public void SaveInventory(){
+		FileLoader fl = new FileLoader (Application.persistentDataPath,"Inventory","inventory");
+		
+		Dictionary<string,System.Object> data = new Dictionary<string,System.Object>();
+		List<System.Object> pieces = new List<System.Object>();
+		for(int i = 0; i < fullList.Count; i++){
+			InventoryRecord ir = fullList[i];
+			Dictionary<string,System.Object> invObject = new Dictionary<string,System.Object>();
+			string filename = ir.pieceFileName;
+			int count = ir.GetCount();
+			invObject.Add("filename",filename);
+			invObject.Add("owned",count);
+			pieces.Add(invObject);
+		}
+		data.Add("pieces",pieces);		
+		
+		string filedata = Json.Serialize(data);
+		fl.Write(filedata);
+		Application.LoadLevel("TestScene 1");
+	}
 	public void AddPiece(PieceController p){
 		string fname = p.GetFilename();
 		for(int i = 0; i < fullList.Count; i++){
 			InventoryRecord ir = fullList[i];
 			if(fname.Equals(ir.pieceFileName)){
-				Debug.Log("old count is " + ir.GetCount()); 
+				//Debug.Log("old count is " + ir.GetCount()); 
 				ir.SetCount(ir.GetCount()+1);
-				Debug.Log ("new count is " + ir.GetCount());
+				//Debug.Log ("new count is " + ir.GetCount());
 				if(ir.GetCount() == 1){
-					Debug.Log ("we just tried refreshing");
+					//Debug.Log ("we just tried refreshing");
 					RefreshList();
 				}
 				break;
 			}else{
-				Debug.Log(fname + " doesn't equal " + ir.pieceFileName);
+				//Debug.Log(fname + " doesn't equal " + ir.pieceFileName);
 			}
 		}
 	}
