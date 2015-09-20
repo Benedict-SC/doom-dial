@@ -42,8 +42,6 @@ public class BulletController : MonoBehaviour {
 	private float currentLerpTime = 0f;
 	public float LERP_TIME_CONSTANT;
 	public Timer splitTimer;
-	bool originalAngleSet = false;
-	float originalAngle = 0f;
 
 	//BEING WORKED ON
 
@@ -89,7 +87,7 @@ public class BulletController : MonoBehaviour {
 			splitPivot.transform.position = new Vector3(0f,0f,0f);
 			splitPivot.transform.rotation = new Quaternion (0f,0f,0f,0f);
 			transform.SetParent (splitPivot.transform, true);
-			LERP_TIME_CONSTANT = .36f; //CONSTANT - time to travel across one lane
+			LERP_TIME_CONSTANT = .34f; //CONSTANT - time to travel across one lane
 			lerpTime = splitCount * LERP_TIME_CONSTANT;
 			Debug.Log ("lerpTime is " + lerpTime);
 			//StartCoroutine("splitMovement");
@@ -153,37 +151,18 @@ public class BulletController : MonoBehaviour {
 			if(!isPaused){
 				transform.position = new Vector3(x, y, transform.position.z);
 			}
-			if (!originalAngleSet)
-			{
-				originalAngle = splitPivot.transform.eulerAngles.z;
-				originalAngleSet = true;
-			}
-			if (splitPivot.transform.eulerAngles.z + 2.0f * dirScalar < splitPivot.transform.eulerAngles.z + dirScalar * angleLimitVect.z)
+			if (currentLerpTime < lerpTime)
 			{
 				//hopefully rotating the splitPivot works?
-				splitPivot.transform.eulerAngles = Vector3.Lerp (zeroRotate, angleLimitVect, currentLerpTime + Time.deltaTime);
+				splitPivot.transform.eulerAngles += Vector3.Lerp (zeroRotate, angleLimitVect, Time.deltaTime);
 				//Debug.Log ("splitPivot rotation is " + splitPivot.transform.rotation.ToString());
 				currentLerpTime += Time.deltaTime;
 			}
-			if (dirScalar < 0)
+			else if (currentLerpTime > lerpTime)
 			{
-				Debug.Log ("angle: " + (splitPivot.transform.eulerAngles.z - 2.0f));
-				Debug.Log ("limit angle: " + ((originalAngle + dirScalar * angleLimitVect.z) - 360f));
-				if (splitPivot.transform.eulerAngles.z <= Mathf.Abs ((originalAngle + dirScalar * angleLimitVect.z) - 360f))
-				{
-					Debug.Log ("splits destroying themselves due to range");
-					Collide ();
-				}
+				Debug.Log ("splits destroying themselves due to range");
+				Collide ();
 			}
-			else if (dirScalar > 0)
-			{
-				if (splitPivot.transform.eulerAngles.z >= originalAngle + dirScalar * angleLimitVect.z)
-				{
-					Debug.Log ("splits destroying themselves due to range");
-					Collide ();
-				}
-			}
-
 		}
 
 	}
@@ -200,12 +179,11 @@ public class BulletController : MonoBehaviour {
 				{
 					if (bc.splitParent == this.splitParent)
 					{
-						//Debug.Log ("the two splits collided!");
+						Debug.Log ("the two splits collided!");
 						//Determine lane ID and spawn aoe in appropriate lane
 						if (timerElapsed) //just to make sure they don't destroy each other on spawn
 						{
 							GameObject zoneCone = null;
-							int zoneConeID = 0;
 
 							Debug.Log ("current track is " + GetCurrentTrackID());
 
@@ -213,27 +191,21 @@ public class BulletController : MonoBehaviour {
 							{
 							case 1:
 								zoneCone = GameObject.Find ("ZoneCone1");
-								zoneConeID = 1;
 								break;
 							case 2:
 								zoneCone = GameObject.Find ("ZoneCone2");
-								zoneConeID = 2;
 								break;
 							case 3:
 								zoneCone = GameObject.Find ("ZoneCone3");
-								zoneConeID = 3;
 								break;
 							case 4:
 								zoneCone = GameObject.Find ("ZoneCone4");
-								zoneConeID = 4;
 								break;
 							case 5:
 								zoneCone = GameObject.Find ("ZoneCone5");
-								zoneConeID = 5;
 								break;
 							case 6:
 								zoneCone = GameObject.Find ("ZoneCone6");
-								zoneConeID = 6;
 								break;
 							default:
 								Debug.Log("Couldn't find ZoneCone of this ID...not 1-6?");
@@ -243,7 +215,6 @@ public class BulletController : MonoBehaviour {
 							if (zoneCone != null)
 							{
 								ZoneConeController zcc = zoneCone.GetComponent<ZoneConeController>();
-								zcc.zoneID = zoneConeID;
 								zcc.StartCoroutine("Detonate");
 							}
 							else{
