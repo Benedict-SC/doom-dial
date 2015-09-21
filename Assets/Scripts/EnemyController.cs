@@ -127,6 +127,36 @@ public class EnemyController : MonoBehaviour,EventHandler {
 			SineMover sm = new SineMover(this);
 			sm.Mirror();
 			mover = sm;
+		}else if(moveString.Equals ("Swerve_Left")){
+			mover = new SwerveMover(this);
+		}else if(moveString.Equals ("Swerve_Right")){
+			SwerveMover sm = new SwerveMover(this);
+			sm.Mirror();
+			mover = sm;
+		}else if(moveString.Equals ("Semicircle")){
+			mover = new SemicircleMover(this);
+		}else if(moveString.Equals ("Semicircle_Mirror")){
+			SemicircleMover sm = new SemicircleMover(this);
+			sm.Mirror();
+			mover = sm;
+		}else if(moveString.Equals ("Blink")){
+			mover = new BlinkMover(this);
+		}else if(moveString.Equals ("Blink_Mirror")){
+			BlinkMover bm = new BlinkMover(this);
+			bm.Mirror();
+			mover = bm;
+		}else if(moveString.Equals ("Wink")){
+			mover = new WinkMover(this);
+		}else if(moveString.Equals ("Wink_Mirror")){
+			WinkMover wm = new WinkMover(this);
+			wm.Mirror();
+			mover = wm;
+		}else if(moveString.Equals ("Sidestep")){
+			mover = new SidestepMover(this);
+		}else if(moveString.Equals ("Sidestep_Mirror")){
+			SidestepMover sm = new SidestepMover(this);
+			sm.Mirror();
+			mover = sm;
 		}
 	}
 	

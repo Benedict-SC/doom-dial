@@ -135,19 +135,23 @@ public class BulletController : MonoBehaviour {
 			//after moving, check collision with enemies
 		}
 
-<<<<<<< HEAD
 		else if (isSplitBullet)
 		{
 			if (!timerElapsed && splitTimer.TimeElapsedMillis () >= 200) //wait until the two splits have separated
 			{
 				timerElapsed = true;
-=======
+			}
+			Debug.Log ("split bullet behavior");
+			float x;
+			float y;
+			float angle = Mathf.Atan2 (transform.position.y,transform.position.x);
+			
+			angle += speed * .3f * dirScalar; //constant scalar
 			x = splitRadius * Mathf.Cos (angle);
 			y = splitRadius * Mathf.Sin (angle);
 			//stops bullet during pause
 			if(!isPaused){
-			transform.position = new Vector3(x, y, transform.position.z);
->>>>>>> origin/master
+				transform.position = new Vector3(x, y, transform.position.z);
 			}
 			if (!originalAngleSet)
 			{
