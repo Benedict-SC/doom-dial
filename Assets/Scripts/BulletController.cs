@@ -42,6 +42,8 @@ public class BulletController : MonoBehaviour {
 	private float currentLerpTime = 0f;
 	public float LERP_TIME_CONSTANT;
 	public Timer splitTimer;
+	bool originalAngleSet = false;
+	float originalAngle = 0f;
 
 	//BEING WORKED ON
 
@@ -135,33 +137,56 @@ public class BulletController : MonoBehaviour {
 
 		else if (isSplitBullet)
 		{
+			//stops bullet during pause
+			if(!isPaused)
+			{
+				transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+			}
 			if (!timerElapsed && splitTimer.TimeElapsedMillis () >= 200) //wait until the two splits have separated
 			{
 				timerElapsed = true;
 			}
-			Debug.Log ("split bullet behavior");
-			float x;
-			float y;
-			float angle = Mathf.Atan2 (transform.position.y,transform.position.x);
 			
-			angle += speed * .3f * dirScalar; //constant scalar
-			x = splitRadius * Mathf.Cos (angle);
-			y = splitRadius * Mathf.Sin (angle);
-			//stops bullet during pause
-			if(!isPaused){
-				transform.position = new Vector3(x, y, transform.position.z);
+			if (!originalAngleSet)
+			{
+				originalAngle = splitPivot.transform.eulerAngles.z;
+				originalAngleSet = true;
 			}
-			if (currentLerpTime < lerpTime)
+			if (splitPivot.transform.eulerAngles.z + 2.0f * dirScalar < splitPivot.transform.eulerAngles.z + dirScalar * angleLimitVect.z)
 			{
 				//hopefully rotating the splitPivot works?
-				splitPivot.transform.eulerAngles += Vector3.Lerp (zeroRotate, angleLimitVect, Time.deltaTime);
+				splitPivot.transform.eulerAngles = Vector3.Lerp (zeroRotate, angleLimitVect, currentLerpTime + Time.deltaTime);
 				//Debug.Log ("splitPivot rotation is " + splitPivot.transform.rotation.ToString());
 				currentLerpTime += Time.deltaTime;
 			}
-			else if (currentLerpTime > lerpTime)
+			if (dirScalar < 0)
 			{
-				Debug.Log ("splits destroying themselves due to range");
-				Collide ();
+				Debug.Log ("angle: " + (splitPivot.transform.eulerAngles.z - 2.0f));
+				Debug.Log ("limit angle: " + (Mathf.Abs ((originalAngle + dirScalar * angleLimitVect.z) - 360f)));
+				float addValue = 0.0f;
+				if (splitCount == 1 || splitCount == 2)
+				{
+					addValue = 2.0f;
+				}
+				
+				if (splitPivot.transform.eulerAngles.z - addValue <= Mathf.Abs ((originalAngle + dirScalar * angleLimitVect.z) - 360f))
+				{
+					Debug.Log (" negative splits destroying themselves due to range");
+					Collide ();
+				}
+			}
+			else if (dirScalar > 0)
+			{
+				float addValue = 0.0f;
+				if (splitCount == 1 || splitCount == 2)
+				{
+					addValue = 2.0f;
+				}
+				if (splitPivot.transform.eulerAngles.z + addValue >= originalAngle + dirScalar * angleLimitVect.z)
+				{
+					Debug.Log ("splits destroying themselves due to range");
+					Collide ();
+				}
 			}
 		}
 
