@@ -17,6 +17,9 @@ public class WaveManager : MonoBehaviour {
 	bool isPaused = false;
 	long ellapsedTime = 0;
 	long pauseTime = 0;
+
+	public List<GameObject> enemiesOnscreen;
+
 	// Use this for initialization
 	void Start () {
 		ring = GameObject.Find ("OuterRing").gameObject.GetComponent<TrackController>();
@@ -42,6 +45,8 @@ public class WaveManager : MonoBehaviour {
 
 		activeWaveIndex = 0;
 		activeWave = waves [activeWaveIndex];
+
+		enemiesOnscreen = new List<GameObject>();
 
 		timer = new Timer ();
 		timer.Restart ();
@@ -80,7 +85,10 @@ public class WaveManager : MonoBehaviour {
 				}
 				if (e.GetSpawnTime () < ellapsedTime) {
 					spawnedThisCycle.Add (enemy);
+					//Debug.Log ("should have added an enemy to enemiesOnscreen");
 					enemy.SetActive (true);
+					enemiesOnscreen.Add (enemy);
+					Debug.Log ("enemiesOnscreen size: " + enemiesOnscreen.Count);
 					e.StartMoving ();
 				}
 			}

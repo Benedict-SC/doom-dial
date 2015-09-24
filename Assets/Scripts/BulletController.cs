@@ -155,14 +155,14 @@ public class BulletController : MonoBehaviour {
 			if (splitPivot.transform.eulerAngles.z + 2.0f * dirScalar < splitPivot.transform.eulerAngles.z + dirScalar * angleLimitVect.z)
 			{
 				//hopefully rotating the splitPivot works?
-				splitPivot.transform.eulerAngles = Vector3.Lerp (zeroRotate, angleLimitVect, currentLerpTime + Time.deltaTime);
+				splitPivot.transform.eulerAngles = Vector3.Lerp (zeroRotate, angleLimitVect, (currentLerpTime + Time.deltaTime)/(lerpTime));
 				//Debug.Log ("splitPivot rotation is " + splitPivot.transform.rotation.ToString());
 				currentLerpTime += Time.deltaTime;
 			}
 			if (dirScalar < 0)
 			{
-				Debug.Log ("angle: " + (splitPivot.transform.eulerAngles.z - 2.0f));
-				Debug.Log ("limit angle: " + (Mathf.Abs ((originalAngle + dirScalar * angleLimitVect.z) - 360f)));
+				//Debug.Log ("angle: " + (splitPivot.transform.eulerAngles.z - 2.0f));
+				//Debug.Log ("limit angle: " + (Mathf.Abs ((originalAngle + dirScalar * angleLimitVect.z) - 360f)));
 				float addValue = 0.0f;
 				if (splitCount == 1 || splitCount == 2)
 				{
@@ -342,7 +342,7 @@ public class BulletController : MonoBehaviour {
 		{
 			if (!isSplitBullet) //only pre-split bullets
 			{
-				Debug.Log ("spawned 2 split bullets");
+				//Debug.Log ("spawned 2 split bullets");
 				ScaleProps(0.5f);
 
 				GameObject split1 = Instantiate (Resources.Load ("Prefabs/Bullet")) as GameObject;
@@ -413,11 +413,16 @@ public class BulletController : MonoBehaviour {
 		splitRadius = Mathf.Abs(transform.position.x / Mathf.Cos(Mathf.Atan2 (transform.position.y,transform.position.x)));
 		//Debug.Log ("splitRadius is " + splitRadius);
 		angleLimit = splitCount * dirScalar * ((Mathf.PI)/3f);
-		angleLimitVect = new Vector3 (0f, 0f, (angleLimit * 57.296f)); //rad to deg constant
+		float superAddValue = 0f;
+		/*if (splitCount == 3)
+		{
+			superAddValue = 6f;
+		}*/
+		angleLimitVect = new Vector3 (0f, 0f, ((angleLimit * 57.296f) + superAddValue)); //rad to deg constant
 		splitParentPos = bc.transform.position;
 		//Debug.Log ("angleLimit is " + angleLimit);
 		//Debug.Log ("angleLimit as degrees is " + angleLimit * 57.296f);
-		Debug.Log ("angleLimitQuat is " + angleLimitVect.ToString ());
+		//Debug.Log ("angleLimitQuat is " + angleLimitVect.ToString ());
 	}
 
 	public void SetSplitDist()
