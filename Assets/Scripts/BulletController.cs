@@ -76,6 +76,10 @@ public class BulletController : MonoBehaviour {
 		float radius = sr.bounds.size.x / 2;
 		CircleCollider2D collider = transform.gameObject.GetComponent<CircleCollider2D> ();
 		collider.radius = radius;
+		if (isSplitBullet)
+		{
+			collider.radius *= 2f;
+		}
 		collide2D = collider;
 		//Debug.Log ("bullet radius is: " + radius);
 		if (arcDmg > 0)
