@@ -11,5 +11,9 @@
 	"rarityUpWithHits":false,
 	"rareDropThreshold":4,
 	"rareChance":25.0,
-	"normalChance":5.0
+	"normalChance":5.0,
+	
+	"pieceTypes":[
+		"slow","poison","drain"
+	]
 }

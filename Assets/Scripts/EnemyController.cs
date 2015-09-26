@@ -339,6 +339,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		Vector3 position = new Vector3 (transform.position.x, transform.position.y, transform.position.z);
 		piece.transform.position = position;
 		DropController dc = piece.GetComponent<DropController> ();
+		dc.SetTypes(srcFileName);
 
 		System.Random r = new System.Random ();
 		float rng = (float)r.NextDouble() * 100; //random float between 0 and 100
