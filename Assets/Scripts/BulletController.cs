@@ -76,6 +76,10 @@ public class BulletController : MonoBehaviour {
 		float radius = sr.bounds.size.x / 2;
 		CircleCollider2D collider = transform.gameObject.GetComponent<CircleCollider2D> ();
 		collider.radius = radius;
+		if (isSplitBullet)
+		{
+			collider.radius *= 2f;
+		}
 		collide2D = collider;
 		//Debug.Log ("bullet radius is: " + radius);
 		if (arcDmg > 0)
@@ -89,7 +93,7 @@ public class BulletController : MonoBehaviour {
 			splitPivot.transform.position = new Vector3(0f,0f,0f);
 			splitPivot.transform.rotation = new Quaternion (0f,0f,0f,0f);
 			transform.SetParent (splitPivot.transform, true);
-			LERP_TIME_CONSTANT = .36f; //CONSTANT - time to travel across one lane
+			LERP_TIME_CONSTANT = .34f; //CONSTANT - time to travel across one lane
 			lerpTime = splitCount * LERP_TIME_CONSTANT;
 			Debug.Log ("lerpTime is " + lerpTime);
 			//StartCoroutine("splitMovement");
@@ -137,22 +141,16 @@ public class BulletController : MonoBehaviour {
 
 		else if (isSplitBullet)
 		{
+			//stops bullet during pause
+			if(!isPaused)
+			{
+				transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+			}
 			if (!timerElapsed && splitTimer.TimeElapsedMillis () >= 200) //wait until the two splits have separated
 			{
 				timerElapsed = true;
 			}
-			Debug.Log ("split bullet behavior");
-			float x;
-			float y;
-			float angle = Mathf.Atan2 (transform.position.y,transform.position.x);
 			
-			angle += speed * .3f * dirScalar; //constant scalar
-			x = splitRadius * Mathf.Cos (angle);
-			y = splitRadius * Mathf.Sin (angle);
-			//stops bullet during pause
-			if(!isPaused){
-				transform.position = new Vector3(x, y, transform.position.z);
-			}
 			if (!originalAngleSet)
 			{
 				originalAngle = splitPivot.transform.eulerAngles.z;
@@ -161,29 +159,39 @@ public class BulletController : MonoBehaviour {
 			if (splitPivot.transform.eulerAngles.z + 2.0f * dirScalar < splitPivot.transform.eulerAngles.z + dirScalar * angleLimitVect.z)
 			{
 				//hopefully rotating the splitPivot works?
-				splitPivot.transform.eulerAngles = Vector3.Lerp (zeroRotate, angleLimitVect, currentLerpTime + Time.deltaTime);
+				splitPivot.transform.eulerAngles = Vector3.Lerp (zeroRotate, angleLimitVect, (currentLerpTime + Time.deltaTime)/(lerpTime));
 				//Debug.Log ("splitPivot rotation is " + splitPivot.transform.rotation.ToString());
 				currentLerpTime += Time.deltaTime;
 			}
 			if (dirScalar < 0)
 			{
-				Debug.Log ("angle: " + (splitPivot.transform.eulerAngles.z - 2.0f));
-				Debug.Log ("limit angle: " + ((originalAngle + dirScalar * angleLimitVect.z) - 360f));
-				if (splitPivot.transform.eulerAngles.z <= Mathf.Abs ((originalAngle + dirScalar * angleLimitVect.z) - 360f))
+				//Debug.Log ("angle: " + (splitPivot.transform.eulerAngles.z - 2.0f));
+				//Debug.Log ("limit angle: " + (Mathf.Abs ((originalAngle + dirScalar * angleLimitVect.z) - 360f)));
+				float addValue = 0.0f;
+				if (splitCount == 1 || splitCount == 2)
 				{
-					Debug.Log ("splits destroying themselves due to range");
+					addValue = 2.0f;
+				}
+				
+				if (splitPivot.transform.eulerAngles.z - addValue <= Mathf.Abs ((originalAngle + dirScalar * angleLimitVect.z) - 360f))
+				{
+					Debug.Log (" negative splits destroying themselves due to range");
 					Collide ();
 				}
 			}
 			else if (dirScalar > 0)
 			{
-				if (splitPivot.transform.eulerAngles.z >= originalAngle + dirScalar * angleLimitVect.z)
+				float addValue = 0.0f;
+				if (splitCount == 1 || splitCount == 2)
+				{
+					addValue = 2.0f;
+				}
+				if (splitPivot.transform.eulerAngles.z + addValue >= originalAngle + dirScalar * angleLimitVect.z)
 				{
 					Debug.Log ("splits destroying themselves due to range");
 					Collide ();
 				}
 			}
-
 		}
 
 	}
@@ -200,12 +208,11 @@ public class BulletController : MonoBehaviour {
 				{
 					if (bc.splitParent == this.splitParent)
 					{
-						//Debug.Log ("the two splits collided!");
+						Debug.Log ("the two splits collided!");
 						//Determine lane ID and spawn aoe in appropriate lane
 						if (timerElapsed) //just to make sure they don't destroy each other on spawn
 						{
 							GameObject zoneCone = null;
-							int zoneConeID = 0;
 
 							Debug.Log ("current track is " + GetCurrentTrackID());
 
@@ -213,27 +220,21 @@ public class BulletController : MonoBehaviour {
 							{
 							case 1:
 								zoneCone = GameObject.Find ("ZoneCone1");
-								zoneConeID = 1;
 								break;
 							case 2:
 								zoneCone = GameObject.Find ("ZoneCone2");
-								zoneConeID = 2;
 								break;
 							case 3:
 								zoneCone = GameObject.Find ("ZoneCone3");
-								zoneConeID = 3;
 								break;
 							case 4:
 								zoneCone = GameObject.Find ("ZoneCone4");
-								zoneConeID = 4;
 								break;
 							case 5:
 								zoneCone = GameObject.Find ("ZoneCone5");
-								zoneConeID = 5;
 								break;
 							case 6:
 								zoneCone = GameObject.Find ("ZoneCone6");
-								zoneConeID = 6;
 								break;
 							default:
 								Debug.Log("Couldn't find ZoneCone of this ID...not 1-6?");
@@ -243,7 +244,6 @@ public class BulletController : MonoBehaviour {
 							if (zoneCone != null)
 							{
 								ZoneConeController zcc = zoneCone.GetComponent<ZoneConeController>();
-								zcc.zoneID = zoneConeID;
 								zcc.StartCoroutine("Detonate");
 							}
 							else{
@@ -346,7 +346,7 @@ public class BulletController : MonoBehaviour {
 		{
 			if (!isSplitBullet) //only pre-split bullets
 			{
-				Debug.Log ("spawned 2 split bullets");
+				//Debug.Log ("spawned 2 split bullets");
 				ScaleProps(0.5f);
 
 				GameObject split1 = Instantiate (Resources.Load ("Prefabs/Bullet")) as GameObject;
@@ -417,11 +417,16 @@ public class BulletController : MonoBehaviour {
 		splitRadius = Mathf.Abs(transform.position.x / Mathf.Cos(Mathf.Atan2 (transform.position.y,transform.position.x)));
 		//Debug.Log ("splitRadius is " + splitRadius);
 		angleLimit = splitCount * dirScalar * ((Mathf.PI)/3f);
-		angleLimitVect = new Vector3 (0f, 0f, (angleLimit * 57.296f)); //rad to deg constant
+		float superAddValue = 0f;
+		/*if (splitCount == 3)
+		{
+			superAddValue = 6f;
+		}*/
+		angleLimitVect = new Vector3 (0f, 0f, ((angleLimit * 57.296f) + superAddValue)); //rad to deg constant
 		splitParentPos = bc.transform.position;
 		//Debug.Log ("angleLimit is " + angleLimit);
 		//Debug.Log ("angleLimit as degrees is " + angleLimit * 57.296f);
-		Debug.Log ("angleLimitQuat is " + angleLimitVect.ToString ());
+		//Debug.Log ("angleLimitQuat is " + angleLimitVect.ToString ());
 	}
 
 	public void SetSplitDist()

@@ -6,32 +6,41 @@ public class ZoneConeController : MonoBehaviour {
 
 	public bool isLethal; //if true, it kills normal enemies
 						  //and does big damage to bosses
-	public int zoneID; //number of This zonecone's zone
-	public ArrayList enemiesInside;
+	public int zoneID;
+
+	GameObject gameManager;
 	WaveManager waveMan;
 
 	// Use this for initialization
 	void Start () {
+		gameManager = GameObject.Find ("GameManager");
+		if (gameManager == null)
+		{
+			Debug.Log ("zoneconecontroller couldn't find GameManager!");
+		}
 		isLethal = false;
-		enemiesInside = new ArrayList();
-		waveMan = GameObject.Find ("GameManager").GetComponent<WaveManager>();
+		waveMan = gameManager.GetComponent<WaveManager>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (isLethal)
 		{
-			Debug.Log ("this zone is lethal!");
-			Debug.Log ("ZoneCone enemiesOnscreen: " + waveMan.enemies.Count);
-			foreach (GameObject enemy in waveMan.enemies)
+			Debug.Log ("is lethal!");
+			foreach (GameObject enemy in waveMan.enemiesOnscreen)
 			{
+				Debug.Log ("got to foreach loop");
 				if (enemy != null)
 				{
-					Debug.Log ("trying an enemy");
-					EnemyController ec = enemy.GetComponent<EnemyController>();
-					if (ec.GetCurrentTrackID() == zoneID) //if it's in This zone
+					Debug.Log ("found an enemy");
+					EnemyController enemyCon = enemy.GetComponent<EnemyController>();
+					if (enemyCon == null)
 					{
-						ec.Die ();
+						Debug.Log ("this enemy's enemyController is null?");
+					}
+					if (enemyCon.GetTrackID () == zoneID)
+					{
+						enemyCon.Die ();
 					}
 				}
 			}

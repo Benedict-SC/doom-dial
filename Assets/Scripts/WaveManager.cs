@@ -6,8 +6,6 @@ using MiniJSON;
 
 public class WaveManager : MonoBehaviour {
 
-	public List<GameObject> enemies;
-
 	Timer timer;
 	List<Wave> waves;
 	Wave activeWave;
@@ -19,11 +17,13 @@ public class WaveManager : MonoBehaviour {
 	bool isPaused = false;
 	long ellapsedTime = 0;
 	long pauseTime = 0;
+
+	public List<GameObject> enemiesOnscreen;
+
 	// Use this for initialization
 	void Start () {
 		ring = GameObject.Find ("OuterRing").gameObject.GetComponent<TrackController>();
 		waves = new List<Wave> ();
-		enemies = new List<GameObject>();
 
 		//do a ton of JSON parsing
 		FileLoader leveldata = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Worlds" + Path.DirectorySeparatorChar + worldVar + Path.DirectorySeparatorChar + levelVar, "wavedata");
@@ -45,6 +45,8 @@ public class WaveManager : MonoBehaviour {
 
 		activeWaveIndex = 0;
 		activeWave = waves [activeWaveIndex];
+
+		enemiesOnscreen = new List<GameObject>();
 
 		timer = new Timer ();
 		timer.Restart ();
@@ -83,9 +85,10 @@ public class WaveManager : MonoBehaviour {
 				}
 				if (e.GetSpawnTime () < ellapsedTime) {
 					spawnedThisCycle.Add (enemy);
-					enemies.Add (enemy); //adds this enemy to the List of current enemies onscreen
-					Debug.Log ("enemy list: " + enemies.Count);
+					//Debug.Log ("should have added an enemy to enemiesOnscreen");
 					enemy.SetActive (true);
+					enemiesOnscreen.Add (enemy);
+					Debug.Log ("enemiesOnscreen size: " + enemiesOnscreen.Count);
 					e.StartMoving ();
 				}
 			}
