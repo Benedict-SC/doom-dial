@@ -110,8 +110,8 @@ public class InventoryWindowController : MonoBehaviour{
 	}
 	
 	public void PopulateInventoryFromJSON(){
-		//FileLoader fl = new FileLoader (Application.persistentDataPath,"Inventory","inventory");
-		FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "MiscData","inventory");
+		FileLoader fl = new FileLoader (Application.persistentDataPath,"Inventory","inventory");
+		//FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "MiscData","inventory");
 		string json = fl.Read ();
 		Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
 		
@@ -174,7 +174,7 @@ public class InventoryWindowController : MonoBehaviour{
 		
 		string filedata = Json.Serialize(data);
 		fl.Write(filedata);
-		Application.LoadLevel("TestScene 1");
+		Application.LoadLevel("TestScene 1"); //oh man don't put this here, make the loadlevel call another function on the button
 	}
 	public void AddPiece(PieceController p){
 		string fname = p.GetFilename();

@@ -25,7 +25,7 @@ public class SwerveMover : EnemyMover{
 			deviation = devWidth;
 		}
 		
-		if(mirrored)
+		if(!mirrored)
 			deviation *= -1.0f;
 		angle += deviation;
 		
