@@ -5,7 +5,7 @@ using System.IO;
 
 public class RunOnceOnGameStartup : MonoBehaviour{
 	public void Start(){
-		FillStorageWithTempData();
+		//FillStorageWithTempData(); //turned off since TestDataLoader does the same thing- later, replace this with a call to that
 	}
 	public void Update(){
 	
