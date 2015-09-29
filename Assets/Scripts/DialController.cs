@@ -115,7 +115,8 @@ public class DialController : MonoBehaviour,EventHandler {
 	}
 
 	public void LoadDialConfigFromJSON(string filename){
-		FileLoader fl = new FileLoader (Application.persistentDataPath,"Dials",filename);
+		//FileLoader fl = new FileLoader (Application.persistentDataPath,"Dials",filename);
+		FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "DialConfigs",filename);
 		//Debug.Log("yeah it's this dial");
 		string json = fl.Read ();
 		Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
