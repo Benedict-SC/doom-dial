@@ -5,6 +5,7 @@ public class MenuSpinScript : MonoBehaviour, EventHandler {
 	//Increases spin speed
 	float multiplier = 1.0f;
 	public GameObject Child;
+	public GameObject spinPivot;
 	//Can only spin if this is true;
 	bool spinner = false;
 	public bool spinLock = false;
@@ -12,8 +13,6 @@ public class MenuSpinScript : MonoBehaviour, EventHandler {
 	float clickTime = 0;
 	//Centralized variable for how long the player can hold before it becomes a drag instead of a press
 	float clickDelay = 0.1f;
-	float rotX = 0.0f;
-	float rotY = 0.0f;
 	public int lockThreshold = 72;
 	public int menuPosition = 0;
 	Vector3 centerPoint;
@@ -31,7 +30,7 @@ public class MenuSpinScript : MonoBehaviour, EventHandler {
 	public void HandleEvent(GameEvent ge){
 		Debug.Log ("test");
 		Vector3 mousepos = InputWatcher.GetInputPosition ();
-		mousepos = new Vector3(mousepos.x - transform.position.x,mousepos.y-transform.position.y,mousepos.z);
+		mousepos = new Vector3(mousepos.x - spinPivot.transform.position.x,mousepos.y-spinPivot.transform.position.y,mousepos.z);
 		if (ge.type.Equals ("mouse_release")) {
 			//Stops the dial from spinning more
 			spinner = false;
@@ -54,6 +53,9 @@ public class MenuSpinScript : MonoBehaviour, EventHandler {
 				if(Child.GetComponent<MenuSelect>() != null){
 					Child.GetComponent<MenuSelect>().menuPosition = menuPosition % 4;
 				}
+				if(Child.GetComponent<MenuInGame>() != null){
+					Child.GetComponent<MenuInGame>().menuPosition = menuPosition % 4;
+				}
 			}
 			//resets time
 			clickTime = 0;
@@ -61,7 +63,7 @@ public class MenuSpinScript : MonoBehaviour, EventHandler {
 		}else if(ge.type.Equals("mouse_click")){
 			//Allows the dial to start spinning
 			if(spinner == false){
-				originalRot = Mathf.Atan2(mousepos.y-transform.position.y,mousepos.x-transform.position.x);
+				originalRot = Mathf.Atan2(mousepos.y-spinPivot.transform.position.y,mousepos.x-spinPivot.transform.position.x);
 				origz = transform.eulerAngles.z;
 				//Debug.Log ("new original degrees: " + originalRot);
 			}
@@ -72,9 +74,9 @@ public class MenuSpinScript : MonoBehaviour, EventHandler {
 	// Update is called once per frame
 	void Update () {
 		Vector3 mousepos = InputWatcher.GetInputPosition ();
-		mousepos = new Vector3(mousepos.x - transform.position.x,mousepos.y-transform.position.y,mousepos.z);
-		float rotX = mousepos.x;
-		float rotY = mousepos.y;
+
+		mousepos = new Vector3(mousepos.x - spinPivot.transform.position.x,mousepos.y-spinPivot.transform.position.y,mousepos.z);
+		Debug.Log (mousepos);
 		//Debug.Log (touchDown);
 		if(touchDown){
 			//Debug.Log ("mouse down");
@@ -83,7 +85,7 @@ public class MenuSpinScript : MonoBehaviour, EventHandler {
 			if(spinner && clickTime > clickDelay){
 				//Probably not the best for dealing with movement on both axis, 
 				//also will change code to touch controls once we start testing the game on mobile
-				float angle = Mathf.Atan2(mousepos.y,mousepos.x);// (mousepos.y,mousepos.x);
+				float angle = Mathf.Atan2(mousepos.y - spinPivot.transform.position.y,mousepos.x- spinPivot.transform.position.x);// (mousepos.y,mousepos.x);
 				float degrees = (Mathf.Rad2Deg * angle);
 				float origDegrees = Mathf.Rad2Deg * originalRot;
 				transform.rotation = Quaternion.Euler(0,0,(origz + (degrees - origDegrees)*rotScale)%360);

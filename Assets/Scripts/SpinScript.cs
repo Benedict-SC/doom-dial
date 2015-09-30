@@ -66,7 +66,7 @@ public class SpinScript : MonoBehaviour, EventHandler {
 
 				//Probably not the best for dealing with movement on both axis, 
 				//also will change code to touch controls once we start testing the game on mobile
-				float angle = Mathf.Atan2(mousepos.y,mousepos.x);// (mousepos.y,mousepos.x);
+				float angle = Mathf.Atan2(mousepos.y - transform.position.y,mousepos.x - transform.position.x);// (mousepos.y,mousepos.x);
 				float degrees = (Mathf.Rad2Deg * angle);
 				float origDegrees = Mathf.Rad2Deg * originalRot;
 

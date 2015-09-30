@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MenuSelect : MonoBehaviour, EventHandler {
+public class MenuInGame : MonoBehaviour, EventHandler {
+
 	public int menuPosition = 0;
 	public GameObject textMesh;
 	public GameObject startButton;
 	public GameObject menuButton;
 	public GameObject worldHolder;
 	public GameObject returnButton;
-	public GameObject cameraLock1;
 	public GameObject cameraLock2;
 	string levelName = "WorldSelect";
 	int lastPosition = 1;
@@ -23,21 +23,19 @@ public class MenuSelect : MonoBehaviour, EventHandler {
 	public void HandleEvent(GameEvent ge){
 		if (ge.type.Equals ("mouse_release")) {
 			RaycastHit targetFind;
-			
+
 			Ray targetSeek = Camera.main.ScreenPointToRay (InputWatcher.GetTouchPosition ());
 			if (Physics.Raycast (targetSeek, out targetFind)) {
+				Debug.Log (targetFind.collider.name);
 				//sees if ray collided with the start button
 				if (targetFind.collider.gameObject == startButton) {
 					//Debug.Log ("try and load level select");
-					if(menuPosition != 0){
+					if(menuPosition == 3 || menuPosition == 1){
+						Application.LoadLevel(levelName);
 						worldHolder.GetComponent<WorldData>().lastScene = Application.loadedLevelName;
-					Application.LoadLevel(levelName);
-
-					}else{
+					}else if(menuPosition == 2){
 						Camera.main.transform.position = cameraLock2.transform.position;
 					}
-				}else if (targetFind.collider.gameObject == returnButton){
-					Camera.main.transform.position = cameraLock1.transform.position;
 				}
 			}	
 		}
@@ -55,10 +53,11 @@ public class MenuSelect : MonoBehaviour, EventHandler {
 			case 1:
 				textMesh.GetComponent<TextMesh>().text = "Tower Editor";
 				levelName = "TestScene 1";
+
 				break;
 			case 2:
 				textMesh.GetComponent<TextMesh>().text = "Back";
-				levelName = worldHolder.GetComponent<WorldData>().lastScene;
+				//levelName = worldHolder.GetComponent<WorldData>().lastScene;
 				break;
 			case 3:
 				textMesh.GetComponent<TextMesh>().text = "Main Menu";
