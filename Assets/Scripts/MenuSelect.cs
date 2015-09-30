@@ -30,7 +30,9 @@ public class MenuSelect : MonoBehaviour, EventHandler {
 				if (targetFind.collider.gameObject == startButton) {
 					//Debug.Log ("try and load level select");
 					if(menuPosition != 0){
+						worldHolder.GetComponent<WorldData>().lastScene = Application.loadedLevelName;
 					Application.LoadLevel(levelName);
+
 					}else{
 						Camera.main.transform.position = cameraLock2.transform.position;
 					}

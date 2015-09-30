@@ -32,6 +32,7 @@ public class MenuInGame : MonoBehaviour, EventHandler {
 					//Debug.Log ("try and load level select");
 					if(menuPosition == 3 || menuPosition == 1){
 						Application.LoadLevel(levelName);
+						worldHolder.GetComponent<WorldData>().lastScene = Application.loadedLevelName;
 					}else if(menuPosition == 2){
 						Camera.main.transform.position = cameraLock2.transform.position;
 					}
@@ -52,6 +53,7 @@ public class MenuInGame : MonoBehaviour, EventHandler {
 			case 1:
 				textMesh.GetComponent<TextMesh>().text = "Tower Editor";
 				levelName = "TestScene 1";
+
 				break;
 			case 2:
 				textMesh.GetComponent<TextMesh>().text = "Back";
