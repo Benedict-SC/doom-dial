@@ -1,0 +1,30 @@
+{
+	"imgfile":"Piece_Slow_N",
+
+	"cooldownFactor":0.0,
+	"dmg":0.0,
+	"speed":0.0,
+	"range":0.0,
+	"knockback":0.0,
+	"lifeDrain":0.0,
+	"poison":0.0,
+	"splash":0.0,
+	"stun":0.0,
+	"slowdownMin":0.975,
+	"slowdownMax":0.95,
+	"penetration":0.0,
+	"shieldShred":0.0,
+	"spread":0,
+	"split":0,
+	"homing":0.0,
+	"arc":0.0,
+	
+	"width":2,
+	"height":2,
+	"blockMap": [
+		[4,0],
+		[3,2]
+	],
+	
+	"bulletText":"Projectiles cause gravity to increase around enemies, causing them to move between +2.5% and +5% slower."
+}

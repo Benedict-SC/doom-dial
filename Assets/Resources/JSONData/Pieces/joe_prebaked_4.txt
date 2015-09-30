@@ -1,0 +1,19 @@
+{
+	"cooldownFactor":0.0,
+	"dmg":4.0,
+	"speed":0.5,
+	"range":0.25,
+	"knockback":0.0,
+	"lifeDrain":0.0,
+	"poison":0.0,
+	"splash":0.5,
+	"stun":0.0,
+	"slowdownMin":0.4,
+	"slowdownMax":0.6,
+	"penetration":0.0,
+	"shieldShred":0.0,
+	"spread":2,
+	"split":0,
+	"homing":0.0,
+	"arc":0.0
+}

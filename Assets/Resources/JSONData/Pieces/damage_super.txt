@@ -1,0 +1,32 @@
+{
+	"imgfile":"Piece_Damage_SR",
+
+	"cooldownFactor":0.0,
+	"dmg":20.0,
+	"speed":0.1,
+	"range":0.0,
+	"knockback":0.0,
+	"lifeDrain":0.0,
+	"poison":0.0,
+	"splash":0.0,
+	"stun":0.0,
+	"slowdownMin":0.0,
+	"slowdownMax":0.0,
+	"penetration":0.0,
+	"shieldShred":0.0,
+	"spread":1,
+	"split":0,
+	"homing":0.0,
+	"arc":0.0,
+	
+	"width":2,
+	"height":4,
+	"blockMap": [
+		[5,0],
+		[1,4],
+		[1,1],
+		[1,1]
+	],
+	
+	"bulletText":"Projectiles will deal +20 damage to enemies, but travel slightly slower."
+}

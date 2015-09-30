@@ -1,0 +1,19 @@
+{	
+	"movementType":"Zigzag",
+	"maxHP":40.0,
+	"HP":25.0,
+	"damage":8.0,
+	"impactTime":12.0,
+	"size":0.18,
+	"maxShields":0.0,
+	"shields":0.0,
+	
+	"rarityUpWithHits":false,
+	"rareDropThreshold":4,
+	"rareChance":25.0,
+	"normalChance":5.0,
+	
+	"pieceTypes":[
+		"damage","poison","drain","slow"
+	]
+}

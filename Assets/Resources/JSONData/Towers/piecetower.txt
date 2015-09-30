@@ -1,0 +1,12 @@
+{
+	"towerName":"Testing Tower",
+	"decalFilename":"Tower3",
+	"towerType":"Bullet",
+	
+	"pieces":[
+		{"anchorX":0, "anchorY":0, "rotation":90 , "pieceFilename":"damage_rare"},
+		{"anchorX":3, "anchorY":0, "rotation":0  , "pieceFilename":"range_super"},
+		{"anchorX":6, "anchorY":0, "rotation":0  , "pieceFilename":"splash_normal"},
+		{"anchorX":9, "anchorY":0, "rotation":0  , "pieceFilename":"split_super"}
+	]
+}

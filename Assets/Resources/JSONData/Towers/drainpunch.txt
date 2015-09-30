@@ -1,0 +1,10 @@
+{	
+	"towerName":"Drain Punch",
+	"decalFilename":"Tower3",
+	"towerType":"Bullet",
+	
+	"pieces":[
+		{"anchorX":0, "anchorY":3, "rotation":0 , "pieceFilename":"damage_super"},
+		{"anchorX":4, "anchorY":1, "rotation":90  , "pieceFilename":"drain_rare"}
+	]
+}

@@ -1,0 +1,10 @@
+{
+	"towerName":"joetower2",
+	"decalFilename":"Tower2",
+	"towerType":"Bullet",
+	
+	"pieces":[
+		{"anchorX":0, "anchorY":0, "rotation":0 , "pieceFilename":"joe_prebaked_2"},
+		{"anchorX":0, "anchorY":0, "rotation":0 , "pieceFilename":"split_super"}
+	]
+}

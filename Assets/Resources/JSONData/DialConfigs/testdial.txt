@@ -1,0 +1,10 @@
+{
+	"towers":[
+		{"filename":"joetower1","active":true},
+		{"filename":"joetower2","active":true},
+		{"filename":"joetower3","active":true},
+		{"filename":"joetower4","active":true},
+		{"filename":"joetower5","active":true},
+		{"filename":"joetower6","active":true}
+	]
+}
