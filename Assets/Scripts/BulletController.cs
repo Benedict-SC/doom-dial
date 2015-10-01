@@ -45,6 +45,10 @@ public class BulletController : MonoBehaviour {
 	bool originalAngleSet = false;
 	float originalAngle = 0f;
 
+	public GameObject homingTarget;
+	GameObject gameManager;
+	WaveManager waveMan;
+
 	//BEING WORKED ON
 
 	public float splitCount; //number of pieces it splits into
@@ -101,6 +105,12 @@ public class BulletController : MonoBehaviour {
 			timerElapsed = false;
 			splitTimer.Restart ();
 		}
+		gameManager = GameObject.Find ("GameManager");
+		if (gameManager == null)
+		{
+			Debug.Log ("zoneconecontroller couldn't find GameManager!");
+		}
+		waveMan = gameManager.GetComponent<WaveManager>();
 	}
 	
 	// Update is called once per frame
@@ -120,6 +130,29 @@ public class BulletController : MonoBehaviour {
 				}
 				//if bullet exceeds its range, disappear
 				//Debug.Log ("x is " + transform.position.x + " and spawnx is " + spawnx);
+			}
+			else if (homingStrength != 0)
+			{
+				if (!isPaused)
+				{
+					//edit this somehow
+					this.transform.position = new Vector3(this.transform.position.x + vx, this.transform.position.y + vy, this.transform.position.z);
+				}
+				if (homingTarget == null)
+				{
+					SetHomingTarget();
+				}
+				else if (homingTarget != null)
+				{
+					Vector3 homeDir = Vector3.Lerp (this.transform.position, homingTarget.transform.position, homingStrength);
+					Debug.Log ("homeDir: " + homeDir.ToString());
+					//homeDir *= homingStrength;
+					Debug.Log ("vx: " + vx);
+					Debug.Log ("vy: " + vy);
+					this.transform.position += homeDir - this.transform.position;
+					Debug.Log ("new vx: " + vx);
+					Debug.Log ("new vy: " + vy);
+				}
 			}
 			
 			float distance = (float)Math.Sqrt ((this.transform.position.x - spawnx) * (this.transform.position.x - spawnx)
@@ -262,6 +295,37 @@ public class BulletController : MonoBehaviour {
 				}
 			}
 		}
+	}
+
+	//returns the nearest enemy in this bullet's zone
+	public GameObject FindNearestEnemy()
+	{
+		float minDist = 9999f;
+		GameObject minEnemy = null;
+		foreach (GameObject enemy in waveMan.enemiesOnscreen)
+		{
+			if (enemy != null)
+			{
+				EnemyController ec = enemy.GetComponent<EnemyController>();
+				if (ec.GetTrackID() == GetCurrentTrackID()) //if this enemy is in this bullet's zone
+				{
+					Debug.Log ("FindNearestEnemy found a candidate!");
+					float dist = Vector3.Distance(this.transform.position, enemy.transform.position);
+					if (dist <= minDist)
+					{
+						Debug.Log ("found a new minEnemy!");
+						minDist = dist;
+						minEnemy = enemy;
+					}
+				}
+			}
+		}
+		return minEnemy;
+	}
+
+	public void SetHomingTarget()
+	{
+		homingTarget = FindNearestEnemy();
 	}
 
 	//returns the current zone ID of This bullet
