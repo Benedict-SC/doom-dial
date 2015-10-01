@@ -22,6 +22,8 @@ public class PieceController : MonoBehaviour, EventHandler{
 	bool moving = false;
 	Vector3 dragPoint = new Vector3(0,0,0);
 	
+	public static float gridSquareWidth = 1.7f;
+	
 	public void Start(){
 		EventManager em = EventManager.Instance ();
 		em.RegisterForEventType ("tap", this);
@@ -185,8 +187,8 @@ public class PieceController : MonoBehaviour, EventHandler{
 		}
 		
 		RectTransform rt = (RectTransform)transform;
-		float squareWidth = img.sprite.bounds.size.x / (float)width * 1.7f; //arbitrary multiplier to fit things...?
-		Vector3 sizeStuff = new Vector3(width*squareWidth,height*squareWidth,transform.position.z);
+		//float squareWidth = img.sprite.bounds.size.x / (float)width * 1.7f; //arbitrary multiplier to fit things...?
+		Vector3 sizeStuff = new Vector3(width*gridSquareWidth,height*gridSquareWidth,transform.position.z);
 		sizeStuff = rt.InverseTransformVector(sizeStuff);
 		rt.sizeDelta = sizeStuff;
 		//PrintArray(GetArray ());

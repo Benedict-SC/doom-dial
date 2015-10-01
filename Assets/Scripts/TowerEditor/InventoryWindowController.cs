@@ -12,6 +12,8 @@ public class InventoryWindowController : MonoBehaviour{
 		public PieceTemplateController template = null;
 		public InventoryWindowController parent = null;
 		
+		readonly float templateX = 135f;
+		
 		public InventoryRecord(GameObject f,int c, string pfn, InventoryWindowController par){
 			parent = par;
 			frame = f;
@@ -21,7 +23,7 @@ public class InventoryWindowController : MonoBehaviour{
 			if(c > 0){
 				template.transform.SetParent(frame.transform,true);
 				t.transform.SetAsFirstSibling();
-				template.transform.localPosition = new Vector3(98f,0f,0.01f);
+				template.transform.localPosition = new Vector3(templateX,0f,0.01f);
 				template.ConfigureFromJSON(pfn);
 				UpdateDescriptiveText();
 				template.SetCount(c);
@@ -40,7 +42,7 @@ public class InventoryWindowController : MonoBehaviour{
 			if(c > 0){
 				template.transform.SetParent(frame.transform,true);
 				t.transform.SetAsFirstSibling();
-				template.transform.localPosition = new Vector3(98f,0f,0.01f);
+				template.transform.localPosition = new Vector3(templateX,0f,0.01f);
 				template.ConfigureFromJSON(pfn);
 				UpdateDescriptiveText();
 				template.SetCount(c);

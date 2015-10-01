@@ -19,7 +19,7 @@ public class TestDataLoader : MonoBehaviour{
 		FileLoader dialdest = new FileLoader (Application.persistentDataPath,"Dials","testdial");
 		string json = dialsrc.Read ();
 		dialdest.Write(json);
-		Debug.Log (json);
+		//Debug.Log (json);
 		Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
 		
 		List<System.Object> entries = data ["towers"] as List<System.Object>;

@@ -57,7 +57,7 @@ public class StatReadout : MonoBehaviour, EventHandler{
 		string penetrationLine = "Penetration: ignore " + (penetration*100) + "% of shields";
 		string shredLine = "Shield Shred: break " + (shred*100) + "% of shields";
 		
-		string finalText = "PIECE STATS:\n\n";
+		string finalText = "TOWER STATS:\n\n";
 		finalText += damageLine + "\n";
 		finalText += speedLine + "\n";
 		finalText += rangeLine + "\n";

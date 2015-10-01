@@ -78,6 +78,7 @@ public class GridController : MonoBehaviour{
 		gridCorner = corners[0];//rt.TransformVector(rt.rect.min) + transform.position;//gridSprite.bounds.min;
 		gridLength = translate.WorldSize(rt).x;//rt.TransformVector(rt.rect.size).x; //gridSprite.bounds.size.x;
 		squareWidth = gridLength / (float)GRID_SIZE;
+		PieceController.gridSquareWidth = squareWidth;
 		//Debug.Log("SW: " + squareWidth);
 		for(int i = 0; i < GRID_SIZE; i++){
 			for(int j = 0; j < GRID_SIZE; j++){
@@ -241,7 +242,7 @@ public class GridController : MonoBehaviour{
 		}
 		
 		//if either dimension is negative, return false
-		ycounter = GRID_SIZE-1-ycounter;
+		ycounter = GRID_SIZE-2-ycounter;
 		//Debug.Log (ycounter);
 		if(ycounter < 0 || xcounter < 0)
 			return false;
