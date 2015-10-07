@@ -19,7 +19,7 @@ public class InputWatcher : MonoBehaviour {
 				if (isdown) {
 					bool down = Input.GetMouseButton (0);
 					if (!down) {
-						Debug.Log ("released!!!");
+						//Debug.Log ("released!!!");
 						isdown = false;
 						GameEvent releaseEvent = new GameEvent ("mouse_release");
 						releaseEvent.addArgument (GetInputPosition ());

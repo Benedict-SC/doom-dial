@@ -1,4 +1,8 @@
 {
+	"name":"Bigfella",
+	"imgfile":"Placeholder",
+	"pointValue":20,
+
 	"movementType":"Sine",
 	"maxHP":80.0,
 	"HP":80.0,

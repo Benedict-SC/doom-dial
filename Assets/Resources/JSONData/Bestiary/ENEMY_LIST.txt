@@ -1,0 +1,12 @@
+{
+	"enemies": [
+		"testenemy",
+		"steve",
+		"bleedin' joe",
+		"bigfella",
+		"testenemy",
+		"steve",
+		"bleedin' joe",
+		"bigfella"
+	]
+}

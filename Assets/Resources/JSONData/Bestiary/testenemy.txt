@@ -1,4 +1,8 @@
 {
+	"name":"Test Enemy",
+	"imgfile":"Placeholder",
+	"pointValue":5,
+
 	"movementType":"Linear",
 	"maxHP":20.0,
 	"HP":20.0,

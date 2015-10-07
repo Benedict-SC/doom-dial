@@ -1,4 +1,8 @@
 {	
+	"name":"Bleedin' Joe",
+	"imgfile":"Placeholder",
+	"pointValue":10,
+
 	"movementType":"Zigzag",
 	"maxHP":40.0,
 	"HP":25.0,

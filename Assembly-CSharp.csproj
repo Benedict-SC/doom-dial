@@ -102,6 +102,12 @@
      <Compile Include="Assets\Scripts\TrapController.cs" />
      <Compile Include="Assets\Scripts\UIRectTranslator.cs" />
      <Compile Include="Assets\Scripts\Wave.cs" />
+     <Compile Include="Assets\Scripts\WaveEditor\EnemyDraggableController.cs" />
+     <Compile Include="Assets\Scripts\WaveEditor\EnemyInvController.cs" />
+     <Compile Include="Assets\Scripts\WaveEditor\EnemyListEntryController.cs" />
+     <Compile Include="Assets\Scripts\WaveEditor\EnemyTemplateController.cs" />
+     <Compile Include="Assets\Scripts\WaveEditor\WaveEditorController.cs" />
+     <Compile Include="Assets\Scripts\WaveEditor\ZonePanelController.cs" />
      <Compile Include="Assets\Scripts\WaveManager.cs" />
      <Compile Include="Assets\Scripts\WorldData.cs" />
      <Compile Include="Assets\Scripts\WorldSelect.cs" />
@@ -165,6 +171,7 @@
      <None Include="Assets\Resources\JSONData\Pieces\shred_super.txt" />
      <None Include="Assets\Resources\JSONData\MiscData\inventorybackup.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\slow_super.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\ENEMY_LIST.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World3\Level4\wavedata.txt" />
      <None Include="Assets\Resources\JSONData\Towers\devtest1.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World1\Level4\wavedata.txt" />

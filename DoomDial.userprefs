@@ -1,23 +1,17 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\RunOnceOnGameStartup.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\WaveEditor\EnemyListEntryController.cs">
     <Files>
       <File FileName="Assets\Scripts\TestDataLoader.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\FileLoader.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\WaveManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\BulletController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GunController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Events\EventManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\PieceParser.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\InputWatcher.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\DialController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\TowerSelect.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\TowerEditor\InventoryWindowController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\TowerEditor\GridController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\DropController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\WorldSelect.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MiniJSON.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\RunOnceOnGameStartup.cs" Line="14" Column="4" />
+      <File FileName="Assets\Scripts\Events\EventManager.cs" Line="6" Column="4" />
+      <File FileName="Assets\Scripts\InputWatcher.cs" Line="22" Column="9" />
+      <File FileName="Assets\Scripts\TowerEditor\InventoryWindowController.cs" Line="79" Column="9" />
+      <File FileName="Assets\Scripts\WaveEditor\EnemyInvController.cs" Line="20" Column="99" />
+      <File FileName="Assets\Scripts\WaveEditor\EnemyTemplateController.cs" Line="119" Column="19" />
+      <File FileName="Assets\Scripts\WaveEditor\WaveEditorController.cs" Line="58" Column="42" />
+      <File FileName="Assets\Scripts\WaveEditor\EnemyDraggableController.cs" Line="48" Column="3" />
+      <File FileName="Assets\Scripts\WaveEditor\ZonePanelController.cs" Line="36" Column="19" />
+      <File FileName="Assets\Scripts\WaveEditor\EnemyListEntryController.cs" Line="17" Column="59" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

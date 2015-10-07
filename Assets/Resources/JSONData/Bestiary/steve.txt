@@ -1,4 +1,8 @@
 {
+	"name":"Steve",
+	"imgfile":"Placeholder",
+	"pointValue":10,
+
 	"movementType":"Strafing_Mirror",
 	"maxHP":12.0,
 	"HP":12.0,
