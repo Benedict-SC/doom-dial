@@ -28,7 +28,6 @@ public class MenuSpinScript : MonoBehaviour, EventHandler {
 		em.RegisterForEventType ("mouse_click", this);
 	}
 	public void HandleEvent(GameEvent ge){
-		Debug.Log ("test");
 		Vector3 mousepos = InputWatcher.GetInputPosition ();
 		mousepos = new Vector3(mousepos.x - spinPivot.transform.position.x,mousepos.y-spinPivot.transform.position.y,mousepos.z);
 		if (ge.type.Equals ("mouse_release")) {
@@ -63,7 +62,7 @@ public class MenuSpinScript : MonoBehaviour, EventHandler {
 		}else if(ge.type.Equals("mouse_click")){
 			//Allows the dial to start spinning
 			if(spinner == false){
-				originalRot = Mathf.Atan2(mousepos.y-spinPivot.transform.position.y,mousepos.x-spinPivot.transform.position.x);
+				originalRot = Mathf.Atan2(mousepos.y,mousepos.x);
 				origz = transform.eulerAngles.z;
 				//Debug.Log ("new original degrees: " + originalRot);
 			}
@@ -74,9 +73,7 @@ public class MenuSpinScript : MonoBehaviour, EventHandler {
 	// Update is called once per frame
 	void Update () {
 		Vector3 mousepos = InputWatcher.GetInputPosition ();
-
 		mousepos = new Vector3(mousepos.x - spinPivot.transform.position.x,mousepos.y-spinPivot.transform.position.y,mousepos.z);
-		Debug.Log (mousepos);
 		//Debug.Log (touchDown);
 		if(touchDown){
 			//Debug.Log ("mouse down");
@@ -85,7 +82,7 @@ public class MenuSpinScript : MonoBehaviour, EventHandler {
 			if(spinner && clickTime > clickDelay){
 				//Probably not the best for dealing with movement on both axis, 
 				//also will change code to touch controls once we start testing the game on mobile
-				float angle = Mathf.Atan2(mousepos.y - spinPivot.transform.position.y,mousepos.x- spinPivot.transform.position.x);// (mousepos.y,mousepos.x);
+				float angle = Mathf.Atan2(mousepos.y,mousepos.x);// (mousepos.y,mousepos.x);
 				float degrees = (Mathf.Rad2Deg * angle);
 				float origDegrees = Mathf.Rad2Deg * originalRot;
 				transform.rotation = Quaternion.Euler(0,0,(origz + (degrees - origDegrees)*rotScale)%360);
