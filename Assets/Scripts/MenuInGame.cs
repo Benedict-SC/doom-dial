@@ -52,7 +52,7 @@ public class MenuInGame : MonoBehaviour, EventHandler {
 				break;
 			case 1:
 				textMesh.GetComponent<TextMesh>().text = "Tower Editor";
-				levelName = "TestScene 1";
+				levelName = "TowerSelect";
 
 				break;
 			case 2:

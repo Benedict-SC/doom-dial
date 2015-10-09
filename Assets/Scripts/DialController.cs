@@ -28,7 +28,7 @@ public class DialController : MonoBehaviour,EventHandler {
 	// Use this for initialization
 	void Start () {
 		EventManager.Instance ().RegisterForEventType ("enemy_arrived", this);
-		LoadDialConfigFromJSON ("testdial");
+		LoadDialConfigFromJSON ("devdial");
 		
 		GameObject zoneLines = GameObject.Find("ZoneLines").gameObject;
 		superBars[0] = zoneLines.transform.FindChild("Super1").gameObject;

@@ -28,5 +28,5 @@
 		[3,1,1,2]
 	],
 	
-	"bulletText":"Projectiles cause gravity to increase around enemies, causing them to move between +40% and +60% slower. Cooldown .1 seconds longer."
+	"bulletText":"Hit enemies move between +40% and +60% slower. Cooldown .1 seconds longer."
 }

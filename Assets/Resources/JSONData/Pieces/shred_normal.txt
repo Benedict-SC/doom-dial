@@ -1,4 +1,6 @@
 {
+	"imgfile":"Piece_ShieldShred_N",
+	
 	"cooldownFactor":0.0,
 	"dmg":0.0,
 	"speed":0.0,
@@ -22,8 +24,10 @@
 	"width":3,
 	"height":3,
 	"blockMap": [
-		[false,true ,false],
-		[true ,false,true ],
-		[false,true ,false]
-	]
+		[0,5,0],
+		[4,0,2],
+		[0,3,0]
+	],
+	
+	"bulletText":"Projectiles reduce enemy shields, lowering max shield hp by 10%."
 }

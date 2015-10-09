@@ -42,22 +42,22 @@ public class LevelSelect : MonoBehaviour, EventHandler {
 			case 0:
 				textMesh.GetComponent<TextMesh>().text = WorldData.worldSelected + "-2";
 				WorldData.levelSelected = "Level2";
-				levelName = "TestScene";
+				levelName = "MainGame";
 				break;
 			case 1:
 				textMesh.GetComponent<TextMesh>().text = WorldData.worldSelected + "-3";
 				WorldData.levelSelected = "Level3";
-				levelName = "TestScene";
+				levelName = "MainGame";
 				break;
 			case 2:
 				textMesh.GetComponent<TextMesh>().text = WorldData.worldSelected + "-4";
 				WorldData.levelSelected = "Level4";
-				levelName = "TestScene";
+				levelName = "MainGame";
 				break;
 			case 3:
 				textMesh.GetComponent<TextMesh>().text = WorldData.worldSelected + "-1";
 				WorldData.levelSelected = "Level1";
-				levelName = "TestScene";
+				levelName = "MainGame";
 				break;
 			default:
 				break;

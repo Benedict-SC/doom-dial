@@ -176,7 +176,7 @@ public class InventoryWindowController : MonoBehaviour{
 		
 		string filedata = Json.Serialize(data);
 		fl.Write(filedata);
-		Application.LoadLevel("TestScene 1"); //oh man don't put this here, make the loadlevel call another function on the button
+		Application.LoadLevel("TowerSelect"); //oh man don't put this here, make the loadlevel call another function on the button
 	}
 	public void AddPiece(PieceController p){
 		string fname = p.GetFilename();

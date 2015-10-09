@@ -1,4 +1,6 @@
 {
+	"imgfile":"Piece_Split_R",
+	
 	"cooldownFactor":0.0,
 	"dmg":0.0,
 	"speed":0.0,
@@ -19,10 +21,15 @@
 	"homing":0.0,
 	"arc":0.0,
 	
-	"width":2,
-	"height":2,
+	"width":5,
+	"height":5,
 	"blockMap": [
-		[false,true ],
-		[true ,false]
-	]
+		[1,0,0,0,1],
+		[1,1,1,1,1],
+		[1,0,1,0,1],
+		[0,0,1,0,0],
+		[0,0,1,0,0]
+	],
+	
+	"bulletText":"Bullets that hit or reach their range split in two, firing left and right through 2 zones."
 }

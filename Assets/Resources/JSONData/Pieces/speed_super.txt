@@ -1,4 +1,6 @@
 {
+	"imgfile":"Piece_Speed_SR",
+	
 	"cooldownFactor":0.0,
 	"dmg":0.0,
 	"speed":-0.45,
@@ -19,14 +21,14 @@
 	"homing":0.0,
 	"arc":0.0,
 	
-	"width":6,
-	"height":6,
+	"width":4,
+	"height":4,
 	"blockMap": [
-		[false,false,false,false,false,true ],
-		[false,false,false,false,true ,false],
-		[false,false,false,true ,false,false],
-		[false,false,true ,false,false,false],
-		[false,true ,false,false,false,false],
-		[true ,false,false,false,false,false]
-	]
+		[0,0,4,1],
+		[0,0,1,0],
+		[4,1,2,0],
+		[1,0,0,0]
+	],
+	
+	"bulletText":"Projectiles travel faster, reducing the time to max distance by 0.45 sec. Range reduced by 10%."
 }

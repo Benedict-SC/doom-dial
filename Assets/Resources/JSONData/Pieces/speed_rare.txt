@@ -1,4 +1,6 @@
 {
+	"imgfile":"Piece_Speed_R",
+	
 	"cooldownFactor":0.0,
 	"dmg":0.0,
 	"speed":-0.2,
@@ -22,9 +24,11 @@
 	"width":4,
 	"height":4,
 	"blockMap": [
-		[false,false,false,true ],
-		[false,false,true ,false],
-		[false,true ,false,false],
-		[true ,false,false,false]
-	]
+		[0,0,0,1],
+		[0,0,1,0],
+		[0,1,0,0],
+		[1,0,0,0]
+	],
+	
+	"bulletText":"Projectiles travel faster, reducing the time to max distance by 0.2 sec."
 }

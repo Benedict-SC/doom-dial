@@ -1,4 +1,6 @@
 {
+	"imgfile":"Piece_CDR_SR",
+	
 	"cooldownFactor":-0.75,
 	"dmg":-10.0,
 	"speed":0.0,
@@ -19,12 +21,14 @@
 	"homing":0.0,
 	"arc":0.0,
 	
-	"width":6,
+	"width":4,
 	"height":4,
 	"blockMap": [
-		[false,false,true ,true ,true ,true ],
-		[false,false,true ,false,false,false],
-		[false,false,false,true ,false,false],
-		[true ,true ,true ,true ,false,false]
-	]
+		[1,1,1,1],
+		[1,0,0,0],
+		[0,1,0,0],
+		[1,1,0,0]
+	],
+	
+	"bulletText":"Tower will reload faster, able to fire 0.75 seconds sooner, but will deal 10 less damage."
 }

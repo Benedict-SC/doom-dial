@@ -1,4 +1,6 @@
 {
+	"imgfile":"Piece_Split_SR",
+	
 	"cooldownFactor":0.0,
 	"dmg":0.0,
 	"speed":0.0,
@@ -19,10 +21,16 @@
 	"homing":0.0,
 	"arc":0.0,
 	
-	"width":2,
-	"height":2,
+	"width":5,
+	"height":6,
 	"blockMap": [
-		[false,true ],
-		[true ,false]
-	]
+		[1,0,0,0,1],
+		[1,0,0,0,1],
+		[1,1,1,1,1],
+		[1,0,1,0,1],
+		[1,0,1,0,1],
+		[0,0,1,0,0]
+	],
+	
+	"bulletText":"Bullets split with a range of 3 zones. If they hit each other, all enemies in that zone die."
 }

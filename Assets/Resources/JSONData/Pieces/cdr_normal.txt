@@ -1,4 +1,6 @@
 {
+	"imgfile":"Piece_CDR_N",
+	
 	"cooldownFactor":-0.15,
 	"dmg":0.0,
 	"speed":0.0,
@@ -22,9 +24,11 @@
 	"width":2,
 	"height":4,
 	"blockMap": [
-		[true ,true ],
-		[true ,false],
-		[false,true ],
-		[true ,true ]
-	]
+		[1,1],
+		[1,0],
+		[0,1],
+		[1,1]
+	],
+	
+	"bulletText":"Tower will reload faster, able to fire 0.15 seconds sooner."
 }

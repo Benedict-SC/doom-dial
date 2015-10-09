@@ -1,0 +1,36 @@
+{
+	"imgfile":"Piece_Homing_SR",
+	
+	"cooldownFactor":0.0,
+	"dmg":0.0,
+	"speed":0.0,
+	"range":0.0,
+	"knockback":0.0,
+	"lifeDrain":0.0,
+	"poison":0.0,
+	"poisonDur":0.0,
+	"splash":0.0,
+	"stun":0.0,
+	"slowdownMin":0.0,
+	"slowdownMax":0.0,
+	"penetration":0.0,
+	"shieldShred":0.0,
+	"trapArmTime":0.0,
+	"spread":0,
+	"split":0,
+	"homing":0.045,
+	"arc":0.0,
+	
+	"width":3,
+	"height":6,
+	"blockMap": [
+		[1,1,1],
+		[0,0,1],
+		[1,1,1],
+		[1,0,0],
+		[1,0,1],
+		[1,1,1]
+	],
+	
+	"bulletText":"Projectiles change course, targeting the nearest enemy in the zone. Homing increased by 75%."
+}
