@@ -5,7 +5,7 @@ using System.IO;
 
 public class RunOnceOnGameStartup : MonoBehaviour{
 	
-	readonly bool OVERWRITE_SAVE = true;
+	readonly bool OVERWRITE_SAVE = false;
 
 	public void Start(){
 		//FillStorageWithTempData(); //turned off since TestDataLoader does the same thing- later, replace this with a call to that

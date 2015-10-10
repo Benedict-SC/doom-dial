@@ -51,4 +51,7 @@ public class TestDataLoader : MonoBehaviour{
 	public void LoadGameData(){
 		StaticLoadGameData();
 	}
+	public void StartGame(){
+		Application.LoadLevel("MainGame");
+	}
 }
