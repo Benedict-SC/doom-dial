@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using MiniJSON;
 
 public class WaveEditorController : MonoBehaviour,EventHandler{
 
@@ -14,11 +15,16 @@ public class WaveEditorController : MonoBehaviour,EventHandler{
 	EnemyDraggableController floatingEnemy = null;
 	EnemyListEntryController floatingEntry = null;
 	
+	int points = 0;
+	Text pointText;
+	
 	public void Start(){
 		singleton = this;
 		canvas = GameObject.Find("Canvas");
 		sr = GameObject.Find("EnemyScroll").GetComponent<ScrollRect>();
+		pointText = GameObject.Find ("Points").transform.FindChild("Text").GetComponent<Text>();
 		EventManager.Instance().RegisterForEventType("mouse_release",this);
+		EventManager.Instance().RegisterForEventType("wave_editor_changed",this);
 		zonepanels = new ZonePanelController[6];
 		zonelists = new List<EnemyListEntryController>[6];
 		for(int i = 0; i < 6; i++){
@@ -38,10 +44,22 @@ public class WaveEditorController : MonoBehaviour,EventHandler{
 		}
 	}
 	public void HandleEvent(GameEvent ge){
-		if(floatingEnemy != null)
-			DropEnemy();
-		if(floatingEntry != null)
-			DropEntry();
+		if(ge.type.Equals("mouse_release")){
+			if(floatingEnemy != null)
+				DropEnemy();
+			if(floatingEntry != null)
+				DropEntry();
+		}else if(ge.type.Equals("wave_editor_changed")){
+			int pointcount = 0;
+			for(int i = 0; i < 6; i++){
+				List<EnemyListEntryController> enemies = zonelists[i];
+				foreach(EnemyListEntryController elec in enemies){
+					pointcount += elec.GetEnemyTemplate().GetPointValue();
+				}
+			}
+			points = pointcount;
+			pointText.text = "" + points;
+		}
 	}
 	
 	public EnemyDraggableController GetFloatingEnemy(){
@@ -97,5 +115,29 @@ public class WaveEditorController : MonoBehaviour,EventHandler{
 	}
 	public bool IsMoving(){
 		return moving;
+	}
+	
+	public string GetWaveJSON(){
+		Dictionary<string,System.Object> serialdict = new Dictionary<string,System.Object>();
+		serialdict.Add("levelID",1000);
+		serialdict.Add("waveID",1000);
+		serialdict.Add("maxMilliseconds",30000);
+		serialdict.Add("minimumInterval",1000);
+		List<System.Object> elist = new List<System.Object>();
+		for(int i = 0; i < 6; i++){
+			List<EnemyListEntryController> enemies = zonelists[i];
+			foreach(EnemyListEntryController elec in enemies){
+				Dictionary<string,System.Object> enemy = new Dictionary<string,System.Object>();
+				enemy.Add("enemyID",elec.GetEnemyTemplate().GetSrcFileName());
+				enemy.Add("trackID",i+1);
+				enemy.Add("trackpos",0);
+				elist.Add(enemy);
+			}
+		}
+		serialdict.Add("enemies",elist);
+		return Json.Serialize(serialdict);
+	}
+	public void PrintWaveJSON(){
+		Debug.Log (GetWaveJSON());
 	}
 }

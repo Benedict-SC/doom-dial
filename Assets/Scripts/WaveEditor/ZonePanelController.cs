@@ -55,6 +55,8 @@ public class ZonePanelController : MonoBehaviour{
 		}
 		enemies.Add(elec);
 		elec.parentZonePanel = this;
+		GameEvent ge = new GameEvent("wave_editor_changed");
+		EventManager.Instance().RaiseEvent(ge);
 	}
 	public void AddNewEntry(EnemyListEntryController entry){
 		GameObject go = Instantiate (Resources.Load ("Prefabs/EnemyListEntry")) as GameObject;
@@ -68,6 +70,8 @@ public class ZonePanelController : MonoBehaviour{
 		}
 		enemies.Add(elec);
 		elec.parentZonePanel = this;
+		GameEvent ge = new GameEvent("wave_editor_changed");
+		EventManager.Instance().RaiseEvent(ge);
 	}
 	public void RemoveEntry(EnemyListEntryController entry){
 		enemies.Remove(entry);
@@ -76,5 +80,7 @@ public class ZonePanelController : MonoBehaviour{
 			RectTransform rt = (RectTransform)elec.transform;
 			rt.anchoredPosition = new Vector2(rt.anchoredPosition.x,initialpos - spacing*i); 
 		}
+		GameEvent ge = new GameEvent("wave_editor_changed");
+		EventManager.Instance().RaiseEvent(ge);
 	}
 }
