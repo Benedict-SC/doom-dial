@@ -9,6 +9,10 @@ public class WorldData : MonoBehaviour {
 	public string worldSelected = "";
 	public string levelSelected = "";
 	public string lastScene = "";
+	
+	//a bool for use by the wave manager to tell if it should be loading a user level
+	public bool loadUserLevel = false;
+	
 	// Use this for initialization
 	void Start () {
 		GameObject[] temp = GameObject.FindGameObjectsWithTag ("DataHolder");

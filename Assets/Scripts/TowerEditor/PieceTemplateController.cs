@@ -127,8 +127,8 @@ public class PieceTemplateController : MonoBehaviour,EventHandler{
 		UIRectTranslator translate = transform.gameObject.GetComponent<UIRectTranslator>();
 		
 		bool rectangleOverlap = rt.rect.Contains(rt.InverseTransformPoint(new Vector2(touchpos.x,touchpos.y)));//sr.bounds.IntersectRay(new Ray(touchpos,transform.forward));
-		
-		if(!rectangleOverlap)
+		return rectangleOverlap;
+		/*if(!rectangleOverlap)
 			return false;
 		//find local x and y of touch
 		
@@ -162,7 +162,7 @@ public class PieceTemplateController : MonoBehaviour,EventHandler{
 		int code = codes[ycount,xcount];
 		bool result = TouchHelper (relativePos,squareWidth,code);
 		
-		return result;
+		return result;*/
 		
 	}
 	private bool TouchHelper(Vector3 relativePos, float squareWidth, int code){

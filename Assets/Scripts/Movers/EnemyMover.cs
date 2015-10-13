@@ -2,6 +2,7 @@
 
 public abstract class EnemyMover{
 
+	protected float radiansOffset = 0;
 	public abstract Vector2 PositionFromProgress (float progress);
 
 	public float RealRadiansOfEnemy(EnemyController ec){ //returns angle of WHERE IT STARTED, not current angle
@@ -10,6 +11,12 @@ public abstract class EnemyMover{
 		degrees = ((360-degrees) + 90)%360; //convert to counterclockwise of x axis
 		degrees *= Mathf.Deg2Rad;
 		return degrees;
+	}
+	public void PutInLeftLane(){
+		radiansOffset = -15f;
+	}
+	public void PutInRightLane(){
+		radiansOffset = 15f;
 	}
 
 }

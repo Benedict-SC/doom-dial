@@ -140,4 +140,24 @@ public class WaveEditorController : MonoBehaviour,EventHandler{
 	public void PrintWaveJSON(){
 		Debug.Log (GetWaveJSON());
 	}
+	public void PlayLevel(){
+		//write wave to wave file
+		FileLoader wavedata = new FileLoader (Application.persistentDataPath,"UserLevels","userwave");
+		wavedata.Write(GetWaveJSON());
+		//create level dictionary
+		Dictionary<string,System.Object> leveldict = new Dictionary<string,System.Object>();
+		List<System.Object> waves = new List<System.Object>();
+		Dictionary<string,System.Object> waveobj = new Dictionary<string,System.Object>();
+		waveobj.Add("wavename","userwave");
+		waves.Add(waveobj);
+		leveldict.Add("waves",waves);
+		//set loader for level
+		FileLoader leveldata = new FileLoader (Application.persistentDataPath,"UserLevels","userlevel");
+		//write dictionary to loader
+		leveldata.Write(Json.Serialize(leveldict));
+		//switch scene to MainGame while somehow calling the wavemanager reset thing
+		GameObject worlddata = GameObject.Find("WorldData");
+		worlddata.GetComponent<WorldData>().loadUserLevel = true;
+		Application.LoadLevel("MainGame");
+	}
 }

@@ -16,6 +16,7 @@ public class SwerveMover : EnemyMover{
 	
 	public override Vector2 PositionFromProgress (float progress){
 		float angle = RealRadiansOfEnemy (parent);
+		angle += radiansOffset*Mathf.Deg2Rad;
 		float deviation = 0f;
 		
 		if(progress <= swerveEndProg){

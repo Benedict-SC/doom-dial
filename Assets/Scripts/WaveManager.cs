@@ -27,12 +27,24 @@ public class WaveManager : MonoBehaviour {
 
 		//do a ton of JSON parsing
 		FileLoader leveldata = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Worlds" + Path.DirectorySeparatorChar + worldVar + Path.DirectorySeparatorChar + levelVar, "wavedata");
+		WorldData wd = GameObject.Find ("WorldData").GetComponent<WorldData>();
+		bool loadingUserLevel = false;
+		if(wd.loadUserLevel){
+			leveldata = new FileLoader (Application.persistentDataPath,"UserLevels","userlevel");
+			//reset world data
+			loadingUserLevel = true;
+			wd.loadUserLevel = false;
+		}
 		Dictionary<string,System.Object> levelraw = Json.Deserialize (leveldata.Read ()) as Dictionary<string,System.Object>;
 		List<System.Object> wavesdata = levelraw ["waves"] as List<System.Object>;
 		foreach (System.Object thing in wavesdata) {
 			Dictionary<string,System.Object> dict = thing as Dictionary<string,System.Object>;
 			string filename = dict["wavename"] as string;
-			FileLoader file = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Waves" , filename);
+			string path = "JSONData" + Path.DirectorySeparatorChar + "Waves";
+			FileLoader file = new FileLoader (path, filename);
+			if(loadingUserLevel){
+				file = new FileLoader(Application.persistentDataPath,"UserLevels",filename);
+			}
 			Dictionary<string,System.Object> raw = Json.Deserialize (file.Read()) as Dictionary<string,System.Object>;
 
 			waves.Add(new Wave(raw));
@@ -88,7 +100,7 @@ public class WaveManager : MonoBehaviour {
 					//Debug.Log ("should have added an enemy to enemiesOnscreen");
 					enemy.SetActive (true);
 					enemiesOnscreen.Add (enemy);
-					Debug.Log ("enemiesOnscreen size: " + enemiesOnscreen.Count);
+					//Debug.Log ("enemiesOnscreen size: " + enemiesOnscreen.Count);
 					e.StartMoving ();
 				}
 			}

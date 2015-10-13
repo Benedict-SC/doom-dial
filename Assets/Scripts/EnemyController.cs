@@ -109,6 +109,12 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		string moveString = (string)data["movementType"];
 		if(moveString.Equals("Linear")){
 			mover = new LinearMover(this);
+		}else if(moveString.Equals("Linear_Right")){
+			mover = new LinearMover(this);
+			mover.PutInRightLane();
+		}else if(moveString.Equals("Linear_Left")){
+			mover = new LinearMover(this);
+			mover.PutInLeftLane();
 		}else if(moveString.Equals ("Zigzag")){
 			mover = new ZigzagMover(this);
 		}else if(moveString.Equals ("Zigzag_Mirror")){
@@ -131,6 +137,15 @@ public class EnemyController : MonoBehaviour,EventHandler {
 			mover = new SwerveMover(this);
 		}else if(moveString.Equals ("Swerve_Right")){
 			SwerveMover sm = new SwerveMover(this);
+			sm.Mirror();
+			mover = sm;
+		}else if(moveString.Equals ("Swerve_In_Left")){
+			SwerveMover sm = new SwerveMover(this);
+			sm.PutInRightLane();
+			mover = sm;
+		}else if(moveString.Equals ("Swerve_In_Right")){
+			SwerveMover sm = new SwerveMover(this);
+			sm.PutInLeftLane();
 			sm.Mirror();
 			mover = sm;
 		}else if(moveString.Equals ("Semicircle")){
