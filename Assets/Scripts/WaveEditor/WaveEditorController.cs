@@ -160,4 +160,7 @@ public class WaveEditorController : MonoBehaviour,EventHandler{
 		worlddata.GetComponent<WorldData>().loadUserLevel = true;
 		Application.LoadLevel("MainGame");
 	}
+	public void Return(){
+		Application.LoadLevel ("MenuTest");
+	}
 }

@@ -64,7 +64,7 @@ public class MenuClickScript : MonoBehaviour, EventHandler {
 			Debug.Log ("Limiters");
 			break;
 		case 3:
-			//Application.LoadLevel ("AltSceneTest");
+			Application.LoadLevel ("WaveEditor");
 			break;
 		case 4:
 			Camera.main.transform.position = CamLock2.transform.position;
@@ -74,7 +74,7 @@ public class MenuClickScript : MonoBehaviour, EventHandler {
 			break;
 		case 5:
 			//The way menuPosition is assigned results in it being 5 if the dial is released at a certain point
-			//Application.LoadLevel ("TestScene");
+			Application.LoadLevel ("WorldSelect");
 			break;
 		default:
 			break;
