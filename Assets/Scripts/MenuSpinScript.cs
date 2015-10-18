@@ -41,7 +41,7 @@ public class MenuSpinScript : MonoBehaviour, EventHandler {
 				transform.rotation = Quaternion.Euler(0, 0, lockRot);
 				menuPosition = (int) lockRot/lockThreshold;
 				if(Child.GetComponent<MenuClickScript>() != null){
-					Child.GetComponent<MenuClickScript>().menuPosition = menuPosition;
+					Child.GetComponent<MenuClickScript>().menuPosition = menuPosition % 5;
 				}
 				if(Child.GetComponent<WorldSelect>() != null){
 					Child.GetComponent<WorldSelect>().menuPosition = menuPosition % 4;
