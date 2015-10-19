@@ -3,6 +3,8 @@
 	"imgfile":"Placeholder",
 	"pointValue":5,
 
+	"enemyType":"Normal",
+	
 	"movementType":"Linear",
 	"maxHP":20.0,
 	"HP":20.0,

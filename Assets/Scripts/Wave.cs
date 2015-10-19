@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
+using MiniJSON;
 
 public class Wave{
 
@@ -96,6 +98,7 @@ public class Wave{
 			Dictionary<string,System.Object> enemydict = (Dictionary<string,System.Object>)enemy;
 			//would load from bestiary using (string)enemydict["enemyID"], but no bestiary yet
 			//long spawntimeInMillis = (long)enemydict["spawntime"];
+			string filename = (string) enemydict["enemyID"];
 			int track = (int)(long)enemydict["trackID"];
 			int trackpos = (int)(long)enemydict["trackpos"];
 			//make enemy
@@ -103,8 +106,20 @@ public class Wave{
 			enemyspawn.SetActive(false);
 			EnemyController ec = enemyspawn.GetComponent<EnemyController>();
 			
+			FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Bestiary",filename);
+			string actualenemyjson = fl.Read ();
+			Dictionary<string,System.Object> actualenemydict = Json.Deserialize(actualenemyjson) as Dictionary<string,System.Object>;
+			string enemytype = (string)actualenemydict["enemyType"];
+			if(enemytype.Equals("Chainers")){
+				GameObject enemyobj = ec.gameObject;
+				GameObject.Destroy(enemyobj.GetComponent<EnemyController>());
+				Chainer c = enemyobj.AddComponent<Chainer>() as Chainer;
+				ec = c;
+			}
+			
+			
 			//give enemy a filename to load from
-			string filename = (string) enemydict["enemyID"];
+			
 			ec.SetSrcFileName(filename);
 			ec.SetTrackID(track);
 			ec.SetTrackLane(trackpos);

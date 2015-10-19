@@ -15,46 +15,46 @@ public class EnemyController : MonoBehaviour,EventHandler {
 
 	public DialController dialCon;
 
-	long spawntime = 0;
-	bool warnedFor = false;
-	int trackID = 0;
-	int trackLane = 0;
+	protected long spawntime = 0;
+	protected bool warnedFor = false;
+	protected int trackID = 0;
+	protected int trackLane = 0;
 
-	float maxhp = 100.0f;
-	float hp = 100.0f;
-	string srcFileName;
+	protected float maxhp = 100.0f;
+	protected float hp = 100.0f;
+	protected string srcFileName;
 
 	//float ySpeed;
 	//float xSpeed;
 
-	Timer timer = new Timer();
-	EnemyMover mover;
+	protected Timer timer = new Timer();
+	protected EnemyMover mover;
 	public bool moving = false;
-	float progress = 0.0f;
-	float progressModifier = 1.0f;
-	bool isSlow = false;
+	protected float progress = 0.0f;
+	protected float progressModifier = 1.0f;
+	protected bool isSlow = false;
 
-	float timesShot = 0.0f;
+	protected float timesShot = 0.0f;
 
-	float impactTime; //"speed"
-	float impactDamage;
-	float radius;
-	float maxShields;
-	float shields;
+	protected float impactTime; //"speed"
+	protected float impactDamage;
+	protected float radius;
+	protected float maxShields;
+	protected float shields;
 
-	float highDropRate;
-	float medDropRate;
-	float lowDropRate;
-	bool rarityUpWithHits;
-	int rareDropThreshold;
-	float rareChance;
-	float normalChance;
+	protected float highDropRate;
+	protected float medDropRate;
+	protected float lowDropRate;
+	protected bool rarityUpWithHits;
+	protected int rareDropThreshold;
+	protected float rareChance;
+	protected float normalChance;
 
 	//ability?
 	//weakness?
 
 	// Use this for initialization
-	void Start () {
+	public virtual void Start () {
 		dialCon = GameObject.FindWithTag ("Dial").GetComponent<DialController>();
 		EventManager.Instance ().RegisterForEventType ("shot_collided", this);
 		//SpriteRenderer sr = transform.gameObject.GetComponent<SpriteRenderer> ();
@@ -176,7 +176,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	public virtual void Update () {
 		if (hp <= 0.0f)
 		{
 			Die ();
@@ -209,7 +209,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		//unpack shot location argument, check for collision, if it collided with you take damage from it
 		//actually never mind that, Unity has its own collision detection system!
 	}
-	void OnTriggerEnter2D(Collider2D coll){ //this is said system.
+	public virtual void OnTriggerEnter2D(Collider2D coll){ //this is said system.
 		//Debug.Log ("a collision happened!");
 		if (coll.gameObject.tag == "Bullet") //if it's a bullet
 		{
@@ -299,7 +299,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 
 	}
 
-	public void Die(){
+	public virtual void Die(){
 		//put more dying functionality here
 		System.Random r = new System.Random ();
 		float rng = (float)r.NextDouble() * 100; //random float between 0 and 100
@@ -385,6 +385,9 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	}
 	public void SetSrcFileName(string filename){
 		srcFileName = filename;
+	}
+	public string GetSrcFileName(){
+		return srcFileName;
 	}
 	public void SetTrackID(int id){
 		trackID = id;

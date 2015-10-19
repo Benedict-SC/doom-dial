@@ -2,6 +2,8 @@
 	"name":"Bigfella",
 	"imgfile":"Placeholder",
 	"pointValue":20,
+	
+	"enemyType":"Normal",
 
 	"movementType":"Sine",
 	"maxHP":80.0,

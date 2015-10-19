@@ -53,6 +53,7 @@
      <Compile Include="Assets\Scripts\DialController.cs" />
      <Compile Include="Assets\Scripts\DropController.cs" />
      <Compile Include="Assets\Scripts\EditorReturn.cs" />
+     <Compile Include="Assets\Scripts\Enemies\Chainer.cs" />
      <Compile Include="Assets\Scripts\EnemyController.cs" />
      <Compile Include="Assets\Scripts\Events\EventComponent.cs" />
      <Compile Include="Assets\Scripts\Events\EventHandler.cs" />
@@ -106,6 +107,7 @@
      <Compile Include="Assets\Scripts\WaveEditor\EnemyInvController.cs" />
      <Compile Include="Assets\Scripts\WaveEditor\EnemyListEntryController.cs" />
      <Compile Include="Assets\Scripts\WaveEditor\EnemyTemplateController.cs" />
+     <Compile Include="Assets\Scripts\WaveEditor\ScrollArrowController.cs" />
      <Compile Include="Assets\Scripts\WaveEditor\WaveEditorController.cs" />
      <Compile Include="Assets\Scripts\WaveEditor\ZonePanelController.cs" />
      <Compile Include="Assets\Scripts\WaveManager.cs" />
@@ -128,6 +130,7 @@
      <None Include="Assets\Resources\JSONData\Pieces\cdr_super.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\knockback_normal.txt" />
      <None Include="Assets\Resources\JSONData\Towers\devtest2.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\chainers.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\splash_rare.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\damage_normal.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\homing_rare.txt" />

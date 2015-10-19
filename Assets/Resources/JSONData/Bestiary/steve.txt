@@ -2,6 +2,8 @@
 	"name":"Steve",
 	"imgfile":"Placeholder",
 	"pointValue":10,
+	
+	"enemyType":"Normal",
 
 	"movementType":"Strafing_Mirror",
 	"maxHP":12.0,

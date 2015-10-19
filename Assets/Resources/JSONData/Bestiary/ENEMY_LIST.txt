@@ -3,7 +3,7 @@
 		"testenemy",
 		"steve",
 		"bleedin' joe",
-		"bigfella",
+		"chainers",
 		"testenemy",
 		"steve",
 		"bleedin' joe",

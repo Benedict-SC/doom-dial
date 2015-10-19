@@ -16,6 +16,9 @@ using System.Collections.Generic;
  * template_tapped
  * piece_dropped_on_inventory
  * readout_update
+ * alt_click
+ * alt_release
+ * alt_tap
  *
  * wave_editor_changed
  */

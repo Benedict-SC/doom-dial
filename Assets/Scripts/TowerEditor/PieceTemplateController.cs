@@ -30,7 +30,7 @@ public class PieceTemplateController : MonoBehaviour,EventHandler{
 				held = false;
 				return;
 			}
-			if(t.TimeElapsedSecs() >= 0.2f){
+			if(t.TimeElapsedSecs() >= 0.1f){
 				held = false;
 				GameEvent tapped = new GameEvent("template_tapped");
 				tapped.addArgument(this);

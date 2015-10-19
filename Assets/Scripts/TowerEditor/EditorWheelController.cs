@@ -19,13 +19,16 @@ public class EditorWheelController : MonoBehaviour, EventHandler{
 	
 	float radius;
 	
+	bool altspinning = false;
+	
 	// Use this for initialization
 	void Start () {
 		EventManager em = EventManager.Instance ();
 		c = GameObject.Find("Canvas").GetComponent<Canvas>();
 		em.RegisterForEventType ("mouse_release", this);
 		em.RegisterForEventType ("mouse_click", this);
-		
+		em.RegisterForEventType ("alt_release", this);
+		em.RegisterForEventType ("alt_click", this);
 		RectTransform rt = (RectTransform)transform;
 		/*
 		Vector3 maxCoords = rt.rect.max;// new Vector3(rt.rect.min.x,rt.rect.min.y,0);
@@ -43,22 +46,21 @@ public class EditorWheelController : MonoBehaviour, EventHandler{
 		
 		Vector3 mousepos = InputWatcher.GetInputPosition ();
 		if (ge.type.Equals ("mouse_release")) {
+			if(altspinning)
+				return;
 			//Stops the dial from spinning more
 			spinner = false;
 			//Only tries to lock if the spinner has a chance of moving
 			if(clickTime > clickDelay){
 				//Locks position to nearest interval of 60
-				float rotation = transform.eulerAngles.z;
-				float lockRot = Mathf.Round(rotation /90.0f)*90;
-				transform.rotation = Quaternion.Euler(0, 0, lockRot);
-				PieceController pc = EditorController.GetFloatingPiece();
-				if(pc != null)
-					pc.SetRotation(360 - transform.rotation.eulerAngles.z);
+				LockRotation();
 			}
 			//resets time
 			clickTime = 0;
 			touchDown = false;
 		}else if(ge.type.Equals("mouse_click")){
+			if(altspinning)
+				return;
 			//Allows the dial to start spinning
 			if(spinner == false){
 				float dist = Mathf.Sqrt(((mousepos.x-transform.position.x)*(mousepos.x-transform.position.x))
@@ -72,18 +74,68 @@ public class EditorWheelController : MonoBehaviour, EventHandler{
 			spinner = true;
 			touchDown = true;
 		}
+		else if(ge.type.Equals("alt_click")){
+			mousepos = InputWatcher.GetInputPosition(1);
+			if(spinner)
+				return;
+			if((int)ge.args[1] != 1){ //second finger only
+				return;
+			}
+				
+			if(altspinning == false){
+				float dist = Mathf.Sqrt(((mousepos.x-transform.position.x)*(mousepos.x-transform.position.x))
+				                        +((mousepos.y-transform.position.y)*(mousepos.y-transform.position.y)));
+				if(dist > radius)
+					return;
+				originalRot = Mathf.Atan2(mousepos.y-transform.position.y,mousepos.x-transform.position.x);
+				origz = transform.eulerAngles.z;
+				//Debug.Log ("new original degrees: " + originalRot);
+			}
+			altspinning = true;
+			touchDown = true;
+		}else if(ge.type.Equals("alt_release")){
+			mousepos = InputWatcher.GetInputPosition(1);
+			if(spinner)
+				return;
+			if((int)ge.args[1] != 1){ //second finger only
+				return;
+			}
+				
+			//Stops the dial from spinning more
+			altspinning = false;
+			//Only tries to lock if the spinner has a chance of moving
+			if(clickTime > clickDelay){
+				//Locks position to nearest interval of 90
+				LockRotation();
+			}
+			//resets time
+			clickTime = 0;
+			touchDown = false;
+		}
+	}
+	
+	void LockRotation(){
+		float rotation = transform.eulerAngles.z;
+		float lockRot = Mathf.Round(rotation /90.0f)*90;
+		transform.rotation = Quaternion.Euler(0, 0, lockRot);
+		PieceController pc = EditorController.GetFloatingPiece();
+		if(pc != null)
+			pc.SetRotation(360 - transform.rotation.eulerAngles.z);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		Vector3 mousepos = InputWatcher.GetInputPosition ();
+		if(altspinning){
+			mousepos = InputWatcher.GetInputPosition(1);
+		}
 		mousepos = new Vector3(mousepos.x - transform.position.x,mousepos.y-transform.position.y,mousepos.z);
 		//Debug.Log (touchDown);
 		if(touchDown){
 			//Debug.Log ("mouse down");
 			clickTime += Time.deltaTime;
 			//Only allows the dial to spin if the player has been pressing for over a certain amount of time
-			if(spinner && clickTime > clickDelay){
+			if((spinner || altspinning) && clickTime > clickDelay){
 				//Probably not the best for dealing with movement on both axis, 
 				//also will change code to touch controls once we start testing the game on mobile
 				float angle = Mathf.Atan2(mousepos.y,mousepos.x);// (mousepos.y,mousepos.x);

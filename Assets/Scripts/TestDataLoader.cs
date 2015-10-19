@@ -52,6 +52,6 @@ public class TestDataLoader : MonoBehaviour{
 		StaticLoadGameData();
 	}
 	public void StartGame(){
-		Application.LoadLevel("MainGame");
+		Application.LoadLevel("WaveEditor");
 	}
 }

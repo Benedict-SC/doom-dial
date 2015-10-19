@@ -1,14 +1,14 @@
 {	
-	"name":"Bleedin' Joe",
+	"name":"Chainers",
 	"imgfile":"Placeholder",
 	"pointValue":10,
 	
-	"enemyType":"Normal",
+	"enemyType":"Chainers",
 
-	"movementType":"Zigzag",
-	"maxHP":40.0,
-	"HP":25.0,
-	"damage":8.0,
+	"movementType":"Sine",
+	"maxHP":10.0,
+	"HP":10.0,
+	"damage":1.0,
 	"impactTime":12.0,
 	"size":0.18,
 	"maxShields":0.0,
@@ -20,6 +20,6 @@
 	"normalChance":5.0,
 	
 	"pieceTypes":[
-		"damage","poison","drain","slow"
+		"splash","spread","split"
 	]
 }
