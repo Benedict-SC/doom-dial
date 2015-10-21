@@ -115,6 +115,14 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		}else if(moveString.Equals("Linear_Left")){
 			mover = new LinearMover(this);
 			mover.PutInLeftLane();
+		}else if(moveString.Equals("Slowing_Linear")){
+			mover = new SlowingLinearMover(this);
+		}else if(moveString.Equals("Slowing_Linear_Right")){
+			mover = new SlowingLinearMover(this);
+			mover.PutInRightLane();
+		}else if(moveString.Equals("Slowing_Linear_Left")){
+			mover = new SlowingLinearMover(this);
+			mover.PutInLeftLane();
 		}else if(moveString.Equals ("Zigzag")){
 			mover = new ZigzagMover(this);
 		}else if(moveString.Equals ("Zigzag_Mirror")){

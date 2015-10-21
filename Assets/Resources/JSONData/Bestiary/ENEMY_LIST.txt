@@ -4,8 +4,8 @@
 		"steve",
 		"bleedin' joe",
 		"chainers",
-		"testenemy",
-		"steve",
+		"tipofthespear",
+		"wallofdoom",
 		"bleedin' joe",
 		"bigfella"
 	]

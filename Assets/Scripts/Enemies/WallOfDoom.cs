@@ -1,80 +1,82 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Chainer : EnemyController{
+public class WallOfDoom : EnemyController{
 	
-	int numberOfFollowers = 4;
-	public float delay = .8f;
-	Timer followerSpawn;
-	bool spawnedAlready = false;
-	List<Chainer> followers = new List<Chainer>();
+	List<WallOfDoom> partners = new List<WallOfDoom>();
 	bool playingDead = false;
 	
 	public override void Start(){
 		base.Start();
-		followerSpawn = new Timer();
-		followerSpawn.Restart();
-		followers.Add(this);
+		if(partners.Count < 3)
+			SpawnPartners();
+		else
+			Debug.Log (partners.Count);
 	}
 	public override void Update(){
 		if(playingDead){
 			return;
 		}else{
 			base.Update();
-			if(!spawnedAlready && followers.Count < numberOfFollowers+1 && followerSpawn.TimeElapsedSecs() >= delay){
-				spawnedAlready = true;
-				SpawnFollower();
-			}
 		}
 	}
-	public void SpawnFollower(){
-		GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
-		Destroy (enemyspawn.GetComponent<EnemyController>());
-		Chainer newchainer = enemyspawn.AddComponent<Chainer>() as Chainer;
-		newchainer.FillFollowers(followers);
-		newchainer.delay = delay;
-		followers.Add(newchainer);
+	public void SpawnPartners(){
+		Debug.Log ("spawning");
+		GameObject enemyspawn1 = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
+		Destroy (enemyspawn1.GetComponent<EnemyController>());
+		WallOfDoom wall = enemyspawn1.AddComponent<WallOfDoom>() as WallOfDoom;
+		GameObject enemyspawn2 = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
+		Destroy (enemyspawn2.GetComponent<EnemyController>());
+		WallOfDoom wall2 = enemyspawn2.AddComponent<WallOfDoom>() as WallOfDoom;
 		
-		newchainer.SetSrcFileName(srcFileName);
-		newchainer.SetTrackID(trackID);
-		newchainer.SetTrackLane(trackLane);
-		//calculate and set position
-		float degrees = (trackID-1)*60; //clockwise of y-axis
-		degrees += 15*trackLane; //negative trackpos is left side, positive is right side, 0 is middle
-		degrees = ((360-degrees) + 90)%360; //convert to counterclockwise of x axis
-		degrees *= Mathf.Deg2Rad;
-		enemyspawn.transform.position = new Vector3(radius*Mathf.Cos(degrees),radius*Mathf.Sin(degrees),0);
+		partners.Add(this);
+		partners.Add(wall);
+		partners.Add(wall2);
+		wall.FillPartners(partners);
+		wall2.FillPartners(partners);
 		
-		newchainer.StartMoving();
+		wall.SetSrcFileName(srcFileName);
+		wall.SetTrackID(trackID);
+		wall.SetTrackLane(-1);
+		wall2.SetSrcFileName(srcFileName);
+		wall2.SetTrackID(trackID);
+		wall2.SetTrackLane(1);
 		
+		//calculate and set positions
+		float degrees1 = (trackID-1)*60; //clockwise of y-axis
+		degrees1 += 15*wall.GetTrackLane(); //negative trackpos is left side, positive is right side, 0 is middle
+		degrees1 = ((360-degrees1) + 90)%360; //convert to counterclockwise of x axis
+		degrees1 *= Mathf.Deg2Rad;
+		enemyspawn1.transform.position = new Vector3(radius*Mathf.Cos(degrees1),radius*Mathf.Sin(degrees1),0);
+		
+		float degrees2 = (trackID-1)*60; //clockwise of y-axis
+		degrees2 += 15*wall2.GetTrackLane(); //negative trackpos is left side, positive is right side, 0 is middle
+		degrees2 = ((360-degrees2) + 90)%360; //convert to counterclockwise of x axis
+		degrees2 *= Mathf.Deg2Rad;
+		enemyspawn2.transform.position = new Vector3(radius*Mathf.Cos(degrees2),radius*Mathf.Sin(degrees2),0);
+		
+		wall.StartMoving();
+		wall2.StartMoving();
 	}
-	public void FillFollowers(List<Chainer> list){
-		foreach(Chainer c in list){
-			followers.Add(c);
+	public void FillPartners(List<WallOfDoom> list){
+		foreach(WallOfDoom wod in list){
+			partners.Add(wod);
 		}
-		//Debug.Log(followers.Count + " followers");
 	}
 	public override void Die(){
 		if (hp <= 0.0f) {
 			dialCon.IncreaseSuperPercent();
 		}
-			bool everyonesHere = followers.Count >= numberOfFollowers+1;
-			bool playing = true;
-			foreach(Chainer c in followers){
-				if(!c.IsPlayingDead() && this != c){
-					playing = false;
-					break;
-				}
+		bool playing = true;
+		foreach(WallOfDoom wod in partners){
+			if(!wod.IsPlayingDead() && this != wod){
+				playing = false;
+				break;
 			}
-			bool everyonesPlayingDead = everyonesHere && playing;
-		
-		if(everyonesPlayingDead){
+		}
+		if(playing){
 			RealDie();
 		}else{
-			if(!spawnedAlready){
-				spawnedAlready = true;
-				SpawnFollower();
-			}
 			PlayDead();
 		}
 		
@@ -129,9 +131,9 @@ public class Chainer : EnemyController{
 			}
 		}
 		//TODO:put yourself in the missedwave queue
-		foreach(Chainer c in followers){
-			if(c != this)
-				Destroy (c.gameObject);
+		foreach(WallOfDoom wod in partners){
+			if(wod != this)
+				Destroy (wod.gameObject);
 		}
 		Destroy (this.gameObject);
 	}

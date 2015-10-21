@@ -1,17 +1,16 @@
 {	
-	"name":"Chainers",
+	"name":"Wall of Doom",
 	"imgfile":"Placeholder",
-	"pointValue":10,
+	"pointValue":20,
 	
-	"enemyType":"Chainers",
-	"delay":0.8,
+	"enemyType":"WallOfDoom",
 
-	"movementType":"Sine",
-	"maxHP":10.0,
-	"HP":10.0,
-	"damage":1.0,
-	"impactTime":12.0,
-	"size":0.18,
+	"movementType":"Linear",
+	"maxHP":40.0,
+	"HP":40.0,
+	"damage":3.0,
+	"impactTime":15.0,
+	"size":0.3,
 	"maxShields":0.0,
 	"shields":0.0,
 	
