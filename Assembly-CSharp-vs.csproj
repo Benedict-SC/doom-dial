@@ -54,6 +54,8 @@
      <Compile Include="Assets\Scripts\DropController.cs" />
      <Compile Include="Assets\Scripts\EditorReturn.cs" />
      <Compile Include="Assets\Scripts\Enemies\Chainer.cs" />
+     <Compile Include="Assets\Scripts\Enemies\Diversion.cs" />
+     <Compile Include="Assets\Scripts\Enemies\DiversionMinion.cs" />
      <Compile Include="Assets\Scripts\Enemies\WallOfDoom.cs" />
      <Compile Include="Assets\Scripts\EnemyController.cs" />
      <Compile Include="Assets\Scripts\Events\EventComponent.cs" />
@@ -146,6 +148,7 @@
      <None Include="Assets\Resources\JSONData\MiscData\inventory.txt" />
      <None Include="Assets\Resources\JSONData\Levels\testlevel.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\slow_normal.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\diversionminion.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\range_normal.txt" />
      <None Include="Assets\Resources\JSONData\Towers\drainpunch.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\stun_normal.txt" />
@@ -153,6 +156,7 @@
      <None Include="Assets\Resources\JSONData\Pieces\shred_normal.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\knockback_rare.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World1\Level3\wavedata.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\thediversion.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\cdr_rare.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World3\Level1\wavedata.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\homing_normal.txt" />

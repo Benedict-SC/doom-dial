@@ -6,7 +6,7 @@
 		"chainers",
 		"tipofthespear",
 		"wallofdoom",
-		"bleedin' joe",
+		"thediversion",
 		"bigfella"
 	]
 }

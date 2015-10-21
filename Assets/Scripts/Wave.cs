@@ -122,6 +122,13 @@ public class Wave{
 				GameObject.Destroy(enemyobj.GetComponent<EnemyController>());
 				WallOfDoom wod = enemyobj.AddComponent<WallOfDoom>() as WallOfDoom;
 				ec = wod;
+			}else if(enemytype.Equals("TheDiversion")){
+				GameObject enemyobj = ec.gameObject;
+				GameObject.Destroy(enemyobj.GetComponent<EnemyController>());
+				Diversion d = enemyobj.AddComponent<Diversion>() as Diversion;
+				float chaindelay = (float)(double)actualenemydict["delay"];
+				d.delay = chaindelay;
+				ec = d;
 			}
 			
 			//give enemy a filename to load from

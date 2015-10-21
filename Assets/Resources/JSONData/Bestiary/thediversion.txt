@@ -1,0 +1,26 @@
+{	
+	"name":"The Diversion",
+	"imgfile":"Placeholder",
+	"pointValue":30,
+	
+	"enemyType":"TheDiversion",
+	"delay":2.2,
+
+	"movementType":"Linear",
+	"maxHP":80.0,
+	"HP":80.0,
+	"damage":5.0,
+	"impactTime":16.0,
+	"size":0.4,
+	"maxShields":0.0,
+	"shields":0.0,
+	
+	"rarityUpWithHits":false,
+	"rareDropThreshold":4,
+	"rareChance":25.0,
+	"normalChance":5.0,
+	
+	"pieceTypes":[
+		"splash","spread","split"
+	]
+}
