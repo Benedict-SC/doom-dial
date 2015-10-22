@@ -7,7 +7,7 @@ public class LevelSelect : MonoBehaviour, EventHandler {
 	public GameObject startButton;
 	public WorldData WorldData;
 	public GameObject menuButton;
-	string levelName = "TestScene";
+	int levelName = 0;
 	int lastPosition = 1;
 	// Use this for initialization
 	void Start () {
@@ -42,22 +42,22 @@ public class LevelSelect : MonoBehaviour, EventHandler {
 			case 0:
 				textMesh.GetComponent<TextMesh>().text = WorldData.worldSelected + "-2";
 				WorldData.levelSelected = "Level2";
-				levelName = "MainGame";
+				levelName = 8;
 				break;
 			case 1:
 				textMesh.GetComponent<TextMesh>().text = WorldData.worldSelected + "-3";
 				WorldData.levelSelected = "Level3";
-				levelName = "MainGame";
+				levelName = 8;
 				break;
 			case 2:
 				textMesh.GetComponent<TextMesh>().text = WorldData.worldSelected + "-4";
 				WorldData.levelSelected = "Level4";
-				levelName = "MainGame";
+				levelName = 8;
 				break;
 			case 3:
 				textMesh.GetComponent<TextMesh>().text = WorldData.worldSelected + "-1";
 				WorldData.levelSelected = "Level1";
-				levelName = "MainGame";
+				levelName = 8;
 				break;
 			default:
 				break;

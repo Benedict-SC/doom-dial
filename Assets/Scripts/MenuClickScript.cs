@@ -30,16 +30,16 @@ public class MenuClickScript : MonoBehaviour, EventHandler {
 					if(targetFind.transform.position.x == 0.0f){
 						/*Reworked code to load via build index, rather than hardcoded strings.
 						 * For this to work, build order for the following levels must be as follows:
-						 * WorldSelect 1
-						 * LibraryMenu 2
-						 * RiskMenu 3
-						 * WaveEditor 4
-						 * SettingsMenu 5
+						 * WorldSelect 2
+						 * LibraryMenu 3
+						 * RiskMenu 4
+						 * WaveEditor 5
+						 * SettingsMenu 6
 						 * 
 						 * If it looks like a button is leading to the wrong scene, check to make sure the build order
 						 * is set up properly.
 						 */
-						Application.LoadLevel (menuPosition +1);
+						Application.LoadLevel (menuPosition +2);
 					}
 				}
 			}

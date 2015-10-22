@@ -176,7 +176,6 @@ public class InventoryWindowController : MonoBehaviour{
 		
 		string filedata = Json.Serialize(data);
 		fl.Write(filedata);
-		Application.LoadLevel("TowerSelect"); //oh man don't put this here, make the loadlevel call another function on the button
 	}
 	public void AddPiece(PieceController p){
 		string fname = p.GetFilename();
@@ -252,5 +251,8 @@ public class InventoryWindowController : MonoBehaviour{
 				ir.Reconstruct(go,count,piecefile);
 			}
 		}
+	}
+	public void MenuReturn(){
+		Application.LoadLevel(11); 
 	}
 }
