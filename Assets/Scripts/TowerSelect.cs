@@ -32,7 +32,7 @@ public class TowerSelect : MonoBehaviour, EventHandler {
 				//sees if ray collided with the start button
 				if (targetFind.collider.gameObject == this.gameObject) {
 					loader.towerName = "devtest" + (menuPosition+1).ToString();
-					Application.LoadLevel("TowerEditor");
+					Application.LoadLevel(10);
 				}
 			}
 		}

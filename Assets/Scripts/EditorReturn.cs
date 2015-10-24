@@ -19,11 +19,11 @@ public class EditorReturn : MonoBehaviour, EventHandler {
 			if (Physics.Raycast (targetSeek, out targetFind)) {
 				//sees if ray collided with the start button
 				if (targetFind.collider.gameObject == this.gameObject) {
-					if(worldHolder){
-					Application.LoadLevel(worldHolder.GetComponent<WorldData>().lastScene);
-					}else{
-						Application.LoadLevel("Menu");
-					}
+					//if(worldHolder){
+					//Application.LoadLevel(worldHolder.GetComponent<WorldData>().lastScene);
+					//}else{
+						Application.LoadLevel(9);
+					//}
 				}
 			}
 		}

@@ -28,11 +28,18 @@ public class MenuClickScript : MonoBehaviour, EventHandler {
 				if (targetFind.collider.gameObject.tag == "Button") {
 					//what triggers changes based on what menu the camera is focused on.
 					if(targetFind.transform.position.x == 0.0f){
-						ButtonClick();
-					}else if(targetFind.transform.position.x < 0.0f){
-						ReturnMain(0);
-					}else{
-						ReturnMain(1);
+						/*Reworked code to load via build index, rather than hardcoded strings.
+						 * For this to work, build order for the following levels must be as follows:
+						 * WorldSelect 2
+						 * LibraryMenu 3
+						 * RiskMenu 4
+						 * WaveEditor 5
+						 * SettingsMenu 6
+						 * 
+						 * If it looks like a button is leading to the wrong scene, check to make sure the build order
+						 * is set up properly.
+						 */
+						Application.LoadLevel (menuPosition +2);
 					}
 				}
 			}
@@ -42,49 +49,5 @@ public class MenuClickScript : MonoBehaviour, EventHandler {
 	// Update is called once per frame
 	void Update () {
 
-	}
-	void ButtonClick(){
-		//Location of the menu dial determines the result
-		//Commenting out LoadLevel calls until we have levels to load
-		switch (menuPosition) {
-		case 0:
-			//Loads the scene used for playing the game
-			Application.LoadLevel ("WorldSelect");
-			break;
-		case 1:
-			//This and 3 load more levels
-			//Application.LoadLevel ("AltSceneTest");
-			//Simple menu like this might as well exist within the scene to save on load times
-			break;
-		case 2:
-			//Same as the settings menu
-			Camera.main.transform.position = CamLock3.transform.position;
-			transform.localEulerAngles = new Vector3(0,0,0);
-			parent.GetComponent<MenuSpinScript>().spinLock = true;
-			Debug.Log ("Limiters");
-			break;
-		case 3:
-			Application.LoadLevel ("WaveEditor");
-			break;
-		case 4:
-			Camera.main.transform.position = CamLock2.transform.position;
-			transform.localEulerAngles = new Vector3(0,0,0);
-			parent.GetComponent<MenuSpinScript>().spinLock = true;
-			Debug.Log ("Settings");
-			break;
-		case 5:
-			//The way menuPosition is assigned results in it being 5 if the dial is released at a certain point
-			Application.LoadLevel ("WorldSelect");
-			break;
-		default:
-			break;
-		}
-	}
-	
-	void ReturnMain(int currentMenu){
-		//Later on currentMenu will be used to only save stuff that might have been changed in that menu
-		parent.GetComponent<MenuSpinScript>().spinLock = false;
-		menuPosition = 0;
-		Camera.main.transform.position = CamLock1.transform.position;
 	}
 }

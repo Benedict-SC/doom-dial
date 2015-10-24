@@ -7,7 +7,7 @@ public class WorldSelect : MonoBehaviour, EventHandler {
 	public GameObject startButton;
 	public GameObject menuButton;
 	public GameObject worldHolder;
-	string levelName = "WorldSelect";
+	int levelName = 0;
 	int lastPosition = 1;
 	// Use this for initialization
 	void Start () {
@@ -29,7 +29,7 @@ public class WorldSelect : MonoBehaviour, EventHandler {
 				}
 				if (targetFind.collider.gameObject == menuButton) {
 					Debug.Log("Test");
-					worldHolder.GetComponent<WorldData>().lastScene = "WorldSelect";
+					worldHolder.GetComponent<WorldData>().lastScene = Application.loadedLevel;
 					Application.LoadLevel("Menu");
 				}
 			}
@@ -45,22 +45,22 @@ public class WorldSelect : MonoBehaviour, EventHandler {
 			case 0:
 				worldHolder.GetComponent<WorldData>().worldSelected = "World2";
 				textMesh.GetComponent<TextMesh>().text = "World 2";
-				levelName = "LevelSelect";
+				levelName = 7;
 				break;
 			case 1:
 				worldHolder.GetComponent<WorldData>().worldSelected = "World3";
 				textMesh.GetComponent<TextMesh>().text = "World 3";
-				levelName = "LevelSelect";
+				levelName = 7;
 				break;
 			case 2:
 				worldHolder.GetComponent<WorldData>().worldSelected = "World4";
 				textMesh.GetComponent<TextMesh>().text = "World 4";
-				levelName = "LevelSelect";
+				levelName = 7;
 				break;
 			case 3:
 				worldHolder.GetComponent<WorldData>().worldSelected = "World1";
 				textMesh.GetComponent<TextMesh>().text = "World 1";
-				levelName = "LevelSelect";
+				levelName = 7;
 				break;
 			default:
 				break;
