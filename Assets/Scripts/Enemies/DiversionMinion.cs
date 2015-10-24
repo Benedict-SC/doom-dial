@@ -4,17 +4,12 @@ using System.Collections.Generic;
 public class DiversionMinion : EnemyController{
 	
 	public int numberOfFollowers;
-	public float delay;
-	Timer followerSpawn;
-	bool spawnedAlready = false;
 	public Diversion leader;
 	List<DiversionMinion> followers = new List<DiversionMinion>();
 	bool playingDead = false;
 	
 	public override void Start(){
 		base.Start();
-		followerSpawn = new Timer();
-		followerSpawn.Restart();
 		followers.Add(this);
 	}
 	public override void Update(){
@@ -22,42 +17,16 @@ public class DiversionMinion : EnemyController{
 			return;
 		}else{
 			base.Update();
-			if(!spawnedAlready && followers.Count < numberOfFollowers && followerSpawn.TimeElapsedSecs() >= delay){
-				spawnedAlready = true;
-				SpawnFollower();
-			}
 		}
-	}
-	public void SpawnFollower(){
-		Debug.Log ("minion spawned follower");
-		GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
-		Destroy (enemyspawn.GetComponent<EnemyController>());
-		DiversionMinion newchainer = enemyspawn.AddComponent<DiversionMinion>() as DiversionMinion;
-		newchainer.FillFollowers(followers);
-		newchainer.delay = delay;
-		newchainer.numberOfFollowers = numberOfFollowers;
-		newchainer.leader = leader;
-		followers.Add(newchainer);
-		leader.TellAboutNewFollower(newchainer);
-		
-		newchainer.SetSrcFileName(srcFileName);
-		newchainer.SetTrackID(trackID);
-		newchainer.SetTrackLane(trackLane);
-		//calculate and set position
-		float degrees = (trackID-1)*60; //clockwise of y-axis
-		degrees += 15*trackLane; //negative trackpos is left side, positive is right side, 0 is middle
-		degrees = ((360-degrees) + 90)%360; //convert to counterclockwise of x axis
-		degrees *= Mathf.Deg2Rad;
-		enemyspawn.transform.position = new Vector3(radius*Mathf.Cos(degrees),radius*Mathf.Sin(degrees),0);
-		
-		newchainer.StartMoving();
-		
 	}
 	public void FillFollowers(List<DiversionMinion> list){
 		foreach(DiversionMinion dm in list){
 			followers.Add(dm);
 		}
 		//Debug.Log(followers.Count + " followers");
+	}
+	public void AddFollower(DiversionMinion dm){
+		followers.Add(dm);
 	}
 	public override void Die(){
 		if (hp <= 0.0f) {
@@ -76,10 +45,6 @@ public class DiversionMinion : EnemyController{
 		if(everyonesPlayingDead){
 			RealDie();
 		}else{
-			if(!spawnedAlready){
-				spawnedAlready = true;
-				SpawnFollower();
-			}
 			PlayDead();
 		}
 		

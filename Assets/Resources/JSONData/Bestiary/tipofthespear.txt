@@ -3,8 +3,8 @@
 	"imgfile":"Placeholder",
 	"pointValue":15,
 	
-	"enemyType":"Chainers",
-	"delay":1.5,
+	"enemyType":"TipOfTheSpear",
+	"delay":1.2,
 
 	"movementType":"Slowing_Linear",
 	"maxHP":20.0,

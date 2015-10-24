@@ -1,17 +1,17 @@
 {	
-	"name":"The Diversion (minion)",
+	"name":"The Big One",
 	"imgfile":"Placeholder",
-	"pointValue":1,
+	"pointValue":30,
 	
-	"enemyType":"DiversionMinion",
-	"delay":0.8,
+	"enemyType":"MeatShield",
+	"delay":1.2,
 
 	"movementType":"Linear",
 	"maxHP":4.0,
 	"HP":4.0,
-	"damage":1.0,
-	"impactTime":16.0,
-	"size":0.16,
+	"damage":2.0,
+	"impactTime":14.0,
+	"size":0.17,
 	"maxShields":0.0,
 	"shields":0.0,
 	

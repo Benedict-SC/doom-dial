@@ -1,14 +1,14 @@
-
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Diversion : EnemyController{
+public class MeatShield : EnemyController{
 	
-	int numberOfFollowers = 10;
+	int numberOfFollowers = 8;
 	float delay = .8f;
-	Timer followerSpawn;
-	bool[] spawnsDone = {false,false,false,false};
-	List<DiversionMinion> followers = new List<DiversionMinion>();
+	public bool leader = false;
+	Timer partnerSpawn;
+	bool[] spawnsDone = {false,false,false,false,false};
+	List<MeatShield> partners = new List<MeatShield>();
 	bool playingDead = false;
 	
 	bool doneSpawning = false;
@@ -16,14 +16,15 @@ public class Diversion : EnemyController{
 	float batch2;
 	float batch3;
 	float batch4;
+	float batch5;
 	
 	public override void Start(){
 		base.Start();
-		followerSpawn = new Timer();
-		followerSpawn.Restart();
+		partnerSpawn = new Timer();
+		partnerSpawn.Restart();
 	}
 	public override void Update(){
-		if(!doneSpawning && followers.Count < numberOfFollowers && followerSpawn.TimeElapsedSecs() >= delay){
+		if(leader && !doneSpawning && partners.Count < numberOfFollowers && partnerSpawn.TimeElapsedSecs() >= delay){
 			SpawnBatch();
 		}
 		if(!playingDead)
@@ -32,132 +33,144 @@ public class Diversion : EnemyController{
 	public void SetDelay(float f){
 		delay = f;
 		batch1 = f;
-		batch2 = 1.5f*f;
-		batch3 = 2f*f;
-		batch4 = 2.5f*f;
+		batch2 = 1.75f*f;
+		batch3 = 2.5f*f;
+		batch4 = 3.25f*f;
+		batch5 = 6f*f;
 	}
 	public void SpawnBatch(){
 		if(!spawnsDone[0]){
 			//spawn first set
-			for(int i = 0; i < 4; i++){
+			for(int i = 0; i < 2; i++){
 				GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
 				Destroy (enemyspawn.GetComponent<EnemyController>());
-				DiversionMinion minion = enemyspawn.AddComponent<DiversionMinion>() as DiversionMinion;
+				MeatShield minion = enemyspawn.AddComponent<MeatShield>() as MeatShield;
 				minion.numberOfFollowers = numberOfFollowers;
-				minion.leader = this;
-				minion.SetSrcFileName("diversionminion");
+				minion.SetSrcFileName("meatshieldsmall");
 				minion.SetTrackID(trackID);
 				minion.SetTrackLane(trackLane);
 				if(i == 0)
-					minion.OverrideMoverLane(9f);
+					minion.OverrideMoverLane(6f);
 				else if(i == 1)
-					minion.OverrideMoverLane(3f);
-				else if(i == 2)
-					minion.OverrideMoverLane(-3f);
-				else if(i == 3)
-					minion.OverrideMoverLane(-9f);
+					minion.OverrideMoverLane(-6f);
 				
-				followers.Add(minion);
-				foreach(DiversionMinion dm in followers){
-					dm.AddFollower(minion);
+				partners.Add(minion);
+				foreach(MeatShield ms in partners){
+					ms.AddPartner(minion);
 				}
 				minion.StartMoving();
 			}
 			spawnsDone[0] = true;
 			delay = batch2;
 		}else if(!spawnsDone[1]){
-			//spawn second set
-			for(int i = 0; i < 3; i++){
+			//spawn first set
+			for(int i = 0; i < 1; i++){
 				GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
 				Destroy (enemyspawn.GetComponent<EnemyController>());
-				DiversionMinion minion = enemyspawn.AddComponent<DiversionMinion>() as DiversionMinion;
+				MeatShield minion = enemyspawn.AddComponent<MeatShield>() as MeatShield;
 				minion.numberOfFollowers = numberOfFollowers;
-				minion.leader = this;
-				minion.SetSrcFileName("diversionminion");
+				minion.SetSrcFileName("meatshieldsmall");
 				minion.SetTrackID(trackID);
 				minion.SetTrackLane(trackLane);
 				if(i == 0)
-					minion.OverrideMoverLane(7.5f);
-				else if(i == 1)
 					minion.OverrideMoverLane(0f);
-				else if(i == 2)
-					minion.OverrideMoverLane(-7.5f);
 				
-				followers.Add(minion);
-				foreach(DiversionMinion dm in followers){
-					dm.AddFollower(minion);
+				partners.Add(minion);
+				foreach(MeatShield ms in partners){
+					ms.AddPartner(minion);
 				}
 				minion.StartMoving();
 			}
 			spawnsDone[1] = true;
 			delay = batch3;
 		}else if(!spawnsDone[2]){
-			//spawn third set
-			Debug.Log ("spawning third wave");
+			//spawn first set
 			for(int i = 0; i < 2; i++){
 				GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
 				Destroy (enemyspawn.GetComponent<EnemyController>());
-				DiversionMinion minion = enemyspawn.AddComponent<DiversionMinion>() as DiversionMinion;
+				MeatShield minion = enemyspawn.AddComponent<MeatShield>() as MeatShield;
 				minion.numberOfFollowers = numberOfFollowers;
-				minion.leader = this;
-				minion.SetSrcFileName("diversionminion");
+				minion.SetSrcFileName("meatshieldsmall");
 				minion.SetTrackID(trackID);
 				minion.SetTrackLane(trackLane);
 				if(i == 0)
-					minion.OverrideMoverLane(-5f);
+					minion.OverrideMoverLane(6f);
 				else if(i == 1)
-					minion.OverrideMoverLane(5f);
+					minion.OverrideMoverLane(-6f);
 				
-				followers.Add(minion);
-				foreach(DiversionMinion dm in followers){
-					dm.AddFollower(minion);
+				partners.Add(minion);
+				foreach(MeatShield ms in partners){
+					ms.AddPartner(minion);
 				}
 				minion.StartMoving();
 			}
 			spawnsDone[2] = true;
 			delay = batch4;
 		}else if(!spawnsDone[3]){
-			//spawn fourth set
-			Debug.Log ("spawning fourth wave");
-			GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
-			Destroy (enemyspawn.GetComponent<EnemyController>());
-			DiversionMinion minion = enemyspawn.AddComponent<DiversionMinion>() as DiversionMinion;
-			minion.numberOfFollowers = numberOfFollowers;
-			minion.leader = this;
-			minion.SetSrcFileName("diversionminion");
-			minion.SetTrackID(trackID);
-			minion.SetTrackLane(trackLane);
-			minion.OverrideMoverLane(0f);
-			
-			followers.Add(minion);
-			foreach(DiversionMinion dm in followers){
-				dm.AddFollower(minion);
+			//spawn first set
+			for(int i = 0; i < 1; i++){
+				GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
+				Destroy (enemyspawn.GetComponent<EnemyController>());
+				MeatShield minion = enemyspawn.AddComponent<MeatShield>() as MeatShield;
+				minion.numberOfFollowers = numberOfFollowers;
+				minion.SetSrcFileName("meatshieldsmall");
+				minion.SetTrackID(trackID);
+				minion.SetTrackLane(trackLane);
+				if(i == 0)
+					minion.OverrideMoverLane(0);
+				
+				partners.Add(minion);
+				foreach(MeatShield ms in partners){
+					ms.AddPartner(minion);
+				}
+				minion.StartMoving();
 			}
-			minion.StartMoving();
-			
 			spawnsDone[3] = true;
+			delay = batch5;
+		}else if(!spawnsDone[4]){
+			//spawn second set
+			for(int i = 0; i < 1; i++){
+				GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
+				Destroy (enemyspawn.GetComponent<EnemyController>());
+				MeatShield minion = enemyspawn.AddComponent<MeatShield>() as MeatShield;
+				minion.numberOfFollowers = numberOfFollowers;
+				minion.SetSrcFileName("meatshieldbig");
+				minion.SetTrackID(trackID);
+				minion.SetTrackLane(trackLane);
+				if(i == 0)
+					minion.OverrideMoverLane(0f);
+				
+				partners.Add(minion);
+				foreach(MeatShield ms in partners){
+					ms.AddPartner(minion);
+				}
+				minion.StartMoving();
+			}
+			
+			spawnsDone[4] = true;
 			doneSpawning = true;
 		}else{
 			Debug.Log("we're trying to spawn even though we're done");
 		}
 	}
-	public void TellAboutNewFollower(DiversionMinion dm){
-		followers.Add(dm);
+	public void AddPartner(MeatShield ms){
+		partners.Add(ms);
 	}
-	public void FillFollowers(List<DiversionMinion> list){
-		foreach(DiversionMinion dm in list){
-			followers.Add(dm);
+	public void FillPartners(List<MeatShield> list){
+		foreach(MeatShield ms in list){
+			partners.Add(ms);
 		}
 		//Debug.Log(followers.Count + " followers");
 	}
 	public override void Die(){
 		if (hp <= 0.0f) {
 			dialCon.IncreaseSuperPercent();
+			Debug.Log ("increasing super percent");
 		}
-		bool everyonesHere = followers.Count >= numberOfFollowers;
+		bool everyonesHere = partners.Count >= numberOfFollowers;
 		bool playing = true;
-		foreach(DiversionMinion dm in followers){
-			if(!dm.IsPlayingDead()){
+		foreach(MeatShield ms in partners){
+			if(!ms.IsPlayingDead()){
 				playing = false;
 				break;
 			}
@@ -221,8 +234,8 @@ public class Diversion : EnemyController{
 			}
 		}
 		//TODO:put yourself in the missedwave queue
-		foreach(DiversionMinion dm in followers){
-			Destroy (dm.gameObject);
+		foreach(MeatShield ms in partners){
+			Destroy (ms.gameObject);
 		}
 		Destroy (this.gameObject);
 	}

@@ -117,6 +117,14 @@ public class Wave{
 				float chaindelay = (float)(double)actualenemydict["delay"];
 				c.delay = chaindelay;
 				ec = c;
+			}else if(enemytype.Equals("TipOfTheSpear")){
+				GameObject enemyobj = ec.gameObject;
+				GameObject.Destroy(enemyobj.GetComponent<EnemyController>());
+				TipOfTheSpear tots = enemyobj.AddComponent<TipOfTheSpear>() as TipOfTheSpear;
+				float chaindelay = (float)(double)actualenemydict["delay"];
+				tots.SetDelay(chaindelay);
+				tots.leader = true;
+				ec = tots;
 			}else if(enemytype.Equals("WallOfDoom")){
 				GameObject enemyobj = ec.gameObject;
 				GameObject.Destroy(enemyobj.GetComponent<EnemyController>());
@@ -127,8 +135,16 @@ public class Wave{
 				GameObject.Destroy(enemyobj.GetComponent<EnemyController>());
 				Diversion d = enemyobj.AddComponent<Diversion>() as Diversion;
 				float chaindelay = (float)(double)actualenemydict["delay"];
-				d.delay = chaindelay;
+				d.SetDelay(chaindelay);
 				ec = d;
+			}else if(enemytype.Equals("MeatShield")){
+				GameObject enemyobj = ec.gameObject;
+				GameObject.Destroy(enemyobj.GetComponent<EnemyController>());
+				MeatShield ms = enemyobj.AddComponent<MeatShield>() as MeatShield;
+				float chaindelay = (float)(double)actualenemydict["delay"];
+				ms.SetDelay(chaindelay);
+				ms.leader = true;
+				ec = ms;
 			}
 			
 			//give enemy a filename to load from

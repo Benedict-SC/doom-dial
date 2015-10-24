@@ -46,13 +46,14 @@ public class DialController : MonoBehaviour,EventHandler {
 		{
 			health = maxHealth;
 		}
-		GameObject healthbar = transform.FindChild ("Health").gameObject;
-		healthbar.transform.localScale = new Vector3 (health / maxHealth, health / maxHealth, 1);
+		
 		if (health < 0)
 		{
 			health = 0.0f;
 			Debug.Log ("health is negative@");
 		}
+		GameObject healthbar = transform.FindChild ("Health").gameObject;
+		healthbar.transform.localScale = new Vector3 (health / maxHealth, health / maxHealth, 1);
 	}
 	
 	public void IncreaseSuperPercent(){

@@ -6,7 +6,7 @@ public class Chainer : EnemyController{
 	int numberOfFollowers = 4;
 	public float delay = .8f;
 	Timer followerSpawn;
-	bool spawnedAlready = false;
+	public bool spawnedAlready = false;
 	List<Chainer> followers = new List<Chainer>();
 	bool playingDead = false;
 	
@@ -24,6 +24,8 @@ public class Chainer : EnemyController{
 			if(!spawnedAlready && followers.Count < numberOfFollowers+1 && followerSpawn.TimeElapsedSecs() >= delay){
 				spawnedAlready = true;
 				SpawnFollower();
+			}else if(followers.Count == numberOfFollowers+1){
+				spawnedAlready = true;
 			}
 		}
 	}

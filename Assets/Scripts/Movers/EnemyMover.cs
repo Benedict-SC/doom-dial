@@ -18,5 +18,11 @@ public abstract class EnemyMover{
 	public void PutInRightLane(){
 		radiansOffset = 15f;
 	}
+	public void LeftOffset(float f){
+		radiansOffset -= f;
+	}
+	public void RightOffset(float f){
+		radiansOffset += f;
+	}
 
 }

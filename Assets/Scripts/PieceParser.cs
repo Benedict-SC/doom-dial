@@ -104,6 +104,8 @@ public class PieceParser{
 			if(pdamage > 0.0f)
 				damageCount++;
 			damage += pdamage;
+			if(damage < 0)
+				damage = 0f;
 			//range - in percent of track
 			float prange = (float)(double)pdata["range"];
 			range += prange;

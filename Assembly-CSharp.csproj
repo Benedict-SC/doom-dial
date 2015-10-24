@@ -56,6 +56,8 @@
      <Compile Include="Assets\Scripts\Enemies\Chainer.cs" />
      <Compile Include="Assets\Scripts\Enemies\Diversion.cs" />
      <Compile Include="Assets\Scripts\Enemies\DiversionMinion.cs" />
+     <Compile Include="Assets\Scripts\Enemies\MeatShield.cs" />
+     <Compile Include="Assets\Scripts\Enemies\TipOfTheSpear.cs" />
      <Compile Include="Assets\Scripts\Enemies\WallOfDoom.cs" />
      <Compile Include="Assets\Scripts\EnemyController.cs" />
      <Compile Include="Assets\Scripts\Events\EventComponent.cs" />
@@ -118,6 +120,7 @@
      <Compile Include="Assets\Scripts\WorldData.cs" />
      <Compile Include="Assets\Scripts\WorldSelect.cs" />
      <Compile Include="Assets\Scripts\ZoneConeController.cs" />
+     <None Include="Assets\Resources\JSONData\Bestiary\meatshieldsmall.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\speed_rare.txt" />
      <None Include="Assets\Resources\JSONData\DialConfigs\devdial.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\stun_rare.txt" />
@@ -163,6 +166,7 @@
      <None Include="Assets\Resources\JSONData\Pieces\spread_normal.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\homing_super.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\damage_super.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\meatshieldbig.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_3.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\drain_normal.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\penetration_super.txt" />

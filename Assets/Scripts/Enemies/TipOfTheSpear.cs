@@ -1,29 +1,28 @@
-
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Diversion : EnemyController{
+public class TipOfTheSpear : EnemyController{
 	
-	int numberOfFollowers = 10;
+	int numberOfFollowers = 5;
 	float delay = .8f;
-	Timer followerSpawn;
-	bool[] spawnsDone = {false,false,false,false};
-	List<DiversionMinion> followers = new List<DiversionMinion>();
+	public bool leader = false;
+	Timer partnerSpawn;
+	bool[] spawnsDone = {false,false};
+	List<TipOfTheSpear> partners = new List<TipOfTheSpear>();
 	bool playingDead = false;
 	
 	bool doneSpawning = false;
 	float batch1;
 	float batch2;
-	float batch3;
-	float batch4;
 	
 	public override void Start(){
 		base.Start();
-		followerSpawn = new Timer();
-		followerSpawn.Restart();
+		partnerSpawn = new Timer();
+		partnerSpawn.Restart();
 	}
 	public override void Update(){
-		if(!doneSpawning && followers.Count < numberOfFollowers && followerSpawn.TimeElapsedSecs() >= delay){
+		
+		if(leader && !doneSpawning && partners.Count < numberOfFollowers && partnerSpawn.TimeElapsedSecs() >= delay){
 			SpawnBatch();
 		}
 		if(!playingDead)
@@ -32,34 +31,27 @@ public class Diversion : EnemyController{
 	public void SetDelay(float f){
 		delay = f;
 		batch1 = f;
-		batch2 = 1.5f*f;
-		batch3 = 2f*f;
-		batch4 = 2.5f*f;
+		batch2 = 2f*f;
 	}
 	public void SpawnBatch(){
 		if(!spawnsDone[0]){
 			//spawn first set
-			for(int i = 0; i < 4; i++){
+			for(int i = 0; i < 2; i++){
 				GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
 				Destroy (enemyspawn.GetComponent<EnemyController>());
-				DiversionMinion minion = enemyspawn.AddComponent<DiversionMinion>() as DiversionMinion;
+				TipOfTheSpear minion = enemyspawn.AddComponent<TipOfTheSpear>() as TipOfTheSpear;
 				minion.numberOfFollowers = numberOfFollowers;
-				minion.leader = this;
-				minion.SetSrcFileName("diversionminion");
+				minion.SetSrcFileName("tipofthespear");
 				minion.SetTrackID(trackID);
 				minion.SetTrackLane(trackLane);
 				if(i == 0)
-					minion.OverrideMoverLane(9f);
+					minion.OverrideMoverLane(7.5f);
 				else if(i == 1)
-					minion.OverrideMoverLane(3f);
-				else if(i == 2)
-					minion.OverrideMoverLane(-3f);
-				else if(i == 3)
-					minion.OverrideMoverLane(-9f);
+					minion.OverrideMoverLane(-7.5f);
 				
-				followers.Add(minion);
-				foreach(DiversionMinion dm in followers){
-					dm.AddFollower(minion);
+				partners.Add(minion);
+				foreach(TipOfTheSpear tots in partners){
+					tots.AddPartner(minion);
 				}
 				minion.StartMoving();
 			}
@@ -67,86 +59,38 @@ public class Diversion : EnemyController{
 			delay = batch2;
 		}else if(!spawnsDone[1]){
 			//spawn second set
-			for(int i = 0; i < 3; i++){
-				GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
-				Destroy (enemyspawn.GetComponent<EnemyController>());
-				DiversionMinion minion = enemyspawn.AddComponent<DiversionMinion>() as DiversionMinion;
-				minion.numberOfFollowers = numberOfFollowers;
-				minion.leader = this;
-				minion.SetSrcFileName("diversionminion");
-				minion.SetTrackID(trackID);
-				minion.SetTrackLane(trackLane);
-				if(i == 0)
-					minion.OverrideMoverLane(7.5f);
-				else if(i == 1)
-					minion.OverrideMoverLane(0f);
-				else if(i == 2)
-					minion.OverrideMoverLane(-7.5f);
-				
-				followers.Add(minion);
-				foreach(DiversionMinion dm in followers){
-					dm.AddFollower(minion);
-				}
-				minion.StartMoving();
-			}
-			spawnsDone[1] = true;
-			delay = batch3;
-		}else if(!spawnsDone[2]){
-			//spawn third set
-			Debug.Log ("spawning third wave");
 			for(int i = 0; i < 2; i++){
 				GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
 				Destroy (enemyspawn.GetComponent<EnemyController>());
-				DiversionMinion minion = enemyspawn.AddComponent<DiversionMinion>() as DiversionMinion;
+				TipOfTheSpear minion = enemyspawn.AddComponent<TipOfTheSpear>() as TipOfTheSpear;
 				minion.numberOfFollowers = numberOfFollowers;
-				minion.leader = this;
-				minion.SetSrcFileName("diversionminion");
+				minion.SetSrcFileName("tipofthespear");
 				minion.SetTrackID(trackID);
 				minion.SetTrackLane(trackLane);
 				if(i == 0)
-					minion.OverrideMoverLane(-5f);
+					minion.OverrideMoverLane(15f);
 				else if(i == 1)
-					minion.OverrideMoverLane(5f);
+					minion.OverrideMoverLane(-15f);
 				
-				followers.Add(minion);
-				foreach(DiversionMinion dm in followers){
-					dm.AddFollower(minion);
+				partners.Add(minion);
+				foreach(TipOfTheSpear tots in partners){
+					tots.AddPartner(minion);
 				}
 				minion.StartMoving();
 			}
-			spawnsDone[2] = true;
-			delay = batch4;
-		}else if(!spawnsDone[3]){
-			//spawn fourth set
-			Debug.Log ("spawning fourth wave");
-			GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
-			Destroy (enemyspawn.GetComponent<EnemyController>());
-			DiversionMinion minion = enemyspawn.AddComponent<DiversionMinion>() as DiversionMinion;
-			minion.numberOfFollowers = numberOfFollowers;
-			minion.leader = this;
-			minion.SetSrcFileName("diversionminion");
-			minion.SetTrackID(trackID);
-			minion.SetTrackLane(trackLane);
-			minion.OverrideMoverLane(0f);
 			
-			followers.Add(minion);
-			foreach(DiversionMinion dm in followers){
-				dm.AddFollower(minion);
-			}
-			minion.StartMoving();
-			
-			spawnsDone[3] = true;
+			spawnsDone[1] = true;
 			doneSpawning = true;
 		}else{
 			Debug.Log("we're trying to spawn even though we're done");
 		}
 	}
-	public void TellAboutNewFollower(DiversionMinion dm){
-		followers.Add(dm);
+	public void AddPartner(TipOfTheSpear tots){
+		partners.Add(tots);
 	}
-	public void FillFollowers(List<DiversionMinion> list){
-		foreach(DiversionMinion dm in list){
-			followers.Add(dm);
+	public void FillPartners(List<TipOfTheSpear> list){
+		foreach(TipOfTheSpear tots in list){
+			partners.Add(tots);
 		}
 		//Debug.Log(followers.Count + " followers");
 	}
@@ -154,10 +98,10 @@ public class Diversion : EnemyController{
 		if (hp <= 0.0f) {
 			dialCon.IncreaseSuperPercent();
 		}
-		bool everyonesHere = followers.Count >= numberOfFollowers;
+		bool everyonesHere = partners.Count >= numberOfFollowers;
 		bool playing = true;
-		foreach(DiversionMinion dm in followers){
-			if(!dm.IsPlayingDead()){
+		foreach(TipOfTheSpear tots in partners){
+			if(!tots.IsPlayingDead()){
 				playing = false;
 				break;
 			}
@@ -221,8 +165,8 @@ public class Diversion : EnemyController{
 			}
 		}
 		//TODO:put yourself in the missedwave queue
-		foreach(DiversionMinion dm in followers){
-			Destroy (dm.gameObject);
+		foreach(TipOfTheSpear tots in partners){
+			Destroy (tots.gameObject);
 		}
 		Destroy (this.gameObject);
 	}

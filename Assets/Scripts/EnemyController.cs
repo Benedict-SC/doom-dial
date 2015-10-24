@@ -33,6 +33,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	protected float progress = 0.0f;
 	protected float progressModifier = 1.0f;
 	protected bool isSlow = false;
+	protected float moverLaneOverride = 0f;
 
 	protected float timesShot = 0.0f;
 
@@ -86,6 +87,9 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		//float angle = Mathf.Atan2(transform.position.y , transform.position.x);
 		//ySpeed = Mathf.Sin (angle) * speed;
 		//xSpeed = Mathf.Cos (angle) * speed;
+	}
+	public void OverrideMoverLane(float f){
+		moverLaneOverride = f;
 	}
 	public void ConfigureEnemy(){
 		FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Bestiary",srcFileName);
@@ -181,6 +185,8 @@ public class EnemyController : MonoBehaviour,EventHandler {
 			sm.Mirror();
 			mover = sm;
 		}
+		//do any lane overriding
+		mover.RightOffset(moverLaneOverride);
 	}
 	
 	// Update is called once per frame
