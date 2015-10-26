@@ -10,7 +10,7 @@ public class MenuSelect : MonoBehaviour, EventHandler {
 	public GameObject returnButton;
 	public GameObject cameraLock1;
 	public GameObject cameraLock2;
-	int levelName = 0;
+	string levelName = "";
 	int lastPosition = 1;
 	public string test;
 	// Use this for initialization
@@ -50,7 +50,7 @@ public class MenuSelect : MonoBehaviour, EventHandler {
 				break;
 			case 1:
 				textMesh.GetComponent<TextMesh>().text = "Tower Editor";
-				levelName = 11;
+				levelName = "TowerSelect";
 				break;
 			case 2:
 				textMesh.GetComponent<TextMesh>().text = "Back";
@@ -58,7 +58,7 @@ public class MenuSelect : MonoBehaviour, EventHandler {
 				break;
 			case 3:
 				textMesh.GetComponent<TextMesh>().text = "Main Menu";
-				levelName = 1;
+				levelName = "MenuTest";
 				break;
 			default:
 				break;

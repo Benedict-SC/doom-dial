@@ -10,7 +10,7 @@ public class MenuInGame : MonoBehaviour, EventHandler {
 	public GameObject worldHolder;
 	public GameObject returnButton;
 	public GameObject cameraLock2;
-	int levelName = 0;
+	string levelName = "";
 	int lastPosition = 1;
 	public string test;
 	// Use this for initialization
@@ -31,7 +31,7 @@ public class MenuInGame : MonoBehaviour, EventHandler {
 				if (targetFind.collider.gameObject == startButton) {
 					//Debug.Log ("try and load level select");
 					if(menuPosition == 3 || menuPosition == 1){
-						worldHolder.GetComponent<WorldData>().lastScene = Application.loadedLevel;
+						worldHolder.GetComponent<WorldData>().lastScene = Application.loadedLevelName;
 						Application.LoadLevel(levelName);
 					}else if(menuPosition == 2){
 						Camera.main.transform.position = cameraLock2.transform.position;
@@ -52,7 +52,7 @@ public class MenuInGame : MonoBehaviour, EventHandler {
 				break;
 			case 1:
 				textMesh.GetComponent<TextMesh>().text = "Tower Editor";
-				levelName = 11;
+				levelName = "TowerSelect";
 
 				break;
 			case 2:
@@ -61,7 +61,7 @@ public class MenuInGame : MonoBehaviour, EventHandler {
 				break;
 			case 3:
 				textMesh.GetComponent<TextMesh>().text = "Main Menu";
-				levelName = 1;
+				levelName = "MenuTest";
 				break;
 			default:
 				break;
