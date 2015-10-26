@@ -20,9 +20,7 @@ public class MenuButton : MonoBehaviour, EventHandler {
 				//sees if ray collided with the start button
 				if (targetFind.collider.gameObject == this.gameObject) {
 					if(WorldData){
-					WorldData.lastScene = Application.loadedLevel;
-					}else{
-						WorldData.lastScene = 1;
+					WorldData.lastScene = Application.loadedLevelName;
 					}
 					Application.LoadLevel("Menu");
 				}

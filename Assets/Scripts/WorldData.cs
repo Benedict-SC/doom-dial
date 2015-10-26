@@ -8,7 +8,7 @@ public class WorldData : MonoBehaviour {
 	public int placeholder = 0;
 	public string worldSelected = "";
 	public string levelSelected = "";
-	public int lastScene = 0;
+	public string lastScene = "";
 	
 	//a bool for use by the wave manager to tell if it should be loading a user level
 	public bool loadUserLevel = false;

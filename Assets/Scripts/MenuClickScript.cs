@@ -2,11 +2,9 @@
 using System.Collections;
 
 public class MenuClickScript : MonoBehaviour, EventHandler {
-	public GameObject CamLock1;
-	public GameObject CamLock2;
-	public GameObject CamLock3;
 	public GameObject parent;
 	public int menuPosition = 0;
+	public string[] levelList;
 	// Use this for initialization
 	void Start () {
 		EventManager em = EventManager.Instance ();
@@ -28,18 +26,7 @@ public class MenuClickScript : MonoBehaviour, EventHandler {
 				if (targetFind.collider.gameObject.tag == "Button") {
 					//what triggers changes based on what menu the camera is focused on.
 					if(targetFind.transform.position.x == 0.0f){
-						/*Reworked code to load via build index, rather than hardcoded strings.
-						 * For this to work, build order for the following levels must be as follows:
-						 * WorldSelect 2
-						 * LibraryMenu 3
-						 * RiskMenu 4
-						 * WaveEditor 5
-						 * SettingsMenu 6
-						 * 
-						 * If it looks like a button is leading to the wrong scene, check to make sure the build order
-						 * is set up properly.
-						 */
-						Application.LoadLevel (menuPosition +2);
+						Application.LoadLevel (levelList[menuPosition]);
 					}
 				}
 			}

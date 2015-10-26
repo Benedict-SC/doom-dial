@@ -7,7 +7,7 @@ public class LevelSelect : MonoBehaviour, EventHandler {
 	public GameObject startButton;
 	public WorldData WorldData;
 	public GameObject menuButton;
-	int levelName = 0;
+	string levelName = "MainGame";
 	int lastPosition = 1;
 	// Use this for initialization
 	void Start () {
@@ -37,7 +37,10 @@ public class LevelSelect : MonoBehaviour, EventHandler {
 	void Update () {
 		//Stops entire statement from running every frame to save overhead
 		if (menuPosition != lastPosition) {
-			switch(menuPosition){
+			int temp = (menuPosition+2)%4;
+			WorldData.levelSelected = "Level" + temp.ToString();
+			textMesh.GetComponent<TextMesh>().text = WorldData.worldSelected + "-" + temp.ToString();
+			/*switch(menuPosition){
 				//Sets values for WorldData, the on screen text, and the level that will be loaded
 			case 0:
 				textMesh.GetComponent<TextMesh>().text = WorldData.worldSelected + "-2";
@@ -61,7 +64,7 @@ public class LevelSelect : MonoBehaviour, EventHandler {
 				break;
 			default:
 				break;
-			}
+			}*/
 			lastPosition = menuPosition;
 		}
 	}

@@ -253,6 +253,6 @@ public class InventoryWindowController : MonoBehaviour{
 		}
 	}
 	public void MenuReturn(){
-		Application.LoadLevel(11); 
+		Application.LoadLevel("TowerSelect"); 
 	}
 }
