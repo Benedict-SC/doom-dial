@@ -11,6 +11,8 @@ public class PieceController : MonoBehaviour, EventHandler{
 	public static readonly int SOUTHEAST_CODE = 4;
 	public static readonly int SOUTHWEST_CODE = 5;
 
+	public static readonly bool TWO_FINGER = true;
+
 	string file = "";
 			
 	int rotation = 0;
@@ -24,11 +26,19 @@ public class PieceController : MonoBehaviour, EventHandler{
 	
 	public static float gridSquareWidth = 1.7f;
 	
+	bool finger2down = false;
+	float initialAngleRads = 0f;
+	float initialEulerZ = 0f;
+	
 	public void Start(){
 		EventManager em = EventManager.Instance ();
 		em.RegisterForEventType ("tap", this);
 		em.RegisterForEventType ("mouse_click", this);		
 		em.RegisterForEventType ("mouse_release", this);
+		if(TWO_FINGER){
+			em.RegisterForEventType ("alt_click", this);		
+			em.RegisterForEventType ("alt_release", this);
+		}
 		/*RectTransform rt = (RectTransform)transform;
 		Vector3 eulerSave = rt.eulerAngles;
 		rt.eulerAngles = new Vector3(0f,0f,0f);
@@ -49,6 +59,22 @@ public class PieceController : MonoBehaviour, EventHandler{
 			boundsmin = rt.TransformPoint(rt.rect.min);
 			boundsmax = rt.TransformPoint(rt.rect.max);
 			rt.eulerAngles = eulerSave;*/
+		}
+		if(finger2down){
+			if(!moving){
+				LockRotation();
+				finger2down = false;
+				return;
+			}
+			Vector3 dir = InputWatcher.GetInputPosition(1)-transform.position;
+			float angle = Mathf.Atan2 (dir.y,dir.x);
+			//Debug.Log ("nomod angle is " + angle);
+			angle += .5f*Mathf.PI;
+		//	Debug.Log ("angle is " + angle);
+			float angledist = angle - initialAngleRads;
+			//Debug.Log (angledist + " rads from start");
+		//	Debug.Log ("new degrees: " + (initialAngleRads + angledist)*Mathf.Rad2Deg);
+			transform.eulerAngles = (new Vector3(0,0,initialEulerZ) + new Vector3(0,0,angledist))*Mathf.Rad2Deg;			
 		}
 	}
 	
@@ -77,7 +103,38 @@ public class PieceController : MonoBehaviour, EventHandler{
 					//if so: do a tap event on it
 				moving = false;
 			}
+		}else if(ge.type.Equals("alt_click")){
+			if(!moving)
+				return;
+			if((int)ge.args[1] != 1)
+				return;			
+				
+			finger2down = true;
+			Vector3 dir = InputWatcher.GetInputPosition(1)-transform.position;
+			initialAngleRads = Mathf.Atan2(dir.y,dir.x);
+			initialAngleRads += .5f*Mathf.PI;
+			initialEulerZ = transform.rotation.eulerAngles.z * Mathf.Deg2Rad;
+			//Debug.Log (initialAngleRads + " are iniangknjnc");
+		}else if(ge.type.Equals("alt_release")){
+			if(!moving)
+				return;
+			if((int)ge.args[1] != 1)
+				return;
+				
+			LockRotation();
+			finger2down = false;
 		}
+		
+	}
+	void LockRotation(){
+		
+		float rotation = transform.eulerAngles.z;
+		rotation = 360f-rotation;
+		if(rotation > 360f){
+			rotation -= 360f;
+		}
+		float lockRot = Mathf.Round(rotation /90.0f)*90;
+		SetRotation(lockRot);
 	}
 	public bool TouchIsOnMe(Vector3 touchpos){
 		PieceController floatcheck = EditorController.GetFloatingPiece();

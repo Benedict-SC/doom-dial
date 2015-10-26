@@ -25,20 +25,17 @@ public class EditorWheelController : MonoBehaviour, EventHandler{
 	void Start () {
 		EventManager em = EventManager.Instance ();
 		c = GameObject.Find("Canvas").GetComponent<Canvas>();
+		
+		RectTransform rt = (RectTransform)transform;
+		radius = rt.TransformVector(rt.rect.size).x / 2;
+		Debug.Log("radius " + radius + " at " + rt.position.x + ", " + rt.position.y);
+		
+		if(PieceController.TWO_FINGER)
+			return;
 		em.RegisterForEventType ("mouse_release", this);
 		em.RegisterForEventType ("mouse_click", this);
 		em.RegisterForEventType ("alt_release", this);
 		em.RegisterForEventType ("alt_click", this);
-		RectTransform rt = (RectTransform)transform;
-		/*
-		Vector3 maxCoords = rt.rect.max;// new Vector3(rt.rect.min.x,rt.rect.min.y,0);
-		Vector3 worldCoords = Camera.main.ScreenToWorldPoint(maxCoords);
-		Vector3 rightCoords = new Vector3(rt.rect.max.x,rt.rect.center.y,0f);
-		Vector3 worldCoords2 = Camera.main.ScreenToWorldPoint(rightCoords);
-		
-		radius = worldCoords.y - worldCoords2.y;*/
-		radius = rt.TransformVector(rt.rect.size).x / 2;
-		Debug.Log("radius " + radius + " at " + rt.position.x + ", " + rt.position.y);
 		
 	}
 	
