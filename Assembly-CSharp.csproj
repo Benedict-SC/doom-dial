@@ -53,10 +53,12 @@
      <Compile Include="Assets\Scripts\DialController.cs" />
      <Compile Include="Assets\Scripts\DropController.cs" />
      <Compile Include="Assets\Scripts\EditorReturn.cs" />
+     <Compile Include="Assets\Scripts\Enemies\Boss.cs" />
      <Compile Include="Assets\Scripts\Enemies\Chainer.cs" />
      <Compile Include="Assets\Scripts\Enemies\Diversion.cs" />
      <Compile Include="Assets\Scripts\Enemies\DiversionMinion.cs" />
      <Compile Include="Assets\Scripts\Enemies\MeatShield.cs" />
+     <Compile Include="Assets\Scripts\Enemies\SwarmMaster.cs" />
      <Compile Include="Assets\Scripts\Enemies\TipOfTheSpear.cs" />
      <Compile Include="Assets\Scripts\Enemies\WallOfDoom.cs" />
      <Compile Include="Assets\Scripts\EnemyController.cs" />

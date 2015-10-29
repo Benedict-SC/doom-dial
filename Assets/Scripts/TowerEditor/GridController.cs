@@ -144,14 +144,26 @@ public class GridController : MonoBehaviour{
 		//LoadTower (loader.GetComponent<TowerLoad> ().towerName);
 		//Destroy (loader);
 	}
+	bool cleared = false;
 	public void Update(){
 		/*if(test.TimeElapsedSecs() >= 20){
 			test.Restart();
 			SaveTower();
 		}*/
 		PieceController p = EditorController.GetFloatingPiece();
-		if(p == null)
+		if(p == null){
+			if(cleared)
+				return;
+			for(int i = 0; i < GRID_SIZE; i++){
+				for(int j = 0; j < GRID_SIZE; j++){
+					overlays[i,j].sprite = blank;
+				}
+			}
+			cleared = true;
 			return;
+		}else{
+			cleared = false;
+		}
 		int[,] pieceValues = p.GetArray(); //do it here so we only have to call this once
 		if(PieceFits (p.gameObject,pieceValues)){
 			//xcounter and ycounter should be the grid coordinates of the piece drop location
