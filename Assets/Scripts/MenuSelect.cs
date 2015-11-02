@@ -10,6 +10,8 @@ public class MenuSelect : MonoBehaviour, EventHandler {
 	public GameObject returnButton;
 	public GameObject cameraLock1;
 	public GameObject cameraLock2;
+	public string[] descHolder;
+	public string[] levelHolder;
 	string levelName = "";
 	int lastPosition = 1;
 	public string test;
@@ -29,11 +31,18 @@ public class MenuSelect : MonoBehaviour, EventHandler {
 				//sees if ray collided with the start button
 				if (targetFind.collider.gameObject == startButton) {
 					//Debug.Log ("try and load level select");
-					if(menuPosition != 0){
+					/*if(menuPosition != 0){
 						//worldHolder.GetComponent<WorldData>().lastScene = Application.loadedLevel;
 					Application.LoadLevel(levelName);
 
+					}*/
+					if(levelHolder[menuPosition] == "Return"){
+						levelName = worldHolder.GetComponent<WorldData>().lastScene;
+
+					}else{
+						levelName = levelHolder[menuPosition];
 					}
+					Application.LoadLevel(levelName);
 				}
 			}	
 		}
@@ -42,7 +51,7 @@ public class MenuSelect : MonoBehaviour, EventHandler {
 	void Update () {
 		//Stops entire statement from running every frame to save overhead
 		if (menuPosition != lastPosition) {
-			switch(menuPosition){
+			/*switch(menuPosition){
 				//Sets values for WorldData, the on screen text, and the level that will be loaded
 			case 0:
 				textMesh.GetComponent<TextMesh>().text = "Settings";
@@ -54,7 +63,7 @@ public class MenuSelect : MonoBehaviour, EventHandler {
 				break;
 			case 2:
 				textMesh.GetComponent<TextMesh>().text = "Back";
-				levelName = worldHolder.GetComponent<WorldData>().lastScene;
+
 				break;
 			case 3:
 				textMesh.GetComponent<TextMesh>().text = "Main Menu";
@@ -62,7 +71,8 @@ public class MenuSelect : MonoBehaviour, EventHandler {
 				break;
 			default:
 				break;
-			}
+			}*/
+			textMesh.GetComponent<TextMesh>().text = descHolder[menuPosition];
 			lastPosition = menuPosition;
 		}
 	}

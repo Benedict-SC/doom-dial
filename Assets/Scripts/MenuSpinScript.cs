@@ -20,12 +20,14 @@ public class MenuSpinScript : MonoBehaviour, EventHandler {
 	float originalRot = 0.0f; //the angle of the mouse when you start the spin
 	float origz = 0.0f; //the angle of the dial when you start the spin
 	float rotScale = 1.0f; //speeds up or slows down the rotation. should probably stay at 1.0, unless playtesting discovers otherwise
+	int menuMax;
 	// Use this for initialization
 	void Start () {
 		centerPoint = Camera.main.WorldToScreenPoint (this.transform.position);
 		EventManager em = EventManager.Instance ();
 		em.RegisterForEventType ("mouse_release", this);
 		em.RegisterForEventType ("mouse_click", this);
+		menuMax = 360 / lockThreshold;
 	}
 	public void HandleEvent(GameEvent ge){
 		Vector3 mousepos = InputWatcher.GetInputPosition ();
@@ -41,19 +43,19 @@ public class MenuSpinScript : MonoBehaviour, EventHandler {
 				transform.rotation = Quaternion.Euler(0, 0, lockRot);
 				menuPosition = (int) lockRot/lockThreshold;
 				if(Child.GetComponent<MenuClickScript>() != null){
-					Child.GetComponent<MenuClickScript>().menuPosition = menuPosition % 5;
+					Child.GetComponent<MenuClickScript>().menuPosition = menuPosition % menuMax;
 				}
 				if(Child.GetComponent<WorldSelect>() != null){
-					Child.GetComponent<WorldSelect>().menuPosition = menuPosition % 4;
+					Child.GetComponent<WorldSelect>().menuPosition = menuPosition % menuMax;
 				}
 				if(Child.GetComponent<LevelSelect>() != null){
-					Child.GetComponent<LevelSelect>().menuPosition = menuPosition % 4;
+					Child.GetComponent<LevelSelect>().menuPosition = menuPosition % menuMax;
 				}
 				if(Child.GetComponent<MenuSelect>() != null){
-					Child.GetComponent<MenuSelect>().menuPosition = menuPosition % 4;
+					Child.GetComponent<MenuSelect>().menuPosition = menuPosition % menuMax;
 				}
 				if(Child.GetComponent<MenuInGame>() != null){
-					Child.GetComponent<MenuInGame>().menuPosition = menuPosition % 4;
+					Child.GetComponent<MenuInGame>().menuPosition = menuPosition % menuMax;
 				}
 			}
 			//resets time

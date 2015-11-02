@@ -32,6 +32,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	public bool moving = false;
 	protected float progress = 0.0f;
 	protected float progressModifier = 1.0f;
+	protected float progressModAlt = 1.0f;
 	protected bool isSlow = false;
 	protected float moverLaneOverride = 0f;
 
@@ -479,7 +480,15 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		//Knockback - priority 0
 		if (knockback != 0)
 		{
-			float oldMod = progressModifier;
+			float oldMod;
+			if (progressModifier == 0.0f)
+			{
+				oldMod = progressModAlt;
+			}
+			else
+			{
+				oldMod = progressModifier;
+			}
 			progressModifier = -knockback;
 			yield return new WaitForSeconds(KNOCK_CONSTANT);
 			progressModifier = oldMod;
@@ -488,7 +497,15 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		//Stun - priority 1
 		if (stun != 0)
 		{
-			float oldMod = progressModifier;
+			float oldMod;
+			if (progressModifier == 0.0f)
+			{
+				oldMod = progressModAlt;
+			}
+			else
+			{
+				oldMod = progressModifier;
+			}
 			progressModifier = 0.0f;
 			yield return new WaitForSeconds(stun - KNOCK_CONSTANT);
 			progressModifier = oldMod;
@@ -502,7 +519,15 @@ public class EnemyController : MonoBehaviour,EventHandler {
 				isSlow = true;
 				//Debug.Log ("entered slowdown if!");
 				//Debug.Log ("progressmod old: " + progressModifier);
-				float oldMod = progressModifier;
+				float oldMod;
+				if (progressModifier == 0.0f)
+				{
+					oldMod = progressModAlt;
+				}
+				else
+				{
+					oldMod = progressModifier;
+				}
 				progressModifier *= slowdown;
 				//Debug.Log ("progressmod new: " + progressModifier);
 				yield return new WaitForSeconds((slowDur - stun - KNOCK_CONSTANT));
@@ -545,7 +570,15 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		//Knockback - priority 0
 		if (knockback != 0)
 		{
-			float oldMod = progressModifier;
+			float oldMod;
+			if (progressModifier == 0.0f)
+			{
+				oldMod = progressModAlt;
+			}
+			else
+			{
+				oldMod = progressModifier;
+			}
 			progressModifier = -knockback;
 			yield return new WaitForSeconds(KNOCK_CONSTANT);
 			progressModifier = oldMod;
@@ -554,7 +587,15 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		//Stun - priority 1
 		if (stun != 0)
 		{
-			float oldMod = progressModifier;
+			float oldMod;
+			if (progressModifier == 0.0f)
+			{
+				oldMod = progressModAlt;
+			}
+			else
+			{
+				oldMod = progressModifier;
+			}
 			progressModifier = 0.0f;
 			yield return new WaitForSeconds(stun - KNOCK_CONSTANT);
 			progressModifier = oldMod;
@@ -566,7 +607,15 @@ public class EnemyController : MonoBehaviour,EventHandler {
 			if (!isSlow)
 			{
 				isSlow = true;
-				float oldMod = progressModifier;
+				float oldMod;
+				if (progressModifier == 0.0f)
+				{
+					oldMod = progressModAlt;
+				}
+				else
+				{
+					oldMod = progressModifier;
+				}
 				progressModifier *= slowdown;
 				yield return new WaitForSeconds(slowDur - stun - KNOCK_CONSTANT);
 				progressModifier = oldMod;
