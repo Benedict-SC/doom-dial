@@ -21,7 +21,8 @@ public class TipOfTheSpear : EnemyController{
 		partnerSpawn.Restart();
 	}
 	public override void Update(){
-		
+		if (!moving)
+			return;
 		if(leader && !doneSpawning && partners.Count < numberOfFollowers && partnerSpawn.TimeElapsedSecs() >= delay){
 			SpawnBatch();
 		}

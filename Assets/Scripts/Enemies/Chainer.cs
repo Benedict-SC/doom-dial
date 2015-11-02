@@ -17,6 +17,8 @@ public class Chainer : EnemyController{
 		followers.Add(this);
 	}
 	public override void Update(){
+		if (!moving)
+			return;
 		if(playingDead){
 			return;
 		}else{

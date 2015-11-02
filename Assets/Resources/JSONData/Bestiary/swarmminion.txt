@@ -1,17 +1,16 @@
-{	
-	"name":"Chainers",
+{
+	"name":"Swarmmaster Minion",
 	"imgfile":"Placeholder",
 	"pointValue":10,
 	
-	"enemyType":"Chainers",
-	"delay":0.8,
+	"enemyType":"Normal",
 
-	"movementType":"Sine_Mirror",
-	"maxHP":10.0,
-	"HP":10.0,
+	"movementType":"Linear",
+	"maxHP":4.0,
+	"HP":4.0,
 	"damage":1.0,
-	"impactTime":12.0,
-	"size":0.18,
+	"impactTime":10.0,
+	"size":0.2,
 	"maxShields":0.0,
 	"shields":0.0,
 	

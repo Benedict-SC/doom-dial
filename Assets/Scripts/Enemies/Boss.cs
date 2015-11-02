@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Boss : MonoBehaviour{
 
+	public bool moving = true;
+
 	protected Vector3 thetas; //x is position, y is velocity, z is acceleration
 	protected Vector3 radii; //x is position, y is velocity, z is acceleration
 	
@@ -9,13 +11,16 @@ public class Boss : MonoBehaviour{
 	protected float hp=1;
 	
 	protected int mode=0;
-	protected int level=1;
+	protected int level=4;
 	
 	public virtual void Start(){
-		thetas = new Vector3(0f,0.01f,0.001f);
+		thetas = new Vector3(0f,0.00f,0.000f);
 		radii = new Vector3(DialController.FULL_LENGTH,0f,0f);
 	}
 	public virtual void Update(){
+		if (!moving)
+			return;
+		//Debug.Log(thetas.x + ", " + thetas.y + ", " + thetas.z);
 		//kinematic movement
 		thetas.x += thetas.y;
 		thetas.y += thetas.z;
@@ -24,9 +29,12 @@ public class Boss : MonoBehaviour{
 		//cap theta position
 		if(thetas.x > 2*Mathf.PI){
 			thetas.x -= 2*Mathf.PI;
+		}else if(thetas.x < 0){
+			thetas.x += 2*Mathf.PI;
 		}
 		//set x/y position based on theta and r
 		transform.position = new Vector3(Mathf.Cos(thetas.x)*radii.x,Mathf.Sin (thetas.x)*radii.x,transform.position.z);
+		transform.eulerAngles = new Vector3(0,0,thetas.x*Mathf.Rad2Deg-90);
 		
 		HandleModeStuff();
 	}

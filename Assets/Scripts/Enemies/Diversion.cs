@@ -23,6 +23,8 @@ public class Diversion : EnemyController{
 		followerSpawn.Restart();
 	}
 	public override void Update(){
+		if (!moving)
+			return;
 		if(!doneSpawning && followers.Count < numberOfFollowers && followerSpawn.TimeElapsedSecs() >= delay){
 			SpawnBatch();
 		}

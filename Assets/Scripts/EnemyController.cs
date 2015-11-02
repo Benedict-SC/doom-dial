@@ -17,7 +17,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 
 	protected long spawntime = 0;
 	protected bool warnedFor = false;
-	protected int trackID = 0;
+	public int trackID = 0;
 	protected int trackLane = 0;
 
 	protected float maxhp = 100.0f;
@@ -191,12 +191,12 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	
 	// Update is called once per frame
 	public virtual void Update () {
+		if (!moving)
+			return;
 		if (hp <= 0.0f)
 		{
 			Die ();
 		}
-		if (!moving)
-			return;
 		//make progress
 		float secsPassed = timer.TimeElapsedSecs ();
 		timer.Restart ();
@@ -411,7 +411,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	}
 	public int GetCurrentTrackID(){ //in case it's moved between lanes without having set the track ID on purpose
 		float degrees = ((360-Mathf.Atan2(transform.position.y,transform.position.x) * Mathf.Rad2Deg)+90 + 360)%360;
-		Debug.Log(degrees);
+		//Debug.Log(degrees);
 		if(degrees >= 30.0 && degrees < 90.0){
 			return 2;
 		}else if(degrees >= 90.0 && degrees < 150.0){

@@ -219,6 +219,7 @@
      <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_4.txt" />
      <None Include="Assets\Resources\JSONData\Towers\devtest3.txt" />
      <None Include="Assets\Resources\JSONData\Towers\joetower4.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\swarmminion.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\speed_super.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\TOWER_DEFAULTS.txt" />
      <None Include="Assets\Resources\JSONData\Towers\joetower1.txt" />
