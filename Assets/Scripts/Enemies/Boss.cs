@@ -61,6 +61,91 @@ public class Boss : MonoBehaviour{
 				mode = 1;	
 		}
 	}
+	public virtual void Die(){
+		Destroy (gameObject);
+	}
+	public virtual void OnTriggerEnter2D(Collider2D coll){ //this is said system.
+		//Debug.Log ("a collision happened!");
+		if (coll.gameObject.tag == "Bullet") //if it's a bullet
+		{
+			BulletController bc = coll.gameObject.GetComponent<BulletController> ();
+			if (bc != null) {
+				if (bc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
+				{
+					if (bc.isSplitBullet && bc.timerElapsed || !bc.isSplitBullet)
+					{
+						bc.enemyHit = this.gameObject;
+						hp -= bc.dmg + bc.arcDmg;
+					}
+					if (!bc.isSplitBullet)
+					{
+						bc.Collide();
+					}
+					else if (bc.isSplitBullet)
+					{
+						if (bc.timerElapsed)
+						{
+							bc.Collide ();
+						}
+					}
+					if(hp <= 0){
+						Die ();
+					}
+				}
+			}
+		}
+		else if (coll.gameObject.tag == "Trap") //if it's a trap
+		{
+			TrapController tc = coll.gameObject.GetComponent<TrapController> ();
+			if (tc != null) {
+				if (tc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
+				{
+					tc.enemyHit = this.gameObject;
+					hp -= tc.dmg;
+					tc.Collide();
+					if(hp <= 0){
+						Die ();
+					}
+				}
+			}
+		}
+		else if (coll.gameObject.tag == "Shield") //if it's a shield
+		{
+			//shield actions are handled in DialController
+		}
+		else if (coll.gameObject.tag == "AoE")
+		{
+			Debug.Log ("enemy collided with AoE");
+			GameObject obj = coll.gameObject;
+			AoEController ac = obj.GetComponent<AoEController>();
+			if (ac.parent == "Bullet")
+			{
+				if (ac.aoeBulletCon.enemyHit != this.gameObject) //if this isn't the enemy originally hit
+				{
+					//Debug.Log ("parent is bullet@");
+					BulletController bc = ac.aoeBulletCon;
+					hp -= bc.dmg;
+					if(hp <= 0){
+						Die ();
+					}
+				}
+			}
+			else if (ac.parent == "Trap")
+			{
+				if (ac.aoeTrapCon.enemyHit != this.gameObject) //if this isn't the enemy originally hit
+				{
+					TrapController tc = ac.aoeTrapCon;
+					hp -= tc.dmg;
+					if(hp <= 0){
+						Die ();
+					}
+				}
+			}
+			
+		}
+		//other types of collision?
+		
+	}
 	
 	public float GetAngle(){
 		return thetas.x;

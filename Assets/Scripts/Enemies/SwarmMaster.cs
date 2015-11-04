@@ -26,14 +26,17 @@ public class SwarmMaster : Boss{
 	enum state{SPAWNING,MOVING,DECIDING};
 	state currentState = state.DECIDING;
 	
+	GameObject overlay;
+	
 	public override void Start(){
 		base.Start();
 		maxHP = 200;
-		hp = 40;
+		hp = 200;
 		thetas = new Vector3(spawnpoints[5]+0.05f,0f,0f);
 		spawntimer = new Timer();
 		directiontimer = new Timer();
 		pooptimer = new Timer();
+		overlay = transform.FindChild("Health").gameObject;
 	}
 	public override void Update(){
 		base.Update();
@@ -139,6 +142,10 @@ public class SwarmMaster : Boss{
 				Poop ();
 			}
 		}
+	}
+	public override void OnTriggerEnter2D(Collider2D coll){
+		base.OnTriggerEnter2D(coll);
+		overlay.transform.localScale = new Vector3(overlay.transform.localScale.x,hp/maxHP,overlay.transform.localScale.z);
 	}
 	public void ReverseDirection(){
 		clockwise = !clockwise;
@@ -298,7 +305,7 @@ public class SwarmMaster : Boss{
 	
 	float maxAcc = 0.0008f;
 	float maxVel = 0.002f;
-	float arriveRadius = 0.05f;
+	float arriveRadius = 0.005f;
 	float decelRadius = 0.2f;
 	float timeToDecel = 1f;
 	public void Arrive(){
