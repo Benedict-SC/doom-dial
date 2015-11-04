@@ -17,6 +17,7 @@ public class SwarmMaster : Boss{
 	readonly float MIN_SECS = 6f;
 	readonly float MAX_SECS = 25f;
 	bool clockwise = false;
+	bool mode3reversing = false;
 	
 	Timer pooptimer;
 	float secondsToPoop = 1f;
@@ -134,12 +135,31 @@ public class SwarmMaster : Boss{
 				currentState = state.DECIDING;
 			}
 		}else if(mode == 3){
-			thetas.y = 0.008f;
+			if(mode3reversing){
+				if(clockwise){
+					thetas.z = -0.00005f;
+				}else{
+					thetas.z = 0.00005f;
+				}
+				if((!clockwise && thetas.y >= 0.008f)||(clockwise && thetas.y <= -0.008f))
+					mode3reversing = false;
+			}else{	
+				thetas.y = 0.008f;
+				if(clockwise)
+					thetas.y *= -1;
+			}
 			if(pooptimer.TimeElapsedSecs() > secondsToPoop){
 				pooptimer.Restart();
 				System.Random rand = new System.Random();
 				secondsToPoop = MIN_POOP + (float)(rand.NextDouble()*(MAX_POOP-MIN_POOP));
 				Poop ();
+			}
+			if(directiontimer.TimeElapsedSecs() > secondsToReverse){
+				clockwise = !clockwise;
+				System.Random rand = new System.Random();
+				secondsToReverse = MIN_SECS + (float)(rand.NextDouble()*(MAX_SECS-MIN_SECS));
+				directiontimer.Restart();
+				mode3reversing = true;
 			}
 		}
 	}
