@@ -167,7 +167,24 @@ public class SwarmMaster : Boss{
 		//Debug.Log (degrees + " (which converts to zone " + SpawnIndexToZoneID(idx));
 		return SpawnIndexToZoneID(idx);		
 	}
+	int PositionToLaneID(){
+		int degrees = (int)(thetas.x * Mathf.Rad2Deg);
+		int remaining = degrees % 60;
+		
+		if(remaining < 22.5)
+			return 1;
+		else if(remaining > 37.5)
+			return -1;
+		else if(remaining > 22.5 && remaining < 37.5)
+			return 0;
+		else
+			return 999; //don't spawn enemies on zone borders
+	}
 	public void Poop(){
+		if(PositionToZoneID() == 999){ //don't poop on zone borders
+			secondsToPoop = 0.25f;
+			pooptimer.Restart();
+		}
 		FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Bestiary","swarmminion");
 		string actualenemyjson = fl.Read ();
 		Dictionary<string,System.Object> actualenemydict = Json.Deserialize(actualenemyjson) as Dictionary<string,System.Object>;
@@ -177,13 +194,7 @@ public class SwarmMaster : Boss{
 		//int poopdegrees = (int)(thetas.x * Mathf.Rad2Deg);
 		//Debug.Log (poopdegrees + " pooping on track " + track);
 		
-		int trackpos = 0;
-		System.Random rand = new System.Random();
-		double rng = rand.NextDouble();
-		if(rng < .333)
-			trackpos = -1;
-		else if(rng > .666)
-			trackpos = 1;
+		int trackpos = PositionToLaneID();
 		
 		GameObject enemyobj = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
 		EnemyController ec = enemyobj.GetComponent<EnemyController>();
