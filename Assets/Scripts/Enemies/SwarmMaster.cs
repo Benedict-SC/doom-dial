@@ -335,7 +335,7 @@ public class SwarmMaster : Boss{
 	}
 	
 	float maxAcc = 0.0008f;
-	float maxVel = 0.002f;
+	float maxVel = 0.003f;
 	float arriveRadius = 0.005f;
 	float decelRadius = 0.2f;
 	float timeToDecel = 1f;

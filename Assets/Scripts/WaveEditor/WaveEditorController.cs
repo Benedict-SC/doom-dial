@@ -6,10 +6,12 @@ using MiniJSON;
 public class WaveEditorController : MonoBehaviour,EventHandler{
 
 	public static WaveEditorController singleton;
-	GameObject canvas;
+	public GameObject canvas;
 	ScrollRect sr;
 	ZonePanelController[] zonepanels;
 	List<EnemyListEntryController>[] zonelists;
+	public WaveFrameController activeWaveFrame;
+	WaveFrameController[] frames;
 	
 	bool moving = false;
 	EnemyDraggableController floatingEnemy = null;
@@ -27,11 +29,22 @@ public class WaveEditorController : MonoBehaviour,EventHandler{
 		EventManager.Instance().RegisterForEventType("wave_editor_changed",this);
 		zonepanels = new ZonePanelController[6];
 		zonelists = new List<EnemyListEntryController>[6];
+		activeWaveFrame = GameObject.Find ("WaveFrame1").GetComponent<WaveFrameController>();
 		for(int i = 0; i < 6; i++){
-			string id = "ZonePanel" + i;
-			zonepanels[i] = GameObject.Find(id).GetComponent<ZonePanelController>();
-			zonelists[i] = new List<EnemyListEntryController>();
-			zonepanels[i].SetList(zonelists[i]);
+			zonepanels[i] = activeWaveFrame.zonepanels[i];
+			zonelists[i] = activeWaveFrame.zonelists[i];
+		}
+		frames = new WaveFrameController[6];
+		frames[0] = activeWaveFrame;
+		for(int i = 2; i < 7; i++){
+			frames[i-1] = GameObject.Find ("WaveFrame" + i).GetComponent<WaveFrameController>();
+		}
+	}
+	public void SetActiveFrame(int frameID){
+		activeWaveFrame = frames[frameID];
+		for(int i = 0; i < 6; i++){
+			zonepanels[i] = activeWaveFrame.zonepanels[i];
+			zonelists[i] = activeWaveFrame.zonelists[i];
 		}
 	}
 	public void Update(){
