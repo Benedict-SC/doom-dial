@@ -107,11 +107,24 @@ public class WaveFrameController : MonoBehaviour, EventHandler{
 			}
 		}
 	}
+	public void Reset(){
+		Debug.Log ("reset");
+		dragging = false;
+		snapping = false;
+		clickUpdateCycled = false; //on mouse click event, wait for everyone to update before processing
+		eventWaiting = false;
+		if(snapIndex == 0)
+			snapTarget = trackbounds;
+		else{
+			snapTarget = thresholds[snapIndex-1] - 387.5f;
+		}
+		RectTransform rt = (RectTransform)leveltrack.transform;
+		rt.anchoredPosition = new Vector2(snapTarget,rt.anchoredPosition.y);
+	}
 	
-	
-	bool clickUpdateCycled = false; //on mouse click event, wait for everyone to update before processing
-	bool eventWaiting = false;
-	GameEvent heldEvent = null;
+	static bool clickUpdateCycled = false; //on mouse click event, wait for everyone to update before processing
+	static bool eventWaiting = false;
+	static GameEvent heldEvent = null;
 	public void HandleEvent(GameEvent ge){
 		if(ge.type.Equals("mouse_click")){
 			if(snapping || dragging)

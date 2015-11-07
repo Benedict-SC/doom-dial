@@ -43,6 +43,7 @@ public class EnemyListEntryController : MonoBehaviour,EventHandler{
 			if(TouchIsOnMe(pos)){
 				beingHeld = true;
 				holdTimer.Restart();
+				WaveEditorController.singleton.activeWaveFrame.Reset();
 			}
 		}
 		if(ge.type.Equals("mouse_release")){
