@@ -25,7 +25,7 @@ public class WaveFrameController : MonoBehaviour, EventHandler{
 		EventManager.Instance().RegisterForEventType("mouse_release",this);
 		zonepanels = new ZonePanelController[6];
 		zonelists = new List<EnemyListEntryController>[6];
-		for(int i = 0; i < 6; i++){
+		for(int i = 0; i < 6; i++){ //associate lists and panels with this frame
 			string id = "ZonePanel" + i;
 			zonepanels[i] = transform.FindChild(id).gameObject.GetComponent<ZonePanelController>();
 			zonelists[i] = new List<EnemyListEntryController>();
@@ -33,7 +33,7 @@ public class WaveFrameController : MonoBehaviour, EventHandler{
 		}
 	}
 	public void Update(){
-		if(eventWaiting){
+		if(eventWaiting){ //this waiting stuff is to make sure nothing else is grabbing the player's input before starting on the drag
 			clickUpdateCycled = true;
 			eventWaiting = false;
 		}else if(clickUpdateCycled){ //now we can handle the event
@@ -107,11 +107,11 @@ public class WaveFrameController : MonoBehaviour, EventHandler{
 			}
 		}
 	}
-	public void Reset(){
+	public void Reset(){ //if something else needs to take input focus from the dragging, this sets the wave track to its resting state
 		Debug.Log ("reset");
 		dragging = false;
 		snapping = false;
-		clickUpdateCycled = false; //on mouse click event, wait for everyone to update before processing
+		clickUpdateCycled = false;
 		eventWaiting = false;
 		if(snapIndex == 0)
 			snapTarget = trackbounds;
@@ -141,7 +141,7 @@ public class WaveFrameController : MonoBehaviour, EventHandler{
 			}
 			eventWaiting = true;
 			heldEvent = ge;
-		}else{
+		}else{ //it's a mouse release event
 			if(!dragging)
 				return;
 			dragging = false;
