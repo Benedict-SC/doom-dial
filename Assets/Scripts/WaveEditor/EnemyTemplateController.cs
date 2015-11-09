@@ -8,6 +8,9 @@ public class EnemyTemplateController : MonoBehaviour,EventHandler{
 
 	string filename = "";
 	string enemyname = "$$$$";
+	string listname = "@@@@";
+	string columnname = "####";
+	public int fontsize = 18;
 	string imgfilename = "Placeholder";
 	int pointValue = 0;
 	
@@ -84,9 +87,25 @@ public class EnemyTemplateController : MonoBehaviour,EventHandler{
 		pointText.text = "" + pointValue;
 		//set name
 		enemyname = (string)data["name"];
+		if(data.ContainsKey("listName")){
+			listname = (string)data["listName"];
+		}else{
+			listname = enemyname;
+		}
+		if(data.ContainsKey("columnName")){
+			columnname = (string)data["columnName"];
+			//Debug.Log("column name: " + columnname);
+		}else{
+			//Debug.Log (enemyname);
+			columnname = enemyname;
+		}
+		if(data.ContainsKey("fontSize")){
+			fontsize = (int)(long)data["fontSize"];
+		}
 		Transform nTransform = transform.FindChild("EnemyName");
 		Text nameText = nTransform.gameObject.GetComponent<Text>();
-		nameText.text = enemyname;
+		nameText.fontSize = fontsize;
+		nameText.text = listname;
 		
 		//set size stuff
 		RectTransform rt = (RectTransform)transform;
@@ -114,6 +133,12 @@ public class EnemyTemplateController : MonoBehaviour,EventHandler{
 	}
 	public string GetName(){
 		return enemyname;
+	}
+	public string GetEnemyListName(){
+		return listname;
+	}
+	public string GetEditorColumnName(){
+		return columnname;
 	}
 	public string GetSrcFileName(){
 		return filename;

@@ -65,7 +65,7 @@ public class EnemyListEntryController : MonoBehaviour,EventHandler{
 	}
 	public void ConfigureFromTemplate(EnemyTemplateController etc){
 		this.etc = etc;
-		label = etc.GetName() + " (" + etc.GetPointValue() +")";
+		label = etc.GetEditorColumnName() + " (" + etc.GetPointValue() +")";
 		//set name
 		Transform nTransform = transform.FindChild("Text");
 		Text nameText = nTransform.gameObject.GetComponent<Text>();

@@ -2,6 +2,7 @@
 	"name":"The Big One",
 	"imgfile":"Placeholder",
 	"pointValue":30,
+	"columnName":"Big One",
 	
 	"enemyType":"MeatShield",
 	"delay":1.2,

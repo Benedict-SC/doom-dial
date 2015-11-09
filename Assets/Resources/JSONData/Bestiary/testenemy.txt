@@ -2,6 +2,7 @@
 	"name":"Test Enemy",
 	"imgfile":"Placeholder",
 	"pointValue":5,
+	"columnName":"Enemy",
 
 	"enemyType":"Normal",
 	
