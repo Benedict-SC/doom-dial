@@ -1,18 +1,16 @@
-{	
-	"name":"The Diversion",
+{
+	"name":"Swarmmaster Minion",
 	"imgfile":"Placeholder",
-	"pointValue":30,
-	"columnName":"Diversion",
+	"pointValue":10,
 	
-	"enemyType":"TheDiversion",
-	"delay":2.2,
+	"enemyType":"Normal",
 
 	"movementType":"Linear",
-	"maxHP":80.0,
-	"HP":80.0,
-	"damage":5.0,
-	"impactTime":16.0,
-	"size":0.4,
+	"maxHP":4.0,
+	"HP":4.0,
+	"damage":1.0,
+	"impactTime":10.0,
+	"size":0.2,
 	"maxShields":0.0,
 	"shields":0.0,
 	

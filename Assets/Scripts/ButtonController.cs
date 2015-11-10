@@ -32,6 +32,7 @@ public class ButtonController : MonoBehaviour, EventHandler {
 	
 	// Update is called once per frame
 	void Update () {
+		isPaused = GamePause.paused;
 		if (gc == null)
 			return;
 		if (gc.GetCooldown () > 0) {
@@ -61,9 +62,5 @@ public class ButtonController : MonoBehaviour, EventHandler {
 				EventManager.Instance ().RaiseEvent (nge);
 			}
 		}
-	}
-	public void TriggerPause(){
-		isPaused = !isPaused;
-		gc.triggerPause ();
 	}
 }

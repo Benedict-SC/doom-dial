@@ -17,7 +17,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 
 	protected long spawntime = 0;
 	protected bool warnedFor = false;
-	protected int trackID = 0;
+	public int trackID = 0;
 	protected int trackLane = 0;
 
 	protected float maxhp = 100.0f;
@@ -192,12 +192,13 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	
 	// Update is called once per frame
 	public virtual void Update () {
+		moving = !GamePause.paused;
+		if (!moving)
+			return;
 		if (hp <= 0.0f)
 		{
 			Die ();
 		}
-		if (!moving)
-			return;
 		//make progress
 		float secsPassed = timer.TimeElapsedSecs ();
 		timer.Restart ();
@@ -412,7 +413,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	}
 	public int GetCurrentTrackID(){ //in case it's moved between lanes without having set the track ID on purpose
 		float degrees = ((360-Mathf.Atan2(transform.position.y,transform.position.x) * Mathf.Rad2Deg)+90 + 360)%360;
-		Debug.Log(degrees);
+		//Debug.Log(degrees);
 		if(degrees >= 30.0 && degrees < 90.0){
 			return 2;
 		}else if(degrees >= 90.0 && degrees < 150.0){
@@ -729,18 +730,23 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		yield return new WaitForSeconds(duration);
 		progressModifier = 1.0f;
 	}
-	public void Freeze(){
+	/*public void Freeze(){
 		timer.PauseTrigger();
 		moving = !moving;
-	}
+
+	}*/
 
 	public Coroutine _sync(){
 		return StartCoroutine(PauseRoutine()); 
 	}
 	
 	public IEnumerator PauseRoutine(){
-		while (!moving) {
+		while (GamePause.paused) {
 			yield return new WaitForFixedUpdate();
+			/* This code ^^^ doesn't work.  I want it to just sit
+			 * and wait until GamePause.paused == true, but
+			 * I don't know how to do that :P
+			 * */
 			//Debug.Log ("waiting for moving to be true!");
 		}
 		//Debug.Log ("moving is now true");
@@ -765,4 +771,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		}
 		yield return _sync();
 	}
+
+
+
 }

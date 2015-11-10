@@ -6,7 +6,7 @@
 	"enemyType":"Chainers",
 	"delay":0.8,
 
-	"movementType":"Sine",
+	"movementType":"Sine_Mirror",
 	"maxHP":10.0,
 	"HP":10.0,
 	"damage":1.0,

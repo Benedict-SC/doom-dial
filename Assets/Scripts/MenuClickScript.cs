@@ -1,6 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+/*
+ * To add new scene options to a menu:
+ * 1) Set lockThreshold in MenuSpinScript to a value that divides nicely into 360 that equals the number of options you want 
+ * (Menu, WorldSelect, and levelSelect all need a third of that number so you can fit in the duplicate images so 
+ * the fading works, lockThreshold on MenuTest only need to be set to 60 for a sixth option, adding a fifth option
+ * to World/LevelSelect or Menu needs (5x3) = 15 lock positions, so lockThreshold needs to be 24)
+ * 2) Go to whatever script handle menu options for that scene (MenuClickScript/MenuSelect/MenuInGame)
+ * in the editor and add a new entry to DescHolder and LevelHolder, DescHolder holds the string shown in game,
+ * LevelHolder holds the name of the scene. World and Level Select don't need any further work, as they are set to work off
+ * of the numbers being passed in.
+ * */
 public class MenuClickScript : MonoBehaviour, EventHandler {
 	public GameObject parent;
 	public int menuPosition = 0;

@@ -115,6 +115,7 @@ public class BulletController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		isPaused = GamePause.paused;
 		if (!isSplitBullet)
 		{
 			//Debug.Log ("is not a split bullet!");
@@ -497,9 +498,4 @@ public class BulletController : MonoBehaviour {
 	{
 		//splitCenterDist = [calculate distance from center]
 	}
-	public void TriggerPause(){
-		//toggles between paused and unpaused
-		isPaused = !isPaused;
-	}
-
 }

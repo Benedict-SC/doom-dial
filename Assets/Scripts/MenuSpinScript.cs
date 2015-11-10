@@ -1,6 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+/*
+ * To add new scene options to a menu:
+ * 1) Set lockThreshold in MenuSpinScript to a value that divides nicely into 360 that equals the number of options you want 
+ * (Menu, WorldSelect, and levelSelect all need a third of that number so you can fit in the duplicate images so 
+ * the fading works, lockThreshold on MenuTest only need to be set to 60 for a sixth option, adding a fifth option
+ * to World/LevelSelect or Menu needs (5x3) = 15 lock positions, so lockThreshold needs to be 24)
+ * 2) Go to whatever script handle menu options for that scene (MenuClickScript/MenuSelect/MenuInGame)
+ * in the editor and add a new entry to DescHolder and LevelHolder, DescHolder holds the string shown in game,
+ * LevelHolder holds the name of the scene. World and Level Select don't need any further work, as they are set to work off
+ * of the numbers being passed in.
+ * */
 public class MenuSpinScript : MonoBehaviour, EventHandler {
 	//Increases spin speed
 	float multiplier = 1.0f;
@@ -20,12 +30,14 @@ public class MenuSpinScript : MonoBehaviour, EventHandler {
 	float originalRot = 0.0f; //the angle of the mouse when you start the spin
 	float origz = 0.0f; //the angle of the dial when you start the spin
 	float rotScale = 1.0f; //speeds up or slows down the rotation. should probably stay at 1.0, unless playtesting discovers otherwise
+	int menuMax;
 	// Use this for initialization
 	void Start () {
 		centerPoint = Camera.main.WorldToScreenPoint (this.transform.position);
 		EventManager em = EventManager.Instance ();
 		em.RegisterForEventType ("mouse_release", this);
 		em.RegisterForEventType ("mouse_click", this);
+		menuMax = 360 / lockThreshold;
 	}
 	public void HandleEvent(GameEvent ge){
 		Vector3 mousepos = InputWatcher.GetInputPosition ();
@@ -41,19 +53,19 @@ public class MenuSpinScript : MonoBehaviour, EventHandler {
 				transform.rotation = Quaternion.Euler(0, 0, lockRot);
 				menuPosition = (int) lockRot/lockThreshold;
 				if(Child.GetComponent<MenuClickScript>() != null){
-					Child.GetComponent<MenuClickScript>().menuPosition = menuPosition % 5;
+					Child.GetComponent<MenuClickScript>().menuPosition = menuPosition % menuMax;
 				}
 				if(Child.GetComponent<WorldSelect>() != null){
-					Child.GetComponent<WorldSelect>().menuPosition = menuPosition % 4;
+					Child.GetComponent<WorldSelect>().menuPosition = menuPosition % menuMax;
 				}
 				if(Child.GetComponent<LevelSelect>() != null){
-					Child.GetComponent<LevelSelect>().menuPosition = menuPosition % 4;
+					Child.GetComponent<LevelSelect>().menuPosition = menuPosition % menuMax;
 				}
 				if(Child.GetComponent<MenuSelect>() != null){
-					Child.GetComponent<MenuSelect>().menuPosition = menuPosition % 4;
+					Child.GetComponent<MenuSelect>().menuPosition = menuPosition % menuMax;
 				}
 				if(Child.GetComponent<MenuInGame>() != null){
-					Child.GetComponent<MenuInGame>().menuPosition = menuPosition % 4;
+					Child.GetComponent<MenuInGame>().menuPosition = menuPosition % menuMax;
 				}
 			}
 			//resets time

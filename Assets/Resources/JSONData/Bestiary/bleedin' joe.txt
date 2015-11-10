@@ -2,6 +2,7 @@
 	"name":"Bleedin' Joe",
 	"imgfile":"Placeholder",
 	"pointValue":10,
+	"columnName":"Bl. Joe",
 	
 	"enemyType":"Normal",
 

@@ -2,6 +2,8 @@
 	"name":"Tip of the Spear",
 	"imgfile":"Placeholder",
 	"pointValue":15,
+	"fontSize":16,
+	"columnName":"T. of Spear",
 	
 	"enemyType":"TipOfTheSpear",
 	"delay":1.2,

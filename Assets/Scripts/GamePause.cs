@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class GamePause : MonoBehaviour, EventHandler {
-	public bool isPaused = false;
 	//accesses the wave manager to pause everything it has access to
 	public GameObject WM;
 	//darkens the screen when game is paused
@@ -15,6 +14,7 @@ public class GamePause : MonoBehaviour, EventHandler {
 	GameObject[] buttons;
 	GameObject[] enemies;
 	GameObject[] bullets;
+	public static bool paused = false;
 	// Use this for initialization
 	void Start () {
 		EventManager em = EventManager.Instance ();
@@ -31,7 +31,7 @@ public class GamePause : MonoBehaviour, EventHandler {
 			if (Physics.Raycast (targetSeek, out targetFind)) {
 				//sees if ray collided with the start button
 				if (targetFind.collider.gameObject == this.gameObject) {
-					if(!isPaused){
+					if(!paused){
 						//moves buttons to set locations, and darkens screen
 						this.gameObject.transform.position = anchorPoints[0].gameObject.transform.position;
 						returnButton.transform.position = anchorPoints[2].gameObject.transform.position;
@@ -44,31 +44,7 @@ public class GamePause : MonoBehaviour, EventHandler {
 						GetComponentInChildren<TextMesh>().text = "Pause";
 						tintBox.GetComponent<Renderer> ().material.color = new Color (0.0f, 0.0f, 0.0f, 0.0f);
 					}
-					//freezes enemy spawning
-					WM.GetComponent<WaveManager>().triggerFreeze();
-
-					//Gets all enemies on the field and freezes them
-					enemies = GameObject.FindGameObjectsWithTag("Enemy");
-					if(enemies.Length > 0){
-						foreach (GameObject enemy in enemies) {
-							EnemyController e = enemy.GetComponent<EnemyController>();
-							e.Freeze();
-						}
-					}
-					//stops all bullets on the field
-					bullets = GameObject.FindGameObjectsWithTag("Bullet");
-					if(bullets.Length > 0){
-						foreach (GameObject bullet in bullets) {
-							BulletController b = bullet.GetComponent<BulletController>();
-							b.TriggerPause();
-						}
-					}
-					//disables buttons and cooldown
-					foreach (GameObject button in buttons){
-						ButtonController b = button.GetComponent<ButtonController>();
-						b.TriggerPause();
-					}
-					isPaused = !isPaused;
+					paused = !paused;
 				}
 			}
 			

@@ -2,6 +2,9 @@
 	"name":"Steve",
 	"imgfile":"Placeholder",
 	"pointValue":10,
+	"listName":"He's Steve",
+	"columnName":"(steve.)",
+	"fontSize":20,
 	
 	"enemyType":"Normal",
 
