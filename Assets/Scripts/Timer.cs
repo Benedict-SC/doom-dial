@@ -31,13 +31,11 @@ public class Timer
 			return secHolder;
 		}
 	}
-	public void PauseTrigger(){
-		//restart timer because otherwise all enemies will jump forward base on how long game is paused
-		if (isPaused) {
+	void Update(){
+		isPaused = GamePause.paused;
+		if (!isPaused) {
 			Restart ();
 		}
-		isPaused = !isPaused;
-
 	}
 }
 

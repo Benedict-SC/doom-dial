@@ -192,6 +192,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	
 	// Update is called once per frame
 	public virtual void Update () {
+		moving = !GamePause.paused;
 		if (!moving)
 			return;
 		if (hp <= 0.0f)
@@ -661,8 +662,8 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		yield return new WaitForSeconds(duration);
 		progressModifier = 1.0f;
 	}
-	public void Freeze(){
+	/*public void Freeze(){
 		timer.PauseTrigger();
 		moving = !moving;
-	}
+	}*/
 }

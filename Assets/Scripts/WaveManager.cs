@@ -17,7 +17,6 @@ public class WaveManager : MonoBehaviour {
 	bool isPaused = false;
 	long ellapsedTime = 0;
 	long pauseTime = 0;
-
 	public List<GameObject> enemiesOnscreen;
 
 	// Use this for initialization
@@ -69,8 +68,9 @@ public class WaveManager : MonoBehaviour {
 	void Update () {
 		ellapsedTime = timer.TimeElapsedMillis() + pauseTime;
 		//stops any spawning from happening while paused
+		isPaused = GamePause.paused;
 		if (!isPaused) {
-
+			pauseTime += timer.TimeElapsedMillis();
 			if (onBreather) {
 				//Debug.Log("on breather");
 				if (ellapsedTime > 8000) {
@@ -119,8 +119,7 @@ public class WaveManager : MonoBehaviour {
 		worldVar = world;
 		levelVar = level;
 	}
-	public void triggerFreeze(){
-
+	/*public void triggerFreeze(){
 		if (!isPaused) {
 			//gets current time when paused, to keep enemy spawning from desyncing when unpaused
 			pauseTime += timer.TimeElapsedMillis();
@@ -128,5 +127,6 @@ public class WaveManager : MonoBehaviour {
 		//stop timer
 		timer.PauseTrigger ();
 		isPaused = !isPaused;
-	}
+	
+	}*/
 }
