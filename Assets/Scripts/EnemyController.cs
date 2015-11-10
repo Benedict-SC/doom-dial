@@ -453,6 +453,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	/*Coroutines for Status Effects*/
 
 	//handles several of the status effect coroutines from Bullets
+	//sorry for all the extra sync checks ._.
 	IEnumerator StatusEffectsBullet(BulletController bc)
 	{
 		float bulletDamage = bc.dmg; //damage the bullet dealt -- might be used for lifedrain (percentage of dmg)
@@ -480,60 +481,92 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		//Knockback - priority 0
 		if (knockback != 0)
 		{
+			yield return _sync();
 			float oldMod;
+			yield return _sync();
 			if (progressModifier == 0.0f)
 			{
+				yield return _sync();
 				oldMod = progressModAlt;
 			}
 			else
 			{
+				yield return _sync();
 				oldMod = progressModifier;
 			}
+			yield return _sync();
 			progressModifier = -knockback;
-			yield return new WaitForSeconds(KNOCK_CONSTANT);
+			yield return _sync();
+			yield return StartCoroutine(WaitSecCustom(KNOCK_CONSTANT));
+			yield return _sync();
 			progressModifier = oldMod;
+			yield return _sync();
 		}
 
 		//Stun - priority 1
 		if (stun != 0)
 		{
+			yield return _sync();
+			//Debug.Log ("sync 1 done");
 			float oldMod;
 			if (progressModifier == 0.0f)
 			{
+				yield return _sync();
+				//Debug.Log ("sync 2 done");
 				oldMod = progressModAlt;
 			}
 			else
 			{
+				yield return _sync();
+				//Debug.Log ("sync 3 done");
 				oldMod = progressModifier;
 			}
+			yield return _sync();
+			//Debug.Log ("sync 4 done");
 			progressModifier = 0.0f;
-			yield return new WaitForSeconds(stun - KNOCK_CONSTANT);
+			yield return _sync();
+			//Debug.Log ("sync 5 done");
+			yield return StartCoroutine(WaitSecCustom(stun - KNOCK_CONSTANT));
+			yield return _sync();
+			//Debug.Log ("sync 6 done");
 			progressModifier = oldMod;
+			yield return _sync();
+			//Debug.Log ("sync 7 done");
 		}
 
 		//Slowdown - priority 2
 		if (slowdown != 0)
 		{
+			yield return _sync();
 			if (!isSlow)
 			{
+				yield return _sync();
 				isSlow = true;
 				//Debug.Log ("entered slowdown if!");
 				//Debug.Log ("progressmod old: " + progressModifier);
 				float oldMod;
+				yield return _sync();
 				if (progressModifier == 0.0f)
 				{
+					yield return _sync();
 					oldMod = progressModAlt;
 				}
 				else
 				{
+					yield return _sync();
 					oldMod = progressModifier;
 				}
+				yield return _sync();
 				progressModifier *= slowdown;
+				yield return _sync();
 				//Debug.Log ("progressmod new: " + progressModifier);
-				yield return new WaitForSeconds((slowDur - stun - KNOCK_CONSTANT));
+				yield return StartCoroutine(WaitSecCustom(slowDur - stun - KNOCK_CONSTANT));
+				yield return _sync();
 				//Debug.Log ("final slowdonw time was: " + ((slowDur - stun - KNOCK_CONSTANT)));
 				progressModifier = oldMod;
+				yield return _sync();
 				isSlow = false;
+				yield return _sync();
 			}
 
 		}
@@ -570,55 +603,77 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		//Knockback - priority 0
 		if (knockback != 0)
 		{
+			yield return _sync();
 			float oldMod;
+			yield return _sync();
 			if (progressModifier == 0.0f)
 			{
+				yield return _sync();
 				oldMod = progressModAlt;
 			}
 			else
 			{
+				yield return _sync();
 				oldMod = progressModifier;
 			}
 			progressModifier = -knockback;
-			yield return new WaitForSeconds(KNOCK_CONSTANT);
+			yield return _sync();
+			yield return StartCoroutine(WaitSecCustom(KNOCK_CONSTANT));
+			yield return _sync();
 			progressModifier = oldMod;
 		}
 		
 		//Stun - priority 1
 		if (stun != 0)
 		{
+			yield return _sync();
 			float oldMod;
+			yield return _sync();
 			if (progressModifier == 0.0f)
 			{
+				yield return _sync();
 				oldMod = progressModAlt;
 			}
 			else
 			{
+				yield return _sync();
 				oldMod = progressModifier;
 			}
+			yield return _sync();
 			progressModifier = 0.0f;
-			yield return new WaitForSeconds(stun - KNOCK_CONSTANT);
+			yield return _sync();
+			yield return StartCoroutine(WaitSecCustom(stun - KNOCK_CONSTANT));
+			yield return _sync();
 			progressModifier = oldMod;
 		}
 		
 		//Slowdown - priority 2
 		if (slowdown != 0)
 		{
+			yield return _sync();
 			if (!isSlow)
 			{
+				yield return _sync();
 				isSlow = true;
+				yield return _sync();
 				float oldMod;
+				yield return _sync();
 				if (progressModifier == 0.0f)
 				{
+					yield return _sync();
 					oldMod = progressModAlt;
 				}
 				else
 				{
+					yield return _sync();
 					oldMod = progressModifier;
 				}
 				progressModifier *= slowdown;
-				yield return new WaitForSeconds(slowDur - stun - KNOCK_CONSTANT);
+				yield return _sync();
+				yield return StartCoroutine(WaitSecCustom(slowDur - stun - KNOCK_CONSTANT));
+				yield return _sync();
 				progressModifier = oldMod;
+				yield return _sync();
 				isSlow = false;
 			}
 
@@ -630,11 +685,18 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	//lifeDrain status effect
 	IEnumerator LifeDrain (float amt, float dmg)
 	{
+		yield return _sync();
 		//Debug.Log ("lifedrain started");
 		hp -= amt;
+		yield return _sync();
 		dialCon.health += (float)(int)(amt * dmg);
+		yield return _sync();
 		if (dialCon.health > dialCon.maxHealth)
+		{
+			yield return _sync();
 			dialCon.health = dialCon.maxHealth;
+		}
+			
 		//Debug.Log ("dial health + " + (float)(int)(amt * dmg));
 		//Debug.Log ("new health: " + dialCon.health);
 		yield break;
@@ -643,13 +705,18 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	//poison status effect
 	IEnumerator PoisonEffect (float duration, float amt)
 	{
+		yield return _sync();
 		//Debug.Log ("poison started");
 		float dur = duration;
 		while (dur > 0)
 		{
+			yield return _sync();
 			hp -= maxhp * amt;
+			yield return _sync();
 			dur -= 0.5f;
-			yield return new WaitForSeconds(0.5f);
+			yield return _sync();
+			yield return StartCoroutine(WaitSecCustom(0.5f));
+			yield return _sync();
 		}
 		yield break;
 	}
@@ -657,6 +724,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	//modifies enemy speed for a given duration -- use for stun, and slowdown
 	IEnumerator ChangeSpeed(float duration, float value)
 	{
+		yield return _sync();
 		progressModifier = value;
 		yield return new WaitForSeconds(duration);
 		progressModifier = 1.0f;
@@ -664,5 +732,37 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	public void Freeze(){
 		timer.PauseTrigger();
 		moving = !moving;
+	}
+
+	public Coroutine _sync(){
+		return StartCoroutine(PauseRoutine()); 
+	}
+	
+	public IEnumerator PauseRoutine(){
+		while (!moving) {
+			yield return new WaitForFixedUpdate();
+			//Debug.Log ("waiting for moving to be true!");
+		}
+		//Debug.Log ("moving is now true");
+		yield return new WaitForEndOfFrame();  
+	}
+
+	public IEnumerator WaitSecCustom(float seconds)
+	{
+		yield return _sync();
+		float timer = Time.time + seconds;
+		Debug.Log ("timer starts at " + timer);
+		yield return _sync();
+		while (!moving)
+		{
+			timer += Time.deltaTime;
+			Debug.Log ("timer = " + timer);
+		}
+		while (Time.time < timer)
+		{
+			yield return _sync();
+			yield return null;
+		}
+		yield return _sync();
 	}
 }

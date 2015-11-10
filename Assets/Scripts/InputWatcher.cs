@@ -3,7 +3,7 @@ using System.Collections;
 
 public class InputWatcher : MonoBehaviour {
 
-	public static readonly bool INPUT_DEBUG = false;
+	public static readonly bool INPUT_DEBUG = true;
 
 	// Use this for initialization
 	void Start () {
