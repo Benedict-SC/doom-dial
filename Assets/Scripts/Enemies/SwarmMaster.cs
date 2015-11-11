@@ -41,6 +41,7 @@ public class SwarmMaster : Boss{
 	}
 	public override void Update(){
 		base.Update();
+		moving = !GamePause.paused;
 		if (!moving)
 			return;
 		if(mode == 0){

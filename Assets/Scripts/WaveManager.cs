@@ -66,6 +66,7 @@ public class WaveManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
 		ellapsedTime = timer.TimeElapsedMillis() + pauseTime;
 		//stops any spawning from happening while paused
 		isPaused = GamePause.paused;
