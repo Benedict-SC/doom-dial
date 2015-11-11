@@ -17,6 +17,7 @@ public class WaveManager : MonoBehaviour {
 	bool isPaused = false;
 	long ellapsedTime = 0;
 	long pauseTime = 0;
+	int bosscode = 0;
 
 	public List<GameObject> enemiesOnscreen;
 
@@ -35,7 +36,10 @@ public class WaveManager : MonoBehaviour {
 			loadingUserLevel = true;
 			wd.loadUserLevel = false;
 		}
+		
 		Dictionary<string,System.Object> levelraw = Json.Deserialize (leveldata.Read ()) as Dictionary<string,System.Object>;
+		if(levelraw.ContainsKey("boss"))
+			bosscode = (int)(long)levelraw["boss"];
 		List<System.Object> wavesdata = levelraw ["waves"] as List<System.Object>;
 		foreach (System.Object thing in wavesdata) {
 			Dictionary<string,System.Object> dict = thing as Dictionary<string,System.Object>;
@@ -63,6 +67,12 @@ public class WaveManager : MonoBehaviour {
 		timer = new Timer ();
 		timer.Restart ();
 		pauseTime = 0;
+		
+		if(bosscode == 2){
+			GameObject boss = GameObject.Instantiate (Resources.Load ("Prefabs/Megaboid")) as GameObject;
+		}else if(bosscode == 3){
+			GameObject boss = GameObject.Instantiate (Resources.Load ("Prefabs/BigBulk")) as GameObject;
+		}
 	}
 	
 	// Update is called once per frame
@@ -81,6 +91,12 @@ public class WaveManager : MonoBehaviour {
 					}
 					timer.Restart ();
 					pauseTime = 0;
+					if(activeWaveIndex == 5){
+						//spawn late-spawning bosses
+						if(bosscode == 1){
+							GameObject boss = GameObject.Instantiate (Resources.Load ("Prefabs/SwarmMaster")) as GameObject;
+						}
+					}
 				}
 				return;
 			}

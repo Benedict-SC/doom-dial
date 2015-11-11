@@ -51,6 +51,9 @@ public class EnemyTemplateController : MonoBehaviour,EventHandler{
 		}
 	}
 	public bool TouchIsOnMe(Vector3 touchpos){
+		if(BossTabController.open){
+			return false;
+		}
 		if(WaveEditorController.singleton.IsMoving()){
 			return false;
 		}
