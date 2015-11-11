@@ -79,6 +79,7 @@ public class GunController : MonoBehaviour, EventHandler {
 	
 	// Update is called once per frame
 	void Update () {
+		isPaused = GamePause.paused;
 		if (!isPaused) {
 			if (cooldown > 0) {
 				cooldown -= 0.05f; //tweak this for a one-second cooldown from 1.0f
@@ -575,8 +576,5 @@ public class GunController : MonoBehaviour, EventHandler {
 	public void SetCooldown(float pCooldown)
 	{
 		maxcool = pCooldown;
-	}
-	public void triggerPause(){
-		isPaused = !isPaused;
 	}
 }

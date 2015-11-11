@@ -51,6 +51,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	protected int rareDropThreshold;
 	protected float rareChance;
 	protected float normalChance;
+	protected bool lastPause;
 
 	//ability?
 	//weakness?
@@ -67,7 +68,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		highDropRate = 100.0f;
 		medDropRate = 33.3f;
 		lowDropRate = 0.0f;
-
+		lastPause = false;
 		//timer = new Timer ();
 		//Debug.Log ("enemy radius is " + radius);
 
@@ -192,6 +193,14 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	
 	// Update is called once per frame
 	public virtual void Update () {
+
+		moving = !GamePause.paused;
+		if (lastPause != moving) {
+			timer.Restart();
+		}
+		Debug.Log (moving + " " + lastPause);
+		lastPause = moving;
+
 		if (!moving)
 			return;
 		if (hp <= 0.0f)
@@ -661,8 +670,8 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		yield return new WaitForSeconds(duration);
 		progressModifier = 1.0f;
 	}
-	public void Freeze(){
+	/*public void Freeze(){
 		timer.PauseTrigger();
 		moving = !moving;
-	}
+	}*/
 }
