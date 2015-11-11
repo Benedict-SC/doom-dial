@@ -20,6 +20,7 @@ public class WaveEditorController : MonoBehaviour,EventHandler{
 	
 	int points = 0;
 	Text pointText;
+	Text wavenumber;
 	
 	public void Start(){
 		singleton = this;
@@ -27,6 +28,8 @@ public class WaveEditorController : MonoBehaviour,EventHandler{
 		sr = GameObject.Find("EnemyScroll").GetComponent<ScrollRect>();
 		btc = GameObject.Find ("BossButton").GetComponent<BossTabController>();
 		pointText = GameObject.Find ("Points").transform.FindChild("Text").GetComponent<Text>();
+		wavenumber = GameObject.Find ("WaveNumber").transform.FindChild("Text").GetComponent<Text>();
+		wavenumber.text = ""+1;
 		EventManager.Instance().RegisterForEventType("mouse_release",this);
 		EventManager.Instance().RegisterForEventType("wave_editor_changed",this);
 		zonepanels = new ZonePanelController[6];
@@ -48,6 +51,9 @@ public class WaveEditorController : MonoBehaviour,EventHandler{
 			zonepanels[i] = activeWaveFrame.zonepanels[i];
 			zonelists[i] = activeWaveFrame.zonelists[i];
 		}
+		wavenumber.text = ""+(frameID+1);
+		GameEvent ge = new GameEvent("wave_editor_changed");
+		EventManager.Instance().RaiseEvent(ge);
 	}
 	public void Update(){
 		if(moving){
