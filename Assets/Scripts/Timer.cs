@@ -8,34 +8,37 @@ public class Timer
 	long milliHolder;
 	float secHolder;
 	public Timer(){
-		startTime = Time.fixedTime;
+		startTime = GamePause.pausableTime;//Time.fixedTime;
 	}
 
 	public void Restart(){
-		startTime = Time.fixedTime;
+		startTime = GamePause.pausableTime;//Time.fixedTime;
 	}
 	public long TimeElapsedMillis(){
-		if (!isPaused) {
+		return (long)(int)((GamePause.pausableTime-startTime)*1000);
+		/*
+		if (!GamePause.paused) {
 			//hold time in variable to stop timer from returning 0 when paused
 			milliHolder = (long)(int)((Time.fixedTime-startTime)*1000);
 			return milliHolder;
 		} else {
 			return milliHolder;
-		}
+		}*/
 	}
 	public float TimeElapsedSecs(){
-		if (!isPaused) {
+		return GamePause.pausableTime-startTime;
+		/*if (!GamePause.paused) {
 			secHolder = Time.fixedTime-startTime;
 			return secHolder;
 		} else {
 			return secHolder;
-		}
+		}*/
 	}
-	void Update(){
+	/*void Update(){
 		isPaused = GamePause.paused;
 		if (!isPaused) {
 			Restart ();
 		}
-	}
+	}*/
 }
 

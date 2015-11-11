@@ -28,6 +28,7 @@ public class Wave{
 		
 		//step one: create a randomized list of spawn times
 		int slots = maxTime / interval;
+		//Debug.Log ("wave "+ waveID + " slots: " + slots);
 		int occupants = enemyjson.Count;
 		
 			//create bool array to randomize
@@ -80,6 +81,9 @@ public class Wave{
 				spawntimesInMillis.Add(spawntime);
 			}
 		}
+		//for(int i = 0; i < spawntimesInMillis.Count; i++){
+		//	Debug.Log ("wave "+ waveID + " spawntime "+i +": " + spawntimesInMillis[i]);
+		//}
 		//check to make sure nothing went wrong and spawntimes is of length occupants
 		if(spawntimesInMillis.Count != enemyjson.Count){
 			Debug.Log ("spawntimes and enemies don't match! (" + spawntimesInMillis.Count + "/" + enemyjson.Count + ")"); 

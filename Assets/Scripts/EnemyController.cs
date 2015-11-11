@@ -198,7 +198,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		if (lastPause != moving) {
 			timer.Restart();
 		}
-		Debug.Log (moving + " " + lastPause);
+		//Debug.Log (moving + " " + lastPause);
 		lastPause = moving;
 
 		if (!moving)

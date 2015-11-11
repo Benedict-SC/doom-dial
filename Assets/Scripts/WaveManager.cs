@@ -14,9 +14,7 @@ public class WaveManager : MonoBehaviour {
 	string worldVar = "World1";
 	string levelVar = "Level1";
 	bool onBreather = false;
-	bool isPaused = false;
 	long ellapsedTime = 0;
-	long pauseTime = 0;
 	int bosscode = 0;
 	public List<GameObject> enemiesOnscreen;
 
@@ -65,7 +63,6 @@ public class WaveManager : MonoBehaviour {
 
 		timer = new Timer ();
 		timer.Restart ();
-		pauseTime = 0;
 		
 		if(bosscode == 2){
 			GameObject boss = GameObject.Instantiate (Resources.Load ("Prefabs/Megaboid")) as GameObject;
@@ -77,11 +74,9 @@ public class WaveManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		ellapsedTime = timer.TimeElapsedMillis() + pauseTime;
+		ellapsedTime = timer.TimeElapsedMillis();
 		//stops any spawning from happening while paused
-		isPaused = GamePause.paused;
-		if (!isPaused) {
-			pauseTime += timer.TimeElapsedMillis();
+		if (!GamePause.paused) {
 			if (onBreather) {
 				//Debug.Log("on breather");
 				if (ellapsedTime > 8000) {
@@ -91,7 +86,6 @@ public class WaveManager : MonoBehaviour {
 						activeWave = waves [activeWaveIndex];
 					}
 					timer.Restart ();
-					pauseTime = 0;
 					if(activeWaveIndex == 5){
 						//spawn late-spawning bosses
 						if(bosscode == 1){
@@ -127,7 +121,6 @@ public class WaveManager : MonoBehaviour {
 
 			if (activeWave.IsEverythingDead ()) {
 				timer.Restart ();
-				pauseTime = 0;
 				onBreather = true;
 			}
 		}

@@ -197,6 +197,7 @@ public class WaveFrameController : MonoBehaviour, EventHandler{
 		}
 	}
 	public bool IsEmpty(){
+		Debug.Log ("empty");
 		foreach(List<EnemyListEntryController> column in zonelists){
 			if(column.Count != 0)
 				return false;
