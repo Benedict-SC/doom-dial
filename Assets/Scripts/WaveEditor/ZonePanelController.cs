@@ -34,6 +34,9 @@ public class ZonePanelController : MonoBehaviour{
 		}
 	}
 	public bool TouchIsOnMe(Vector3 touchpos){
+		if(BossTabController.open){
+			return false;
+		}
 		RectTransform rt = (RectTransform)transform;
 		Vector3 newpoint = rt.InverseTransformPoint(new Vector2(touchpos.x,touchpos.y));
 		bool rectangleOverlap = rt.rect.Contains(newpoint);

@@ -14,8 +14,10 @@ public class WallOfDoom : EnemyController{
 			Debug.Log (partners.Count);
 	}
 	public override void Update(){
-		if (!moving)
+		if (!moving){
+			base.Update();
 			return;
+		}
 		if(playingDead){
 			return;
 		}else{

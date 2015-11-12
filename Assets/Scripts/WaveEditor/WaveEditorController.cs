@@ -9,6 +9,7 @@ public class WaveEditorController : MonoBehaviour,EventHandler{
 	public GameObject canvas;
 	ScrollRect sr;
 	ZonePanelController[] zonepanels;
+	BossTabController btc;
 	List<EnemyListEntryController>[] zonelists;
 	public WaveFrameController activeWaveFrame;
 	WaveFrameController[] frames;
@@ -19,12 +20,16 @@ public class WaveEditorController : MonoBehaviour,EventHandler{
 	
 	int points = 0;
 	Text pointText;
+	Text wavenumber;
 	
 	public void Start(){
 		singleton = this;
 		canvas = GameObject.Find("Canvas");
 		sr = GameObject.Find("EnemyScroll").GetComponent<ScrollRect>();
+		btc = GameObject.Find ("BossButton").GetComponent<BossTabController>();
 		pointText = GameObject.Find ("Points").transform.FindChild("Text").GetComponent<Text>();
+		wavenumber = GameObject.Find ("WaveNumber").transform.FindChild("Text").GetComponent<Text>();
+		wavenumber.text = ""+1;
 		EventManager.Instance().RegisterForEventType("mouse_release",this);
 		EventManager.Instance().RegisterForEventType("wave_editor_changed",this);
 		zonepanels = new ZonePanelController[6];
@@ -46,6 +51,9 @@ public class WaveEditorController : MonoBehaviour,EventHandler{
 			zonepanels[i] = activeWaveFrame.zonepanels[i];
 			zonelists[i] = activeWaveFrame.zonelists[i];
 		}
+		wavenumber.text = ""+(frameID+1);
+		GameEvent ge = new GameEvent("wave_editor_changed");
+		EventManager.Instance().RaiseEvent(ge);
 	}
 	public void Update(){
 		if(moving){
@@ -150,20 +158,50 @@ public class WaveEditorController : MonoBehaviour,EventHandler{
 		serialdict.Add("enemies",elist);
 		return Json.Serialize(serialdict);
 	}
+	public string GetWaveJSON(int index){
+		
+		Dictionary<string,System.Object> serialdict = new Dictionary<string,System.Object>();
+		serialdict.Add("levelID",1000);
+		serialdict.Add("waveID",1000+index);
+		if(frames[index].IsEmpty())
+			serialdict.Add("maxMilliseconds",5000);
+		else
+			serialdict.Add("maxMilliseconds",30000);
+		serialdict.Add("minimumInterval",1000);
+		List<System.Object> elist = new List<System.Object>();
+		for(int i = 0; i < 6; i++){
+			List<EnemyListEntryController> enemies = frames[index].zonelists[i];
+			foreach(EnemyListEntryController elec in enemies){
+				Dictionary<string,System.Object> enemy = new Dictionary<string,System.Object>();
+				enemy.Add("enemyID",elec.GetEnemyTemplate().GetSrcFileName());
+				enemy.Add("trackID",i+1);
+				enemy.Add("trackpos",0);
+				elist.Add(enemy);
+			}
+		}
+		serialdict.Add("enemies",elist);
+		return Json.Serialize(serialdict);
+	}
 	public void PrintWaveJSON(){
 		Debug.Log (GetWaveJSON());
 	}
 	public void PlayLevel(){
 		//write wave to wave file
-		FileLoader wavedata = new FileLoader (Application.persistentDataPath,"UserLevels","userwave");
-		wavedata.Write(GetWaveJSON());
+		for(int i = 0; i < 6; i++){
+			FileLoader wavedata = new FileLoader (Application.persistentDataPath,"UserLevels","userwave" + (i+1));
+			wavedata.Write(GetWaveJSON(i));
+		}
+		
 		//create level dictionary
 		Dictionary<string,System.Object> leveldict = new Dictionary<string,System.Object>();
 		List<System.Object> waves = new List<System.Object>();
-		Dictionary<string,System.Object> waveobj = new Dictionary<string,System.Object>();
-		waveobj.Add("wavename","userwave");
-		waves.Add(waveobj);
+		for(int i = 0; i < 6; i++){
+			Dictionary<string,System.Object> waveobj = new Dictionary<string,System.Object>();
+			waveobj.Add("wavename","userwave" + (i+1));
+			waves.Add(waveobj);
+		}
 		leveldict.Add("waves",waves);
+		leveldict.Add("boss",btc.GetBossIndex());
 		//set loader for level
 		FileLoader leveldata = new FileLoader (Application.persistentDataPath,"UserLevels","userlevel");
 		//write dictionary to loader

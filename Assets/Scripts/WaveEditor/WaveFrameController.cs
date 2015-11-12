@@ -38,6 +38,9 @@ public class WaveFrameController : MonoBehaviour, EventHandler{
 			eventWaiting = false;
 		}else if(clickUpdateCycled){ //now we can handle the event
 			if(!WaveEditorController.singleton.IsMoving()){
+				if(BossTabController.open){
+					return;
+				}
 				//go into drag mode
 				dragging = true;
 				RectTransform rt = (RectTransform)leveltrack.transform;
@@ -192,5 +195,13 @@ public class WaveFrameController : MonoBehaviour, EventHandler{
 				snapTarget = thresholds[snapIndex-1] - 387.5f;
 			}
 		}
+	}
+	public bool IsEmpty(){
+		Debug.Log ("empty");
+		foreach(List<EnemyListEntryController> column in zonelists){
+			if(column.Count != 0)
+				return false;
+		}
+		return true;
 	}
 }
