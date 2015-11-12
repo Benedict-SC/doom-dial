@@ -9,8 +9,9 @@ public class EnemyController : MonoBehaviour,EventHandler {
 
 	public readonly float DIAL_RADIUS = 1.5f; //hard coded to avoid constantly querying dial
 	//if dial size ever needs to change, replace references to this with calls to a getter
-	public static readonly float NORMALNESS_RANGE = 2.0f; //constant for determining if an enemy is "slow" or "fast" - ***balance later
-	public static readonly float KNOCK_CONSTANT = 0.5f; //constant for knockback time - ***balance this at some point!
+	public static readonly float NORMALNESS_RANGE = 2.0f;//constant for determining if an enemy is "slow" or "fast" - ***balance later
+	public static readonly float KNOCK_CONSTANT = 0.03f;// constant for knockback per update - ***balance this at some point!
+	public static readonly float KNOCK_DURATION = 0.75f;// constant for knockback time
 
 
 	public DialController dialCon;
@@ -52,6 +53,12 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	protected float rareChance;
 	protected float normalChance;
 	protected bool lastPause;
+	
+	protected Timer poisonTimer;
+	protected Timer poisonTickTimer;
+	protected Timer slowTimer;
+	protected Timer stunTimer;
+	protected Timer knockbackTimer;
 
 	//ability?
 	//weakness?
@@ -69,6 +76,12 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		medDropRate = 33.3f;
 		lowDropRate = 0.0f;
 		lastPause = false;
+		
+		poisonTimer = new Timer();
+		poisonTickTimer = new Timer();
+		slowTimer = new Timer();
+		stunTimer = new Timer();
+		knockbackTimer = new Timer();
 		//timer = new Timer ();
 		//Debug.Log ("enemy radius is " + radius);
 
@@ -193,16 +206,30 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	
 	// Update is called once per frame
 	public virtual void Update () {
-
+		//handle whether or not to update, pause stuff
 		moving = !GamePause.paused;
 		if (lastPause != moving) {
 			timer.Restart();
 		}
-		//Debug.Log (moving + " " + lastPause);
+			//Debug.Log (moving + " " + lastPause);
 		lastPause = moving;
-
 		if (!moving)
 			return;
+		
+		//handle poison
+		if(poisoned){
+			Debug.Log("i'm poisoned");
+			if(poisonTimer.TimeElapsedSecs() >= poisonDuration){
+				poisoned = false;
+			}else if(poisonTickTimer.TimeElapsedSecs() > 0.5f){
+				float poisonDamage = poisonPerTick*maxhp;
+				hp -= poisonDamage;
+				poisonTickTimer.Restart();
+			}else{
+				//do nothing
+			}
+		}
+		
 		if (hp <= 0.0f)
 		{
 			Die ();
@@ -211,10 +238,44 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		float secsPassed = timer.TimeElapsedSecs ();
 		timer.Restart ();
 		float progressIncrement = secsPassed / impactTime;
-		progressIncrement *= progressModifier;
-		//Debug.Log ("pMod = " + progressModifier);
-		//Debug.Log ("progressIncrement = " + progressIncrement);
+		//calculate progress increment and deal with speed effects
+		if(knockbackInProgress){
+			if(knockbackTimer.TimeElapsedSecs() >= KNOCK_DURATION){//we're done knocking back, time to stop
+				knockbackInProgress = false;
+				if(stunWaiting){
+					stunInProgress = true;
+					stunWaiting = false;
+					stunTimer.Restart();
+				}else if(slowWaiting){
+					slowInProgress = true;
+					slowWaiting = false;
+					slowTimer.Restart();
+				}
+			}else{
+				progressIncrement = -knockbackPower*KNOCK_CONSTANT;
+			}
+		}else if(stunInProgress){
+			if(stunTimer.TimeElapsedSecs() >= stunDuration){//done being stunned
+				stunInProgress = false;
+				if(slowWaiting){
+					slowInProgress = true;
+					slowWaiting = false;
+					slowTimer.Restart();
+				}
+			}else{
+				progressIncrement = 0;
+			}	
+		}else if(slowInProgress){
+			if(slowTimer.TimeElapsedSecs() >= slowDuration){
+				slowInProgress = false;
+			}else{
+				progressIncrement *= slowedSpeed;
+			}
+		}
+		//increment is calculated, so apply
 		progress += progressIncrement;
+		if(progress < 0)
+			progress = 0f;
 
 		//transform.position = new Vector3 (transform.position.x - xSpeed, transform.position.y - ySpeed, transform.position.z);
 		Vector2 point = mover.PositionFromProgress(progress);
@@ -244,7 +305,8 @@ public class EnemyController : MonoBehaviour,EventHandler {
 					if (bc.isSplitBullet && bc.timerElapsed || !bc.isSplitBullet)
 					{
 						bc.enemyHit = this.gameObject;
-						StartCoroutine (StatusEffectsBullet (bc));
+						GetStatused(bc);
+						//StartCoroutine (StatusEffectsBullet (bc));
 						hp -= bc.dmg + bc.arcDmg;
 						timesShot++;
 					}
@@ -272,7 +334,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 				if (tc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
 				{
 					tc.enemyHit = this.gameObject;
-					StartCoroutine (StatusEffectsTrap (tc));
+					//StartCoroutine (StatusEffectsTrap (tc));
 					hp -= tc.dmg;
 					tc.Collide();
 					if(hp <= 0){
@@ -296,7 +358,8 @@ public class EnemyController : MonoBehaviour,EventHandler {
 				{
 					//Debug.Log ("parent is bullet@");
 					BulletController bc = ac.aoeBulletCon;
-					StartCoroutine (StatusEffectsBullet (bc));
+					GetStatused(bc);
+					//StartCoroutine (StatusEffectsBullet (bc));
 					hp -= bc.dmg;
 					Debug.Log ("damage taken: " + bc.dmg);
 					//timesShot++;
@@ -310,7 +373,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 				if (ac.aoeTrapCon.enemyHit != this.gameObject) //if this isn't the enemy originally hit
 				{
 					TrapController tc = ac.aoeTrapCon;
-					StartCoroutine (StatusEffectsTrap (tc));
+					//StartCoroutine (StatusEffectsTrap (tc));
 					hp -= tc.dmg;
 					if(hp <= 0){
 						Die ();
@@ -458,8 +521,86 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	public float GetImpactTime(){
 		return impactTime;
 	}
+	
+	bool poisoned = false;
+	float poisonPerTick = 0f;
+	float poisonDuration = 0f;
+	bool knockbackInProgress = false;
+	float knockbackPower = 0f;
+	bool stunWaiting = false;
+	float stunDuration = 0f;
+	bool stunInProgress = false;
+	bool slowWaiting = false;
+	float slowDuration = 0f;
+	float slowedSpeed = 1f;
+	bool slowInProgress = false;
+	public void GetStatused(BulletController bc){
+		//life drain
+		if(bc.lifeDrain != 0){
+			float healthDrained = bc.lifeDrain * bc.dmg; //adjust for enemy shields somehow later
+			dialCon.health += healthDrained;
+			if(dialCon.health > dialCon.maxHealth)
+				dialCon.health = dialCon.maxHealth;
+		}
+		//poison
+		if(bc.poison != 0){
+			Debug.Log ("tried to poison");
+			if(poisoned){
+				if(poisonPerTick < bc.poison)
+					poisonPerTick = bc.poison;
+			}else{
+				poisonPerTick = bc.poison;
+			}
+			poisonDuration = bc.poisonDur;
+			poisonTimer.Restart();
+			poisoned = true;
+		}else{
+			Debug.Log ("poison was " + bc.poison);
+		}
+		//knockback
+		if(bc.knockback != 0){
+			knockbackInProgress = true;
+			knockbackPower = bc.knockback;
+			knockbackTimer.Restart();
+			if(stunInProgress)
+				stunWaiting = true;
+			if(slowInProgress)
+				slowWaiting = true;
+			stunInProgress = false;
+			slowInProgress = false;
+		}
+		//stun
+		if(bc.stun != 0){
+			if(knockbackInProgress){
+				stunInProgress = false;
+				stunWaiting = true;
+			}else{
+				stunInProgress = true;
+				stunWaiting = false;
+				stunTimer.Restart();
+				if(slowInProgress)
+					slowWaiting = true;
+			}
+			stunDuration = bc.stun;
+		}
+		//slow
+		if(bc.slowdown != 0){
+			if(knockbackInProgress || stunInProgress){
+				slowWaiting = true;
+				slowInProgress = false;
+			}else{
+				slowInProgress = true;
+				slowWaiting = false;
+				slowTimer.Restart();
+			}
+			slowDuration = bc.slowDur;
+			slowedSpeed = bc.slowdown;
+		}
+	}
 
 	/*Coroutines for Status Effects*/
+	//which i'm commenting out because i just tried to overhaul status
+	/*
 
 	//handles several of the status effect coroutines from Bullets
 	//sorry for all the extra sync checks ._.
@@ -738,11 +879,11 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		yield return new WaitForSeconds(duration);
 		progressModifier = 1.0f;
 	}
-	/*public void Freeze(){
+	public void Freeze(){
 		timer.PauseTrigger();
 		moving = !moving;
 
-	}*/
+	}
 
 	public Coroutine _sync(){
 		return StartCoroutine(PauseRoutine()); 
@@ -751,10 +892,10 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	public IEnumerator PauseRoutine(){
 		while (GamePause.paused) {
 			yield return new WaitForFixedUpdate();
-			/* This code ^^^ doesn't work.  I want it to just sit
-			 * and wait until GamePause.paused == true, but
-			 * I don't know how to do that :P
-			 * */
+			// This code ^^^ doesn't work.  I want it to just sit
+			// and wait until GamePause.paused == true, but
+			// I don't know how to do that :P
+			//  
 			//Debug.Log ("waiting for moving to be true!");
 		}
 		//Debug.Log ("moving is now true");
@@ -778,7 +919,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 			yield return null;
 		}
 		yield return _sync();
-	}
+	}*/
 
 
 

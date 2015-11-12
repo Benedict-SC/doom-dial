@@ -131,6 +131,7 @@ public class PieceParser{
 				cdrCount++;
 			//poison - percent of health to remove every 0.5 seconds over the course of 3 seconds
 			float ppoison = (float)(double)pdata["poison"];
+			poison += ppoison;
 			if(ppoison > 0.0f)
 				poisonCount++;
 			//slow - in percent of enemy speed - set enemy speed to this percent
@@ -237,6 +238,7 @@ public class PieceParser{
 			gc.SetCooldown (cooldown);
 			//Poison
 			gc.SetPoison (poison);
+			Debug.Log (gc.buttonID + " poison value is set to " + poison);
 			gc.SetPoisonDur (3f);
 			//Slowdown
 			gc.SetSlowdown (slowdownMax); //for now.  eventually add in that scaling system for slow/fast enemies?
