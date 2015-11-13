@@ -47,8 +47,9 @@ public class MenuInGame : MonoBehaviour, EventHandler {
 					}else{
 						worldHolder.GetComponent<WorldData>().lastScene = Application.loadedLevelName;
 						levelName = levelHolder[menuPosition];
+						Application.LoadLevel(levelName);
 					}
-					Application.LoadLevel(levelName);
+
 					/*if(menuPosition == 3 || menuPosition == 1){
 						worldHolder.GetComponent<WorldData>().lastScene = Application.loadedLevelName;
 						Application.LoadLevel(levelName);
