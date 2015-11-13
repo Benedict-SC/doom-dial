@@ -15,6 +15,7 @@ public class MenuClickScript : MonoBehaviour, EventHandler {
 	public GameObject parent;
 	public int menuPosition = 0;
 	public string[] levelList;
+	public WorldData WorldData;
 	// Use this for initialization
 	void Start () {
 		EventManager em = EventManager.Instance ();
@@ -25,6 +26,7 @@ public class MenuClickScript : MonoBehaviour, EventHandler {
 		if (temp.Length > 1) {
 			Destroy (temp [1].gameObject);
 		}
+		WorldData = GameObject.FindWithTag ("DataHolder").GetComponent<WorldData> ();
 
 	}
 	public void HandleEvent(GameEvent ge){
@@ -36,6 +38,7 @@ public class MenuClickScript : MonoBehaviour, EventHandler {
 				if (targetFind.collider.gameObject.tag == "Button") {
 					//what triggers changes based on what menu the camera is focused on.
 					if(targetFind.transform.position.x == 0.0f){
+						WorldData.lastScene = Application.loadedLevelName;
 						Application.LoadLevel (levelList[menuPosition]);
 					}
 				}

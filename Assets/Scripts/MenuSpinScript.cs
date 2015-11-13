@@ -30,7 +30,7 @@ public class MenuSpinScript : MonoBehaviour, EventHandler {
 	float originalRot = 0.0f; //the angle of the mouse when you start the spin
 	float origz = 0.0f; //the angle of the dial when you start the spin
 	float rotScale = 1.0f; //speeds up or slows down the rotation. should probably stay at 1.0, unless playtesting discovers otherwise
-	int menuMax;
+	public int menuMax;
 	// Use this for initialization
 	void Start () {
 		centerPoint = Camera.main.WorldToScreenPoint (this.transform.position);
@@ -56,16 +56,16 @@ public class MenuSpinScript : MonoBehaviour, EventHandler {
 					Child.GetComponent<MenuClickScript>().menuPosition = menuPosition % menuMax;
 				}
 				if(Child.GetComponent<WorldSelect>() != null){
-					Child.GetComponent<WorldSelect>().menuPosition = menuPosition % menuMax;
+					Child.GetComponent<WorldSelect>().menuPosition = (menuPosition % menuMax) % 4;
 				}
 				if(Child.GetComponent<LevelSelect>() != null){
-					Child.GetComponent<LevelSelect>().menuPosition = menuPosition % menuMax;
+					Child.GetComponent<LevelSelect>().menuPosition = (menuPosition % menuMax) % 4;
 				}
 				if(Child.GetComponent<MenuSelect>() != null){
-					Child.GetComponent<MenuSelect>().menuPosition = menuPosition % menuMax;
+					Child.GetComponent<MenuSelect>().menuPosition = (menuPosition % menuMax) % 4;
 				}
 				if(Child.GetComponent<MenuInGame>() != null){
-					Child.GetComponent<MenuInGame>().menuPosition = menuPosition % menuMax;
+					Child.GetComponent<MenuInGame>().menuPosition = (menuPosition % menuMax) % 4;
 				}
 			}
 			//resets time

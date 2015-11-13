@@ -96,6 +96,7 @@
      <Compile Include="Assets\Scripts\RunOnceOnGameStartup.cs" />
      <Compile Include="Assets\Scripts\ShieldController.cs" />
      <Compile Include="Assets\Scripts\SpinScript.cs" />
+     <Compile Include="Assets\Scripts\TempReturn.cs" />
      <Compile Include="Assets\Scripts\TestDataLoader.cs" />
      <Compile Include="Assets\Scripts\Timer.cs" />
      <Compile Include="Assets\Scripts\TowerEditor\EditorController.cs" />

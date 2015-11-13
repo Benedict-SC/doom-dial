@@ -49,7 +49,7 @@ public class WorldSelect : MonoBehaviour, EventHandler {
 	void Update () {
 		//Stops entire statement from running every frame to save overhead
 		if (menuPosition != lastPosition) {
-			int temp = (menuPosition+2)%4;
+			int temp = ((menuPosition+1)%4) +1;
 			worldHolder.GetComponent<WorldData>().worldSelected = "World" + temp.ToString();
 			textMesh.GetComponent<TextMesh>().text = "World " + temp.ToString();
 			/*switch(menuPosition){
