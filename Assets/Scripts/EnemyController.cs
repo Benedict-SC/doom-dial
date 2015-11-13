@@ -32,9 +32,6 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	protected EnemyMover mover;
 	public bool moving = false;
 	protected float progress = 0.0f;
-	protected float progressModifier = 1.0f;
-	protected float progressModAlt = 1.0f;
-	protected bool isSlow = false;
 	protected float moverLaneOverride = 0f;
 
 	protected float timesShot = 0.0f;
