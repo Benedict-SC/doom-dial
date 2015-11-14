@@ -1,6 +1,6 @@
 {
 	"towerName":"Knocksplash",
-	"decalFilename":"Tower2",
+	"decalFilename":"TowerIcon2",
 	"towerType":"Bullet",
 
 	"pieces":[

@@ -29,7 +29,7 @@ public class FileLoader{
 		if(path.Equals(badpath)){
 			string slashfolder = folder.Replace(Path.DirectorySeparatorChar,'/');
 			TextAsset ta = Resources.Load<TextAsset>(slashfolder + "/" + fileName);
-			//Debug.Log ("path is "+slashfolder + "/" + fileName);
+			Debug.Log ("path is "+slashfolder + "/" + fileName);
 			return ta.text;
 		}else{
 			if(File.Exists(path + Path.DirectorySeparatorChar + fileName + ".txt"))

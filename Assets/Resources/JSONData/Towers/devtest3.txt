@@ -1,6 +1,6 @@
 {
 	"towerName":"Dizzy Punch",
-	"decalFilename":"Tower3",
+	"decalFilename":"TowerIcon3",
 	"towerType":"Bullet",
 
 	"pieces":[

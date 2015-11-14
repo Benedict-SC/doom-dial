@@ -16,6 +16,7 @@ public class DialController : MonoBehaviour,EventHandler {
 	public static float inner_radius = 2.2f; //inexact - set this value from function for changing ring sizes
 	public static float middle_radius = 3.5f; //inexact
 	
+	GameObject zoneLines;
 	GameObject[] superBars = new GameObject[3];
 	float superPercentage = 0.0f; //percentage between 0 and 1
 	float goodLifeBonus = 0.05f;
@@ -30,7 +31,7 @@ public class DialController : MonoBehaviour,EventHandler {
 		EventManager.Instance ().RegisterForEventType ("enemy_arrived", this);
 		LoadDialConfigFromJSON ("devdial");
 		
-		GameObject zoneLines = GameObject.Find("ZoneLines").gameObject;
+		zoneLines = GameObject.Find("ZoneLines").gameObject;
 		superBars[0] = zoneLines.transform.FindChild("Super1").gameObject;
 		superBars[1] = zoneLines.transform.FindChild("Super2").gameObject;
 		superBars[2] = zoneLines.transform.FindChild("Super3").gameObject;
@@ -77,7 +78,7 @@ public class DialController : MonoBehaviour,EventHandler {
 		for(int i = 0; i < 3; i++){
 			GameObject barObj = superBars[i];
 			Transform bar = barObj.transform;
-			bar.localScale = new Vector3(baseWidth + (multiplier*superPercentage), bar.localScale.y,bar.localScale.z);
+			bar.localScale = new Vector3((baseWidth + (multiplier*superPercentage))*(1/zoneLines.transform.localScale.x), bar.localScale.y,bar.localScale.z);
 		}
 	}
 

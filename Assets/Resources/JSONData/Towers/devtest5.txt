@@ -1,6 +1,6 @@
 {
 	"towerName":"Hypodermic",
-	"decalFilename":"Tower5",
+	"decalFilename":"TowerIcon5",
 	"towerType":"Bullet",
 
 	"pieces":[

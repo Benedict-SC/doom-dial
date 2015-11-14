@@ -1,6 +1,6 @@
 {
 	"towerName":"Leeches",
-	"decalFilename":"Tower6",
+	"decalFilename":"TowerIcon6",
 	"towerType":"Bullet",
 
 	"pieces":[

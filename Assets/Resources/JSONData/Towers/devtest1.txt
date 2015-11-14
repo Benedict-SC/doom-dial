@@ -1,6 +1,6 @@
 {
 	"towerName":"Slow Poison",
-	"decalFilename":"Tower1",
+	"decalFilename":"TowerIcon1",
 	"towerType":"Bullet",
 
 	"pieces":[

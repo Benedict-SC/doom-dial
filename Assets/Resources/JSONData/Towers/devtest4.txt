@@ -1,6 +1,6 @@
 {
 	"towerName":"Sniper Joe",
-	"decalFilename":"Tower4",
+	"decalFilename":"TowerIcon4",
 	"towerType":"Bullet",
 
 	"pieces":[
