@@ -74,11 +74,12 @@ public class DialController : MonoBehaviour,EventHandler {
 		
 		float baseWidth = DIAL_RADIUS / FULL_LENGTH;
 		float multiplier = 1-baseWidth; //TRACK_LENGTH / FULL_LENGTH;
+		float newImageScale = 900f/448f;
 		
 		for(int i = 0; i < 3; i++){
 			GameObject barObj = superBars[i];
 			Transform bar = barObj.transform;
-			bar.localScale = new Vector3((baseWidth + (multiplier*superPercentage))*(1/zoneLines.transform.localScale.x), bar.localScale.y,bar.localScale.z);
+			bar.localScale = new Vector3((baseWidth + (multiplier*superPercentage))*(1/zoneLines.transform.localScale.x)*newImageScale, bar.localScale.y,bar.localScale.z);
 		}
 	}
 

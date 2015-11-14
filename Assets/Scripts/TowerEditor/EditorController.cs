@@ -35,6 +35,7 @@ public class EditorController : MonoBehaviour,EventHandler{
 		em.RegisterForEventType("piece_tapped",this);
 		em.RegisterForEventType("template_tapped",this);
 		em.RegisterForEventType("piece_dropped_on_inventory",this);
+		GamePause.paused = false;
 		
 		//LoadTower("drainpunch");
 	}

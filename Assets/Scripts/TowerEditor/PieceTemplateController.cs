@@ -27,16 +27,24 @@ public class PieceTemplateController : MonoBehaviour,EventHandler{
 	public void Update(){
 		if(held){
 			if(!TouchIsOnMe(InputWatcher.GetInputPosition())){
+				//BuildDebugConsole.Flash("touch removed from me");
 				held = false;
 				return;
 			}
-			if(t.TimeElapsedSecs() >= 0.1f){
+			if(t.TimeElapsedSecs() >= 0.2f){
+				//BuildDebugConsole.Flash("trying to tap");
 				held = false;
 				GameEvent tapped = new GameEvent("template_tapped");
 				tapped.addArgument(this);
 				tapped.addArgument(InputWatcher.GetInputPosition());
 				EventManager.Instance().RaiseEvent(tapped);	
+				Debug.Log("template tapped");
+				//BuildDebugConsole.Flash("template tapped");
+			}else{
+				//BuildDebugConsole.Flash(GamePause.paused + "" +t.TimeElapsedSecs());
 			}
+		}else{
+			//BuildDebugConsole.Flash("not being held down");
 		}
 	}
 	public void SetCount(int c){
@@ -45,10 +53,13 @@ public class PieceTemplateController : MonoBehaviour,EventHandler{
 	public int GetCount(){
 		return count;
 	}
+	int clicks = 0;
 	public void HandleEvent(GameEvent ge){
 		Vector3 pos = (Vector3)ge.args[0];
 		if(ge.type.Equals("mouse_click")){
 			if(TouchIsOnMe(pos)){
+				//BuildDebugConsole.Flash("click event " + clicks);
+				clicks++;
 				t.Restart();
 				held = true;
 			}

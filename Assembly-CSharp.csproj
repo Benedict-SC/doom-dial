@@ -48,6 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\Misc\TouchTester.cs" />
      <Compile Include="Assets\Scripts\AoEController.cs" />
+     <Compile Include="Assets\Scripts\BuildDebugConsole.cs" />
      <Compile Include="Assets\Scripts\BulletController.cs" />
      <Compile Include="Assets\Scripts\ButtonController.cs" />
      <Compile Include="Assets\Scripts\DialController.cs" />
