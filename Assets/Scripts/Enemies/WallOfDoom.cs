@@ -25,7 +25,7 @@ public class WallOfDoom : EnemyController{
 		}
 	}
 	public void SpawnPartners(){
-		Debug.Log ("spawning");
+		//Debug.Log ("spawning");
 		GameObject enemyspawn1 = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
 		Destroy (enemyspawn1.GetComponent<EnemyController>());
 		WallOfDoom wall = enemyspawn1.AddComponent<WallOfDoom>() as WallOfDoom;

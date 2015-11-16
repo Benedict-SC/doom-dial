@@ -149,6 +149,11 @@ public class Wave{
 				ms.SetDelay(chaindelay);
 				ms.leader = true;
 				ec = ms;
+			}else if(enemytype.Equals("Splitter")){
+				GameObject enemyobj = ec.gameObject;
+				GameObject.Destroy(enemyobj.GetComponent<EnemyController>());
+				Splitter s = enemyobj.AddComponent<Splitter>() as Splitter;
+				ec = s;
 			}
 			
 			//give enemy a filename to load from

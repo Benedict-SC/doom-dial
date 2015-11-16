@@ -237,6 +237,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		float progressIncrement = secsPassed / impactTime;
 		//calculate progress increment and deal with speed effects
 		if(knockbackInProgress){
+			//Debug.Log ("knocking back");
 			if(knockbackTimer.TimeElapsedSecs() >= KNOCK_DURATION){//we're done knocking back, time to stop
 				knockbackInProgress = false;
 				if(stunWaiting){
@@ -346,7 +347,7 @@ public class EnemyController : MonoBehaviour,EventHandler {
 		}
 		else if (coll.gameObject.tag == "AoE")
 		{
-			Debug.Log ("enemy collided with AoE");
+			//Debug.Log ("enemy collided with AoE");
 			GameObject obj = coll.gameObject;
 			AoEController ac = obj.GetComponent<AoEController>();
 			if (ac.parent == "Bullet")
@@ -518,6 +519,15 @@ public class EnemyController : MonoBehaviour,EventHandler {
 	public float GetImpactTime(){
 		return impactTime;
 	}
+	public void SetProgress(float f){
+		progress = f;
+	}
+	public void SetHP(float f){
+		hp = f;
+	}
+	public void SetMaxHP(float f){
+		maxhp = f;
+	}
 	
 	bool poisoned = false;
 	float poisonPerTick = 0f;
@@ -593,6 +603,19 @@ public class EnemyController : MonoBehaviour,EventHandler {
 			slowDuration = bc.slowDur;
 			slowedSpeed = bc.slowdown;
 		}
+	}
+	
+	public void SelfKnockback(float f){
+		//Debug.Log("selfknock called");
+		knockbackInProgress = true;
+		knockbackPower = f;
+		knockbackTimer.Restart();
+		if(stunInProgress)
+			stunWaiting = true;
+		if(slowInProgress)
+			slowWaiting = true;
+		stunInProgress = false;
+		slowInProgress = false;
 	}
 
 	/*Coroutines for Status Effects*/

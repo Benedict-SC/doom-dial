@@ -59,6 +59,7 @@
      <Compile Include="Assets\Scripts\Enemies\Diversion.cs" />
      <Compile Include="Assets\Scripts\Enemies\DiversionMinion.cs" />
      <Compile Include="Assets\Scripts\Enemies\MeatShield.cs" />
+     <Compile Include="Assets\Scripts\Enemies\Splitter.cs" />
      <Compile Include="Assets\Scripts\Enemies\SwarmMaster.cs" />
      <Compile Include="Assets\Scripts\Enemies\TipOfTheSpear.cs" />
      <Compile Include="Assets\Scripts\Enemies\WallOfDoom.cs" />
@@ -94,6 +95,7 @@
      <Compile Include="Assets\Scripts\Movers\WinkMover.cs" />
      <Compile Include="Assets\Scripts\Movers\ZigzagMover.cs" />
      <Compile Include="Assets\Scripts\PieceParser.cs" />
+     <Compile Include="Assets\Scripts\RotationLock.cs" />
      <Compile Include="Assets\Scripts\RunOnceOnGameStartup.cs" />
      <Compile Include="Assets\Scripts\ShieldController.cs" />
      <Compile Include="Assets\Scripts\SpinScript.cs" />
@@ -139,6 +141,7 @@
      <None Include="Assets\Resources\JSONData\Pieces\spread_super.txt" />
      <None Include="Assets\Resources\JSONData\Towers\devtest5.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\split_rare.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\splitter.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_5.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\cdr_super.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\knockback_normal.txt" />
@@ -166,6 +169,7 @@
      <None Include="Assets\Resources\JSONData\Bestiary\thediversion.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\cdr_rare.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World3\Level1\wavedata.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\splitter2.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\homing_normal.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\spread_normal.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\homing_super.txt" />
@@ -208,6 +212,7 @@
      <None Include="Assets\Resources\JSONData\Worlds\World3\Level3\wavedata.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\range_super.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World4\Level3\wavedata.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\splitter3.txt" />
      <None Include="Assets\Resources\JSONData\Waves\testwave2.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_1.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\speed_normal.txt" />

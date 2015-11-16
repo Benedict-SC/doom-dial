@@ -1,0 +1,26 @@
+{	
+	"name":"Splitter (half)",
+	"imgfile":"Placeholder",
+	"pointValue":15,
+	"columnName":"1/2split",
+	
+	"enemyType":"Splitter",
+
+	"movementType":"Linear",
+	"maxHP":20.0,
+	"HP":20.0,
+	"damage":4.0,
+	"impactTime":16.0,
+	"size":0.22,
+	"maxShields":0.0,
+	"shields":0.0,
+	
+	"rarityUpWithHits":false,
+	"rareDropThreshold":4,
+	"rareChance":25.0,
+	"normalChance":5.0,
+	
+	"pieceTypes":[
+		"splash","homing","spread"
+	]
+}

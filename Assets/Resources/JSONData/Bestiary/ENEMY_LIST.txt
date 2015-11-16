@@ -8,6 +8,7 @@
 		"wallofdoom",
 		"thediversion",
 		"meatshieldsmall",
+		"splitter",
 		"bigfella"
 	]
 }
