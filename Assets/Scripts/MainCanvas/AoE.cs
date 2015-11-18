@@ -21,7 +21,7 @@ public class AoE : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		//Debug.Log ("started AoEController");
+		Debug.Log ("started AoEController");
 		originalScale = transform.localScale;
 		collide = GetComponent<Collider>();
 		colRad = gameObject.transform.localScale.x / 2;
