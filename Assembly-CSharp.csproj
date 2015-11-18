@@ -74,6 +74,12 @@
      <Compile Include="Assets\Scripts\GunController.cs" />
      <Compile Include="Assets\Scripts\InputWatcher.cs" />
      <Compile Include="Assets\Scripts\LevelSelect.cs" />
+     <Compile Include="Assets\Scripts\MainCanvas\AoE.cs" />
+     <Compile Include="Assets\Scripts\MainCanvas\Bullet.cs" />
+     <Compile Include="Assets\Scripts\MainCanvas\CanvasSpinner.cs" />
+     <Compile Include="Assets\Scripts\MainCanvas\Dial.cs" />
+     <Compile Include="Assets\Scripts\MainCanvas\Gun.cs" />
+     <Compile Include="Assets\Scripts\MainCanvas\GunButton.cs" />
      <Compile Include="Assets\Scripts\MenuButton.cs" />
      <Compile Include="Assets\Scripts\MenuClickScript.cs" />
      <Compile Include="Assets\Scripts\MenuInGame.cs" />

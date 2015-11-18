@@ -160,6 +160,28 @@ public class InputWatcher : MonoBehaviour {
 			return lastPos;
 		}
 	}
+	static Vector2 lastCanvasPos = new Vector2(0f,0f);
+	public static Vector2 GetCanvasInputPosition(RectTransform canvas){
+		float camDistance = canvas.gameObject.transform.position.z - Camera.main.transform.position.z;
+		if (INPUT_DEBUG) { //return mouse position in canvas
+			Vector3 screenPoint = new Vector3(Input.mousePosition.x,Input.mousePosition.y,camDistance);
+			Vector3 worldPoint = Camera.main.ScreenToWorldPoint (screenPoint);
+			//Debug.Log ("worldpoint: " + worldPoint.x + ", " +worldPoint.y + ", " + worldPoint.z);
+			Vector3 canvasPoint = canvas.InverseTransformPoint(worldPoint);
+			//Debug.Log ("canvaspoint: " + canvasPoint.x + ", " +canvasPoint.y + ", " + canvasPoint.z);
+			return new Vector2(canvasPoint.x,canvasPoint.y);
+		} else { //return first finger position in canvas, or 0,0 if no touches exist
+			if(Input.touchCount < 1){
+				return lastCanvasPos;
+			}
+			Touch t = Input.GetTouch(0); 
+			Vector3 screenPoint = new Vector3(t.position.x,t.position.y,camDistance);
+			Vector3 worldPoint = Camera.main.ScreenToWorldPoint (screenPoint);
+			Vector3 canvasPoint = canvas.InverseTransformPoint(worldPoint);
+			lastCanvasPos = new Vector2(canvasPoint.x,canvasPoint.y);
+			return lastCanvasPos;
+		}
+	}
 	static Vector3 lastTouch = new Vector3(0f,0f,0f);
 	public static Vector3 GetTouchPosition(){ //??? what's this secondary thing doing here? it doesn't convert the thing?
 		if (INPUT_DEBUG) { //return mouse position in world
