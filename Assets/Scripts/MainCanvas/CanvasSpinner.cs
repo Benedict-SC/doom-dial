@@ -29,6 +29,8 @@ public class CanvasSpinner : MonoBehaviour,EventHandler{
 	public void HandleEvent(GameEvent ge){
 		Vector3 mousepos = InputWatcher.GetCanvasInputPosition((RectTransform)canvas.transform);
 		if(ge.type.Equals("mouse_click")){
+			if(spinning)
+				return;
 			if(TouchIsOnGunButtons()){
 				return;
 			}else{
@@ -37,7 +39,7 @@ public class CanvasSpinner : MonoBehaviour,EventHandler{
 				startingMouseRot = Mathf.Atan2(mousepos.y-anchorY,mousepos.x-anchorX);
 			}
 		}else if(ge.type.Equals("mouse_release")){
-			if(TouchIsOnGunButtons())
+			if(!spinning)
 				return;
 			spinning = false;
 			float mouseAngle = Mathf.Atan2 ((mousepos.y - anchorY) - transform.position.y, (mousepos.x-anchorX) - transform.position.x);

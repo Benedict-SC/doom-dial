@@ -15,7 +15,7 @@ public class Boss : MonoBehaviour{
 	
 	public virtual void Start(){
 		thetas = new Vector3(0f,0.00f,0.000f);
-		radii = new Vector3(DialController.FULL_LENGTH,0f,0f);
+		radii = new Vector3(Dial.FULL_LENGTH,0f,0f);
 	}
 	public virtual void Update(){
 		if (!moving)
@@ -111,7 +111,7 @@ public class Boss : MonoBehaviour{
 		}
 		else if (coll.gameObject.tag == "Shield") //if it's a shield
 		{
-			//shield actions are handled in DialController
+			//shield actions are handled in Dial
 		}
 		else if (coll.gameObject.tag == "AoE")
 		{

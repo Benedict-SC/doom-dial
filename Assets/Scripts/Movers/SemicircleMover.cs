@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class SemicircleMover : EnemyMover{
 	
-	EnemyController parent;
+	Enemy parent;
 	
 	bool mirrored = false;
 	float devWidth = 16.0f * Mathf.Deg2Rad;
 	float circleProg = 0.8f;
 	
-	public SemicircleMover(EnemyController ec){
+	public SemicircleMover(Enemy ec){
 		parent = ec;
 	}
 	
@@ -32,8 +32,8 @@ public class SemicircleMover : EnemyMover{
 			deviation *= -1.0f;
 		angle += deviation;
 		
-		float lineDistance = progress * DialController.TRACK_LENGTH;
-		float distFromCenter = DialController.FULL_LENGTH - lineDistance;
+		float lineDistance = progress * Dial.TRACK_LENGTH;
+		float distFromCenter = Dial.FULL_LENGTH - lineDistance;
 		float x = distFromCenter * Mathf.Cos (angle);
 		float y = distFromCenter * Mathf.Sin (angle);
 		return new Vector2 (x, y);

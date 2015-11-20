@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class SlowingLinearMover : EnemyMover{
 	
-	EnemyController parent;
+	Enemy parent;
 	float logmin = .2f;
 	float logmax = 1.2f;
 	float logscale;
 	float logoffset;
 	
-	public SlowingLinearMover(EnemyController ec){
+	public SlowingLinearMover(Enemy ec){
 		parent = ec;
 		logscale = Mathf.Log (logmax)-Mathf.Log (logmin);
 		logoffset = -Mathf.Log (logmin);
@@ -20,8 +20,8 @@ public class SlowingLinearMover : EnemyMover{
 		float logprog = Mathf.Log(progress + logmin) + logoffset;
 		logprog /= logscale;
 		
-		float travelDistance = logprog * DialController.TRACK_LENGTH;
-		float distFromCenter = DialController.FULL_LENGTH - travelDistance;
+		float travelDistance = logprog * Dial.TRACK_LENGTH;
+		float distFromCenter = Dial.FULL_LENGTH - travelDistance;
 		float x = distFromCenter * Mathf.Cos (angle);
 		float y = distFromCenter * Mathf.Sin (angle);
 		return new Vector2 (x, y);

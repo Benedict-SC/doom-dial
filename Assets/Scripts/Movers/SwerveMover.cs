@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class SwerveMover : EnemyMover{
 	
-	EnemyController parent;
+	Enemy parent;
 	
 	bool mirrored = false;
 	float devWidth = 14.0f * Mathf.Deg2Rad;
 	float swerveEndProg = 0.5f;
 	float conversionFactor;
 	
-	public SwerveMover(EnemyController ec){
+	public SwerveMover(Enemy ec){
 		parent = ec;
 		conversionFactor = devWidth/(swerveEndProg*swerveEndProg);
 	}
@@ -30,8 +30,8 @@ public class SwerveMover : EnemyMover{
 			deviation *= -1.0f;
 		angle += deviation;
 		
-		float lineDistance = progress * DialController.TRACK_LENGTH;
-		float distFromCenter = DialController.FULL_LENGTH - lineDistance;
+		float lineDistance = progress * Dial.TRACK_LENGTH;
+		float distFromCenter = Dial.FULL_LENGTH - lineDistance;
 		float x = distFromCenter * Mathf.Cos (angle);
 		float y = distFromCenter * Mathf.Sin (angle);
 		return new Vector2 (x, y);

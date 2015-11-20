@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class SineMover : EnemyMover{
 	
-	EnemyController parent;
+	Enemy parent;
 	float pies = 4.0f;
 	float devWidth = 11.0f * Mathf.Deg2Rad;
 	
 	bool mirrored = false;
 	
-	public SineMover(EnemyController ec){
+	public SineMover(Enemy ec){
 		parent = ec;
 	}
 	
@@ -20,8 +20,8 @@ public class SineMover : EnemyMover{
 			deviation *= -1.0f;
 		angle += devWidth * deviation;
 
-		float lineDistance = progress * DialController.TRACK_LENGTH;
-		float distFromCenter = DialController.FULL_LENGTH - lineDistance;
+		float lineDistance = progress * Dial.TRACK_LENGTH;
+		float distFromCenter = Dial.FULL_LENGTH - lineDistance;
 		float x = distFromCenter * Mathf.Cos (angle);
 		float y = distFromCenter * Mathf.Sin (angle);
 		return new Vector2 (x, y);

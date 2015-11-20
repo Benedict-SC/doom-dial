@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class WallOfDoom : EnemyController{
+public class WallOfDoom : Enemy{
 	
 	List<WallOfDoom> partners = new List<WallOfDoom>();
 	bool playingDead = false;
@@ -27,10 +27,10 @@ public class WallOfDoom : EnemyController{
 	public void SpawnPartners(){
 		//Debug.Log ("spawning");
 		GameObject enemyspawn1 = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
-		Destroy (enemyspawn1.GetComponent<EnemyController>());
+		Destroy (enemyspawn1.GetComponent<Enemy>());
 		WallOfDoom wall = enemyspawn1.AddComponent<WallOfDoom>() as WallOfDoom;
 		GameObject enemyspawn2 = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
-		Destroy (enemyspawn2.GetComponent<EnemyController>());
+		Destroy (enemyspawn2.GetComponent<Enemy>());
 		WallOfDoom wall2 = enemyspawn2.AddComponent<WallOfDoom>() as WallOfDoom;
 		
 		partners.Add(this);
@@ -103,11 +103,11 @@ public class WallOfDoom : EnemyController{
 			} else if (this.impactTime >= TrackController.NORMAL_SPEED + NORMALNESS_RANGE) { //is "slow"
 				//Debug.Log("slow enemy died");
 				float distanceFromCenter = Mathf.Sqrt ((transform.position.x) * (transform.position.x) + (transform.position.y) * (transform.position.y));
-				if (distanceFromCenter > DialController.middle_radius) { //died in outer ring
+				if (distanceFromCenter > Dial.middle_radius) { //died in outer ring
 					if (rng < highDropRate) {
 						DropPiece ();
 					}
-				} else if (distanceFromCenter > DialController.inner_radius) { //died in middle ring
+				} else if (distanceFromCenter > Dial.inner_radius) { //died in middle ring
 					if (rng < medDropRate) {
 						DropPiece ();
 					}
@@ -119,11 +119,11 @@ public class WallOfDoom : EnemyController{
 			} else { //is "fast"
 				//Debug.Log("fast enemy died");
 				float distanceFromCenter = Mathf.Sqrt ((transform.position.x) * (transform.position.x) + (transform.position.y) * (transform.position.y));
-				if (distanceFromCenter > DialController.middle_radius) { //died in outer ring
+				if (distanceFromCenter > Dial.middle_radius) { //died in outer ring
 					if (rng < lowDropRate) {
 						DropPiece ();
 					}
-				} else if (distanceFromCenter > DialController.inner_radius) { //died in middle ring
+				} else if (distanceFromCenter > Dial.inner_radius) { //died in middle ring
 					if (rng < medDropRate) {
 						DropPiece ();
 					}

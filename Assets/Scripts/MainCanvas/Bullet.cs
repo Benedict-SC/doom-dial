@@ -304,7 +304,8 @@ public class Bullet : MonoBehaviour {
 	{
 		float minDist = 9999f;
 		GameObject minEnemy = null;
-		foreach (GameObject enemy in waveMan.enemiesOnscreen)
+		Debug.Log("HEY I HAD TO BREAK THIS METHOD BECAUSE WAVEMANAGER DOESN'T KNOW ABOUT ALL ENEMIES ANYMORE");
+		/*foreach (GameObject enemy in waveMan.enemiesOnscreen)
 		{
 			if (enemy != null)
 			{
@@ -321,7 +322,7 @@ public class Bullet : MonoBehaviour {
 					}
 				}
 			}
-		}
+		}*/
 		return minEnemy;
 	}
 	

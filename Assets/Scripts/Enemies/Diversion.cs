@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Diversion : EnemyController{
+public class Diversion : Enemy{
 	
 	int numberOfFollowers = 10;
 	float delay = .8f;
@@ -45,7 +45,7 @@ public class Diversion : EnemyController{
 			//spawn first set
 			for(int i = 0; i < 4; i++){
 				GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
-				Destroy (enemyspawn.GetComponent<EnemyController>());
+				Destroy (enemyspawn.GetComponent<Enemy>());
 				DiversionMinion minion = enemyspawn.AddComponent<DiversionMinion>() as DiversionMinion;
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.leader = this;
@@ -73,7 +73,7 @@ public class Diversion : EnemyController{
 			//spawn second set
 			for(int i = 0; i < 3; i++){
 				GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
-				Destroy (enemyspawn.GetComponent<EnemyController>());
+				Destroy (enemyspawn.GetComponent<Enemy>());
 				DiversionMinion minion = enemyspawn.AddComponent<DiversionMinion>() as DiversionMinion;
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.leader = this;
@@ -100,7 +100,7 @@ public class Diversion : EnemyController{
 			Debug.Log ("spawning third wave");
 			for(int i = 0; i < 2; i++){
 				GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
-				Destroy (enemyspawn.GetComponent<EnemyController>());
+				Destroy (enemyspawn.GetComponent<Enemy>());
 				DiversionMinion minion = enemyspawn.AddComponent<DiversionMinion>() as DiversionMinion;
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.leader = this;
@@ -124,7 +124,7 @@ public class Diversion : EnemyController{
 			//spawn fourth set
 			Debug.Log ("spawning fourth wave");
 			GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
-			Destroy (enemyspawn.GetComponent<EnemyController>());
+			Destroy (enemyspawn.GetComponent<Enemy>());
 			DiversionMinion minion = enemyspawn.AddComponent<DiversionMinion>() as DiversionMinion;
 			minion.numberOfFollowers = numberOfFollowers;
 			minion.leader = this;
@@ -193,11 +193,11 @@ public class Diversion : EnemyController{
 			} else if (this.impactTime >= TrackController.NORMAL_SPEED + NORMALNESS_RANGE) { //is "slow"
 				//Debug.Log("slow enemy died");
 				float distanceFromCenter = Mathf.Sqrt ((transform.position.x) * (transform.position.x) + (transform.position.y) * (transform.position.y));
-				if (distanceFromCenter > DialController.middle_radius) { //died in outer ring
+				if (distanceFromCenter > Dial.middle_radius) { //died in outer ring
 					if (rng < highDropRate) {
 						DropPiece ();
 					}
-				} else if (distanceFromCenter > DialController.inner_radius) { //died in middle ring
+				} else if (distanceFromCenter > Dial.inner_radius) { //died in middle ring
 					if (rng < medDropRate) {
 						DropPiece ();
 					}
@@ -209,11 +209,11 @@ public class Diversion : EnemyController{
 			} else { //is "fast"
 				//Debug.Log("fast enemy died");
 				float distanceFromCenter = Mathf.Sqrt ((transform.position.x) * (transform.position.x) + (transform.position.y) * (transform.position.y));
-				if (distanceFromCenter > DialController.middle_radius) { //died in outer ring
+				if (distanceFromCenter > Dial.middle_radius) { //died in outer ring
 					if (rng < lowDropRate) {
 						DropPiece ();
 					}
-				} else if (distanceFromCenter > DialController.inner_radius) { //died in middle ring
+				} else if (distanceFromCenter > Dial.inner_radius) { //died in middle ring
 					if (rng < medDropRate) {
 						DropPiece ();
 					}

@@ -6,7 +6,8 @@ using MiniJSON;
 
 public class Wave{
 
-	float radius = DialController.FULL_LENGTH;
+	Transform canvas;
+	float radius = Dial.FULL_LENGTH;
 
 	int levelID;
 	int waveID;
@@ -15,7 +16,7 @@ public class Wave{
 	List<GameObject> enemies;
 
 	public Wave (Dictionary<string,System.Object> json){
-	
+		canvas = GameObject.Find ("Canvas").transform;
 		System.Random rand = new System.Random();
 	
 		enemies = new List<GameObject> ();
@@ -106,9 +107,9 @@ public class Wave{
 			int track = (int)(long)enemydict["trackID"];
 			int trackpos = (int)(long)enemydict["trackpos"];
 			//make enemy
-			GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
+			GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/MainCanvas/Enemy")) as GameObject;
 			enemyspawn.SetActive(false);
-			EnemyController ec = enemyspawn.GetComponent<EnemyController>();
+			Enemy ec = enemyspawn.GetComponent<Enemy>();
 			
 			FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Bestiary",filename);
 			string actualenemyjson = fl.Read ();
@@ -116,14 +117,14 @@ public class Wave{
 			string enemytype = (string)actualenemydict["enemyType"];
 			if(enemytype.Equals("Chainers")){
 				GameObject enemyobj = ec.gameObject;
-				GameObject.Destroy(enemyobj.GetComponent<EnemyController>());
+				GameObject.Destroy(enemyobj.GetComponent<Enemy>());
 				Chainer c = enemyobj.AddComponent<Chainer>() as Chainer;
 				float chaindelay = (float)(double)actualenemydict["delay"];
 				c.delay = chaindelay;
 				ec = c;
 			}else if(enemytype.Equals("TipOfTheSpear")){
 				GameObject enemyobj = ec.gameObject;
-				GameObject.Destroy(enemyobj.GetComponent<EnemyController>());
+				GameObject.Destroy(enemyobj.GetComponent<Enemy>());
 				TipOfTheSpear tots = enemyobj.AddComponent<TipOfTheSpear>() as TipOfTheSpear;
 				float chaindelay = (float)(double)actualenemydict["delay"];
 				tots.SetDelay(chaindelay);
@@ -131,19 +132,19 @@ public class Wave{
 				ec = tots;
 			}else if(enemytype.Equals("WallOfDoom")){
 				GameObject enemyobj = ec.gameObject;
-				GameObject.Destroy(enemyobj.GetComponent<EnemyController>());
+				GameObject.Destroy(enemyobj.GetComponent<Enemy>());
 				WallOfDoom wod = enemyobj.AddComponent<WallOfDoom>() as WallOfDoom;
 				ec = wod;
 			}else if(enemytype.Equals("TheDiversion")){
 				GameObject enemyobj = ec.gameObject;
-				GameObject.Destroy(enemyobj.GetComponent<EnemyController>());
+				GameObject.Destroy(enemyobj.GetComponent<Enemy>());
 				Diversion d = enemyobj.AddComponent<Diversion>() as Diversion;
 				float chaindelay = (float)(double)actualenemydict["delay"];
 				d.SetDelay(chaindelay);
 				ec = d;
 			}else if(enemytype.Equals("MeatShield")){
 				GameObject enemyobj = ec.gameObject;
-				GameObject.Destroy(enemyobj.GetComponent<EnemyController>());
+				GameObject.Destroy(enemyobj.GetComponent<Enemy>());
 				MeatShield ms = enemyobj.AddComponent<MeatShield>() as MeatShield;
 				float chaindelay = (float)(double)actualenemydict["delay"];
 				ms.SetDelay(chaindelay);
@@ -151,7 +152,7 @@ public class Wave{
 				ec = ms;
 			}else if(enemytype.Equals("Splitter")){
 				GameObject enemyobj = ec.gameObject;
-				GameObject.Destroy(enemyobj.GetComponent<EnemyController>());
+				GameObject.Destroy(enemyobj.GetComponent<Enemy>());
 				Splitter s = enemyobj.AddComponent<Splitter>() as Splitter;
 				ec = s;
 			}
@@ -168,10 +169,10 @@ public class Wave{
 			degrees = ((360-degrees) + 90)%360; //convert to counterclockwise of x axis
 			degrees *= Mathf.Deg2Rad;
 			
-			enemyspawn.transform.position = new Vector3(radius*Mathf.Cos(degrees),radius*Mathf.Sin(degrees),0);
-			
+			((RectTransform)enemyspawn.transform).anchoredPosition = new Vector2(radius*Mathf.Cos(degrees),radius*Mathf.Sin(degrees));
 			//set spawn time
 			ec.SetSpawnTime(spawntimesInMillis[i]);
+			enemyspawn.transform.SetParent(canvas,false);
 			enemies.Add(enemyspawn);
 		}
 		/*foreach (System.Object enemy in enemyjson) {

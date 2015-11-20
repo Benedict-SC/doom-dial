@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class TipOfTheSpear : EnemyController{
+public class TipOfTheSpear : Enemy{
 	
 	int numberOfFollowers = 5;
 	float delay = .8f;
@@ -40,7 +40,7 @@ public class TipOfTheSpear : EnemyController{
 			//spawn first set
 			for(int i = 0; i < 2; i++){
 				GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
-				Destroy (enemyspawn.GetComponent<EnemyController>());
+				Destroy (enemyspawn.GetComponent<Enemy>());
 				TipOfTheSpear minion = enemyspawn.AddComponent<TipOfTheSpear>() as TipOfTheSpear;
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.SetSrcFileName("tipofthespear");
@@ -63,7 +63,7 @@ public class TipOfTheSpear : EnemyController{
 			//spawn second set
 			for(int i = 0; i < 2; i++){
 				GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
-				Destroy (enemyspawn.GetComponent<EnemyController>());
+				Destroy (enemyspawn.GetComponent<Enemy>());
 				TipOfTheSpear minion = enemyspawn.AddComponent<TipOfTheSpear>() as TipOfTheSpear;
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.SetSrcFileName("tipofthespear");
@@ -135,11 +135,11 @@ public class TipOfTheSpear : EnemyController{
 			} else if (this.impactTime >= TrackController.NORMAL_SPEED + NORMALNESS_RANGE) { //is "slow"
 				//Debug.Log("slow enemy died");
 				float distanceFromCenter = Mathf.Sqrt ((transform.position.x) * (transform.position.x) + (transform.position.y) * (transform.position.y));
-				if (distanceFromCenter > DialController.middle_radius) { //died in outer ring
+				if (distanceFromCenter > Dial.middle_radius) { //died in outer ring
 					if (rng < highDropRate) {
 						DropPiece ();
 					}
-				} else if (distanceFromCenter > DialController.inner_radius) { //died in middle ring
+				} else if (distanceFromCenter > Dial.inner_radius) { //died in middle ring
 					if (rng < medDropRate) {
 						DropPiece ();
 					}
@@ -151,11 +151,11 @@ public class TipOfTheSpear : EnemyController{
 			} else { //is "fast"
 				//Debug.Log("fast enemy died");
 				float distanceFromCenter = Mathf.Sqrt ((transform.position.x) * (transform.position.x) + (transform.position.y) * (transform.position.y));
-				if (distanceFromCenter > DialController.middle_radius) { //died in outer ring
+				if (distanceFromCenter > Dial.middle_radius) { //died in outer ring
 					if (rng < lowDropRate) {
 						DropPiece ();
 					}
-				} else if (distanceFromCenter > DialController.inner_radius) { //died in middle ring
+				} else if (distanceFromCenter > Dial.inner_radius) { //died in middle ring
 					if (rng < medDropRate) {
 						DropPiece ();
 					}

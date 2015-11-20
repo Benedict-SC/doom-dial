@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class MeatShield : EnemyController{
+public class MeatShield : Enemy{
 	
 	int numberOfFollowers = 8;
 	float delay = .8f;
@@ -47,7 +47,7 @@ public class MeatShield : EnemyController{
 			//spawn first set
 			for(int i = 0; i < 2; i++){
 				GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
-				Destroy (enemyspawn.GetComponent<EnemyController>());
+				Destroy (enemyspawn.GetComponent<Enemy>());
 				MeatShield minion = enemyspawn.AddComponent<MeatShield>() as MeatShield;
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.SetSrcFileName("meatshieldsmall");
@@ -70,7 +70,7 @@ public class MeatShield : EnemyController{
 			//spawn first set
 			for(int i = 0; i < 1; i++){
 				GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
-				Destroy (enemyspawn.GetComponent<EnemyController>());
+				Destroy (enemyspawn.GetComponent<Enemy>());
 				MeatShield minion = enemyspawn.AddComponent<MeatShield>() as MeatShield;
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.SetSrcFileName("meatshieldsmall");
@@ -91,7 +91,7 @@ public class MeatShield : EnemyController{
 			//spawn first set
 			for(int i = 0; i < 2; i++){
 				GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
-				Destroy (enemyspawn.GetComponent<EnemyController>());
+				Destroy (enemyspawn.GetComponent<Enemy>());
 				MeatShield minion = enemyspawn.AddComponent<MeatShield>() as MeatShield;
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.SetSrcFileName("meatshieldsmall");
@@ -114,7 +114,7 @@ public class MeatShield : EnemyController{
 			//spawn first set
 			for(int i = 0; i < 1; i++){
 				GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
-				Destroy (enemyspawn.GetComponent<EnemyController>());
+				Destroy (enemyspawn.GetComponent<Enemy>());
 				MeatShield minion = enemyspawn.AddComponent<MeatShield>() as MeatShield;
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.SetSrcFileName("meatshieldsmall");
@@ -135,7 +135,7 @@ public class MeatShield : EnemyController{
 			//spawn second set
 			for(int i = 0; i < 1; i++){
 				GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
-				Destroy (enemyspawn.GetComponent<EnemyController>());
+				Destroy (enemyspawn.GetComponent<Enemy>());
 				MeatShield minion = enemyspawn.AddComponent<MeatShield>() as MeatShield;
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.SetSrcFileName("meatshieldbig");
@@ -206,11 +206,11 @@ public class MeatShield : EnemyController{
 			} else if (this.impactTime >= TrackController.NORMAL_SPEED + NORMALNESS_RANGE) { //is "slow"
 				//Debug.Log("slow enemy died");
 				float distanceFromCenter = Mathf.Sqrt ((transform.position.x) * (transform.position.x) + (transform.position.y) * (transform.position.y));
-				if (distanceFromCenter > DialController.middle_radius) { //died in outer ring
+				if (distanceFromCenter > Dial.middle_radius) { //died in outer ring
 					if (rng < highDropRate) {
 						DropPiece ();
 					}
-				} else if (distanceFromCenter > DialController.inner_radius) { //died in middle ring
+				} else if (distanceFromCenter > Dial.inner_radius) { //died in middle ring
 					if (rng < medDropRate) {
 						DropPiece ();
 					}
@@ -222,11 +222,11 @@ public class MeatShield : EnemyController{
 			} else { //is "fast"
 				//Debug.Log("fast enemy died");
 				float distanceFromCenter = Mathf.Sqrt ((transform.position.x) * (transform.position.x) + (transform.position.y) * (transform.position.y));
-				if (distanceFromCenter > DialController.middle_radius) { //died in outer ring
+				if (distanceFromCenter > Dial.middle_radius) { //died in outer ring
 					if (rng < lowDropRate) {
 						DropPiece ();
 					}
-				} else if (distanceFromCenter > DialController.inner_radius) { //died in middle ring
+				} else if (distanceFromCenter > Dial.inner_radius) { //died in middle ring
 					if (rng < medDropRate) {
 						DropPiece ();
 					}

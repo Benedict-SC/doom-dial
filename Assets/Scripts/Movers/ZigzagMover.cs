@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ZigzagMover : EnemyMover{
 	
-	EnemyController parent;
+	Enemy parent;
 	
 	float firstEdge = 0.25f;
 	float secondEdge = 0.5f;
@@ -11,7 +11,7 @@ public class ZigzagMover : EnemyMover{
 	
 	bool mirrored = false;
 	
-	public ZigzagMover(EnemyController ec){
+	public ZigzagMover(Enemy ec){
 		parent = ec;
 	}
 	
@@ -42,8 +42,8 @@ public class ZigzagMover : EnemyMover{
 		
 		angle += deviation * Mathf.Deg2Rad;
 	
-		float lineDistance = progress * DialController.TRACK_LENGTH;
-		float distFromCenter = DialController.FULL_LENGTH - lineDistance;
+		float lineDistance = progress * Dial.TRACK_LENGTH;
+		float distFromCenter = Dial.FULL_LENGTH - lineDistance;
 		float x = distFromCenter * Mathf.Cos (angle);
 		float y = distFromCenter * Mathf.Sin (angle);
 		return new Vector2 (x, y);

@@ -1,35 +1,26 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
-//using System.Diagnostics; //Debug class name conflict in here
 using MiniJSON;
 
-public class WaveManager : MonoBehaviour {
-	public void Update(){
+public class WaveManager2 : MonoBehaviour {
 	
-	}
-	public void Start(){
+	Timer levelProgress;
+	Timer waveProgress;
 	
-	}
-	public List<GameObject> enemiesOnscreen;
-	/*
-	Timer timer;
 	List<Wave> waves;
 	Wave activeWave;
 	int activeWaveIndex;
-	TrackController ring;
-	string worldVar = "World1";
-	string levelVar = "Level1";
-	bool onBreather = false;
-	long ellapsedTime = 0;
+	
+	bool onBreather = true;
+	
 	int bosscode = 0;
-	public List<GameObject> enemiesOnscreen;
-
-	// Use this for initialization
-	void Start () {
-		ring = GameObject.Find ("OuterRing").gameObject.GetComponent<TrackController>();
+	
+	public void Start(){
 		waves = new List<Wave> ();
-
+		levelProgress = new Timer();
+		waveProgress = new Timer();
+		
 		//do a ton of JSON parsing
 		FileLoader leveldata = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Worlds" + Path.DirectorySeparatorChar + worldVar + Path.DirectorySeparatorChar + levelVar, "wavedata");
 		WorldData wd = GameObject.Find ("WorldData").GetComponent<WorldData>();
@@ -54,97 +45,81 @@ public class WaveManager : MonoBehaviour {
 				file = new FileLoader(Application.persistentDataPath,"UserLevels",filename);
 			}
 			Dictionary<string,System.Object> raw = Json.Deserialize (file.Read()) as Dictionary<string,System.Object>;
-
+			
 			waves.Add(new Wave(raw));
 		}
-
+		
 		if (waves.Count <= 0) { //check to make sure reading worked
 			Debug.Log("JSON parsing failed!");
 			return; //SHOULD NOT HAPPEN
 		}
-
-		activeWaveIndex = 0;
-		activeWave = waves [activeWaveIndex];
-
-		enemiesOnscreen = new List<GameObject>();
-
-		timer = new Timer ();
-		timer.Restart ();
 		
+		activeWaveIndex = -1;
+		
+		/*
 		if(bosscode == 2){
 			GameObject boss = GameObject.Instantiate (Resources.Load ("Prefabs/Megaboid")) as GameObject;
 		}else if(bosscode == 3){
 			GameObject boss = GameObject.Instantiate (Resources.Load ("Prefabs/BigBulk")) as GameObject;
 		}
+		*/
 	}
-	
-	// Update is called once per frame
-	void Update () {
-
-		ellapsedTime = timer.TimeElapsedMillis();
-		//stops any spawning from happening while paused
-		if (!GamePause.paused) {
-			if (onBreather) {
-				//Debug.Log("on breather");
-				if (ellapsedTime > 8000) {
-					onBreather = false;
-					activeWaveIndex++;
-					if (activeWaveIndex < waves.Count) {
-						activeWave = waves [activeWaveIndex];
-					}
-					timer.Restart ();
-					if(activeWaveIndex == 5){
-						//spawn late-spawning bosses
-						if(bosscode == 1){
-							GameObject boss = GameObject.Instantiate (Resources.Load ("Prefabs/SwarmMaster")) as GameObject;
-						}
-					}
-				}
-				return;
-			}
-
+	public void Update(){
+		if(GamePause.paused)
+			return;
+		
+		if(!onBreather){
+			Debug.Log("not on breather");
 			List<GameObject> spawnedThisCycle = new List<GameObject> ();
 			foreach (GameObject enemy in activeWave.GetEnemies()) {
-				EnemyController e = enemy.GetComponent<EnemyController> ();
-				if (e.GetSpawnTime () - ring.GetHeadStartOfTrack (e.GetTrackID ()) < ellapsedTime
-					&& !e.HasWarned ()) {
+				Enemy e = enemy.GetComponent<Enemy> ();
+				/*if (e.GetSpawnTime () - ring.GetHeadStartOfTrack (e.GetTrackID ()) < ellapsedTime
+				    && !e.HasWarned ()) {
 					e.Warn ();
 					GameEvent warning = new GameEvent ("warning");
 					warning.addArgument (e);
 					EventManager.Instance ().RaiseEvent (warning);
-				}
-				if (e.GetSpawnTime () < ellapsedTime) {
+				}*/
+				if (e.GetSpawnTime () < waveProgress.TimeElapsedMillis()) {
 					spawnedThisCycle.Add (enemy);
-					//Debug.Log ("should have added an enemy to enemiesOnscreen");
 					enemy.SetActive (true);
-					enemiesOnscreen.Add (enemy);
-					//Debug.Log ("enemiesOnscreen size: " + enemiesOnscreen.Count);
 					e.StartMoving ();
 				}
 			}
 			foreach (GameObject spawned in spawnedThisCycle) {
 				activeWave.RemoveEnemy (spawned);
 			}
-
 			if (activeWave.IsEverythingDead ()) {
-				timer.Restart ();
+				waveProgress.Restart ();
 				onBreather = true;
 			}
+		}else{
+			Debug.Log("on breather");
+			if(waveProgress.TimeElapsedSecs() > 8){
+				onBreather = false;
+				activeWaveIndex++;
+				if (activeWaveIndex < waves.Count) {
+					activeWave = waves [activeWaveIndex];
+				}else{
+					Debug.Log(activeWaveIndex + " >= " + waves.Count);
+				}
+				waveProgress.Restart();
+				if(activeWaveIndex == 5){
+					//spawn late-spawning bosses
+					/*if(bosscode == 1){
+						GameObject boss = GameObject.Instantiate (Resources.Load ("Prefabs/SwarmMaster")) as GameObject;
+					}*/
+				}
+			}
+			return;
 		}
+		
 	}
+	
+	string worldVar = "World1";
+	string levelVar = "Level1";
 	public void setLocations(string world, string level){
 		worldVar = world;
 		levelVar = level;
 	}
-	/*public void triggerFreeze(){
-		if (!isPaused) {
-			//gets current time when paused, to keep enemy spawning from desyncing when unpaused
-			pauseTime += timer.TimeElapsedMillis();
-		} 
-		//stop timer
-		timer.PauseTrigger ();
-		isPaused = !isPaused;
-	
-	}*/
-	
 }

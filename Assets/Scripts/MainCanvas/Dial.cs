@@ -11,8 +11,8 @@ public class Dial : MonoBehaviour,EventHandler {
 	public float maxHealth = 100.0f;
 	public float health = 100.0f;
 	
-	public static float inner_radius = 2.2f; //inexact - set this value from function for changing ring sizes
-	public static float middle_radius = 3.5f; //inexact
+	public static float inner_radius = 80f; //inexact - set this value from function for changing ring sizes
+	public static float middle_radius = 126f; //inexact
 	
 	GameObject zoneLines;
 	GameObject[] superBars = new GameObject[3];
@@ -86,7 +86,7 @@ public class Dial : MonoBehaviour,EventHandler {
 		if(eh == null || eh.Equals(null) ){
 			return;
 		}
-		EnemyController enemy = eh.GetComponent<EnemyController>();
+		Enemy enemy = eh.GetComponent<Enemy>();
 		float rawDamage = enemy.GetDamage ();
 		int trackID = enemy.GetCurrentTrackID();
 		if (shields[trackID - 1] != null) //if this enemy's lane is shielded
