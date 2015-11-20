@@ -1,7 +1,7 @@
 {
 	"towerName":"Slow Poison",
 	"decalFilename":"TowerIcon1",
-	"towerType":"Bullet",
+	"towerType":"Trap",
 
 	"pieces":[
 		{"anchorX":4, "anchorY":2, "rotation":0, "pieceFilename":"poison_rare"},

@@ -9,7 +9,7 @@ public class AoE : MonoBehaviour {
 	bool isPaused;
 	public string parent;
 	public Bullet aoeBulletCon;
-	public TrapController aoeTrapCon;
+	public Trap aoeTrapCon;
 	
 	Collider collide;
 	float colRad;
@@ -59,7 +59,7 @@ public class AoE : MonoBehaviour {
 		}
 		else if (aoeTrapCon != null)
 		{
-			TrapController tc = aoeTrapCon;
+			Trap tc = aoeTrapCon;
 			tc.dmg *= pcent;
 			tc.poison *= pcent;
 			tc.lifeDrain *= pcent;
