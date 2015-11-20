@@ -330,7 +330,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 		}
 		else if (coll.gameObject.tag == "Trap") //if it's a trap
 		{
-			TrapController tc = coll.gameObject.GetComponent<TrapController> ();
+			Trap tc = coll.gameObject.GetComponent<Trap> ();
 			if (tc != null) {
 				if (tc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
 				{
@@ -373,7 +373,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 			{
 				if (ac.aoeTrapCon.enemyHit != this.gameObject) //if this isn't the enemy originally hit
 				{
-					TrapController tc = ac.aoeTrapCon;
+					Trap tc = ac.aoeTrapCon;
 					//StartCoroutine (StatusEffectsTrap (tc));
 					hp -= tc.dmg;
 					if(hp <= 0){

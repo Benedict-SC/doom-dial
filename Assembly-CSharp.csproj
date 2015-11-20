@@ -81,6 +81,7 @@
      <Compile Include="Assets\Scripts\MainCanvas\Enemy.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\Gun.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\GunButton.cs" />
+     <Compile Include="Assets\Scripts\MainCanvas\Trap.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\WaveManager2.cs" />
      <Compile Include="Assets\Scripts\MenuButton.cs" />
      <Compile Include="Assets\Scripts\MenuClickScript.cs" />

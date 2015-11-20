@@ -156,20 +156,28 @@ public class Gun : MonoBehaviour,EventHandler{
 		case "Trap":
 			for (int i = 1; i <= spread; i++)
 			{
-				GameObject trap = Instantiate (Resources.Load ("Prefabs/Trap")) as GameObject; //make a trap
-				TrapController tp = trap.GetComponent<TrapController>();
-				//make it the type of trap this thing deploys
-				ConfigureTrap (tp);
+				//Debug.Log ("range is " + range);
+				float spawnRadius = Dial.TRACK_LENGTH * range;
+				GameObject trap = Instantiate (Resources.Load ("Prefabs/MainCanvas/Trap")) as GameObject; //make a bullet
+				trap.transform.SetParent(canvas.transform,false);
+				RectTransform bulletRect = (RectTransform)trap.transform;
+				RectTransform rt = (RectTransform)transform;
+				Trap tc = trap.GetComponent<Trap>();
+				//make it the type of bullet this thing fires
+				ConfigureTrap (tc);
 				//find your angle
-				float trapOwnangle = this.transform.eulerAngles.z;
-				float trapAngle = (trapOwnangle +  90) % 360 ;
-				trapAngle *= (float)Math.PI / 180;
-				trapAngle = (trapAngle - (float)Math.PI / 6f) + ((((float)Math.PI / 3f) / (spread + 1)) * i); //handles spread effect
-				//find where to spawn the trap *****IMPLEMENT LANE-LENGTH AT SOME POINT
-				float trapSpawnRange = range;
-				trapSpawnRange *= TRACK_LENGTH;
-				tp.spawnx = trapSpawnRange * (float)Math.Cos (trapAngle);
-				tp.spawny = trapSpawnRange * (float)Math.Sin (trapAngle);
+				float ownangle = this.transform.eulerAngles.z;
+				float angle = (ownangle +  90) % 360 ;
+				angle *= (float)Math.PI / 180;
+				//Debug.Log ("original angle: " + angle);
+				angle = (angle - (float)Math.PI / 6f) + ((((float)Math.PI / 3f) / (2)) * i); //handles spread effect
+				//find where to spawn the bullet
+				float gunDistFromCenter = Dial.DIAL_RADIUS;
+				tc.spawnx = (gunDistFromCenter + spawnRadius) * (float)Math.Cos (angle);
+				tc.spawny = (gunDistFromCenter + spawnRadius) * (float)Math.Sin (angle);
+				//Debug.Log (bc.speed);
+				bulletRect.anchoredPosition = new Vector2(tc.spawnx,tc.spawny);
+				tc.transform.rotation = transform.rotation;
 			}
 			break;
 		case "Shield":
@@ -382,7 +390,7 @@ public class Gun : MonoBehaviour,EventHandler{
 	}
 	
 	//Assigns skill values to traps
-	private void ConfigureTrap(TrapController bc)
+	private void ConfigureTrap(Trap bc)
 	{
 		if (range == 0 || dmg == 0)
 			print ("Check your range and/or dmg!  One might be 0!");
