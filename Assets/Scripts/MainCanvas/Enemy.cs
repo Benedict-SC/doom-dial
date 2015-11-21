@@ -438,10 +438,11 @@ public class Enemy : MonoBehaviour,EventHandler {
 		Destroy (this.gameObject);
 	}
 	public void DropPiece(){
-		GameObject piece = Instantiate (Resources.Load ("Prefabs/DroppedPiece")) as GameObject;
-		Vector3 position = new Vector3 (rt.anchoredPosition.x, rt.anchoredPosition.y, 0);
-		piece.transform.position = position;
-		DropController dc = piece.GetComponent<DropController> ();
+		GameObject piece = Instantiate (Resources.Load ("Prefabs/MainCanvas/DroppedPiece")) as GameObject;
+		piece.transform.SetParent(Dial.canvasTransform,false);
+		Vector2 position = new Vector2 (rt.anchoredPosition.x, rt.anchoredPosition.y);
+		((RectTransform)piece.transform).anchoredPosition = position;
+		Drop dc = piece.GetComponent<Drop> ();
 		dc.SetTypes(srcFileName);
 		
 		System.Random r = new System.Random ();
@@ -459,7 +460,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 			}
 		}
 		
-		//piece.GetComponent<DropController> ().MakeRare ();
+		//piece.GetComponent<Drop> ().MakeRare ();
 		
 		GameEvent ge = new GameEvent ("piece_dropped"); //in case other systems need to know about drop events
 		//add relevant arguments

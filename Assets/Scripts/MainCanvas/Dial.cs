@@ -23,9 +23,11 @@ public class Dial : MonoBehaviour,EventHandler {
 	float tenthLifeBonus = 0.2f;
 	
 	GameObject[] shields = new GameObject[6];
+	public static RectTransform canvasTransform;
 	
 	// Use this for initialization
 	void Start () {
+		canvasTransform = GameObject.Find("Canvas").GetComponent<RectTransform>();
 		EventManager.Instance ().RegisterForEventType ("enemy_arrived", this);
 		LoadDialConfigFromJSON ("devdial");
 		

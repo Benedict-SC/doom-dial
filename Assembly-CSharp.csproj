@@ -78,6 +78,7 @@
      <Compile Include="Assets\Scripts\MainCanvas\Bullet.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\CanvasSpinner.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\Dial.cs" />
+     <Compile Include="Assets\Scripts\MainCanvas\Drop.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\Enemy.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\Gun.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\GunButton.cs" />
