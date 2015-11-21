@@ -7,9 +7,14 @@ public class GunButton : MonoBehaviour{
 	RectTransform rt;
 	float radius;
 	GameObject img;
+	Image cooldown;
 	public void Start(){
 		rt = (RectTransform)transform;
 		img = transform.FindChild("Image").gameObject;
+		cooldown = transform.Find("CooldownOverlay").gameObject.GetComponent<Image>();
+		cooldown.type = Image.Type.Filled;
+		cooldown.fillMethod = Image.FillMethod.Radial360;
+		cooldown.fillClockwise = false;
 		radius = rt.rect.size.x/2;
 		SetDecalFromTower(gun);
 		RectTransform imageRect = (RectTransform)img.transform;
@@ -21,6 +26,15 @@ public class GunButton : MonoBehaviour{
 				SetDecalFromTower(gun);
 				decalSet = true;
 			}
+		}
+		if (gun == null)
+			return;
+		if (gun.GetCooldown () > 0) {
+			float ratio = gun.GetCooldownRatio();
+			cooldown.fillAmount = ratio;
+		}else{
+			Debug.Log ("cooldown < 0");
+			cooldown.fillAmount = 0f;
 		}
 	}
 	

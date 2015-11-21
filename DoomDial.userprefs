@@ -1,26 +1,26 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MainCanvas\CanvasSpinner.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MainCanvas\GunButton.cs">
     <Files>
-      <File FileName="Assets\Scripts\MainCanvas\GunButton.cs" Line="37" Column="14" />
-      <File FileName="Assets\Scripts\MainCanvas\Gun.cs" Line="223" Column="61" />
-      <File FileName="Assets\Scripts\MainCanvas\Dial.cs" Line="14" Column="46" />
+      <File FileName="Assets\Scripts\MainCanvas\GunButton.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MainCanvas\Gun.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MainCanvas\Dial.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\InputWatcher.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MainCanvas\Bullet.cs" Line="154" Column="44" />
-      <File FileName="Assets\Scripts\GunController.cs" Line="290" Column="1" />
-      <File FileName="Assets\Scripts\MainCanvas\CanvasSpinner.cs" Line="43" Column="12" />
-      <File FileName="Assets\Scripts\SpinScript.cs" Line="39" Column="5" />
-      <File FileName="Assets\Scripts\Wave.cs" Line="172" Column="124" />
-      <File FileName="Assets\Scripts\MainCanvas\WaveManager2.cs" Line="104" Column="55" />
+      <File FileName="Assets\Scripts\MainCanvas\Bullet.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GunController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MainCanvas\CanvasSpinner.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\SpinScript.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Wave.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MainCanvas\WaveManager2.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\TrackController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MainCanvas\Enemy.cs" Line="96" Column="87" />
-      <File FileName="Assets\Scripts\Movers\WinkMover.cs" Line="5" Column="7" />
-      <File FileName="Assets\Scripts\Enemies\Diversion.cs" Line="217" Column="30" />
-      <File FileName="Assets\Scripts\Enemies\SwarmMaster.cs" Line="406" Column="35" />
-      <File FileName="Assets\Scripts\Enemies\TipOfTheSpear.cs" Line="165" Column="7" />
-      <File FileName="Assets\Scripts\Enemies\WallOfDoom.cs" Line="135" Column="5" />
-      <File FileName="Assets\Scripts\PieceParser.cs" Line="745" Column="36" />
-      <File FileName="Assets\Scripts\Movers\StrafingMover.cs" Line="13" Column="28" />
+      <File FileName="Assets\Scripts\MainCanvas\Enemy.cs" Line="376" Column="30" />
+      <File FileName="Assets\Scripts\Movers\WinkMover.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Enemies\Diversion.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Enemies\SwarmMaster.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Enemies\TipOfTheSpear.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Enemies\WallOfDoom.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\PieceParser.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Movers\StrafingMover.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -55,15 +55,18 @@ public class Gun : MonoBehaviour,EventHandler{
 	public int buttonID; //assign in the Unity Editor to match the corresponding button
 	//in the future, we'll assign this value in scripts to deal with changing gun placements
 	
-	//float defaultBulletSpeed = 0.2f;
-	//float defaultBulletRange = 1.0f;
+	Image cooldownImg;
 	
 	// Use this for initialization
 	void Start () {
 		canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
 		EventManager.Instance ().RegisterForEventType ("shot_fired", this);
 		GameObject overlayObject = transform.Find("CooldownLayer").gameObject;
-		overlayObject.transform.localScale = new Vector3 (0, 0, 1);
+		cooldownImg = overlayObject.GetComponent<Image>();
+		cooldownImg.type = Image.Type.Filled;
+		cooldownImg.fillMethod = Image.FillMethod.Radial360;
+		cooldownImg.fillClockwise = false;
+		cooldownImg.fillAmount = 0f;
 		
 		//defaults
 		/*towerType = "Shield";
@@ -86,15 +89,15 @@ public class Gun : MonoBehaviour,EventHandler{
 		if (!isPaused) {
 			if (cooldown > 0) {
 				cooldown -= 0.05f; //tweak this for a one-second cooldown from 1.0f
-				//SpriteRenderer overlay = this.gameObject.GetComponentInChildren<SpriteRenderer> ();
-				GameObject overlayObject = transform.Find ("CooldownLayer").gameObject;
-				overlayObject.transform.localScale = new Vector3 (cooldown / maxcool, cooldown / maxcool, 1);
 				if (cooldown < 0)
 					cooldown = 0;
+				cooldownImg.fillAmount = GetCooldownRatio();
 			}
 		}
 	}
 	public void Fire(){
+		if(GamePause.paused)
+			return;
 		GameEvent nge = new GameEvent ("shot_fired");
 		nge.addArgument (buttonID);
 		EventManager.Instance ().RaiseEvent (nge);

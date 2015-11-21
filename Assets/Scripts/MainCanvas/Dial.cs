@@ -16,7 +16,7 @@ public class Dial : MonoBehaviour,EventHandler {
 	
 	GameObject zoneLines;
 	GameObject[] superBars = new GameObject[3];
-	float superPercentage = 0.0f; //percentage between 0 and 1
+	public float superPercentage = 0.0f; //percentage between 0 and 1
 	float goodLifeBonus = 0.05f;
 	float halfLifeFullLifeConsequences = 0.08f;
 	float quarterLifeHalfwayToDestruction = 0.1f;
@@ -71,13 +71,12 @@ public class Dial : MonoBehaviour,EventHandler {
 		}
 		
 		float baseWidth = DIAL_RADIUS / FULL_LENGTH;
-		float multiplier = 1-baseWidth; //TRACK_LENGTH / FULL_LENGTH;
-		float newImageScale = 900f/448f;
+		float multiplier = 1-baseWidth;
 		
 		for(int i = 0; i < 3; i++){
 			GameObject barObj = superBars[i];
 			Transform bar = barObj.transform;
-			bar.localScale = new Vector3((baseWidth + (multiplier*superPercentage))*(1/zoneLines.transform.localScale.x)*newImageScale, bar.localScale.y,bar.localScale.z);
+			bar.localScale = new Vector3(baseWidth + (multiplier*superPercentage), bar.localScale.y,bar.localScale.z);
 		}
 	}
 	
