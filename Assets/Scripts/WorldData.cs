@@ -6,22 +6,15 @@ public class WorldData : MonoBehaviour {
 	//0 means this is the one at the very start, 1 means it is placed manually to deal with scenes that depend
 	//on it, and will auto-delete normally.
 	public int placeholder = 0;
-	public string worldSelected = "";
-	public string levelSelected = "";
-	public string lastScene = "";
+	public static string worldSelected = "";
+	public static string levelSelected = "";
+	public static string lastScene = "";
 	
 	//a bool for use by the wave manager to tell if it should be loading a user level
 	public bool loadUserLevel = false;
 	
 	// Use this for initialization
 	void Start () {
-		GameObject[] temp = GameObject.FindGameObjectsWithTag ("DataHolder");
-		if (temp.Length > 1 && placeholder == 1) {
-			Destroy(this.gameObject);
-		}
-	}
-	void Awake(){
-		DontDestroyOnLoad(this);
 	}
 	// Update is called once per frame
 	void Update () {

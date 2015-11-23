@@ -15,7 +15,6 @@ public class LevelSelect : MonoBehaviour, EventHandler {
 	public int menuPosition = 0;
 	public GameObject textMesh;
 	public GameObject startButton;
-	public WorldData WorldData;
 	public GameObject menuButton;
 	string levelName = "MainGame";
 	int lastPosition = 1;
@@ -25,7 +24,6 @@ public class LevelSelect : MonoBehaviour, EventHandler {
 		em.RegisterForEventType ("mouse_release", this);
 		em.RegisterForEventType ("mouse_click", this);
 		//Need to find old object by hand as it isn't on the scene to start.
-		WorldData = GameObject.FindWithTag ("DataHolder").GetComponent<WorldData> ();
 	}
 	public void HandleEvent(GameEvent ge){
 		if (ge.type.Equals ("mouse_release")) {

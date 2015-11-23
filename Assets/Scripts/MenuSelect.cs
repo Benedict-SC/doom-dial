@@ -16,7 +16,6 @@ public class MenuSelect : MonoBehaviour, EventHandler {
 	public GameObject textMesh;
 	public GameObject startButton;
 	public GameObject menuButton;
-	public GameObject worldHolder;
 	public GameObject returnButton;
 	public GameObject cameraLock1;
 	public GameObject cameraLock2;
@@ -30,7 +29,6 @@ public class MenuSelect : MonoBehaviour, EventHandler {
 		EventManager em = EventManager.Instance ();
 		em.RegisterForEventType ("mouse_release", this);
 		em.RegisterForEventType ("mouse_click", this);
-		worldHolder = GameObject.FindWithTag ("DataHolder");
 	}
 	public void HandleEvent(GameEvent ge){
 		if (ge.type.Equals ("mouse_release")) {
@@ -47,7 +45,7 @@ public class MenuSelect : MonoBehaviour, EventHandler {
 
 					}*/
 					if(levelHolder[menuPosition] == "Return"){
-						levelName = worldHolder.GetComponent<WorldData>().lastScene;
+						levelName = WorldData.lastScene;
 
 					}else{
 						levelName = levelHolder[menuPosition];
