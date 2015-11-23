@@ -29,22 +29,21 @@ public class Bullet : MonoBehaviour {
 	public float splashRad; //radius of splash damage
 	public float arcDmg; //dmg bonus from arcing - if above 0 it arcs
 	
+	
+	public float splitDistance = 0f; //radius
+	public float splitStartingAngle = 0f; //degrees
+	public float splitTravelDist = 0f;
+	public float splitSpeed = 0f; //degrees per frame
+	public float SPLIT_SPEED_DEFAULT = 3f; //how fast to go without speed pieces
+	public int splitDirection; //1 or -1 to determine direction
+	
 	public bool isSplitBullet; //whether it's the result of a split
 	public Bullet splitParent; //source of the split bullet
 	public Vector3 splitParentPos; //position where the parent hit
 	public GameObject splitPivot; //parent object acting as the pivot
-	public int dirScalar; //1 or -1 to determine direction
-	public float splitRadius; //distance from the center to the split bullet
-	public float angleLimit; //max range of a split bullet, in radians
-	public Vector3 angleLimitVect; //^^^ as a quaternion
-	private Vector3 zeroRotate = new Vector3 (0f,0f,0f);
-	private float lerpTime;
+	
 	public bool timerElapsed;
-	private float currentLerpTime = 0f;
-	public float LERP_TIME_CONSTANT;
 	public Timer splitTimer;
-	bool originalAngleSet = false;
-	float originalAngle = 0f;
 	
 	public GameObject homingTarget;
 	GameObject gameManager;
@@ -94,17 +93,9 @@ public class Bullet : MonoBehaviour {
 		}
 		if (isSplitBullet)
 		{
-			splitPivot = Instantiate (Resources.Load ("Prefabs/SplitPivot")) as GameObject;
-			splitPivot.transform.position = new Vector3(0f,0f,0f);
-			splitPivot.transform.rotation = new Quaternion (0f,0f,0f,0f);
-			transform.SetParent (splitPivot.transform, true);
-			LERP_TIME_CONSTANT = .34f; //CONSTANT - time to travel across one lane
-			lerpTime = splitCount * LERP_TIME_CONSTANT;
-			Debug.Log ("lerpTime is " + lerpTime);
-			//StartCoroutine("splitMovement");
+			transform.SetParent (Dial.canvasTransform, false);
 			splitTimer = new Timer();
 			timerElapsed = false;
-			splitTimer.Restart ();
 		}
 		gameManager = GameObject.Find ("GameManager");
 		if (gameManager == null)
@@ -116,9 +107,11 @@ public class Bullet : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		isPaused = GamePause.paused;
+		if(GamePause.paused)
+			return;
 		if (!isSplitBullet)
 		{
+			RectTransform rt = (RectTransform)transform;
 			//Debug.Log ("is not a split bullet!");
 			//Debug.Log ("bullet at " + transform.position.x + ", " + transform.position.y);
 			//Debug.Log ("velocity: " + vx + ", " + vy);
@@ -126,20 +119,13 @@ public class Bullet : MonoBehaviour {
 			if (homingStrength == 0)
 			{
 				//position doesn't let you modify individual fields so this is gonna be wordy
-				if(!isPaused){
-					//Stops bullet during pause
-					this.transform.position = new Vector3(this.transform.position.x + vx, this.transform.position.y + vy, this.transform.position.z);
-				}
+				rt.anchoredPosition = new Vector2(rt.anchoredPosition.x + vx, rt.anchoredPosition.y + vy);
 				//if bullet exceeds its range, disappear
 				//Debug.Log ("x is " + transform.position.x + " and spawnx is " + spawnx);
 			}
 			else if (homingStrength != 0)
 			{
-				if (!isPaused)
-				{
-					//edit this somehow
-					this.transform.position = new Vector3(this.transform.position.x + vx, this.transform.position.y + vy, this.transform.position.z);
-				}
+				rt.anchoredPosition = new Vector2(rt.anchoredPosition.x + vx, rt.anchoredPosition.y + vy);
 				if (homingTarget == null)
 				{
 					SetHomingTarget();
@@ -157,16 +143,16 @@ public class Bullet : MonoBehaviour {
 				}
 			}
 			
-			float distance = (float)Math.Sqrt ((this.transform.position.x - spawnx) * (this.transform.position.x - spawnx)
-			                                   + (this.transform.position.y - spawny) * (this.transform.position.y - spawny));
+			float distance = (float)Math.Sqrt ((rt.anchoredPosition.x - spawnx) * (rt.anchoredPosition.x - spawnx)
+			                                   + (rt.anchoredPosition.y - spawny) * (rt.anchoredPosition.y - spawny));
 			//Debug.Log ("distance is " + distance + " and range is " + (range*TRACK_LENGTH) );
-			if (distance > (range * TRACK_LENGTH) - 0.5f) //give a bit of a window for an arcing projectile hitting
+			if (distance > (range * TRACK_LENGTH + (Dial.DIAL_RADIUS-spawnDistFromCenter)) - 0.5f) //give a bit of a window for an arcing projectile hitting
 			{
 				isActive = true;
 				collide2D.enabled = true;
 			}
-			if(distance > range * TRACK_LENGTH){
-				Debug.Log ("we somehow destroyed ourselves / at (" + transform.position.x + "," + transform.position.y + ")");
+			if(distance > range * TRACK_LENGTH + (Dial.DIAL_RADIUS-spawnDistFromCenter)){
+				Debug.Log ("we somehow destroyed ourselves / at (" + rt.anchoredPosition.x + "," + rt.anchoredPosition.y + ")");
 				Collide();
 				return;
 			}
@@ -176,59 +162,29 @@ public class Bullet : MonoBehaviour {
 		
 		else if (isSplitBullet)
 		{
-			//stops bullet during pause
-			if(!isPaused)
-			{
-				transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-			}
+			RectTransform rt = (RectTransform)transform;
+			
 			if (!timerElapsed && splitTimer.TimeElapsedMillis () >= 200) //wait until the two splits have separated
 			{
 				timerElapsed = true;
 			}
 			
-			if (!originalAngleSet)
-			{
-				originalAngle = splitPivot.transform.eulerAngles.z;
-				originalAngleSet = true;
-			}
-			if (splitPivot.transform.eulerAngles.z + 2.0f * dirScalar < splitPivot.transform.eulerAngles.z + dirScalar * angleLimitVect.z)
-			{
-				//hopefully rotating the splitPivot works?
-				splitPivot.transform.eulerAngles = Vector3.Lerp (zeroRotate, angleLimitVect, (currentLerpTime + Time.deltaTime)/(lerpTime));
-				//Debug.Log ("splitPivot rotation is " + splitPivot.transform.rotation.ToString());
-				currentLerpTime += Time.deltaTime;
-			}
-			if (dirScalar < 0)
-			{
-				//Debug.Log ("angle: " + (splitPivot.transform.eulerAngles.z - 2.0f));
-				//Debug.Log ("limit angle: " + (Mathf.Abs ((originalAngle + dirScalar * angleLimitVect.z) - 360f)));
-				float addValue = 0.0f;
-				if (splitCount == 1 || splitCount == 2)
-				{
-					addValue = 2.0f;
-				}
-				
-				if (splitPivot.transform.eulerAngles.z - addValue <= Mathf.Abs ((originalAngle + dirScalar * angleLimitVect.z) - 360f))
-				{
-					Debug.Log (" negative splits destroying themselves due to range");
-					Collide ();
-				}
-			}
-			else if (dirScalar > 0)
-			{
-				float addValue = 0.0f;
-				if (splitCount == 1 || splitCount == 2)
-				{
-					addValue = 2.0f;
-				}
-				if (splitPivot.transform.eulerAngles.z + addValue >= originalAngle + dirScalar * angleLimitVect.z)
-				{
-					Debug.Log ("splits destroying themselves due to range");
-					Collide ();
-				}
+			splitTravelDist += splitSpeed;
+			float currentSplitAngle = splitStartingAngle + splitTravelDist;
+			float radians = currentSplitAngle * Mathf.Deg2Rad;
+			transform.eulerAngles = new Vector3(transform.eulerAngles.x,transform.eulerAngles.y,currentSplitAngle + 90f*splitDirection);
+			rt.anchoredPosition = new Vector2(Mathf.Cos(radians)*splitDistance,Mathf.Sin (radians)*splitDistance);
+			
+			if(Mathf.Abs(splitTravelDist) > splitCount*60f){
+				Collide ();
 			}
 		}
 		
+	}
+	float spawnDistFromCenter = 0f;
+	public void UpdateSpawnDist(){
+		RectTransform rt = (RectTransform)transform;
+		spawnDistFromCenter = Mathf.Sqrt ((spawnx*spawnx)+(spawny*spawny));
 	}
 	
 	void OnTriggerEnter2D(Collider2D coll)
@@ -416,20 +372,20 @@ public class Bullet : MonoBehaviour {
 				//Debug.Log ("spawned 2 split bullets");
 				ScaleProps(0.5f);
 				
-				GameObject split1 = Instantiate (Resources.Load ("Prefabs/Bullet")) as GameObject;
+				GameObject split1 = Instantiate (Resources.Load ("Prefabs/MainCanvas/Bullet")) as GameObject;
 				Bullet splitbc = split1.GetComponent<Bullet>();
-				splitbc.dirScalar = -1;
+				splitbc.splitDirection = -1;
 				splitbc.splitParent = this;
 				//splitbc.arcDmg = 5f;
 				split1.transform.position = this.transform.position;
-				splitbc.SetSplitProps(this);
+				splitbc.SetSplitPropsNew(this);
 				
-				GameObject split2 = Instantiate (Resources.Load ("Prefabs/Bullet")) as GameObject;
+				GameObject split2 = Instantiate (Resources.Load ("Prefabs/MainCanvas/Bullet")) as GameObject;
 				Bullet splitbc2 = split2.GetComponent<Bullet>();
-				splitbc2.dirScalar = 1;
+				splitbc2.splitDirection = 1;
 				splitbc2.splitParent = this;
 				split2.transform.position = this.transform.position;
-				splitbc2.SetSplitProps(this);
+				splitbc2.SetSplitPropsNew(this);
 			}
 		}
 		
@@ -463,8 +419,8 @@ public class Bullet : MonoBehaviour {
 		shieldShred *= pc; //lowers enemy shield's max value by this
 	}
 	
-	public void SetSplitProps(Bullet bc)
-	{
+	public void SetSplitPropsNew(Bullet bc){
+		RectTransform rt = (RectTransform)bc.transform;
 		dmg = bc.dmg; //damage dealt out
 		speed = bc.speed; //speed of the bullet
 		poison = bc.poison; //poison damage on enemy
@@ -482,23 +438,11 @@ public class Bullet : MonoBehaviour {
 		homingStrength = 0f; //strength of homing effect
 		arcDmg = 0f; //dmg bonus from arcing - if above 0 it arcs
 		isSplitBullet = true; //is the result of a split
-		splitRadius = Mathf.Abs(transform.position.x / Mathf.Cos(Mathf.Atan2 (transform.position.y,transform.position.x)));
-		//Debug.Log ("splitRadius is " + splitRadius);
-		angleLimit = splitCount * dirScalar * ((Mathf.PI)/3f);
-		float superAddValue = 0f;
-		/*if (splitCount == 3)
-		{
-			superAddValue = 6f;
-		}*/
-		angleLimitVect = new Vector3 (0f, 0f, ((angleLimit * 57.296f) + superAddValue)); //rad to deg constant
-		splitParentPos = bc.transform.position;
-		//Debug.Log ("angleLimit is " + angleLimit);
-		//Debug.Log ("angleLimit as degrees is " + angleLimit * 57.296f);
-		//Debug.Log ("angleLimitQuat is " + angleLimitVect.ToString ());
-	}
-	
-	public void SetSplitDist()
-	{
-		//splitCenterDist = [calculate distance from center]
+		splitDistance = Mathf.Sqrt(rt.anchoredPosition.x*rt.anchoredPosition.x + rt.anchoredPosition.y*rt.anchoredPosition.y);
+		Debug.Log("split distance: " + splitDistance + "( " + rt.anchoredPosition.y + " )");
+		splitStartingAngle = Mathf.Atan2(rt.anchoredPosition.y,rt.anchoredPosition.x) * Mathf.Rad2Deg;
+		splitSpeed = SPLIT_SPEED_DEFAULT * (speed/PieceParser.SPEED_CONSTANT) * splitDirection;
+		RectTransform ownRect = (RectTransform)transform;
+		ownRect.anchoredPosition = new Vector2(Mathf.Cos(splitStartingAngle*Mathf.Deg2Rad)*splitDistance,Mathf.Sin (splitStartingAngle*Mathf.Deg2Rad)*splitDistance);
 	}
 }

@@ -495,6 +495,7 @@ public class PieceParser{
 		
 		return result;
 	}
+	public static float SPEED_CONSTANT = 5f;
 	//DUPLICATE METHOD USING GUN INSTEAD OF GUNCONTROLLER
 	public static void FillController(Gun gc, string filename){
 		//FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Towers",filename);
@@ -533,7 +534,7 @@ public class PieceParser{
 		float homingStrength = 0.0f;
 		float arcBoost = 0.0f;
 		
-		float SPEED_CONSTANT = 0.165f;
+		
 		
 		int splashBonusCount = 0;
 		int penetrationBonusCount = 0;
@@ -717,7 +718,7 @@ public class PieceParser{
 		
 		//Set tower stats based on these values
 		if(gc.GetTowerType().Equals ("Bullet")){
-			Debug.Log("speed is " + (speed * SPEED_CONSTANT));
+			Debug.Log("speed is " + ((1f/speed) * SPEED_CONSTANT));
 			//Damage
 			gc.SetDmg (damage);
 			//Range

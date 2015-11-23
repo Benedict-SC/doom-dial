@@ -33,7 +33,7 @@ public class GunButton : MonoBehaviour{
 			float ratio = gun.GetCooldownRatio();
 			cooldown.fillAmount = ratio;
 		}else{
-			Debug.Log ("cooldown < 0");
+			//Debug.Log ("cooldown < 0");
 			cooldown.fillAmount = 0f;
 		}
 	}

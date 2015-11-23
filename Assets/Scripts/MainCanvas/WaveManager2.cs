@@ -23,13 +23,12 @@ public class WaveManager2 : MonoBehaviour {
 		
 		//do a ton of JSON parsing
 		FileLoader leveldata = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Worlds" + Path.DirectorySeparatorChar + worldVar + Path.DirectorySeparatorChar + levelVar, "wavedata");
-		WorldData wd = GameObject.Find ("WorldData").GetComponent<WorldData>();
 		bool loadingUserLevel = false;
-		if(wd.loadUserLevel){
+		if(WorldData.loadUserLevel){
 			leveldata = new FileLoader (Application.persistentDataPath,"UserLevels","userlevel");
 			//reset world data
 			loadingUserLevel = true;
-			wd.loadUserLevel = false;
+			WorldData.loadUserLevel = false;
 		}
 		
 		Dictionary<string,System.Object> levelraw = Json.Deserialize (leveldata.Read ()) as Dictionary<string,System.Object>;
@@ -69,7 +68,7 @@ public class WaveManager2 : MonoBehaviour {
 			return;
 		
 		if(!onBreather){
-			Debug.Log("not on breather");
+			//Debug.Log("not on breather");
 			List<GameObject> spawnedThisCycle = new List<GameObject> ();
 			foreach (GameObject enemy in activeWave.GetEnemies()) {
 				Enemy e = enemy.GetComponent<Enemy> ();
@@ -94,7 +93,7 @@ public class WaveManager2 : MonoBehaviour {
 				onBreather = true;
 			}
 		}else{
-			Debug.Log("on breather");
+			//Debug.Log("on breather");
 			if(waveProgress.TimeElapsedSecs() > 8){
 				onBreather = false;
 				activeWaveIndex++;

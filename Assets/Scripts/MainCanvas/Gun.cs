@@ -237,6 +237,7 @@ public class Gun : MonoBehaviour,EventHandler{
 			gunDistFromCenter += 0.47f;
 			bc.spawnx = gunDistFromCenter * (float)Math.Cos (angle);
 			bc.spawny = gunDistFromCenter * (float)Math.Sin (angle);
+			bc.UpdateSpawnDist();
 			//Debug.Log (bc.speed);
 			bulletRect.anchoredPosition = new Vector2(bc.spawnx,bc.spawny);
 			bc.transform.rotation = transform.rotation;
@@ -269,6 +270,7 @@ public class Gun : MonoBehaviour,EventHandler{
 			gunDistFromCenter += 0.47f;
 			bc.spawnx = gunDistFromCenter * (float)Math.Cos (angle);
 			bc.spawny = gunDistFromCenter * (float)Math.Sin (angle);
+			bc.UpdateSpawnDist();
 			//Debug.Log (bc.speed);
 			bulletRect.anchoredPosition = new Vector2(bc.spawnx,bc.spawny);
 			bc.transform.rotation = transform.rotation;
@@ -306,6 +308,7 @@ public class Gun : MonoBehaviour,EventHandler{
 			gunDistFromCenter += 0.47f;
 			bc.spawnx = gunDistFromCenter * (float)Math.Cos (angle);
 			bc.spawny = gunDistFromCenter * (float)Math.Sin (angle);
+			bc.UpdateSpawnDist();
 			//Debug.Log (bc.speed);
 			bulletRect.anchoredPosition = new Vector2(bc.spawnx,bc.spawny);
 			bc.transform.rotation = transform.rotation;

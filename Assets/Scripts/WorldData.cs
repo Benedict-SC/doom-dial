@@ -11,7 +11,7 @@ public class WorldData : MonoBehaviour {
 	public static string lastScene = "";
 	
 	//a bool for use by the wave manager to tell if it should be loading a user level
-	public bool loadUserLevel = false;
+	public static bool loadUserLevel = false;
 	
 	// Use this for initialization
 	void Start () {
