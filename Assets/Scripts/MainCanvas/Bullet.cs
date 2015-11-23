@@ -31,8 +31,8 @@ public class Bullet : MonoBehaviour {
 	
 	
 	public float splitDistance = 0f; //radius
-	public float splitStartingAngle = 0f; //degrees
-	public float splitTravelDist = 0f;
+	public float splitStartingAngle = 0f; //degrees of where the bullet initially split
+	public float splitTravelDist = 0f; //degrees traveled since splitting
 	public float splitSpeed = 0f; //degrees per frame
 	public float SPLIT_SPEED_DEFAULT = 3f; //how fast to go without speed pieces
 	public int splitDirection; //1 or -1 to determine direction
@@ -169,13 +169,15 @@ public class Bullet : MonoBehaviour {
 				timerElapsed = true;
 			}
 			
-			splitTravelDist += splitSpeed;
-			float currentSplitAngle = splitStartingAngle + splitTravelDist;
-			float radians = currentSplitAngle * Mathf.Deg2Rad;
+			splitTravelDist += splitSpeed; //increase angle relative to start
+			float currentSplitAngle = splitStartingAngle + splitTravelDist; //calculate a fixed angle
+			float radians = currentSplitAngle * Mathf.Deg2Rad; //convert to radians
+			//change the bullet's rotation to point in the direction it's moving
 			transform.eulerAngles = new Vector3(transform.eulerAngles.x,transform.eulerAngles.y,currentSplitAngle + 90f*splitDirection);
+			//put the bullet at the location corresponding to its current angle
 			rt.anchoredPosition = new Vector2(Mathf.Cos(radians)*splitDistance,Mathf.Sin (radians)*splitDistance);
 			
-			if(Mathf.Abs(splitTravelDist) > splitCount*60f){
+			if(Mathf.Abs(splitTravelDist) > splitCount*60f){ //if you've gone past your max range
 				Collide ();
 			}
 		}
@@ -438,11 +440,14 @@ public class Bullet : MonoBehaviour {
 		homingStrength = 0f; //strength of homing effect
 		arcDmg = 0f; //dmg bonus from arcing - if above 0 it arcs
 		isSplitBullet = true; //is the result of a split
+		//get radius of where the bullet split
 		splitDistance = Mathf.Sqrt(rt.anchoredPosition.x*rt.anchoredPosition.x + rt.anchoredPosition.y*rt.anchoredPosition.y);
-		Debug.Log("split distance: " + splitDistance + "( " + rt.anchoredPosition.y + " )");
+		//get andle in degrees of where the bullet split
 		splitStartingAngle = Mathf.Atan2(rt.anchoredPosition.y,rt.anchoredPosition.x) * Mathf.Rad2Deg;
+		//decide how fast the bullet should move
 		splitSpeed = SPLIT_SPEED_DEFAULT * (speed/PieceParser.SPEED_CONSTANT) * splitDirection;
 		RectTransform ownRect = (RectTransform)transform;
+		//place the new bullet in the right place
 		ownRect.anchoredPosition = new Vector2(Mathf.Cos(splitStartingAngle*Mathf.Deg2Rad)*splitDistance,Mathf.Sin (splitStartingAngle*Mathf.Deg2Rad)*splitDistance);
 	}
 }
