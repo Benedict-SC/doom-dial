@@ -346,7 +346,8 @@ public class Bullet : MonoBehaviour {
 					knockback = 0f;
 					stun = 0f;
 					penetration = 0f;
-					GameObject splashCone = Instantiate (Resources.Load ("Prefabs/SplashCone")) as GameObject;
+					GameObject splashCone = Instantiate (Resources.Load ("Prefabs/MainCanvas/SplashCone")) as GameObject;
+					splashCone.transform.SetParent(Dial.canvasTransform,false);
 					splashCone.transform.position = this.transform.position;
 					splashCone.transform.rotation = this.transform.rotation;
 					/*splashCone.transform.rotation = new Quaternion(gameObject.transform.rotation.x,
