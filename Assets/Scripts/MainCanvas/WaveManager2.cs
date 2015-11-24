@@ -72,13 +72,13 @@ public class WaveManager2 : MonoBehaviour {
 			List<GameObject> spawnedThisCycle = new List<GameObject> ();
 			foreach (GameObject enemy in activeWave.GetEnemies()) {
 				Enemy e = enemy.GetComponent<Enemy> ();
-				/*if (e.GetSpawnTime () - ring.GetHeadStartOfTrack (e.GetTrackID ()) < ellapsedTime
+				if (e.GetSpawnTime () - ZoneWarning.HEAD_START*1000 < waveProgress.TimeElapsedMillis()
 				    && !e.HasWarned ()) {
-					e.Warn ();
+					e.Warn();
 					GameEvent warning = new GameEvent ("warning");
 					warning.addArgument (e);
 					EventManager.Instance ().RaiseEvent (warning);
-				}*/
+				}
 				if (e.GetSpawnTime () < waveProgress.TimeElapsedMillis()) {
 					spawnedThisCycle.Add (enemy);
 					enemy.SetActive (true);

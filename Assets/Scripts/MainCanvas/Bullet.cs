@@ -262,12 +262,13 @@ public class Bullet : MonoBehaviour {
 	{
 		float minDist = 9999f;
 		GameObject minEnemy = null;
-		Debug.Log("HEY I HAD TO BREAK THIS METHOD BECAUSE WAVEMANAGER DOESN'T KNOW ABOUT ALL ENEMIES ANYMORE");
-		/*foreach (GameObject enemy in waveMan.enemiesOnscreen)
+		//Debug.Log("HEY I HAD TO BREAK THIS METHOD BECAUSE WAVEMANAGER DOESN'T KNOW ABOUT ALL ENEMIES ANYMORE");
+		GameObject[] enemiesOnScreen = GameObject.FindGameObjectsWithTag("Enemy");
+		foreach (GameObject enemy in enemiesOnScreen)
 		{
 			if (enemy != null)
 			{
-				EnemyController ec = enemy.GetComponent<EnemyController>();
+				Enemy ec = enemy.GetComponent<Enemy>();
 				if (ec.GetTrackID() == GetCurrentTrackID()) //if this enemy is in this bullet's zone
 				{
 					Debug.Log ("FindNearestEnemy found a candidate!");
@@ -280,7 +281,7 @@ public class Bullet : MonoBehaviour {
 					}
 				}
 			}
-		}*/
+		}
 		return minEnemy;
 	}
 	

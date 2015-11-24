@@ -485,7 +485,8 @@ public class Enemy : MonoBehaviour,EventHandler {
 		return trackID;
 	}
 	public int GetCurrentTrackID(){ //in case it's moved between lanes without having set the track ID on purpose
-		float degrees = ((360-Mathf.Atan2(rt.anchoredPosition.y,rt.anchoredPosition.x) * Mathf.Rad2Deg)+90 + 360)%360;
+		RectTransform rt_a = (RectTransform)transform;
+		float degrees = ((360-Mathf.Atan2(rt_a.anchoredPosition.y,rt_a.anchoredPosition.x) * Mathf.Rad2Deg)+90 + 360)%360;
 		//Debug.Log(degrees);
 		if(degrees >= 30.0 && degrees < 90.0){
 			return 2;
