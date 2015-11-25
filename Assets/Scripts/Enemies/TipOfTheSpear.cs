@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class TipOfTheSpear : Enemy{
@@ -39,9 +40,10 @@ public class TipOfTheSpear : Enemy{
 		if(!spawnsDone[0]){
 			//spawn first set
 			for(int i = 0; i < 2; i++){
-				GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
+				GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/MainCanvas/Enemy")) as GameObject;
 				Destroy (enemyspawn.GetComponent<Enemy>());
 				TipOfTheSpear minion = enemyspawn.AddComponent<TipOfTheSpear>() as TipOfTheSpear;
+				enemyspawn.transform.SetParent(Dial.spawnLayer,false);
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.SetSrcFileName("tipofthespear");
 				minion.SetTrackID(trackID);
@@ -62,9 +64,10 @@ public class TipOfTheSpear : Enemy{
 		}else if(!spawnsDone[1]){
 			//spawn second set
 			for(int i = 0; i < 2; i++){
-				GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
+				GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/MainCanvas/Enemy")) as GameObject;
 				Destroy (enemyspawn.GetComponent<Enemy>());
 				TipOfTheSpear minion = enemyspawn.AddComponent<TipOfTheSpear>() as TipOfTheSpear;
+				enemyspawn.transform.SetParent(Dial.spawnLayer,false);
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.SetSrcFileName("tipofthespear");
 				minion.SetTrackID(trackID);
@@ -119,10 +122,11 @@ public class TipOfTheSpear : Enemy{
 	}
 	public void PlayDead(){
 		playingDead = true;
-		gameObject.GetComponent<SpriteRenderer>().enabled = false;
-		transform.FindChild("Health").GetComponent<SpriteRenderer>().enabled = false;
+		gameObject.GetComponent<Image>().enabled = false;
+		transform.FindChild("Health").GetComponent<Image>().enabled = false;
 	}
 	public void RealDie(){
+		RectTransform rt = (RectTransform)transform;
 		if(hp <= 0){
 			System.Random r = new System.Random ();
 			float rng = (float)r.NextDouble() * 100; //random float between 0 and 100
@@ -134,7 +138,7 @@ public class TipOfTheSpear : Enemy{
 				}
 			} else if (this.impactTime >= TrackController.NORMAL_SPEED + NORMALNESS_RANGE) { //is "slow"
 				//Debug.Log("slow enemy died");
-				float distanceFromCenter = Mathf.Sqrt ((transform.position.x) * (transform.position.x) + (transform.position.y) * (transform.position.y));
+				float distanceFromCenter = Mathf.Sqrt ((rt.anchoredPosition.x) * (rt.anchoredPosition.x) + (rt.anchoredPosition.y) * (rt.anchoredPosition.y));
 				if (distanceFromCenter > Dial.middle_radius) { //died in outer ring
 					if (rng < highDropRate) {
 						DropPiece ();
@@ -150,7 +154,7 @@ public class TipOfTheSpear : Enemy{
 				}
 			} else { //is "fast"
 				//Debug.Log("fast enemy died");
-				float distanceFromCenter = Mathf.Sqrt ((transform.position.x) * (transform.position.x) + (transform.position.y) * (transform.position.y));
+				float distanceFromCenter = Mathf.Sqrt ((rt.anchoredPosition.x) * (rt.anchoredPosition.x) + (rt.anchoredPosition.y) * (rt.anchoredPosition.y));
 				if (distanceFromCenter > Dial.middle_radius) { //died in outer ring
 					if (rng < lowDropRate) {
 						DropPiece ();

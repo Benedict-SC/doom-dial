@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 using System.IO;
 using MiniJSON;
@@ -166,7 +167,7 @@ public class SwarmMaster : Boss{
 	}
 	public override void OnTriggerEnter2D(Collider2D coll){
 		base.OnTriggerEnter2D(coll);
-		overlay.transform.localScale = new Vector3(overlay.transform.localScale.x,hp/maxHP,overlay.transform.localScale.z);
+		overlay.transform.localScale = new Vector3(1f,hp/maxHP,1f);
 	}
 	public void ReverseDirection(){
 		clockwise = !clockwise;
@@ -217,8 +218,9 @@ public class SwarmMaster : Boss{
 		
 		int trackpos = PositionToLaneID();
 		
-		GameObject enemyobj = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
+		GameObject enemyobj = GameObject.Instantiate (Resources.Load ("Prefabs/MainCanvas/Enemy")) as GameObject;
 		Enemy ec = enemyobj.GetComponent<Enemy>();
+		enemyobj.transform.SetParent(Dial.spawnLayer,false);
 		ec.SetSrcFileName(filename);
 		ec.SetTrackID(track);
 		ec.SetTrackLane(trackpos);
@@ -227,8 +229,8 @@ public class SwarmMaster : Boss{
 		degrees += 15*trackpos; //negative trackpos is left side, positive is right side, 0 is middle
 		degrees = ((360-degrees) + 90)%360; //convert to counterclockwise of x axis
 		degrees *= Mathf.Deg2Rad;
-		enemyobj.transform.position = new Vector3(Dial.FULL_LENGTH*Mathf.Cos(degrees),
-		                                          Dial.FULL_LENGTH*Mathf.Sin(degrees),0);
+		((RectTransform)enemyobj.transform).anchoredPosition = new Vector2(Dial.FULL_LENGTH*Mathf.Cos(degrees),
+		                                                                   Dial.FULL_LENGTH*Mathf.Sin(degrees));
 		ec.StartMoving();	
 	}
 	public void DropChainers(){
@@ -239,9 +241,10 @@ public class SwarmMaster : Boss{
 		int track = SpawnIndexToZoneID(spawnIdx);
 		int trackpos = 0;
 		
-		GameObject enemyobj = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
+		GameObject enemyobj = GameObject.Instantiate (Resources.Load ("Prefabs/MainCanvas/Enemy")) as GameObject;
 		GameObject.Destroy(enemyobj.GetComponent<Enemy>());
 		Chainer c = enemyobj.AddComponent<Chainer>() as Chainer;
+		enemyobj.transform.SetParent(Dial.spawnLayer,false);
 		float chaindelay = (float)(double)actualenemydict["delay"];
 		c.delay = chaindelay;
 		
@@ -253,8 +256,8 @@ public class SwarmMaster : Boss{
 		degrees += 15*trackpos; //negative trackpos is left side, positive is right side, 0 is middle
 		degrees = ((360-degrees) + 90)%360; //convert to counterclockwise of x axis
 		degrees *= Mathf.Deg2Rad;
-		enemyobj.transform.position = new Vector3(Dial.FULL_LENGTH*Mathf.Cos(degrees),
-										Dial.FULL_LENGTH*Mathf.Sin(degrees),0);
+		((RectTransform)enemyobj.transform).anchoredPosition = new Vector2(Dial.FULL_LENGTH*Mathf.Cos(degrees),
+										Dial.FULL_LENGTH*Mathf.Sin(degrees));
 		c.StartMoving();
 	}
 	public void DropSpear(){
@@ -265,9 +268,10 @@ public class SwarmMaster : Boss{
 		int track = SpawnIndexToZoneID(spawnIdx);
 		int trackpos = 0;
 		
-		GameObject enemyobj = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
+		GameObject enemyobj = GameObject.Instantiate (Resources.Load ("Prefabs/MainCanvas/Enemy")) as GameObject;
 		GameObject.Destroy(enemyobj.GetComponent<Enemy>());
 		TipOfTheSpear tots = enemyobj.AddComponent<TipOfTheSpear>() as TipOfTheSpear;
+		enemyobj.transform.SetParent(Dial.spawnLayer,false);
 		float chaindelay = (float)(double)actualenemydict["delay"];
 		tots.SetDelay(chaindelay);
 		tots.leader = true;
@@ -280,8 +284,8 @@ public class SwarmMaster : Boss{
 		degrees += 15*trackpos; //negative trackpos is left side, positive is right side, 0 is middle
 		degrees = ((360-degrees) + 90)%360; //convert to counterclockwise of x axis
 		degrees *= Mathf.Deg2Rad;
-		enemyobj.transform.position = new Vector3(Dial.FULL_LENGTH*Mathf.Cos(degrees),
-		                                          Dial.FULL_LENGTH*Mathf.Sin(degrees),0);
+		((RectTransform)enemyobj.transform).anchoredPosition = new Vector2(Dial.FULL_LENGTH*Mathf.Cos(degrees),
+		                                                                   Dial.FULL_LENGTH*Mathf.Sin(degrees));
 		tots.StartMoving();
 	}
 	public void DropWall(){
@@ -292,9 +296,10 @@ public class SwarmMaster : Boss{
 		int track = SpawnIndexToZoneID(spawnIdx);
 		int trackpos = 0;
 		
-		GameObject enemyobj = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
+		GameObject enemyobj = GameObject.Instantiate (Resources.Load ("Prefabs/MainCanvas/Enemy")) as GameObject;
 		GameObject.Destroy(enemyobj.GetComponent<Enemy>());
 		WallOfDoom wod = enemyobj.AddComponent<WallOfDoom>() as WallOfDoom;
+		enemyobj.transform.SetParent(Dial.spawnLayer,false);
 		
 		wod.SetSrcFileName(filename);
 		wod.SetTrackID(track);
@@ -304,8 +309,8 @@ public class SwarmMaster : Boss{
 		degrees += 15*trackpos; //negative trackpos is left side, positive is right side, 0 is middle
 		degrees = ((360-degrees) + 90)%360; //convert to counterclockwise of x axis
 		degrees *= Mathf.Deg2Rad;
-		enemyobj.transform.position = new Vector3(Dial.FULL_LENGTH*Mathf.Cos(degrees),
-		                                          Dial.FULL_LENGTH*Mathf.Sin(degrees),0);
+		((RectTransform)enemyobj.transform).anchoredPosition = new Vector2(Dial.FULL_LENGTH*Mathf.Cos(degrees),
+		                                                                   Dial.FULL_LENGTH*Mathf.Sin(degrees));
 		wod.StartMoving();
 	}
 	public void DropDiversion(){
@@ -316,9 +321,10 @@ public class SwarmMaster : Boss{
 		int track = SpawnIndexToZoneID(spawnIdx);
 		int trackpos = 0;
 		
-		GameObject enemyobj = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
+		GameObject enemyobj = GameObject.Instantiate (Resources.Load ("Prefabs/MainCanvas/Enemy")) as GameObject;
 		GameObject.Destroy(enemyobj.GetComponent<Enemy>());
 		Diversion d = enemyobj.AddComponent<Diversion>() as Diversion;
+		enemyobj.transform.SetParent(Dial.spawnLayer,false);
 		float chaindelay = (float)(double)actualenemydict["delay"];
 		d.SetDelay(chaindelay);
 		
@@ -330,8 +336,8 @@ public class SwarmMaster : Boss{
 		degrees += 15*trackpos; //negative trackpos is left side, positive is right side, 0 is middle
 		degrees = ((360-degrees) + 90)%360; //convert to counterclockwise of x axis
 		degrees *= Mathf.Deg2Rad;
-		enemyobj.transform.position = new Vector3(Dial.FULL_LENGTH*Mathf.Cos(degrees),
-		                                          Dial.FULL_LENGTH*Mathf.Sin(degrees),0);
+		((RectTransform)enemyobj.transform).anchoredPosition = new Vector2(Dial.FULL_LENGTH*Mathf.Cos(degrees),
+		                                                                   Dial.FULL_LENGTH*Mathf.Sin(degrees));
 		d.StartMoving();
 	}
 	

@@ -287,7 +287,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 			ge.addArgument(transform.gameObject);
 			EventManager.Instance().RaiseEvent(ge);
 		}
-		GameObject healthCircle = transform.FindChild("Image").gameObject;
+		GameObject healthCircle = transform.FindChild("Health").gameObject;
 		healthCircle.transform.localScale = new Vector3 (hp / maxhp, hp / maxhp, 1);
 	}
 	

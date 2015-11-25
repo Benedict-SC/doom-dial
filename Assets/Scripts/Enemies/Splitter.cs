@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class Splitter : Enemy{
@@ -65,12 +66,14 @@ public class Splitter : Enemy{
 		}
 	}
 	public void Split(){
-		GameObject enemyspawn1 = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
+		GameObject enemyspawn1 = GameObject.Instantiate (Resources.Load ("Prefabs/MainCanvas/Enemy")) as GameObject;
 		Destroy (enemyspawn1.GetComponent<Enemy>());
 		Splitter split = enemyspawn1.AddComponent<Splitter>() as Splitter;
-		GameObject enemyspawn2 = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
+		enemyspawn1.transform.SetParent(Dial.spawnLayer,false);
+		GameObject enemyspawn2 = GameObject.Instantiate (Resources.Load ("Prefabs/MainCanvas/Enemy")) as GameObject;
 		Destroy (enemyspawn2.GetComponent<Enemy>());
 		Splitter split2 = enemyspawn2.AddComponent<Splitter>() as Splitter;
+		enemyspawn2.transform.SetParent(Dial.spawnLayer,false);
 		
 		split.size = size - 1;
 		split2.size = size - 1;
@@ -168,10 +171,11 @@ public class Splitter : Enemy{
 	}
 	public void PlayDead(){
 		playingDead = true;
-		gameObject.GetComponent<SpriteRenderer>().enabled = false;
-		transform.FindChild("Health").GetComponent<SpriteRenderer>().enabled = false;
+		gameObject.GetComponent<Image>().enabled = false;
+		transform.FindChild("Health").GetComponent<Image>().enabled = false;
 	}
 	public void RealDie(){
+		RectTransform rt = (RectTransform)transform;
 		if(hp <= 0){
 			System.Random r = new System.Random ();
 			float rng = (float)r.NextDouble() * 100; //random float between 0 and 100
@@ -183,7 +187,7 @@ public class Splitter : Enemy{
 				}
 			} else if (this.impactTime >= TrackController.NORMAL_SPEED + NORMALNESS_RANGE) { //is "slow"
 				//Debug.Log("slow enemy died");
-				float distanceFromCenter = Mathf.Sqrt ((transform.position.x) * (transform.position.x) + (transform.position.y) * (transform.position.y));
+				float distanceFromCenter = Mathf.Sqrt ((rt.anchoredPosition.x) * (rt.anchoredPosition.x) + (rt.anchoredPosition.y) * (rt.anchoredPosition.y));
 				if (distanceFromCenter > Dial.middle_radius) { //died in outer ring
 					if (rng < highDropRate) {
 						DropPiece ();
@@ -199,7 +203,7 @@ public class Splitter : Enemy{
 				}
 			} else { //is "fast"
 				//Debug.Log("fast enemy died");
-				float distanceFromCenter = Mathf.Sqrt ((transform.position.x) * (transform.position.x) + (transform.position.y) * (transform.position.y));
+				float distanceFromCenter = Mathf.Sqrt ((rt.anchoredPosition.x) * (rt.anchoredPosition.x) + (rt.anchoredPosition.y) * (rt.anchoredPosition.y));
 				if (distanceFromCenter > Dial.middle_radius) { //died in outer ring
 					if (rng < lowDropRate) {
 						DropPiece ();

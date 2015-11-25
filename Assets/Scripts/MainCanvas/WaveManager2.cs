@@ -105,9 +105,10 @@ public class WaveManager2 : MonoBehaviour {
 				waveProgress.Restart();
 				if(activeWaveIndex == 5){
 					//spawn late-spawning bosses
-					/*if(bosscode == 1){
-						GameObject boss = GameObject.Instantiate (Resources.Load ("Prefabs/SwarmMaster")) as GameObject;
-					}*/
+					if(bosscode == 1){
+						GameObject boss = GameObject.Instantiate (Resources.Load ("Prefabs/MainCanvas/SwarmMaster")) as GameObject;
+						boss.transform.SetParent(Dial.spawnLayer,false);
+					}
 				}
 			}
 			return;

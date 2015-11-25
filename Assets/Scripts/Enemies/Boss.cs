@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Boss : MonoBehaviour{
 
@@ -13,11 +14,18 @@ public class Boss : MonoBehaviour{
 	protected int mode=0;
 	protected int level=4;
 	
+	RectTransform rt;
+	
 	public virtual void Start(){
 		thetas = new Vector3(0f,0.00f,0.000f);
 		radii = new Vector3(Dial.FULL_LENGTH,0f,0f);
 	}
+	void OnEnable(){
+		rt = (RectTransform)transform;
+	}
 	public virtual void Update(){
+		if(Pause.paused)
+			return;
 		if (!moving)
 			return;
 		//Debug.Log(thetas.x + ", " + thetas.y + ", " + thetas.z);
@@ -33,7 +41,7 @@ public class Boss : MonoBehaviour{
 			thetas.x += 2*Mathf.PI;
 		}
 		//set x/y position based on theta and r
-		transform.position = new Vector3(Mathf.Cos(thetas.x)*radii.x,Mathf.Sin (thetas.x)*radii.x,transform.position.z);
+		rt.anchoredPosition = new Vector2(Mathf.Cos(thetas.x)*radii.x,Mathf.Sin (thetas.x)*radii.x);
 		transform.eulerAngles = new Vector3(0,0,thetas.x*Mathf.Rad2Deg-90);
 		
 		HandleModeStuff();
@@ -68,7 +76,7 @@ public class Boss : MonoBehaviour{
 		//Debug.Log ("a collision happened!");
 		if (coll.gameObject.tag == "Bullet") //if it's a bullet
 		{
-			BulletController bc = coll.gameObject.GetComponent<BulletController> ();
+			Bullet bc = coll.gameObject.GetComponent<Bullet> ();
 			if (bc != null) {
 				if (bc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
 				{
@@ -96,7 +104,7 @@ public class Boss : MonoBehaviour{
 		}
 		else if (coll.gameObject.tag == "Trap") //if it's a trap
 		{
-			TrapController tc = coll.gameObject.GetComponent<TrapController> ();
+			Trap tc = coll.gameObject.GetComponent<Trap> ();
 			if (tc != null) {
 				if (tc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
 				{
@@ -117,13 +125,13 @@ public class Boss : MonoBehaviour{
 		{
 			Debug.Log ("enemy collided with AoE");
 			GameObject obj = coll.gameObject;
-			AoEController ac = obj.GetComponent<AoEController>();
+			AoE ac = obj.GetComponent<AoE>();
 			if (ac.parent == "Bullet")
 			{
 				if (ac.aoeBulletCon.enemyHit != this.gameObject) //if this isn't the enemy originally hit
 				{
 					//Debug.Log ("parent is bullet@");
-					BulletController bc = ac.aoeBulletCon;
+					Bullet bc = ac.aoeBulletCon;
 					hp -= bc.dmg;
 					if(hp <= 0){
 						Die ();
@@ -134,7 +142,7 @@ public class Boss : MonoBehaviour{
 			{
 				if (ac.aoeTrapCon.enemyHit != this.gameObject) //if this isn't the enemy originally hit
 				{
-					TrapController tc = ac.aoeTrapCon;
+					Trap tc = ac.aoeTrapCon;
 					hp -= tc.dmg;
 					if(hp <= 0){
 						Die ();

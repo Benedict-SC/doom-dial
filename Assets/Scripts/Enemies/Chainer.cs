@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class Chainer : Enemy{
@@ -34,9 +35,10 @@ public class Chainer : Enemy{
 		}
 	}
 	public void SpawnFollower(){
-		GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
+		GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/MainCanvas/Enemy")) as GameObject;
 		Destroy (enemyspawn.GetComponent<Enemy>());
 		Chainer newchainer = enemyspawn.AddComponent<Chainer>() as Chainer;
+		enemyspawn.transform.SetParent(Dial.spawnLayer,false);
 		newchainer.FillFollowers(followers);
 		newchainer.delay = delay;
 		followers.Add(newchainer);
@@ -87,10 +89,11 @@ public class Chainer : Enemy{
 	}
 	public void PlayDead(){
 		playingDead = true;
-		gameObject.GetComponent<SpriteRenderer>().enabled = false;
-		transform.FindChild("Health").GetComponent<SpriteRenderer>().enabled = false;
+		gameObject.GetComponent<Image>().enabled = false;
+		transform.FindChild("Health").GetComponent<Image>().enabled = false;
 	}
 	public void RealDie(){
+		RectTransform rt = (RectTransform)transform;
 		if(hp <= 0){
 			System.Random r = new System.Random ();
 			float rng = (float)r.NextDouble() * 100; //random float between 0 and 100
@@ -102,7 +105,7 @@ public class Chainer : Enemy{
 				}
 			} else if (this.impactTime >= TrackController.NORMAL_SPEED + NORMALNESS_RANGE) { //is "slow"
 				//Debug.Log("slow enemy died");
-				float distanceFromCenter = Mathf.Sqrt ((transform.position.x) * (transform.position.x) + (transform.position.y) * (transform.position.y));
+				float distanceFromCenter = Mathf.Sqrt ((rt.anchoredPosition.x) * (rt.anchoredPosition.x) + (rt.anchoredPosition.y) * (rt.anchoredPosition.y));
 				if (distanceFromCenter > Dial.middle_radius) { //died in outer ring
 					if (rng < highDropRate) {
 						DropPiece ();
@@ -118,7 +121,7 @@ public class Chainer : Enemy{
 				}
 			} else { //is "fast"
 				//Debug.Log("fast enemy died");
-				float distanceFromCenter = Mathf.Sqrt ((transform.position.x) * (transform.position.x) + (transform.position.y) * (transform.position.y));
+				float distanceFromCenter = Mathf.Sqrt ((rt.anchoredPosition.x) * (rt.anchoredPosition.x) + (rt.anchoredPosition.y) * (rt.anchoredPosition.y));
 				if (distanceFromCenter > Dial.middle_radius) { //died in outer ring
 					if (rng < lowDropRate) {
 						DropPiece ();

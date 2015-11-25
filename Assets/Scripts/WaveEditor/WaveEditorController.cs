@@ -208,7 +208,7 @@ public class WaveEditorController : MonoBehaviour,EventHandler{
 		leveldata.Write(Json.Serialize(leveldict));
 		//switch scene to MainGame while somehow calling the wavemanager reset thing
 		WorldData.loadUserLevel = true;
-		Application.LoadLevel("MainGame");
+		Application.LoadLevel("MainGameCanvas");
 	}
 	public void Return(){
 		Application.LoadLevel ("MenuTest");

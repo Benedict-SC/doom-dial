@@ -1,4 +1,4 @@
-
+using UnityEngine.UI;
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -44,9 +44,10 @@ public class Diversion : Enemy{
 		if(!spawnsDone[0]){
 			//spawn first set
 			for(int i = 0; i < 4; i++){
-				GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
+				GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/MainCanvas/Enemy")) as GameObject;
 				Destroy (enemyspawn.GetComponent<Enemy>());
 				DiversionMinion minion = enemyspawn.AddComponent<DiversionMinion>() as DiversionMinion;
+				enemyspawn.transform.SetParent(Dial.spawnLayer,false);
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.leader = this;
 				minion.SetSrcFileName("diversionminion");
@@ -72,9 +73,10 @@ public class Diversion : Enemy{
 		}else if(!spawnsDone[1]){
 			//spawn second set
 			for(int i = 0; i < 3; i++){
-				GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
+				GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/MainCanvas/Enemy")) as GameObject;
 				Destroy (enemyspawn.GetComponent<Enemy>());
 				DiversionMinion minion = enemyspawn.AddComponent<DiversionMinion>() as DiversionMinion;
+				enemyspawn.transform.SetParent(Dial.spawnLayer,false);
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.leader = this;
 				minion.SetSrcFileName("diversionminion");
@@ -99,9 +101,10 @@ public class Diversion : Enemy{
 			//spawn third set
 			Debug.Log ("spawning third wave");
 			for(int i = 0; i < 2; i++){
-				GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
+				GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/MainCanvas/Enemy")) as GameObject;
 				Destroy (enemyspawn.GetComponent<Enemy>());
 				DiversionMinion minion = enemyspawn.AddComponent<DiversionMinion>() as DiversionMinion;
+				enemyspawn.transform.SetParent(Dial.spawnLayer,false);
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.leader = this;
 				minion.SetSrcFileName("diversionminion");
@@ -123,9 +126,10 @@ public class Diversion : Enemy{
 		}else if(!spawnsDone[3]){
 			//spawn fourth set
 			Debug.Log ("spawning fourth wave");
-			GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/Enemy")) as GameObject;
+			GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/MainCanvas/Enemy")) as GameObject;
 			Destroy (enemyspawn.GetComponent<Enemy>());
 			DiversionMinion minion = enemyspawn.AddComponent<DiversionMinion>() as DiversionMinion;
+			enemyspawn.transform.SetParent(Dial.spawnLayer,false);
 			minion.numberOfFollowers = numberOfFollowers;
 			minion.leader = this;
 			minion.SetSrcFileName("diversionminion");
@@ -177,10 +181,11 @@ public class Diversion : Enemy{
 	}
 	public void PlayDead(){
 		playingDead = true;
-		gameObject.GetComponent<SpriteRenderer>().enabled = false;
-		transform.FindChild("Health").GetComponent<SpriteRenderer>().enabled = false;
+		gameObject.GetComponent<Image>().enabled = false;
+		transform.FindChild("Health").GetComponent<Image>().enabled = false;
 	}
 	public void RealDie(){
+		RectTransform rt = (RectTransform)transform;
 		if(hp <= 0){
 			System.Random r = new System.Random ();
 			float rng = (float)r.NextDouble() * 100; //random float between 0 and 100
@@ -192,7 +197,7 @@ public class Diversion : Enemy{
 				}
 			} else if (this.impactTime >= TrackController.NORMAL_SPEED + NORMALNESS_RANGE) { //is "slow"
 				//Debug.Log("slow enemy died");
-				float distanceFromCenter = Mathf.Sqrt ((transform.position.x) * (transform.position.x) + (transform.position.y) * (transform.position.y));
+				float distanceFromCenter = Mathf.Sqrt ((rt.anchoredPosition.x) * (rt.anchoredPosition.x) + (rt.anchoredPosition.y) * (rt.anchoredPosition.y));
 				if (distanceFromCenter > Dial.middle_radius) { //died in outer ring
 					if (rng < highDropRate) {
 						DropPiece ();
@@ -208,7 +213,7 @@ public class Diversion : Enemy{
 				}
 			} else { //is "fast"
 				//Debug.Log("fast enemy died");
-				float distanceFromCenter = Mathf.Sqrt ((transform.position.x) * (transform.position.x) + (transform.position.y) * (transform.position.y));
+				float distanceFromCenter = Mathf.Sqrt ((rt.anchoredPosition.x) * (rt.anchoredPosition.x) + (rt.anchoredPosition.y) * (rt.anchoredPosition.y));
 				if (distanceFromCenter > Dial.middle_radius) { //died in outer ring
 					if (rng < lowDropRate) {
 						DropPiece ();
