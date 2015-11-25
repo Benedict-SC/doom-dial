@@ -85,7 +85,7 @@ public class Gun : MonoBehaviour,EventHandler{
 	
 	// Update is called once per frame
 	void Update () {
-		isPaused = GamePause.paused;
+		isPaused = Pause.paused;
 		if (!isPaused) {
 			if (cooldown > 0) {
 				cooldown -= 0.05f; //tweak this for a one-second cooldown from 1.0f
@@ -220,7 +220,7 @@ public class Gun : MonoBehaviour,EventHandler{
 		{
 			Debug.Log ("called instantiate bullet");
 			GameObject bullet = Instantiate (Resources.Load ("Prefabs/MainCanvas/Bullet")) as GameObject; //make a bullet
-			bullet.transform.SetParent(canvas.transform,false);
+			bullet.transform.SetParent(Dial.spawnLayer,false);
 			RectTransform bulletRect = (RectTransform)bullet.transform;
 			RectTransform rt = (RectTransform)transform;
 			Bullet bc = bullet.GetComponent<Bullet>();
@@ -253,7 +253,7 @@ public class Gun : MonoBehaviour,EventHandler{
 		{
 			Debug.Log ("called instantiate bullet");
 			GameObject bullet = Instantiate (Resources.Load ("Prefabs/MainCanvas/Bullet")) as GameObject; //make a bullet
-			bullet.transform.SetParent(canvas.transform,false);
+			bullet.transform.SetParent(Dial.spawnLayer,false);
 			Bullet bc = bullet.GetComponent<Bullet>();
 			RectTransform bulletRect = (RectTransform)bullet.transform;
 			RectTransform rt = (RectTransform)transform;
@@ -286,7 +286,7 @@ public class Gun : MonoBehaviour,EventHandler{
 		{
 			Debug.Log ("called instantiate bullet");
 			GameObject bullet = Instantiate (Resources.Load ("Prefabs/MainCanvas/Bullet")) as GameObject; //make a bullet
-			bullet.transform.SetParent(canvas.transform,false);
+			bullet.transform.SetParent(Dial.spawnLayer,false);
 			Bullet bc = bullet.GetComponent<Bullet>();
 			RectTransform bulletRect = (RectTransform)bullet.transform;
 			RectTransform rt = (RectTransform)transform;

@@ -24,10 +24,12 @@ public class Dial : MonoBehaviour,EventHandler {
 	
 	GameObject[] shields = new GameObject[6];
 	public static RectTransform canvasTransform;
+	public static RectTransform spawnLayer;
 	
 	// Use this for initialization
 	void Start () {
 		canvasTransform = GameObject.Find("Canvas").GetComponent<RectTransform>();
+		spawnLayer = GameObject.Find("SpawnedObjectsLayer").GetComponent<RectTransform>();
 		EventManager.Instance ().RegisterForEventType ("enemy_arrived", this);
 		LoadDialConfigFromJSON ("devdial");
 		

@@ -93,7 +93,7 @@ public class Bullet : MonoBehaviour {
 		}
 		if (isSplitBullet)
 		{
-			transform.SetParent (Dial.canvasTransform, false);
+			transform.SetParent (Dial.spawnLayer, false);
 			splitTimer = new Timer();
 			timerElapsed = false;
 		}
@@ -107,7 +107,7 @@ public class Bullet : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(GamePause.paused)
+		if(Pause.paused)
 			return;
 		if (!isSplitBullet)
 		{
@@ -348,7 +348,7 @@ public class Bullet : MonoBehaviour {
 					stun = 0f;
 					penetration = 0f;
 					GameObject splashCone = Instantiate (Resources.Load ("Prefabs/MainCanvas/SplashCone")) as GameObject;
-					splashCone.transform.SetParent(Dial.canvasTransform,false);
+					splashCone.transform.SetParent(Dial.spawnLayer,false);
 					splashCone.transform.position = this.transform.position;
 					splashCone.transform.rotation = this.transform.rotation;
 					/*splashCone.transform.rotation = new Quaternion(gameObject.transform.rotation.x,

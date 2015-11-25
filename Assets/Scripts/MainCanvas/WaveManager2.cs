@@ -64,7 +64,7 @@ public class WaveManager2 : MonoBehaviour {
 		*/
 	}
 	public void Update(){
-		if(GamePause.paused)
+		if(Pause.paused)
 			return;
 		
 		if(!onBreather){

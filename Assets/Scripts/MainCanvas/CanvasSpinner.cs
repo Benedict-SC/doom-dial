@@ -27,6 +27,8 @@ public class CanvasSpinner : MonoBehaviour,EventHandler{
 		}
 	}
 	public void HandleEvent(GameEvent ge){
+		if(Pause.paused)
+			return;
 		Vector3 mousepos = InputWatcher.GetCanvasInputPosition((RectTransform)canvas.transform);
 		if(ge.type.Equals("mouse_click")){
 			if(spinning)
@@ -51,6 +53,8 @@ public class CanvasSpinner : MonoBehaviour,EventHandler{
 		}
 	}
 	public void Update(){
+		if(Pause.paused)
+			return;
 		if(!spinning)
 			return;
 		Vector3 mousepos = InputWatcher.GetCanvasInputPosition((RectTransform)canvas.transform);

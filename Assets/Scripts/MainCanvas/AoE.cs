@@ -31,7 +31,7 @@ public class AoE : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//keeps track on if the game pauses
-		isPaused = GamePause.paused;
+		isPaused = Pause.paused;
 		if (!isPaused) {
 			transform.localScale = Vector3.Lerp (transform.localScale, transform.localScale * scale, lerpTime);
 			colRad = Mathf.Lerp (transform.localScale.x + 0.5f, transform.localScale.x * scale, lerpTime);

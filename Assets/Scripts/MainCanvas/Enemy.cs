@@ -206,7 +206,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 	// Update is called once per frame
 	public virtual void Update () {
 		//handle whether or not to update, pause stuff
-		moving = !GamePause.paused;
+		moving = !Pause.paused;
 		if (lastPause != moving) {
 			timer.Restart();
 		}

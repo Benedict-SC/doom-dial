@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class Pause : MonoBehaviour {
@@ -23,16 +24,16 @@ public class Pause : MonoBehaviour {
 	public void PauseTrigger(){
 		if(!paused){
 			//moves buttons to set locations, and darkens screen
-			this.gameObject.transform.position = anchorPoints[0].gameObject.transform.position;
-			returnButton.transform.position = anchorPoints[2].gameObject.transform.position;
-			GetComponentInChildren<TextMesh>().text = "Resume";
-			tintBox.GetComponent<Renderer> ().material.color = new Color (0.0f, 0.0f, 0.0f, 0.5f);
-		}else{
-			//moves buttons back, sets screen back to normal color
 			this.gameObject.transform.position = anchorPoints[1].gameObject.transform.position;
 			returnButton.transform.position = anchorPoints[3].gameObject.transform.position;
-			GetComponentInChildren<TextMesh>().text = "Pause";
-			tintBox.GetComponent<Renderer> ().material.color = new Color (0.0f, 0.0f, 0.0f, 0.0f);
+			GetComponentInChildren<Text>().text = "Resume";
+			tintBox.SetActive(true);
+		}else{
+			//moves buttons back, sets screen back to normal color
+			this.gameObject.transform.position = anchorPoints[0].gameObject.transform.position;
+			returnButton.transform.position = anchorPoints[2].gameObject.transform.position;
+			GetComponentInChildren<Text>().text = "Pause";
+			tintBox.SetActive(false);
 		}
 		paused = !paused;
 	}
