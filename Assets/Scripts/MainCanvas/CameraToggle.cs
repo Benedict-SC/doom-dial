@@ -12,5 +12,6 @@ public class CameraToggle : MonoBehaviour{
 	}
 	public void GoToGame(){
 		transform.position = new Vector3(transform.position.x,transform.position.y,-10f);
+		GamePause.paused = false;
 	}
 }
