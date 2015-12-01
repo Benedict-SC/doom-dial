@@ -26,12 +26,24 @@ public class Dial : MonoBehaviour,EventHandler {
 	public static RectTransform canvasTransform;
 	public static RectTransform spawnLayer;
 	
-	// Use this for initialization
-	void Start () {
+	Dictionary<string,System.Object> bonusWaveDictionary;
+	int bonusCapacity = 30;
+	
+	void Awake(){
 		canvasTransform = GameObject.Find("Canvas").GetComponent<RectTransform>();
 		spawnLayer = GameObject.Find("SpawnedObjectsLayer").GetComponent<RectTransform>();
+	}
+	void Start () {
+		
 		EventManager.Instance ().RegisterForEventType ("enemy_arrived", this);
 		LoadDialConfigFromJSON ("devdial");
+		
+		bonusWaveDictionary = new Dictionary<string,System.Object>();
+		bonusWaveDictionary.Add("levelID",0L);
+		bonusWaveDictionary.Add("waveID",404L);
+		bonusWaveDictionary.Add("maxMilliseconds",(long)(bonusCapacity * 1000));
+		bonusWaveDictionary.Add("minimumInterval",1000L);
+		bonusWaveDictionary.Add("enemies",new List<System.Object>());
 		
 		zoneLines = GameObject.Find("ZoneLines").gameObject;
 		superBars[0] = zoneLines.transform.FindChild("Super1").gameObject;
@@ -90,6 +102,7 @@ public class Dial : MonoBehaviour,EventHandler {
 			return;
 		}
 		Enemy enemy = eh.GetComponent<Enemy>();
+		enemy.AddToBonus((List<System.Object>)bonusWaveDictionary["enemies"]);
 		float rawDamage = enemy.GetDamage ();
 		int trackID = enemy.GetCurrentTrackID();
 		if (shields[trackID - 1] != null) //if this enemy's lane is shielded
@@ -138,7 +151,17 @@ public class Dial : MonoBehaviour,EventHandler {
 			gun.SetActive(active);
 		}
 	}
-	
+	public Dictionary<string,System.Object> GetBonusJSON(){
+		return bonusWaveDictionary;
+	}
+	public void ClearBonusJSON(){
+		bonusWaveDictionary = new Dictionary<string,System.Object>();
+		bonusWaveDictionary.Add("levelID",0L);
+		bonusWaveDictionary.Add("waveID",404L);
+		bonusWaveDictionary.Add("maxMilliseconds",(long)(bonusCapacity * 1000));
+		bonusWaveDictionary.Add("minimumInterval",1000L);
+		bonusWaveDictionary.Add("enemies",new List<System.Object>());
+	}
 	
 	public void PlaceShield(int id, GameObject shield){
 		shields [id] = shield;

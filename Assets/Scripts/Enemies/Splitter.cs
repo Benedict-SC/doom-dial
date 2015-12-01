@@ -7,6 +7,7 @@ public class Splitter : Enemy{
 	List<Splitter> partners = null; //contains self
 	public int size = 3;
 	public bool justStarted = false;
+	public bool groupAddedToBonus = false;
 	
 	float bounceDist;
 	float traveled = 0f;
@@ -75,6 +76,9 @@ public class Splitter : Enemy{
 		Splitter split2 = enemyspawn2.AddComponent<Splitter>() as Splitter;
 		enemyspawn2.transform.SetParent(Dial.spawnLayer,false);
 		
+		split.groupAddedToBonus = groupAddedToBonus;
+		split2.groupAddedToBonus = groupAddedToBonus;
+		
 		split.size = size - 1;
 		split2.size = size - 1;
 		if(size == 3){
@@ -129,7 +133,22 @@ public class Splitter : Enemy{
 		PlayDead();
 	}
 	public void AddPartner(Splitter s){
-		partners.Add (s);
+		if(!partners.Contains(s))
+			partners.Add (s);
+	}
+	public override void AddToBonus(List<System.Object> bonusList){
+		if(!groupAddedToBonus){
+			Dictionary<string,System.Object> enemyDict = new Dictionary<string,System.Object>();
+			enemyDict.Add("enemyID","splitter");
+			enemyDict.Add("trackID",(long)GetCurrentTrackID());
+			bonusList.Add(enemyDict);
+			
+			//tell everyone else not to do the thing
+			groupAddedToBonus = true;
+			foreach(Splitter s in partners){
+				s.groupAddedToBonus = true;
+			}
+		}
 	}
 	public void Bounce(bool left){
 		bouncing = true;
@@ -219,7 +238,7 @@ public class Splitter : Enemy{
 				}
 			}
 		}
-		//TODO:put one normal splitter in the missedwave queue
+		
 		foreach(Splitter s in partners){
 			if(s != this)
 				Destroy (s.gameObject);

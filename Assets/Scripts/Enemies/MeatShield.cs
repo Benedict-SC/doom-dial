@@ -12,6 +12,8 @@ public class MeatShield : Enemy{
 	List<MeatShield> partners = new List<MeatShield>();
 	bool playingDead = false;
 	
+	public bool groupAddedToBonus = false;
+	
 	bool doneSpawning = false;
 	float batch1;
 	float batch2;
@@ -23,6 +25,7 @@ public class MeatShield : Enemy{
 		base.Start();
 		partnerSpawn = new Timer();
 		partnerSpawn.Restart();
+		AddPartner(this);
 	}
 	public override void Update(){
 		if (!moving){
@@ -55,14 +58,16 @@ public class MeatShield : Enemy{
 				minion.SetSrcFileName("meatshieldsmall");
 				minion.SetTrackID(trackID);
 				minion.SetTrackLane(trackLane);
+				minion.groupAddedToBonus = groupAddedToBonus;
 				if(i == 0)
 					minion.OverrideMoverLane(6f);
 				else if(i == 1)
 					minion.OverrideMoverLane(-6f);
 				
-				partners.Add(minion);
+				AddPartner(minion);
 				foreach(MeatShield ms in partners){
 					ms.AddPartner(minion);
+					minion.AddPartner(ms);
 				}
 				minion.StartMoving();
 			}
@@ -79,12 +84,14 @@ public class MeatShield : Enemy{
 				minion.SetSrcFileName("meatshieldsmall");
 				minion.SetTrackID(trackID);
 				minion.SetTrackLane(trackLane);
+				minion.groupAddedToBonus = groupAddedToBonus;
 				if(i == 0)
 					minion.OverrideMoverLane(0f);
 				
-				partners.Add(minion);
+				AddPartner(minion);
 				foreach(MeatShield ms in partners){
 					ms.AddPartner(minion);
+					minion.AddPartner(ms);
 				}
 				minion.StartMoving();
 			}
@@ -101,14 +108,16 @@ public class MeatShield : Enemy{
 				minion.SetSrcFileName("meatshieldsmall");
 				minion.SetTrackID(trackID);
 				minion.SetTrackLane(trackLane);
+				minion.groupAddedToBonus = groupAddedToBonus;
 				if(i == 0)
 					minion.OverrideMoverLane(6f);
 				else if(i == 1)
 					minion.OverrideMoverLane(-6f);
 				
-				partners.Add(minion);
+				AddPartner(minion);
 				foreach(MeatShield ms in partners){
 					ms.AddPartner(minion);
+					minion.AddPartner(ms);
 				}
 				minion.StartMoving();
 			}
@@ -125,12 +134,14 @@ public class MeatShield : Enemy{
 				minion.SetSrcFileName("meatshieldsmall");
 				minion.SetTrackID(trackID);
 				minion.SetTrackLane(trackLane);
+				minion.groupAddedToBonus = groupAddedToBonus;
 				if(i == 0)
 					minion.OverrideMoverLane(0);
 				
-				partners.Add(minion);
+				AddPartner(minion);
 				foreach(MeatShield ms in partners){
 					ms.AddPartner(minion);
+					minion.AddPartner(ms);
 				}
 				minion.StartMoving();
 			}
@@ -147,12 +158,14 @@ public class MeatShield : Enemy{
 				minion.SetSrcFileName("meatshieldbig");
 				minion.SetTrackID(trackID);
 				minion.SetTrackLane(trackLane);
+				minion.groupAddedToBonus = groupAddedToBonus;
 				if(i == 0)
 					minion.OverrideMoverLane(0f);
 				
-				partners.Add(minion);
+				AddPartner(minion);
 				foreach(MeatShield ms in partners){
 					ms.AddPartner(minion);
+					minion.AddPartner(ms);
 				}
 				minion.StartMoving();
 			}
@@ -164,13 +177,29 @@ public class MeatShield : Enemy{
 		}
 	}
 	public void AddPartner(MeatShield ms){
-		partners.Add(ms);
+		if(!partners.Contains(ms))
+			partners.Add(ms);
 	}
 	public void FillPartners(List<MeatShield> list){
 		foreach(MeatShield ms in list){
-			partners.Add(ms);
+			AddPartner (ms);
 		}
 		//Debug.Log(followers.Count + " followers");
+	}
+	public override void AddToBonus(List<System.Object> bonusList){
+		if(!groupAddedToBonus){
+			Debug.Log ("adding a big one");
+			Dictionary<string,System.Object> enemyDict = new Dictionary<string,System.Object>();
+			enemyDict.Add("enemyID","meatshieldsmall");
+			enemyDict.Add("trackID",(long)GetCurrentTrackID());
+			bonusList.Add(enemyDict);
+			
+			//tell everyone else not to do the thing
+			groupAddedToBonus = true;
+			foreach(MeatShield ms in partners){
+				ms.groupAddedToBonus = true;
+			}
+		}
 	}
 	public override void Die(){
 		if (hp <= 0.0f) {
@@ -178,13 +207,15 @@ public class MeatShield : Enemy{
 			Debug.Log ("increasing super percent");
 		}
 		bool everyonesHere = partners.Count >= numberOfFollowers;
+		Debug.Log("partner count: "+partners.Count);
 		bool playing = true;
 		foreach(MeatShield ms in partners){
-			if(!ms.IsPlayingDead()){
+			if(ms != this && !ms.IsPlayingDead()){
 				playing = false;
 				break;
 			}
 		}
+		Debug.Log ("big one: "+everyonesHere + " and " + playing);
 		bool everyonesPlayingDead = everyonesHere && playing;
 		
 		if(everyonesPlayingDead){
@@ -246,7 +277,8 @@ public class MeatShield : Enemy{
 		}
 		//TODO:put yourself in the missedwave queue
 		foreach(MeatShield ms in partners){
-			Destroy (ms.gameObject);
+			if(ms != this)
+				Destroy (ms.gameObject);
 		}
 		Destroy (this.gameObject);
 	}

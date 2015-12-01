@@ -386,6 +386,12 @@ public class Enemy : MonoBehaviour,EventHandler {
 		//other types of collision?
 		
 	}
+	public virtual void AddToBonus(List<System.Object> bonusList){
+		Dictionary<string,System.Object> enemyDict = new Dictionary<string,System.Object>();
+		enemyDict.Add("enemyID",srcFileName);
+		enemyDict.Add("trackID",(long)GetCurrentTrackID());
+		bonusList.Add(enemyDict);
+	}
 	
 	public virtual void Die(){
 		//put more dying functionality here

@@ -8,17 +8,22 @@ public class WaveManager2 : MonoBehaviour {
 	Timer levelProgress;
 	Timer waveProgress;
 	
-	public static readonly int BREATHER_SECONDS = 6;
+	Dial dial;
 	
 	List<Wave> waves;
 	Wave activeWave;
 	int activeWaveIndex;
 	
+	public static readonly int BREATHER_SECONDS = 6;
 	bool onBreather = true;
 	
 	int bosscode = 0;
 	
+	bool bonusWaveIsHappening = false;
+	
 	public void Start(){
+		dial = GameObject.Find("Dial").GetComponent<Dial>();
+	
 		waves = new List<Wave> ();
 		levelProgress = new Timer();
 		waveProgress = new Timer();
@@ -69,6 +74,11 @@ public class WaveManager2 : MonoBehaviour {
 	public void Update(){
 		if(Pause.paused)
 			return;
+			
+		if(bonusWaveIsHappening){
+			BonusWaveUpdate();
+			return;
+		}
 		
 		if(!onBreather){
 			//Debug.Log("not on breather");
@@ -107,6 +117,7 @@ public class WaveManager2 : MonoBehaviour {
 					activeWave = waves [activeWaveIndex];
 				}else{
 					Debug.Log(activeWaveIndex + " >= " + waves.Count);
+					BonusWaveStart();
 				}
 				waveProgress.Restart();
 				if(activeWaveIndex == 5){
@@ -127,5 +138,47 @@ public class WaveManager2 : MonoBehaviour {
 	public void setLocations(string world, string level){
 		worldVar = world;
 		levelVar = level;
+	}
+	
+	Wave bonusWave;
+	Timer bonusTimer;
+	bool bonusGoing = false;
+	Timer delayTimer;
+	void BonusWaveStart(){
+		Dictionary<string,System.Object> json = dial.GetBonusJSON();
+		bonusWave = new Wave(json);
+		dial.ClearBonusJSON();
+		bonusTimer = new Timer();
+		delayTimer = new Timer();
+		bonusWaveIsHappening = true;
+		WaveMessageBox.StandardWarning(-1);
+	}
+	void BonusWaveUpdate(){
+		if(!bonusGoing){
+			if(delayTimer.TimeElapsedSecs() >= 4f){
+				bonusGoing = true;
+				bonusTimer.Restart();
+			}
+		}else{
+			List<GameObject> spawnedThisCycle = new List<GameObject> ();
+			foreach (GameObject enemy in bonusWave.GetEnemies()) {
+				Enemy e = enemy.GetComponent<Enemy> ();
+				if (e.GetSpawnTime () - ZoneWarning.HEAD_START*1000 < bonusTimer.TimeElapsedMillis()
+				    && !e.HasWarned ()) {
+					e.Warn();
+					GameEvent warning = new GameEvent ("warning");
+					warning.addArgument (e);
+					EventManager.Instance ().RaiseEvent (warning);
+				}
+				if (e.GetSpawnTime () < bonusTimer.TimeElapsedMillis()) {
+					spawnedThisCycle.Add (enemy);
+					enemy.SetActive (true);
+					e.StartMoving ();
+				}
+			}
+			foreach (GameObject spawned in spawnedThisCycle) {
+				bonusWave.RemoveEnemy (spawned);
+			}
+		}
 	}
 }

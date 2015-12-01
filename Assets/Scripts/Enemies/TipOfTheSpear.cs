@@ -16,6 +16,8 @@ public class TipOfTheSpear : Enemy{
 	float batch1;
 	float batch2;
 	
+	public bool groupAddedToBonus = false;
+	
 	public override void Start(){
 		base.Start();
 		partnerSpawn = new Timer();
@@ -48,14 +50,17 @@ public class TipOfTheSpear : Enemy{
 				minion.SetSrcFileName("tipofthespear");
 				minion.SetTrackID(trackID);
 				minion.SetTrackLane(trackLane);
+				minion.groupAddedToBonus = groupAddedToBonus;
 				if(i == 0)
 					minion.OverrideMoverLane(7.5f);
 				else if(i == 1)
 					minion.OverrideMoverLane(-7.5f);
 				
-				partners.Add(minion);
+				AddPartner(minion);
+				minion.AddPartner(this);
 				foreach(TipOfTheSpear tots in partners){
 					tots.AddPartner(minion);
+					minion.AddPartner(tots);
 				}
 				minion.StartMoving();
 			}
@@ -72,14 +77,17 @@ public class TipOfTheSpear : Enemy{
 				minion.SetSrcFileName("tipofthespear");
 				minion.SetTrackID(trackID);
 				minion.SetTrackLane(trackLane);
+				minion.groupAddedToBonus = groupAddedToBonus;
 				if(i == 0)
 					minion.OverrideMoverLane(15f);
 				else if(i == 1)
 					minion.OverrideMoverLane(-15f);
 				
-				partners.Add(minion);
+				AddPartner(minion);
+				minion.AddPartner(this);
 				foreach(TipOfTheSpear tots in partners){
 					tots.AddPartner(minion);
+					minion.AddPartner(tots);
 				}
 				minion.StartMoving();
 			}
@@ -91,13 +99,28 @@ public class TipOfTheSpear : Enemy{
 		}
 	}
 	public void AddPartner(TipOfTheSpear tots){
-		partners.Add(tots);
+		if(!partners.Contains(tots))
+			partners.Add(tots);
 	}
 	public void FillPartners(List<TipOfTheSpear> list){
 		foreach(TipOfTheSpear tots in list){
 			partners.Add(tots);
 		}
 		//Debug.Log(followers.Count + " followers");
+	}
+	public override void AddToBonus(List<System.Object> bonusList){
+		if(!groupAddedToBonus){
+			Dictionary<string,System.Object> enemyDict = new Dictionary<string,System.Object>();
+			enemyDict.Add("enemyID",srcFileName);
+			enemyDict.Add("trackID",(long)GetCurrentTrackID());
+			bonusList.Add(enemyDict);
+			
+			//tell everyone else not to do the thing
+			groupAddedToBonus = true;
+			foreach(TipOfTheSpear tots in partners){
+				tots.groupAddedToBonus = true;
+			}
+		}
 	}
 	public override void Die(){
 		if (hp <= 0.0f) {
@@ -106,7 +129,7 @@ public class TipOfTheSpear : Enemy{
 		bool everyonesHere = partners.Count >= numberOfFollowers;
 		bool playing = true;
 		foreach(TipOfTheSpear tots in partners){
-			if(!tots.IsPlayingDead()){
+			if(tots != this && !tots.IsPlayingDead()){
 				playing = false;
 				break;
 			}

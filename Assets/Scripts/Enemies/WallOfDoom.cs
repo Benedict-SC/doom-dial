@@ -7,6 +7,8 @@ public class WallOfDoom : Enemy{
 	List<WallOfDoom> partners = new List<WallOfDoom>();
 	bool playingDead = false;
 	
+	public bool groupAddedToBonus = false;
+	
 	public override void Start(){
 		base.Start();
 		if(partners.Count < 3)
@@ -31,10 +33,12 @@ public class WallOfDoom : Enemy{
 		Destroy (enemyspawn1.GetComponent<Enemy>());
 		WallOfDoom wall = enemyspawn1.AddComponent<WallOfDoom>() as WallOfDoom;
 		enemyspawn1.transform.SetParent(Dial.spawnLayer,false);
+		wall.groupAddedToBonus = groupAddedToBonus;
 		GameObject enemyspawn2 = GameObject.Instantiate (Resources.Load ("Prefabs/MainCanvas/Enemy")) as GameObject;
 		Destroy (enemyspawn2.GetComponent<Enemy>());
 		WallOfDoom wall2 = enemyspawn2.AddComponent<WallOfDoom>() as WallOfDoom;
 		enemyspawn2.transform.SetParent(Dial.spawnLayer,false);
+		wall2.groupAddedToBonus = groupAddedToBonus;
 		
 		partners.Add(this);
 		partners.Add(wall);
@@ -68,6 +72,20 @@ public class WallOfDoom : Enemy{
 	public void FillPartners(List<WallOfDoom> list){
 		foreach(WallOfDoom wod in list){
 			partners.Add(wod);
+		}
+	}
+	public override void AddToBonus(List<System.Object> bonusList){
+		if(!groupAddedToBonus){
+			Dictionary<string,System.Object> enemyDict = new Dictionary<string,System.Object>();
+			enemyDict.Add("enemyID",srcFileName);
+			enemyDict.Add("trackID",(long)GetCurrentTrackID());
+			bonusList.Add(enemyDict);
+			
+			//tell everyone else not to do the thing
+			groupAddedToBonus = true;
+			foreach(WallOfDoom wod in partners){
+				wod.groupAddedToBonus = true;
+			}
 		}
 	}
 	public override void Die(){

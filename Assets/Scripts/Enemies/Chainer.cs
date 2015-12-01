@@ -4,18 +4,20 @@ using System.Collections.Generic;
 
 public class Chainer : Enemy{
 	
-	int numberOfFollowers = 4;
+	int targetGroupSize = 5;
 	public float delay = .8f;
 	Timer followerSpawn;
 	public bool spawnedAlready = false;
 	List<Chainer> followers = new List<Chainer>();
 	bool playingDead = false;
 	
+	public bool groupAddedToBonus = false;
+	
 	public override void Start(){
 		base.Start();
 		followerSpawn = new Timer();
 		followerSpawn.Restart();
-		followers.Add(this);
+		AddFollower(this);
 	}
 	public override void Update(){
 		if (!moving){
@@ -26,10 +28,10 @@ public class Chainer : Enemy{
 			return;
 		}else{
 			base.Update();
-			if(!spawnedAlready && followers.Count < numberOfFollowers+1 && followerSpawn.TimeElapsedSecs() >= delay){
+			if(!spawnedAlready && followers.Count < targetGroupSize && followerSpawn.TimeElapsedSecs() >= delay){
 				spawnedAlready = true;
 				SpawnFollower();
-			}else if(followers.Count == numberOfFollowers+1){
+			}else if(followers.Count == targetGroupSize){
 				spawnedAlready = true;
 			}
 		}
@@ -39,9 +41,11 @@ public class Chainer : Enemy{
 		Destroy (enemyspawn.GetComponent<Enemy>());
 		Chainer newchainer = enemyspawn.AddComponent<Chainer>() as Chainer;
 		enemyspawn.transform.SetParent(Dial.spawnLayer,false);
+		followers.Add(newchainer);
 		newchainer.FillFollowers(followers);
 		newchainer.delay = delay;
-		followers.Add(newchainer);
+		newchainer.groupAddedToBonus = groupAddedToBonus;
+		
 		
 		newchainer.SetSrcFileName(srcFileName);
 		newchainer.SetTrackID(trackID);
@@ -51,22 +55,45 @@ public class Chainer : Enemy{
 		degrees += 15*trackLane; //negative trackpos is left side, positive is right side, 0 is middle
 		degrees = ((360-degrees) + 90)%360; //convert to counterclockwise of x axis
 		degrees *= Mathf.Deg2Rad;
-		enemyspawn.transform.position = new Vector3(radius*Mathf.Cos(degrees),radius*Mathf.Sin(degrees),0);
+		enemyspawn.transform.position = new Vector3(Dial.FULL_LENGTH*Mathf.Cos(degrees),Dial.FULL_LENGTH*Mathf.Sin(degrees),0);
 		
 		newchainer.StartMoving();
 		
 	}
 	public void FillFollowers(List<Chainer> list){
 		foreach(Chainer c in list){
-			followers.Add(c);
+			AddFollower(c);
+			c.AddFollower(this);
 		}
 		//Debug.Log(followers.Count + " followers");
+	}
+	public void AddFollower(Chainer c){
+		if(!HasFollower(c))
+			followers.Add(c);
+	}
+	public bool HasFollower(Chainer c){
+		return followers.Contains(c);
+	}
+	public override void AddToBonus(List<System.Object> bonusList){
+		if(!groupAddedToBonus){
+			//Debug.Log ("adding a chainer");
+			Dictionary<string,System.Object> enemyDict = new Dictionary<string,System.Object>();
+			enemyDict.Add("enemyID",srcFileName);
+			enemyDict.Add("trackID",(long)GetCurrentTrackID());
+			bonusList.Add(enemyDict);
+			
+			//tell everyone else not to do the thing
+			groupAddedToBonus = true;
+			foreach(Chainer c in followers){
+				c.groupAddedToBonus = true;
+			}
+		}
 	}
 	public override void Die(){
 		if (hp <= 0.0f) {
 			dialCon.IncreaseSuperPercent();
 		}
-			bool everyonesHere = followers.Count >= numberOfFollowers+1;
+			bool everyonesHere = followers.Count >= targetGroupSize;
 			bool playing = true;
 			foreach(Chainer c in followers){
 				if(!c.IsPlayingDead() && this != c){
@@ -74,6 +101,7 @@ public class Chainer : Enemy{
 					break;
 				}
 			}
+			//Debug.Log ("chainers: " + everyonesHere + " and " + playing);
 			bool everyonesPlayingDead = everyonesHere && playing;
 		
 		if(everyonesPlayingDead){
@@ -137,7 +165,6 @@ public class Chainer : Enemy{
 				}
 			}
 		}
-		//TODO:put yourself in the missedwave queue
 		foreach(Chainer c in followers){
 			if(c != this)
 				Destroy (c.gameObject);

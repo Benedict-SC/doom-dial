@@ -105,9 +105,14 @@ public class Wave{
 			//long spawntimeInMillis = (long)enemydict["spawntime"];
 			string filename = (string) enemydict["enemyID"];
 			int track = (int)(long)enemydict["trackID"];
-			int trackpos = (int)(long)enemydict["trackpos"];
+			int trackpos = 0;
+			if(enemydict.ContainsKey("trackpos"))
+				trackpos = (int)(long)enemydict["trackpos"];
 			//make enemy
 			GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/MainCanvas/Enemy")) as GameObject;
+			Debug.Log("we're setting it to the spawn layer");
+			//Debug.Log (Dial.spawnLayer == null);
+			enemyspawn.transform.SetParent(Dial.spawnLayer,false);
 			enemyspawn.SetActive(false);
 			Enemy ec = enemyspawn.GetComponent<Enemy>();
 			
@@ -169,10 +174,11 @@ public class Wave{
 			degrees = ((360-degrees) + 90)%360; //convert to counterclockwise of x axis
 			degrees *= Mathf.Deg2Rad;
 			
-			((RectTransform)enemyspawn.transform).anchoredPosition = new Vector2(radius*Mathf.Cos(degrees),radius*Mathf.Sin(degrees));
+			
+			((RectTransform)enemyspawn.transform).anchoredPosition = new Vector2(Dial.FULL_LENGTH*Mathf.Cos(degrees),Dial.FULL_LENGTH*Mathf.Sin(degrees));
 			//set spawn time
 			ec.SetSpawnTime(spawntimesInMillis[i]);
-			enemyspawn.transform.SetParent(canvas,false);
+			
 			enemies.Add(enemyspawn);
 		}
 		/*foreach (System.Object enemy in enemyjson) {
@@ -188,6 +194,12 @@ public class Wave{
 	}
 	public bool IsEverythingDead(){
 		foreach(GameObject enemy in enemies){
+			/*try{
+				bool b = enemy.activeSelf;
+				return false;
+			}catch(NullReferenceException nre){
+				//well it's dead
+			}*/
 			if(enemy != null)
 				return false;
 		}

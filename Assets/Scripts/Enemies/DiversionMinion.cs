@@ -9,6 +9,8 @@ public class DiversionMinion : Enemy{
 	List<DiversionMinion> followers = new List<DiversionMinion>();
 	bool playingDead = false;
 	
+	public bool groupAddedToBonus = false;
+	
 	public override void Start(){
 		base.Start();
 		followers.Add(this);
@@ -31,7 +33,24 @@ public class DiversionMinion : Enemy{
 		//Debug.Log(followers.Count + " followers");
 	}
 	public void AddFollower(DiversionMinion dm){
-		followers.Add(dm);
+		if(!followers.Contains(dm))
+			followers.Add(dm);
+	}
+	public override void AddToBonus(List<System.Object> bonusList){
+		if(!groupAddedToBonus){
+			Debug.Log ("adding a diversion (from minion)");
+			Dictionary<string,System.Object> enemyDict = new Dictionary<string,System.Object>();
+			enemyDict.Add("enemyID",leader.GetSrcFileName());
+			enemyDict.Add("trackID",(long)leader.GetCurrentTrackID());
+			bonusList.Add(enemyDict);
+			
+			//tell everyone else not to do the thing
+			groupAddedToBonus = true;
+			foreach(DiversionMinion dm in followers){
+				dm.groupAddedToBonus = true;
+			}
+			leader.groupAddedToBonus = true;
+		}
 	}
 	public override void Die(){
 		if (hp <= 0.0f) {
@@ -45,6 +64,7 @@ public class DiversionMinion : Enemy{
 				break;
 			}
 		}
+		Debug.Log ("dminion: " + everyonesHere + " and " + playing);
 		bool everyonesPlayingDead = everyonesHere && playing && leader.IsPlayingDead();
 		
 		if(everyonesPlayingDead){

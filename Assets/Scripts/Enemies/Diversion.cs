@@ -11,6 +11,8 @@ public class Diversion : Enemy{
 	List<DiversionMinion> followers = new List<DiversionMinion>();
 	bool playingDead = false;
 	
+	public bool groupAddedToBonus = false;
+	
 	bool doneSpawning = false;
 	float batch1;
 	float batch2;
@@ -53,6 +55,7 @@ public class Diversion : Enemy{
 				minion.SetSrcFileName("diversionminion");
 				minion.SetTrackID(trackID);
 				minion.SetTrackLane(trackLane);
+				minion.groupAddedToBonus = groupAddedToBonus;
 				if(i == 0)
 					minion.OverrideMoverLane(9f);
 				else if(i == 1)
@@ -65,6 +68,7 @@ public class Diversion : Enemy{
 				followers.Add(minion);
 				foreach(DiversionMinion dm in followers){
 					dm.AddFollower(minion);
+					minion.AddFollower(dm);
 				}
 				minion.StartMoving();
 			}
@@ -82,6 +86,7 @@ public class Diversion : Enemy{
 				minion.SetSrcFileName("diversionminion");
 				minion.SetTrackID(trackID);
 				minion.SetTrackLane(trackLane);
+				minion.groupAddedToBonus = groupAddedToBonus;
 				if(i == 0)
 					minion.OverrideMoverLane(7.5f);
 				else if(i == 1)
@@ -92,6 +97,7 @@ public class Diversion : Enemy{
 				followers.Add(minion);
 				foreach(DiversionMinion dm in followers){
 					dm.AddFollower(minion);
+					minion.AddFollower(dm);
 				}
 				minion.StartMoving();
 			}
@@ -110,6 +116,7 @@ public class Diversion : Enemy{
 				minion.SetSrcFileName("diversionminion");
 				minion.SetTrackID(trackID);
 				minion.SetTrackLane(trackLane);
+				minion.groupAddedToBonus = groupAddedToBonus;
 				if(i == 0)
 					minion.OverrideMoverLane(-5f);
 				else if(i == 1)
@@ -118,6 +125,7 @@ public class Diversion : Enemy{
 				followers.Add(minion);
 				foreach(DiversionMinion dm in followers){
 					dm.AddFollower(minion);
+					minion.AddFollower(dm);
 				}
 				minion.StartMoving();
 			}
@@ -136,10 +144,12 @@ public class Diversion : Enemy{
 			minion.SetTrackID(trackID);
 			minion.SetTrackLane(trackLane);
 			minion.OverrideMoverLane(0f);
+			minion.groupAddedToBonus = groupAddedToBonus;
 			
 			followers.Add(minion);
 			foreach(DiversionMinion dm in followers){
 				dm.AddFollower(minion);
+				minion.AddFollower(dm);
 			}
 			minion.StartMoving();
 			
@@ -150,7 +160,8 @@ public class Diversion : Enemy{
 		}
 	}
 	public void TellAboutNewFollower(DiversionMinion dm){
-		followers.Add(dm);
+		if(!followers.Contains(dm))
+			followers.Add(dm);
 	}
 	public void FillFollowers(List<DiversionMinion> list){
 		foreach(DiversionMinion dm in list){
@@ -158,11 +169,26 @@ public class Diversion : Enemy{
 		}
 		//Debug.Log(followers.Count + " followers");
 	}
+	public override void AddToBonus(List<System.Object> bonusList){
+		if(!groupAddedToBonus){
+			Debug.Log ("adding a diversion");
+			Dictionary<string,System.Object> enemyDict = new Dictionary<string,System.Object>();
+			enemyDict.Add("enemyID",srcFileName);
+			enemyDict.Add("trackID",(long)GetCurrentTrackID());
+			bonusList.Add(enemyDict);
+			
+			//tell everyone else not to do the thing
+			groupAddedToBonus = true;
+			foreach(DiversionMinion dm in followers){
+				dm.groupAddedToBonus = true;
+			}
+		}
+	}
 	public override void Die(){
 		if (hp <= 0.0f) {
 			dialCon.IncreaseSuperPercent();
 		}
-		bool everyonesHere = followers.Count >= numberOfFollowers;
+		bool everyonesHere = followers.Count + 1 >= numberOfFollowers;
 		bool playing = true;
 		foreach(DiversionMinion dm in followers){
 			if(!dm.IsPlayingDead()){
@@ -170,6 +196,7 @@ public class Diversion : Enemy{
 				break;
 			}
 		}
+		Debug.Log ("diversion: " + everyonesHere + " and " + playing);
 		bool everyonesPlayingDead = everyonesHere && playing;
 		
 		if(everyonesPlayingDead){
