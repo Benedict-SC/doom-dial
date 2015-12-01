@@ -10,7 +10,7 @@ using System.Collections.Generic;
  * enemy_arrived
  * warning (Enemy e)
  * piece_dropped
- * wave_message_flash (string message, float seconds)
+ * wave_message_flash (string message, float seconds, int waveNumber)
  *
  * tap
  * piece_tapped

@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class WaveMessageBox : MonoBehaviour,EventHandler{
 
 	Text box;
+	int upcomingWaveNumber = 0;
 	
 	//lot of reused code from zoneWarning
 	float flashTime; //the amount of time to flash for
@@ -15,7 +16,7 @@ public class WaveMessageBox : MonoBehaviour,EventHandler{
 	float brightness_radius; //how far to oscillate around the midpoint
 	Timer flashTimer;
 	bool flashing = false;
-	int flashCount = 4; //default number of flashes
+	int flashCount = 6; //default number of flashes
 	
 	public void Start(){
 		box = gameObject.GetComponent<Text>();
@@ -28,14 +29,22 @@ public class WaveMessageBox : MonoBehaviour,EventHandler{
 	public void Update(){
 		if(flashing){
 			float time = flashTimer.TimeElapsedSecs();
+			if(time > flashTime){
+				flashing = false;
+				return;
+			}
 			if(time < rampTime){ //it's ramp-up
 				float percent = time/rampTime;
 				int alpha = (int)(percent*BRIGHTNESS_MIN);
 				SetAlpha (alpha);
 			}else if(time > flashTime-rampTime){ //it's ramp-down
 				float downtime = time - (flashTime-rampTime);
+				//Debug.Log("downtime: " + downtime);
+				//Debug.Log("ramptime: " + rampTime);
 				float percent = 1f - downtime/rampTime;
+				//Debug.Log("downtime/ramptime: " + (downtime/rampTime));
 				int alpha = (int)(percent*BRIGHTNESS_MIN);
+				//Debug.Log ("alpha: " + alpha);
 				SetAlpha (alpha);
 			}else{//we're in sin wave mode
 				float sinPercent = (time-rampTime)/(flashTime-(2*rampTime)); //what percent of the non-ramp phase we're through
@@ -46,15 +55,19 @@ public class WaveMessageBox : MonoBehaviour,EventHandler{
 				SetAlpha (alpha);
 			}
 		}
+		int number = (int)(flashTime - flashTimer.TimeElapsedSecs());
+		string message = "Wave " + upcomingWaveNumber + " in " + (number+1) + " seconds!";
+		box.text = message;
 	}
 	public void HandleEvent(GameEvent ge){
 		//only event is a message flash
 		string message = (string)ge.args[0];
 		float seconds = (float)ge.args[1];
+		upcomingWaveNumber = (int)ge.args[2];
 		
 		box.text = message;
 		flashTime = seconds;
-		rampTime = .075f/seconds;
+		rampTime = .075f*seconds;
 		
 		flashing = true;
 		flashTimer.Restart();
@@ -68,7 +81,8 @@ public class WaveMessageBox : MonoBehaviour,EventHandler{
 		GameEvent ge = new GameEvent("wave_message_flash");
 		string message = "Wave " + waveNumber + " in " + WaveManager2.BREATHER_SECONDS + " seconds!";
 		ge.addArgument(message);
-		ge.addArgument(2f);
+		ge.addArgument((float)WaveManager2.BREATHER_SECONDS);
+		ge.addArgument(waveNumber);
 		EventManager.Instance().RaiseEvent(ge);
 	}
 }

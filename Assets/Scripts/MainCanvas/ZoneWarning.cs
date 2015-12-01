@@ -28,6 +28,10 @@ public class ZoneWarning : MonoBehaviour,EventHandler{
 	public void Update(){
 		if(flashing){
 			float time = flashTimer.TimeElapsedSecs();
+			if(time > HEAD_START){
+				flashing = false;
+				return;
+			}
 			if(time < RAMP_TIME){ //it's ramp-up
 				float percent = time/RAMP_TIME;
 				int alpha = (int)(percent*BRIGHTNESS_MIN);
@@ -36,6 +40,7 @@ public class ZoneWarning : MonoBehaviour,EventHandler{
 				float downtime = time - (HEAD_START-RAMP_TIME);
 				float percent = 1f - downtime/RAMP_TIME;
 				int alpha = (int)(percent*BRIGHTNESS_MIN);
+				//Debug.Log ("alpha: " + alpha);
 				SetAlpha (alpha);
 			}else{//we're in sin wave mode
 				float sinPercent = (time-RAMP_TIME)/(HEAD_START-(2*RAMP_TIME)); //what percent of the non-ramp phase we're through
