@@ -8,8 +8,9 @@ using System.Collections.Generic;
  * shot_fired
  * shot_collided
  * enemy_arrived
- * warning
+ * warning (Enemy e)
  * piece_dropped
+ * wave_message_flash (string message, float seconds)
  *
  * tap
  * piece_tapped

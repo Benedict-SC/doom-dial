@@ -8,6 +8,8 @@ public class WaveManager2 : MonoBehaviour {
 	Timer levelProgress;
 	Timer waveProgress;
 	
+	public static readonly int BREATHER_SECONDS = 6;
+	
 	List<Wave> waves;
 	Wave activeWave;
 	int activeWaveIndex;
@@ -54,6 +56,7 @@ public class WaveManager2 : MonoBehaviour {
 		}
 		
 		activeWaveIndex = -1;
+		WaveMessageBox.StandardWarning(1);
 		
 		/*
 		if(bosscode == 2){
@@ -91,12 +94,15 @@ public class WaveManager2 : MonoBehaviour {
 			if (activeWave.IsEverythingDead ()) {
 				waveProgress.Restart ();
 				onBreather = true;
+				if(activeWaveIndex + 2 <= waves.Count)
+					WaveMessageBox.StandardWarning(activeWaveIndex + 2);
 			}
 		}else{
 			//Debug.Log("on breather");
-			if(waveProgress.TimeElapsedSecs() > 8){
+			if(waveProgress.TimeElapsedSecs() > BREATHER_SECONDS){
 				onBreather = false;
 				activeWaveIndex++;
+				
 				if (activeWaveIndex < waves.Count) {
 					activeWave = waves [activeWaveIndex];
 				}else{
