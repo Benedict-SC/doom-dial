@@ -12,7 +12,6 @@ using System.Collections;
  * of the numbers being passed in.
  * */
 public class MenuClickScript : MonoBehaviour, EventHandler {
-	public GameObject parent;
 	public int menuPosition = 0;
 	public string[] levelList;
 	// Use this for initialization
@@ -41,6 +40,6 @@ public class MenuClickScript : MonoBehaviour, EventHandler {
 	}
 	// Update is called once per frame
 	void Update () {
-
+		menuPosition = (int)(gameObject.transform.eulerAngles.z /72)%5;
 	}
 }

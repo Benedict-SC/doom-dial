@@ -1,11 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MainCanvas\MenuScript.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MenuClickScript.cs">
     <Files>
-      <File FileName="Assets\Scripts\MainCanvas\MenuScript.cs" Line="28" Column="39" />
-      <File FileName="Assets\Scripts\MenuSelect.cs" Line="53" Column="39" />
-      <File FileName="Assets\Scripts\MenuInGame.cs" Line="49" Column="7" />
-      <File FileName="Assets\Scripts\MainCanvas\CameraToggle.cs" Line="15" Column="28" />
+      <File FileName="Assets\Scripts\WorldSelect.cs" Line="49" Column="71" />
+      <File FileName="Assets\Scripts\MenuSpinScript.cs" Line="57" Column="6" />
+      <File FileName="Assets\Scripts\MainCanvas\MenuScript.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MenuSelect.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MenuClickScript.cs" Line="14" Column="61" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

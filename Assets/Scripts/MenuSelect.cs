@@ -57,6 +57,7 @@ public class MenuSelect : MonoBehaviour, EventHandler {
 	}
 	// Update is called once per frame
 	void Update () {
+		menuPosition = (int)((gameObject.transform.eulerAngles.z /30) +2)%4;
 		//Stops entire statement from running every frame to save overhead
 		if (menuPosition != lastPosition) {
 			/*switch(menuPosition){

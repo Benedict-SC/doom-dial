@@ -55,18 +55,9 @@ public class MenuSpinScript : MonoBehaviour, EventHandler {
 				if(Child.GetComponent<MenuClickScript>() != null){
 					Child.GetComponent<MenuClickScript>().menuPosition = menuPosition % menuMax;
 				}
-				if(Child.GetComponent<WorldSelect>() != null){
-					Child.GetComponent<WorldSelect>().menuPosition = (menuPosition % menuMax) % 4;
-				}
-				if(Child.GetComponent<LevelSelect>() != null){
-					Child.GetComponent<LevelSelect>().menuPosition = (menuPosition % menuMax) % 4;
-				}
-				if(Child.GetComponent<MenuSelect>() != null){
-					Child.GetComponent<MenuSelect>().menuPosition = (menuPosition % menuMax) % 4;
-				}
-				if(Child.GetComponent<MenuInGame>() != null){
+				/*if(Child.GetComponent<MenuInGame>() != null){
 					Child.GetComponent<MenuInGame>().menuPosition = (menuPosition % menuMax) % 4;
-				}
+				}*/
 			}
 			//resets time
 			clickTime = 0;

@@ -43,9 +43,10 @@ public class LevelSelect : MonoBehaviour, EventHandler {
 	}
 	// Update is called once per frame
 	void Update () {
+		menuPosition = (int)((gameObject.transform.eulerAngles.z /30) +2)%4;
 		//Stops entire statement from running every frame to save overhead
 		if (menuPosition != lastPosition) {
-			int temp = ((menuPosition+1)%4) +1;
+			int temp = ((menuPosition+3)%4) +1;
 			WorldData.levelSelected = "Level" + temp.ToString();
 			textMesh.GetComponent<TextMesh>().text = WorldData.worldSelected + "-" + temp.ToString();
 			/*switch(menuPosition){

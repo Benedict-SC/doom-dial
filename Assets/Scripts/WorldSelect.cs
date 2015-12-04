@@ -46,8 +46,9 @@ public class WorldSelect : MonoBehaviour, EventHandler {
 	// Update is called once per frame
 	void Update () {
 		//Stops entire statement from running every frame to save overhead
+		menuPosition = (int)((gameObject.transform.eulerAngles.z /30) +2)%4;
 		if (menuPosition != lastPosition) {
-			int temp = ((menuPosition+1)%4) +1;
+			int temp = ((menuPosition+3)%4) +1;
 			WorldData.worldSelected = "World" + temp.ToString();
 			textMesh.GetComponent<TextMesh>().text = "World " + temp.ToString();
 			/*switch(menuPosition){
