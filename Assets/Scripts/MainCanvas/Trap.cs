@@ -44,6 +44,7 @@ public class Trap : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		age = 0.0f;
+        Debug.Log("x transform is " + transform.position.x + " y transform is " + transform.position.y);
 		dmg = 34; //test value
 		armTime = maxArmingTime;
 		isActive = false;
@@ -53,7 +54,7 @@ public class Trap : MonoBehaviour {
 		collider.radius = radius;
 		//Debug.Log ("bullet radius is: " + radius);
 		//set its position
-		this.transform.position = new Vector3 (spawnx, spawny, this.transform.position.z);
+		//this.transform.position = new Vector3 (spawnx, spawny, this.transform.position.z);
 	}
 	
 	// Update is called once per frame

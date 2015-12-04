@@ -262,7 +262,6 @@ public class Bullet : MonoBehaviour {
 	{
 		float minDist = 9999f;
 		GameObject minEnemy = null;
-		//Debug.Log("HEY I HAD TO BREAK THIS METHOD BECAUSE WAVEMANAGER DOESN'T KNOW ABOUT ALL ENEMIES ANYMORE");
 		GameObject[] enemiesOnScreen = GameObject.FindGameObjectsWithTag("Enemy");
 		foreach (GameObject enemy in enemiesOnScreen)
 		{
@@ -272,7 +271,8 @@ public class Bullet : MonoBehaviour {
 				if (ec.GetTrackID() == GetCurrentTrackID()) //if this enemy is in this bullet's zone
 				{
 					Debug.Log ("FindNearestEnemy found a candidate!");
-					float dist = Vector3.Distance(this.transform.position, enemy.transform.position);
+                    RectTransform rt = (RectTransform)transform;
+					float dist = Vector2.Distance(rt.anchoredPosition, ((RectTransform)(enemy.transform)).anchoredPosition);
 					if (dist <= minDist)
 					{
 						Debug.Log ("found a new minEnemy!");

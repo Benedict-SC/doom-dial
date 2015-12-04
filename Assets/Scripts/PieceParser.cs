@@ -755,8 +755,46 @@ public class PieceParser{
 			//ArcStrength
 			gc.SetDoesArc (arcBoost);
 		}else if(gc.GetTowerType().Equals("Trap")){
-			
-		}else if(gc.GetTowerType().Equals ("Shield")){
+            //***GET TRAP SCALARS FROM JOE***
+            Debug.Log("speed is " + ((1f / speed) * SPEED_CONSTANT));
+            //Damage
+            gc.SetDmg(damage);
+            //Range
+            gc.SetRange(range);
+            //Speed
+            gc.SetSpeed(speed * SPEED_CONSTANT);
+            //Cooldown
+            gc.SetCooldown(cooldown);
+            //Poison
+            gc.SetPoison(poison);
+            Debug.Log(gc.buttonID + " poison value is set to " + poison);
+            gc.SetPoisonDur(3f);
+            //Slowdown
+            gc.SetSlowdown(slowdownMax); //for now.  eventually add in that scaling system for slow/fast enemies?
+            gc.SetSlowDur(0.75f);
+            //Knockback
+            gc.SetKnockback(knockback);
+            //Lifedrain
+            gc.SetLifeDrain(lifeDrain);
+            //Splash
+            gc.SetSplash(splash);
+            //Stun
+            gc.SetStun(stun);
+            //Penetration
+            gc.SetPenetration(penetration);
+            //Shieldshred
+            gc.SetShieldShred(shieldShred);
+            //Spread
+            gc.SetSpread(spread);
+            //SplitCount
+            gc.SetSplit(splitType);
+            //Homing
+            gc.SetIsHoming(homingStrength);
+            //ArcStrength
+            gc.SetDoesArc(arcBoost);
+
+        }
+        else if(gc.GetTowerType().Equals ("Shield")){
 			
 		}
 	}

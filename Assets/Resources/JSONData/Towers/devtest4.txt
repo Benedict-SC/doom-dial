@@ -6,6 +6,7 @@
 	"pieces":[
 		{"anchorX":0, "anchorY":0, "rotation":0, "pieceFilename":"range_super"},
 		{"anchorX":1, "anchorY":1, "rotation":0, "pieceFilename":"range_rare"},
-		{"anchorX":2, "anchorY":2, "rotation":0, "pieceFilename":"penetration_rare"}
+		{"anchorX":2, "anchorY":2, "rotation":0, "pieceFilename":"penetration_rare"},
+		{"anchorX":3, "anchorY":3, "rotation":0, "pieceFilename":"homing_rare"}
 	]
 }

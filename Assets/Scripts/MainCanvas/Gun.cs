@@ -162,7 +162,7 @@ public class Gun : MonoBehaviour,EventHandler{
 				//Debug.Log ("range is " + range);
 				float spawnRadius = Dial.TRACK_LENGTH * range;
 				GameObject trap = Instantiate (Resources.Load ("Prefabs/MainCanvas/Trap")) as GameObject; //make a bullet
-				trap.transform.SetParent(canvas.transform,false);
+				trap.transform.SetParent(Dial.spawnLayer,false);
 				RectTransform bulletRect = (RectTransform)trap.transform;
 				RectTransform rt = (RectTransform)transform;
 				Trap tc = trap.GetComponent<Trap>();
@@ -176,6 +176,7 @@ public class Gun : MonoBehaviour,EventHandler{
 				angle = (angle - (float)Math.PI / 6f) + ((((float)Math.PI / 3f) / (2)) * i); //handles spread effect
 				//find where to spawn the bullet
 				float gunDistFromCenter = Dial.DIAL_RADIUS;
+                Debug.Log("spawnRadius is " + spawnRadius);
 				tc.spawnx = (gunDistFromCenter + spawnRadius) * (float)Math.Cos (angle);
 				tc.spawny = (gunDistFromCenter + spawnRadius) * (float)Math.Sin (angle);
 				//Debug.Log (bc.speed);
