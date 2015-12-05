@@ -96,5 +96,8 @@ public class Drop : MonoBehaviour{
 		string filedata = Json.Serialize(data);
 		fl.Write(filedata);
 	}
+	public int GetRarity(){
+		return rarity;
+	}
 }
 

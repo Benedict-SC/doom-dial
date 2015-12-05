@@ -171,10 +171,40 @@ public class Dial : MonoBehaviour,EventHandler {
 		}
 		//don't forget to lower the super percent
 		
+		//get the subset of super rares
+		List<GameObject> superRares = new List<GameObject>();
+		foreach(GameObject drop in drops){
+			Drop d = drop.GetComponent<Drop>();
+			if(d.GetRarity() == 2){
+				superRares.Add(drop);
+			}
+		}
+		//subset of rares
+		List<GameObject> rares = new List<GameObject>();
+		foreach(GameObject drop in drops){
+			Drop d = drop.GetComponent<Drop>();
+			if(d.GetRarity() == 1){
+				rares.Add(drop);
+			}
+		}
+		
 		System.Random r = new System.Random ();
-		double dindex = r.NextDouble() * drops.Length;
-		int index = (int)dindex;
-		GameObject dropTarget = drops[index];
+		int index = 0;
+		GameObject dropTarget = null;
+		
+		if(superRares.Count > 0){
+			double dindex = r.NextDouble() * superRares.Count;
+			index = (int)dindex;
+			dropTarget = superRares[index];
+		}else if(rares.Count > 0){
+			double dindex = r.NextDouble() * rares.Count;
+			index = (int)dindex;
+			dropTarget = rares[index];
+		}else{
+			double dindex = r.NextDouble() * drops.Length;
+			index = (int)dindex;
+			dropTarget = drops[index];
+		}
 		dropTarget.tag = "Untagged";
 		
 		GameObject tractorBeam = Instantiate (Resources.Load ("Prefabs/MainCanvas/TractorBeam")) as GameObject;
