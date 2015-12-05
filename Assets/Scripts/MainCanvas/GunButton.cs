@@ -47,8 +47,13 @@ public class GunButton : MonoBehaviour{
 		return distance <= radius;
 	}
 	public void SetDecalFromTower(Gun gc){
+		if(!gc.gameObject.activeSelf){
+			Image sr = img.GetComponent<Image>();
+			sr.color = new Color(sr.color.r,sr.color.g,sr.color.b,0f);
+			return;
+		}
 		Sprite s = gc.transform.FindChild("Label").gameObject.GetComponent<Image>().sprite;
-		Image sr = img.GetComponent<Image>();
-		sr.sprite = s;
+		Image decal = img.GetComponent<Image>();
+		decal.sprite = s;
 	}
 }
