@@ -9,6 +9,7 @@ public class WorldData : MonoBehaviour {
 	public static string worldSelected = "";
 	public static string levelSelected = "";
 	public static string lastScene = "";
+	public static string dialSelected = "devdial";
 	
 	//a bool for use by the wave manager to tell if it should be loading a user level
 	public static bool loadUserLevel = false;

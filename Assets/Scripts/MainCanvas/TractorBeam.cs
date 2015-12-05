@@ -65,6 +65,7 @@ public class TractorBeam : MonoBehaviour{
 			if(grabTimer.TimeElapsedSecs() > GRAB_TIME){
 				grabTimer.Restart();
 				RectTransform dropRT = (RectTransform)target.transform;
+				target.transform.eulerAngles = new Vector3(0,0,0);
 				target.transform.SetParent(head.transform,false);
 				dropRT.anchoredPosition = new Vector2(0,0);	
 				state = states.PULLING;

@@ -29,26 +29,33 @@ public class TestDataLoader : MonoBehaviour{
 			FileLoader towerdest = new FileLoader (Application.persistentDataPath,"Towers",towerfile);
 			towerdest.Write(towersrc.Read());
 		}*/
-		
-		FileLoader dialsrc = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "DialConfigs","devdial");
-		FileLoader dialdest = new FileLoader (Application.persistentDataPath,"Dials","devdial");
-		string json = dialsrc.Read ();
-		dialdest.Write(json);
-		Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
-		
-		List<System.Object> entries = data ["towers"] as List<System.Object>;
-		for(int i = 0; i < 6; i++) {
-			Dictionary<string,System.Object> entry = entries[i] as Dictionary<string,System.Object>;
-			string towerfile = entry["filename"] as string;
-			FileLoader towersrc = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Towers",towerfile);
-			FileLoader towerdest = new FileLoader (Application.persistentDataPath,"Towers",towerfile);
-			towerdest.Write(towersrc.Read());
+		string[] dials = {"devdial","onedial","twodial","threedial","fourdial","fivedial","sixdial"};
+		foreach(string dialname in dials){
+			FileLoader dialsrc = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "DialConfigs",dialname);
+			FileLoader dialdest = new FileLoader (Application.persistentDataPath,"Dials",dialname);
+			string json = dialsrc.Read ();
+			dialdest.Write(json);
+			Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
+			
+			if(dialname.Equals("devdial")){
+				List<System.Object> entries = data ["towers"] as List<System.Object>;
+				for(int i = 0; i < 6; i++) {
+					Dictionary<string,System.Object> entry = entries[i] as Dictionary<string,System.Object>;
+					string towerfile = entry["filename"] as string;
+					FileLoader towersrc = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Towers",towerfile);
+					FileLoader towerdest = new FileLoader (Application.persistentDataPath,"Towers",towerfile);
+					towerdest.Write(towersrc.Read());
+				}
+			}
 		}
 		
 		Debug.Log("Loaded");
 	}
 	public void LoadGameData(){
 		StaticLoadGameData();
+	}
+	public void SetDial(string dial){
+		WorldData.dialSelected = dial;
 	}
 	public void StartGame(){
 		Application.LoadLevel("WaveEditor");

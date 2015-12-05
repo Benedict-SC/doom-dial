@@ -1,0 +1,10 @@
+{
+	"towers":[
+		{"filename":"devtest1","active":false},
+		{"filename":"devtest2","active":false},
+		{"filename":"devtest3","active":false},
+		{"filename":"devtest5","active":true},
+		{"filename":"devtest4","active":false},
+		{"filename":"devtest6","active":false}
+	]
+}

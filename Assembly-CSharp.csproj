@@ -173,10 +173,12 @@
      <None Include="Assets\Misc\BulletEffectsLog.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\poison_normal.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\damage_rare.txt" />
+     <None Include="Assets\Resources\JSONData\DialConfigs\fivedial.txt" />
      <None Include="Assets\Resources\JSONData\MiscData\inventory.txt" />
      <None Include="Assets\Resources\JSONData\Levels\testlevel.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\slow_normal.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\diversionminion.txt" />
+     <None Include="Assets\Resources\JSONData\DialConfigs\twodial.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\range_normal.txt" />
      <None Include="Assets\Resources\JSONData\Towers\drainpunch.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\stun_normal.txt" />
@@ -187,6 +189,7 @@
      <None Include="Assets\Resources\JSONData\Bestiary\thediversion.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\cdr_rare.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World3\Level1\wavedata.txt" />
+     <None Include="Assets\Resources\JSONData\DialConfigs\onedial.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\splitter2.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\homing_normal.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\spread_normal.txt" />
@@ -196,6 +199,7 @@
      <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_3.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\drain_normal.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\penetration_super.txt" />
+     <None Include="Assets\Resources\JSONData\DialConfigs\sixdial.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World4\Level4\wavedata.txt" />
      <None Include="Assets\Resources\JSONData\Waves\testwave.txt" />
      <None Include="Assets\Resources\JSONData\Waves\testwave3.txt" />
@@ -205,6 +209,7 @@
      <None Include="Assets\Resources\JSONData\Worlds\World2\Level4\wavedata.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\slow_rare.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World4\Level2\wavedata.txt" />
+     <None Include="Assets\Resources\JSONData\DialConfigs\threedial.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\knockback_super.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\poison_rare.txt" />
      <None Include="Assets\Resources\JSONData\Towers\devtest6.txt" />
@@ -238,6 +243,7 @@
      <None Include="Assets\Resources\JSONData\Worlds\World1\Level2\wavedata.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\poison_super.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\wallofdoom.txt" />
+     <None Include="Assets\Resources\JSONData\DialConfigs\fourdial.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World2\Level2\wavedata.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_4.txt" />
      <None Include="Assets\Resources\JSONData\Towers\devtest3.txt" />

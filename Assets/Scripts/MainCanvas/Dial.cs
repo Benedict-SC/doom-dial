@@ -38,7 +38,7 @@ public class Dial : MonoBehaviour,EventHandler {
 	void Start () {
 		
 		EventManager.Instance ().RegisterForEventType ("enemy_arrived", this);
-		LoadDialConfigFromJSON ("devdial");
+		LoadDialConfigFromJSON (WorldData.dialSelected);
 		
 		bonusWaveDictionary = new Dictionary<string,System.Object>();
 		bonusWaveDictionary.Add("levelID",0L);
