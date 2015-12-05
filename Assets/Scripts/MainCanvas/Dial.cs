@@ -25,6 +25,7 @@ public class Dial : MonoBehaviour,EventHandler {
 	GameObject[] shields = new GameObject[6];
 	public static RectTransform canvasTransform;
 	public static RectTransform spawnLayer;
+	public static RectTransform underLayer;
 	
 	Dictionary<string,System.Object> bonusWaveDictionary;
 	int bonusCapacity = 30;
@@ -32,6 +33,7 @@ public class Dial : MonoBehaviour,EventHandler {
 	void Awake(){
 		canvasTransform = GameObject.Find("Canvas").GetComponent<RectTransform>();
 		spawnLayer = GameObject.Find("SpawnedObjectsLayer").GetComponent<RectTransform>();
+		underLayer = GameObject.Find("SpawnUnderDialLayer").GetComponent<RectTransform>();
 	}
 	void Start () {
 		
@@ -161,6 +163,23 @@ public class Dial : MonoBehaviour,EventHandler {
 		bonusWaveDictionary.Add("maxMilliseconds",(long)(bonusCapacity * 1000));
 		bonusWaveDictionary.Add("minimumInterval",1000L);
 		bonusWaveDictionary.Add("enemies",new List<System.Object>());
+	}
+	public void TractorBeam(){
+		GameObject[] drops = GameObject.FindGameObjectsWithTag("DroppedPiece");
+		if(drops.Length <= 0){
+			return;
+		}
+		//don't forget to lower the super percent
+		
+		System.Random r = new System.Random ();
+		double dindex = r.NextDouble() * drops.Length;
+		int index = (int)dindex;
+		GameObject dropTarget = drops[index];
+		dropTarget.tag = "Untagged";
+		
+		GameObject tractorBeam = Instantiate (Resources.Load ("Prefabs/MainCanvas/TractorBeam")) as GameObject;
+		tractorBeam.transform.SetParent(Dial.underLayer,false);
+		tractorBeam.GetComponent<TractorBeam>().SetTarget(dropTarget);
 	}
 	
 	public void PlaceShield(int id, GameObject shield){

@@ -445,8 +445,12 @@ public class Enemy : MonoBehaviour,EventHandler {
 	}
 	public void DropPiece(){
 		GameObject piece = Instantiate (Resources.Load ("Prefabs/MainCanvas/DroppedPiece")) as GameObject;
-		piece.transform.SetParent(Dial.canvasTransform,false);
+		piece.transform.SetParent(Dial.underLayer,false);
 		Vector2 position = new Vector2 (rt.anchoredPosition.x, rt.anchoredPosition.y);
+		//angle it
+		float radians = (-Mathf.PI/2)+Mathf.Atan2(position.y,position.x);
+		piece.transform.eulerAngles = new Vector3(piece.transform.eulerAngles.x,piece.transform.eulerAngles.y,radians*Mathf.Rad2Deg);
+		
 		((RectTransform)piece.transform).anchoredPosition = position;
 		Drop dc = piece.GetComponent<Drop> ();
 		dc.SetTypes(srcFileName);

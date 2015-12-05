@@ -8,7 +8,7 @@ using System.IO;
 public class Drop : MonoBehaviour{
 	
 	int rarity = 0;
-	public float superRareChance = 0.1f;
+	float superRareChance = 0.1f;
 	List<string> pieceTypes;
 	
 	// Use this for initialization

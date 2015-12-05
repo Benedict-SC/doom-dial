@@ -87,6 +87,7 @@
      <Compile Include="Assets\Scripts\MainCanvas\MenuScript.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\MenuSpinner.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\Pause.cs" />
+     <Compile Include="Assets\Scripts\MainCanvas\TractorBeam.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\Trap.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\WaveManager2.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\WaveMessageBox.cs" />

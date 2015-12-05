@@ -1,25 +1,25 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MainCanvas\WaveManager2.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MainCanvas\Drop.cs">
     <Files>
-      <File FileName="Assets\Scripts\MainCanvas\WaveManager2.cs" Line="100" Column="57" />
+      <File FileName="Assets\Scripts\MainCanvas\Gun.cs" Line="223" Column="97" />
+      <File FileName="Assets\Scripts\MainCanvas\Bullet.cs" Line="456" Column="1" />
       <File FileName="Assets\Scripts\MainCanvas\Pause.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\MainCanvas\GunButton.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MainCanvas\Gun.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MainCanvas\Dial.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ButtonController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MainCanvas\Enemy.cs" Line="21" Column="21" />
-      <File FileName="Assets\Scripts\MainCanvas\Drop.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\WorldData.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MainCanvas\Dial.cs" Line="178" Column="29" />
+      <File FileName="Assets\Scripts\MainCanvas\Enemy.cs" Line="450" Column="13" />
       <File FileName="Assets\Scripts\WaveEditor\WaveEditorController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MainCanvas\Bullet.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\PieceParser.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\PieceParser.cs" Line="802" Column="1" />
       <File FileName="Assets\Scripts\MainCanvas\AoE.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\EnemyController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\TrackController.cs" Line="85" Column="99" />
-      <File FileName="Assets\Scripts\MainCanvas\ZoneWarning.cs" Line="61" Column="3" />
-      <File FileName="Assets\Scripts\MainCanvas\WaveMessageBox.cs" Line="67" Column="8" />
-      <File FileName="Assets\Scripts\Events\EventManager.cs" Line="11" Column="21" />
+      <File FileName="Assets\Scripts\MainCanvas\ZoneWarning.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MainCanvas\WaveMessageBox.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Events\EventManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Wave.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MainCanvas\WaveManager2.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MainCanvas\Trap.cs" Line="139" Column="1" />
+      <File FileName="Assets\Scripts\MainCanvas\TractorBeam.cs" Line="109" Column="27" />
+      <File FileName="Assets\Scripts\Enemies\SwarmMaster.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MainCanvas\Drop.cs" Line="11" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
