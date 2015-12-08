@@ -84,7 +84,7 @@ public class GridController : MonoBehaviour{
 			for(int j = 0; j < GRID_SIZE; j++){
 				grid[i,j] = new Occupancy();
 				GameObject go = Instantiate (Resources.Load ("Prefabs/ValidOverlay")) as GameObject;
-				go.transform.SetParent(canvas.transform,false);
+				go.transform.SetParent(EditorController.overlaysLayer,false);
 				go.transform.position = new Vector3(gridCorner.x + (squareWidth/2) + j*squareWidth,
 				                                    gridCorner.y + gridLength - (squareWidth/2) - i*squareWidth,
 				                           			go.transform.position.z);
@@ -162,7 +162,23 @@ public class GridController : MonoBehaviour{
 			cleared = true;
 			return;
 		}else{
-			cleared = false;
+			RectTransform prt = (RectTransform)p.gameObject.transform;
+			RectTransform rt = (RectTransform)transform;
+			if(!prt.rect.Overlaps(rt.rect)){
+				if(cleared)
+					return;
+				else{
+					for(int i = 0; i < GRID_SIZE; i++){
+						for(int j = 0; j < GRID_SIZE; j++){
+							overlays[i,j].sprite = blank;
+						}
+					}
+					cleared = true;
+					return;
+				}
+			}else{
+				cleared = false;
+			}
 		}
 		int[,] pieceValues = p.GetArray(); //do it here so we only have to call this once
 		if(PieceFits (p.gameObject,pieceValues)){
@@ -329,7 +345,7 @@ public class GridController : MonoBehaviour{
 			string piecefile = (string)pdata["pieceFilename"];
 			
 			GameObject go = Instantiate (Resources.Load ("Prefabs/ExistingPiece")) as GameObject;
-			go.transform.SetParent(canvas.transform,false);
+			go.transform.SetParent(EditorController.piecesLayer,false);
 			PieceController p = go.GetComponent<PieceController>();
 			p.SetGridLock(true);
 			p.ConfigureFromJSON(piecefile);
@@ -504,6 +520,7 @@ public class GridController : MonoBehaviour{
 		pc.transform.position = gridTopCorner + new Vector3(squareWidth*x + extents.x,
 		                                                    -squareWidth*(y) - extents.y,
 		                                                    pc.transform.position.z);
+		pc.transform.SetParent(EditorController.piecesLayer,false);
 	}
 	public void UpdateReadout(){
 		List<string> filenames = new List<string>();

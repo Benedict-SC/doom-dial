@@ -9,6 +9,8 @@ public class PieceTemplateController : MonoBehaviour,EventHandler{
 	float maxHeight = 1.7f;
 	float maxWidth = 2.2f;
 	string filename = "";
+	public Rect hitRect;
+	public Rect ownRect;
 	
 	int count = 0;
 	
@@ -19,10 +21,19 @@ public class PieceTemplateController : MonoBehaviour,EventHandler{
 	
 	public void Start(){
 		EventManager em = EventManager.Instance ();
+		RectTransform rt = (RectTransform)transform;
+		hitRect = new Rect(new Vector2(rt.rect.x,rt.rect.y),new Vector2(maxWidth,maxHeight));
+		hitRect.center = rt.rect.center;
+		ownRect = rt.rect;
 		//em.RegisterForEventType ("tap", this);
 		em.RegisterForEventType ("mouse_click", this);
 		em.RegisterForEventType ("mouse_release", this);
 		t = new Timer();
+	}
+	public void UpdateHitRect(){
+		RectTransform rt = (RectTransform)transform;
+		hitRect = new Rect(new Vector2(rt.rect.x,rt.rect.y),new Vector2(maxWidth,maxHeight));
+		hitRect.center = rt.rect.center;
 	}
 	public void Update(){
 		if(held){
@@ -135,9 +146,10 @@ public class PieceTemplateController : MonoBehaviour,EventHandler{
 				return false;
 		}	
 		RectTransform rt = (RectTransform)transform;
-		UIRectTranslator translate = transform.gameObject.GetComponent<UIRectTranslator>();
-		
-		bool rectangleOverlap = rt.rect.Contains(rt.InverseTransformPoint(new Vector2(touchpos.x,touchpos.y)));//sr.bounds.IntersectRay(new Ray(touchpos,transform.forward));
+		//UIRectTranslator translate = transform.gameObject.GetComponent<UIRectTranslator>();
+		//bool boxOverlap = hitRect.Contains(InputWatcher.GetCanvasInputPosition((RectTransform)EditorController.canvas.transform));
+		//return boxOverlap;
+		bool rectangleOverlap = hitRect.Contains(rt.InverseTransformPoint(new Vector2(touchpos.x,touchpos.y)));//sr.bounds.IntersectRay(new Ray(touchpos,transform.forward));
 		return rectangleOverlap;
 		/*if(!rectangleOverlap)
 			return false;

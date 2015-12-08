@@ -24,6 +24,7 @@ public class InventoryWindowController : MonoBehaviour{
 				template.transform.SetParent(frame.transform,true);
 				t.transform.SetAsFirstSibling();
 				template.transform.localPosition = new Vector3(templateX,0f,0.01f);
+				template.UpdateHitRect();
 				template.ConfigureFromJSON(pfn);
 				UpdateDescriptiveText();
 				template.SetCount(c);
@@ -43,6 +44,7 @@ public class InventoryWindowController : MonoBehaviour{
 				template.transform.SetParent(frame.transform,true);
 				t.transform.SetAsFirstSibling();
 				template.transform.localPosition = new Vector3(templateX,0f,0.01f);
+				template.UpdateHitRect();
 				template.ConfigureFromJSON(pfn);
 				UpdateDescriptiveText();
 				template.SetCount(c);

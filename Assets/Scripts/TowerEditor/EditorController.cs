@@ -8,12 +8,12 @@ public class EditorController : MonoBehaviour,EventHandler{
 
 	static PieceController floatingPiece = null; //yeah, making this static is cheating, but whatever
 	GridController grid;
-	EditorWheelController ewc;
+	//EditorWheelController ewc;
 	InventoryWindowController iwc;
 	ScrollRect sr;
 	InputField nameEntry;
 	Image decalButtonImg;
-	Canvas canvas;
+	public static Canvas canvas;
 	
 	string towerName;
 	string decalFilename;
@@ -21,12 +21,21 @@ public class EditorController : MonoBehaviour,EventHandler{
 	
 	bool gridloaded = false;
 	
-	public void Start(){
+	public static RectTransform piecesLayer;
+	public static RectTransform overlaysLayer;
+	
+	void Awake(){
 		grid = GameObject.Find("Grid").GetComponent<GridController>();
-		ewc = GameObject.Find("SpinWheel").GetComponent<EditorWheelController>();
+		//ewc = GameObject.Find("SpinWheel").GetComponent<EditorWheelController>();
 		sr = GameObject.Find("InvScroll").GetComponent<ScrollRect>();
 		iwc = GameObject.Find("InvContent").GetComponent<InventoryWindowController>();
 		canvas = GameObject.Find ("Canvas").GetComponent<Canvas>();
+		overlaysLayer = GameObject.Find("Overlays").GetComponent<RectTransform>();
+		piecesLayer = GameObject.Find("Pieces").GetComponent<RectTransform>();
+	}
+	
+	public void Start(){
+		
 		nameEntry = canvas.gameObject.transform.FindChild("NameEntry").GetComponent<InputField>();
 		decalButtonImg = canvas.gameObject.transform.FindChild("DecalButton").FindChild("Decal").GetComponent<Image>();
 		//grid.editor = this;
@@ -127,8 +136,9 @@ public class EditorController : MonoBehaviour,EventHandler{
 		//p.transform.position = new Vector3(p.transform.position.x,p.transform.position.y,-1f);
 		floatingPiece = p;
 		p.SetGridLock(false);
+		p.transform.SetParent(canvas.transform,false);
 		grid.RemovePiece(p);
-		ewc.transform.rotation = floatingPiece.transform.rotation;
+		//ewc.transform.rotation = floatingPiece.transform.rotation;
 	}
 	public void InventoryAdd(PieceController p){
 		iwc.AddPiece(p);
