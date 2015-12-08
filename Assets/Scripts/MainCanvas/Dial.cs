@@ -7,6 +7,8 @@ public class Dial : MonoBehaviour,EventHandler {
 	public static readonly float FULL_LENGTH = 162.9f;
 	public static readonly float DIAL_RADIUS = 52.1f;
 	public static readonly float TRACK_LENGTH = 110.8f;
+	public static readonly float ENEMY_SPAWN_LENGTH = 187f;
+	public static readonly float ENEMY_TRACK_LENGTH = 134.9f;
 	
 	public float maxHealth = 100.0f;
 	public float health = 100.0f;
@@ -26,14 +28,16 @@ public class Dial : MonoBehaviour,EventHandler {
 	public static RectTransform canvasTransform;
 	public static RectTransform spawnLayer;
 	public static RectTransform underLayer;
+	public static RectTransform unmaskedLayer;
 	
 	Dictionary<string,System.Object> bonusWaveDictionary;
 	int bonusCapacity = 30;
 	
 	void Awake(){
 		canvasTransform = GameObject.Find("Canvas").GetComponent<RectTransform>();
-		spawnLayer = GameObject.Find("SpawnedObjectsLayer").GetComponent<RectTransform>();
+		spawnLayer = GameObject.Find("SpawnOverDialLayer").GetComponent<RectTransform>();
 		underLayer = GameObject.Find("SpawnUnderDialLayer").GetComponent<RectTransform>();
+		unmaskedLayer = GameObject.Find ("UnmaskedSpawns").GetComponent<RectTransform>();
 	}
 	void Start () {
 		

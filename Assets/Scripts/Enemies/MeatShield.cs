@@ -54,6 +54,8 @@ public class MeatShield : Enemy{
 				Destroy (enemyspawn.GetComponent<Enemy>());
 				MeatShield minion = enemyspawn.AddComponent<MeatShield>() as MeatShield;
 				enemyspawn.transform.SetParent(Dial.spawnLayer,false);
+				RectTransform ert = enemyspawn.GetComponent<RectTransform>();
+				ert.anchoredPosition = new Vector2(0f,300f);
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.SetSrcFileName("meatshieldsmall");
 				minion.SetTrackID(trackID);
@@ -80,6 +82,8 @@ public class MeatShield : Enemy{
 				Destroy (enemyspawn.GetComponent<Enemy>());
 				MeatShield minion = enemyspawn.AddComponent<MeatShield>() as MeatShield;
 				enemyspawn.transform.SetParent(Dial.spawnLayer,false);
+				RectTransform ert = enemyspawn.GetComponent<RectTransform>();
+				ert.anchoredPosition = new Vector2(0f,300f);
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.SetSrcFileName("meatshieldsmall");
 				minion.SetTrackID(trackID);
@@ -104,6 +108,8 @@ public class MeatShield : Enemy{
 				Destroy (enemyspawn.GetComponent<Enemy>());
 				MeatShield minion = enemyspawn.AddComponent<MeatShield>() as MeatShield;
 				enemyspawn.transform.SetParent(Dial.spawnLayer,false);
+				RectTransform ert = enemyspawn.GetComponent<RectTransform>();
+				ert.anchoredPosition = new Vector2(0f,300f);
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.SetSrcFileName("meatshieldsmall");
 				minion.SetTrackID(trackID);
@@ -130,6 +136,8 @@ public class MeatShield : Enemy{
 				Destroy (enemyspawn.GetComponent<Enemy>());
 				MeatShield minion = enemyspawn.AddComponent<MeatShield>() as MeatShield;
 				enemyspawn.transform.SetParent(Dial.spawnLayer,false);
+				RectTransform ert = enemyspawn.GetComponent<RectTransform>();
+				ert.anchoredPosition = new Vector2(0f,300f);
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.SetSrcFileName("meatshieldsmall");
 				minion.SetTrackID(trackID);
@@ -154,6 +162,8 @@ public class MeatShield : Enemy{
 				Destroy (enemyspawn.GetComponent<Enemy>());
 				MeatShield minion = enemyspawn.AddComponent<MeatShield>() as MeatShield;
 				enemyspawn.transform.SetParent(Dial.spawnLayer,false);
+				RectTransform ert = enemyspawn.GetComponent<RectTransform>();
+				ert.anchoredPosition = new Vector2(0f,300f);
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.SetSrcFileName("meatshieldbig");
 				minion.SetTrackID(trackID);
@@ -188,7 +198,7 @@ public class MeatShield : Enemy{
 	}
 	public override void AddToBonus(List<System.Object> bonusList){
 		if(!groupAddedToBonus){
-			Debug.Log ("adding a big one");
+			//Debug.Log ("adding a big one");
 			Dictionary<string,System.Object> enemyDict = new Dictionary<string,System.Object>();
 			enemyDict.Add("enemyID","meatshieldsmall");
 			enemyDict.Add("trackID",(long)GetCurrentTrackID());
@@ -207,7 +217,7 @@ public class MeatShield : Enemy{
 			Debug.Log ("increasing super percent");
 		}
 		bool everyonesHere = partners.Count >= numberOfFollowers;
-		Debug.Log("partner count: "+partners.Count);
+		//Debug.Log("partner count: "+partners.Count);
 		bool playing = true;
 		foreach(MeatShield ms in partners){
 			if(ms != this && !ms.IsPlayingDead()){
@@ -215,7 +225,7 @@ public class MeatShield : Enemy{
 				break;
 			}
 		}
-		Debug.Log ("big one: "+everyonesHere + " and " + playing);
+		//Debug.Log ("big one: "+everyonesHere + " and " + playing);
 		bool everyonesPlayingDead = everyonesHere && playing;
 		
 		if(everyonesPlayingDead){

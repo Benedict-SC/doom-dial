@@ -32,8 +32,8 @@ public class SemicircleMover : EnemyMover{
 			deviation *= -1.0f;
 		angle += deviation;
 		
-		float lineDistance = progress * Dial.TRACK_LENGTH;
-		float distFromCenter = Dial.FULL_LENGTH - lineDistance;
+		float lineDistance = progress * Dial.ENEMY_TRACK_LENGTH;
+		float distFromCenter = Dial.ENEMY_SPAWN_LENGTH - lineDistance;
 		float x = distFromCenter * Mathf.Cos (angle);
 		float y = distFromCenter * Mathf.Sin (angle);
 		return new Vector2 (x, y);

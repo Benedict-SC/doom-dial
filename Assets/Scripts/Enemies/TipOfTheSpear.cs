@@ -46,6 +46,8 @@ public class TipOfTheSpear : Enemy{
 				Destroy (enemyspawn.GetComponent<Enemy>());
 				TipOfTheSpear minion = enemyspawn.AddComponent<TipOfTheSpear>() as TipOfTheSpear;
 				enemyspawn.transform.SetParent(Dial.spawnLayer,false);
+				RectTransform ert = enemyspawn.GetComponent<RectTransform>();
+				ert.anchoredPosition = new Vector2(0f,300f);
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.SetSrcFileName("tipofthespear");
 				minion.SetTrackID(trackID);
@@ -73,6 +75,8 @@ public class TipOfTheSpear : Enemy{
 				Destroy (enemyspawn.GetComponent<Enemy>());
 				TipOfTheSpear minion = enemyspawn.AddComponent<TipOfTheSpear>() as TipOfTheSpear;
 				enemyspawn.transform.SetParent(Dial.spawnLayer,false);
+				RectTransform ert = enemyspawn.GetComponent<RectTransform>();
+				ert.anchoredPosition = new Vector2(0f,300f);
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.SetSrcFileName("tipofthespear");
 				minion.SetTrackID(trackID);

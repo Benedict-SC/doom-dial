@@ -50,6 +50,8 @@ public class Diversion : Enemy{
 				Destroy (enemyspawn.GetComponent<Enemy>());
 				DiversionMinion minion = enemyspawn.AddComponent<DiversionMinion>() as DiversionMinion;
 				enemyspawn.transform.SetParent(Dial.spawnLayer,false);
+				RectTransform ert = enemyspawn.GetComponent<RectTransform>();
+				ert.anchoredPosition = new Vector2(0f,300f);
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.leader = this;
 				minion.SetSrcFileName("diversionminion");
@@ -81,6 +83,8 @@ public class Diversion : Enemy{
 				Destroy (enemyspawn.GetComponent<Enemy>());
 				DiversionMinion minion = enemyspawn.AddComponent<DiversionMinion>() as DiversionMinion;
 				enemyspawn.transform.SetParent(Dial.spawnLayer,false);
+				RectTransform ert = enemyspawn.GetComponent<RectTransform>();
+				ert.anchoredPosition = new Vector2(0f,300f);
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.leader = this;
 				minion.SetSrcFileName("diversionminion");
@@ -111,6 +115,8 @@ public class Diversion : Enemy{
 				Destroy (enemyspawn.GetComponent<Enemy>());
 				DiversionMinion minion = enemyspawn.AddComponent<DiversionMinion>() as DiversionMinion;
 				enemyspawn.transform.SetParent(Dial.spawnLayer,false);
+				RectTransform ert = enemyspawn.GetComponent<RectTransform>();
+				ert.anchoredPosition = new Vector2(0f,300f);
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.leader = this;
 				minion.SetSrcFileName("diversionminion");
@@ -138,6 +144,8 @@ public class Diversion : Enemy{
 			Destroy (enemyspawn.GetComponent<Enemy>());
 			DiversionMinion minion = enemyspawn.AddComponent<DiversionMinion>() as DiversionMinion;
 			enemyspawn.transform.SetParent(Dial.spawnLayer,false);
+			RectTransform ert = enemyspawn.GetComponent<RectTransform>();
+			ert.anchoredPosition = new Vector2(0f,300f);
 			minion.numberOfFollowers = numberOfFollowers;
 			minion.leader = this;
 			minion.SetSrcFileName("diversionminion");

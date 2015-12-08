@@ -25,9 +25,9 @@ public class SidestepMover : EnemyMover{
 		//who just happens to be up at 2am without having eaten in eight hours
 		if(progress < legs[0]){ //move to halfway through outer ring
 			deviation = 0.0f;
-			float ringWidth = Dial.FULL_LENGTH - Dial.middle_radius;
+			float ringWidth = Dial.ENEMY_SPAWN_LENGTH - Dial.middle_radius;
 			float travelDist = ProgressThroughLeg(progress,0)*(ringWidth); //how far in you've gone, in unity units
-			distFromCenter = Dial.FULL_LENGTH - travelDist;
+			distFromCenter = Dial.ENEMY_SPAWN_LENGTH - travelDist;
 		}else if(progress < legs[1]){//strafe right
 			distFromCenter = Dial.middle_radius;
 			deviation = ProgressThroughLeg(progress,1)*strafeDeviation;
@@ -51,7 +51,7 @@ public class SidestepMover : EnemyMover{
 		angle += deviation * Mathf.Deg2Rad;
 		
 		//float lineDistance = progress * Dial.TRACK_LENGTH;
-		//float distFromCenter = Dial.FULL_LENGTH - lineDistance;
+		//float distFromCenter = Dial.ENEMY_SPAWN_LENGTH - lineDistance;
 		float x = distFromCenter * Mathf.Cos (angle);
 		float y = distFromCenter * Mathf.Sin (angle);
 		return new Vector2 (x, y);

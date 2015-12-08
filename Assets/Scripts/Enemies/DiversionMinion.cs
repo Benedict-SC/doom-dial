@@ -38,7 +38,7 @@ public class DiversionMinion : Enemy{
 	}
 	public override void AddToBonus(List<System.Object> bonusList){
 		if(!groupAddedToBonus){
-			Debug.Log ("adding a diversion (from minion)");
+			//Debug.Log ("adding a diversion (from minion)");
 			Dictionary<string,System.Object> enemyDict = new Dictionary<string,System.Object>();
 			enemyDict.Add("enemyID",leader.GetSrcFileName());
 			enemyDict.Add("trackID",(long)leader.GetCurrentTrackID());
@@ -64,7 +64,7 @@ public class DiversionMinion : Enemy{
 				break;
 			}
 		}
-		Debug.Log ("dminion: " + everyonesHere + " and " + playing);
+		//Debug.Log ("dminion: " + everyonesHere + " and " + playing);
 		bool everyonesPlayingDead = everyonesHere && playing && leader.IsPlayingDead();
 		
 		if(everyonesPlayingDead){

@@ -20,8 +20,8 @@ public class SlowingLinearMover : EnemyMover{
 		float logprog = Mathf.Log(progress + logmin) + logoffset;
 		logprog /= logscale;
 		
-		float travelDistance = logprog * Dial.TRACK_LENGTH;
-		float distFromCenter = Dial.FULL_LENGTH - travelDistance;
+		float travelDistance = logprog * Dial.ENEMY_TRACK_LENGTH;
+		float distFromCenter = Dial.ENEMY_SPAWN_LENGTH - travelDistance;
 		float x = distFromCenter * Mathf.Cos (angle);
 		float y = distFromCenter * Mathf.Sin (angle);
 		return new Vector2 (x, y);

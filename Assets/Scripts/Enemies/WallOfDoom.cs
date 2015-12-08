@@ -58,13 +58,13 @@ public class WallOfDoom : Enemy{
 		degrees1 += 15*wall.GetTrackLane(); //negative trackpos is left side, positive is right side, 0 is middle
 		degrees1 = ((360-degrees1) + 90)%360; //convert to counterclockwise of x axis
 		degrees1 *= Mathf.Deg2Rad;
-		enemyspawn1.transform.position = new Vector3(radius*Mathf.Cos(degrees1),radius*Mathf.Sin(degrees1),0);
+		enemyspawn1.transform.position = new Vector3(Dial.ENEMY_SPAWN_LENGTH*Mathf.Cos(degrees1),Dial.ENEMY_SPAWN_LENGTH*Mathf.Sin(degrees1),0);
 		
 		float degrees2 = (trackID-1)*60; //clockwise of y-axis
 		degrees2 += 15*wall2.GetTrackLane(); //negative trackpos is left side, positive is right side, 0 is middle
 		degrees2 = ((360-degrees2) + 90)%360; //convert to counterclockwise of x axis
 		degrees2 *= Mathf.Deg2Rad;
-		enemyspawn2.transform.position = new Vector3(radius*Mathf.Cos(degrees2),radius*Mathf.Sin(degrees2),0);
+		enemyspawn2.transform.position = new Vector3(Dial.ENEMY_SPAWN_LENGTH*Mathf.Cos(degrees2),Dial.ENEMY_SPAWN_LENGTH*Mathf.Sin(degrees2),0);
 		
 		wall.StartMoving();
 		wall2.StartMoving();

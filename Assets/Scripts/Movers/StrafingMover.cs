@@ -25,17 +25,17 @@ public class StrafingMover : EnemyMover{
 		//who just happens to be up at 2am without having eaten in eight hours
 		if(progress < legs[0]){ //move to halfway through outer ring
 			deviation = 0.0f;
-			float ringWidth = Dial.FULL_LENGTH - Dial.middle_radius;
+			float ringWidth = Dial.ENEMY_SPAWN_LENGTH - Dial.middle_radius;
 			float travelDist = ProgressThroughLeg(progress,0)*(ringWidth/2.0f); //how far in you've gone, in unity units
-			distFromCenter = Dial.FULL_LENGTH - travelDist;
+			distFromCenter = Dial.ENEMY_SPAWN_LENGTH - travelDist;
 		}else if(progress < legs[1]){//strafe right
-			distFromCenter = (Dial.FULL_LENGTH + Dial.middle_radius)/2.0f;
+			distFromCenter = (Dial.ENEMY_SPAWN_LENGTH + Dial.middle_radius)/2.0f;
 			deviation = ProgressThroughLeg(progress,1)*strafeDeviation;
 		}else if(progress < legs[2]){//move to edge of middle ring
 			deviation = strafeDeviation;
-			float ringWidth = Dial.FULL_LENGTH - Dial.middle_radius;
+			float ringWidth = Dial.ENEMY_SPAWN_LENGTH - Dial.middle_radius;
 			float travelDist = (ringWidth/2.0f) + ProgressThroughLeg(progress,2)*(ringWidth/2.0f);
-			distFromCenter = Dial.FULL_LENGTH - travelDist;
+			distFromCenter = Dial.ENEMY_SPAWN_LENGTH - travelDist;
 		}else if(progress < legs[3]){//strafe left
 			distFromCenter = Dial.middle_radius;
 			deviation = strafeDeviation - ProgressThroughLeg(progress,3)*2*strafeDeviation;
@@ -74,8 +74,8 @@ public class StrafingMover : EnemyMover{
 			deviation *= -1.0f;
 		angle += deviation * Mathf.Deg2Rad;
 		
-		//float lineDistance = progress * Dial.TRACK_LENGTH;
-		//float distFromCenter = Dial.FULL_LENGTH - lineDistance;
+		//float lineDistance = progress * Dial.ENEMY_TRACK_LENGTH;
+		//float distFromCenter = Dial.ENEMY_SPAWN_LENGTH - lineDistance;
 		float x = distFromCenter * Mathf.Cos (angle);
 		float y = distFromCenter * Mathf.Sin (angle);
 		return new Vector2 (x, y);

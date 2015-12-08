@@ -229,8 +229,8 @@ public class SwarmMaster : Boss{
 		degrees += 15*trackpos; //negative trackpos is left side, positive is right side, 0 is middle
 		degrees = ((360-degrees) + 90)%360; //convert to counterclockwise of x axis
 		degrees *= Mathf.Deg2Rad;
-		((RectTransform)enemyobj.transform).anchoredPosition = new Vector2(Dial.FULL_LENGTH*Mathf.Cos(degrees),
-		                                                                   Dial.FULL_LENGTH*Mathf.Sin(degrees));
+		((RectTransform)enemyobj.transform).anchoredPosition = new Vector2(Dial.ENEMY_SPAWN_LENGTH*Mathf.Cos(degrees),
+		                                                                   Dial.ENEMY_SPAWN_LENGTH*Mathf.Sin(degrees));
 		ec.StartMoving();	
 	}
 	public void DropChainers(){
@@ -256,8 +256,8 @@ public class SwarmMaster : Boss{
 		degrees += 15*trackpos; //negative trackpos is left side, positive is right side, 0 is middle
 		degrees = ((360-degrees) + 90)%360; //convert to counterclockwise of x axis
 		degrees *= Mathf.Deg2Rad;
-		((RectTransform)enemyobj.transform).anchoredPosition = new Vector2(Dial.FULL_LENGTH*Mathf.Cos(degrees),
-										Dial.FULL_LENGTH*Mathf.Sin(degrees));
+		((RectTransform)enemyobj.transform).anchoredPosition = new Vector2(Dial.ENEMY_SPAWN_LENGTH*Mathf.Cos(degrees),
+										Dial.ENEMY_SPAWN_LENGTH*Mathf.Sin(degrees));
 		c.StartMoving();
 	}
 	public void DropSpear(){
@@ -284,8 +284,8 @@ public class SwarmMaster : Boss{
 		degrees += 15*trackpos; //negative trackpos is left side, positive is right side, 0 is middle
 		degrees = ((360-degrees) + 90)%360; //convert to counterclockwise of x axis
 		degrees *= Mathf.Deg2Rad;
-		((RectTransform)enemyobj.transform).anchoredPosition = new Vector2(Dial.FULL_LENGTH*Mathf.Cos(degrees),
-		                                                                   Dial.FULL_LENGTH*Mathf.Sin(degrees));
+		((RectTransform)enemyobj.transform).anchoredPosition = new Vector2(Dial.ENEMY_SPAWN_LENGTH*Mathf.Cos(degrees),
+		                                                                   Dial.ENEMY_SPAWN_LENGTH*Mathf.Sin(degrees));
 		tots.StartMoving();
 	}
 	public void DropWall(){
@@ -309,8 +309,8 @@ public class SwarmMaster : Boss{
 		degrees += 15*trackpos; //negative trackpos is left side, positive is right side, 0 is middle
 		degrees = ((360-degrees) + 90)%360; //convert to counterclockwise of x axis
 		degrees *= Mathf.Deg2Rad;
-		((RectTransform)enemyobj.transform).anchoredPosition = new Vector2(Dial.FULL_LENGTH*Mathf.Cos(degrees),
-		                                                                   Dial.FULL_LENGTH*Mathf.Sin(degrees));
+		((RectTransform)enemyobj.transform).anchoredPosition = new Vector2(Dial.ENEMY_SPAWN_LENGTH*Mathf.Cos(degrees),
+		                                                                   Dial.ENEMY_SPAWN_LENGTH*Mathf.Sin(degrees));
 		wod.StartMoving();
 	}
 	public void DropDiversion(){
@@ -336,8 +336,8 @@ public class SwarmMaster : Boss{
 		degrees += 15*trackpos; //negative trackpos is left side, positive is right side, 0 is middle
 		degrees = ((360-degrees) + 90)%360; //convert to counterclockwise of x axis
 		degrees *= Mathf.Deg2Rad;
-		((RectTransform)enemyobj.transform).anchoredPosition = new Vector2(Dial.FULL_LENGTH*Mathf.Cos(degrees),
-		                                                                   Dial.FULL_LENGTH*Mathf.Sin(degrees));
+		((RectTransform)enemyobj.transform).anchoredPosition = new Vector2(Dial.ENEMY_SPAWN_LENGTH*Mathf.Cos(degrees),
+		                                                                   Dial.ENEMY_SPAWN_LENGTH*Mathf.Sin(degrees));
 		d.StartMoving();
 	}
 	

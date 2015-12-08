@@ -7,7 +7,7 @@ using MiniJSON;
 public class Wave{
 
 	Transform canvas;
-	float radius = Dial.FULL_LENGTH;
+	float radius = Dial.ENEMY_SPAWN_LENGTH;
 
 	int levelID;
 	int waveID;
@@ -175,7 +175,7 @@ public class Wave{
 			degrees *= Mathf.Deg2Rad;
 			
 			
-			((RectTransform)enemyspawn.transform).anchoredPosition = new Vector2(Dial.FULL_LENGTH*Mathf.Cos(degrees),Dial.FULL_LENGTH*Mathf.Sin(degrees));
+			((RectTransform)enemyspawn.transform).anchoredPosition = new Vector2(Dial.ENEMY_SPAWN_LENGTH*Mathf.Cos(degrees),Dial.ENEMY_SPAWN_LENGTH*Mathf.Sin(degrees));
 			//set spawn time
 			ec.SetSpawnTime(spawntimesInMillis[i]);
 			
