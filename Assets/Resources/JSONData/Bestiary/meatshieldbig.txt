@@ -4,13 +4,13 @@
 	"pointValue":30,
 	
 	"enemyType":"MeatShield",
-	"delay":0.8,
+	"delay":1.6,
 
 	"movementType":"Linear",
 	"maxHP":100.0,
 	"HP":100.0,
 	"damage":15.0,
-	"impactTime":14.0,
+	"impactTime":28.0,
 	"size":0.5,
 	"maxShields":0.0,
 	"shields":0.0,

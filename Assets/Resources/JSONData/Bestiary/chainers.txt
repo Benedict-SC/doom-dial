@@ -4,13 +4,13 @@
 	"pointValue":10,
 	
 	"enemyType":"Chainers",
-	"delay":0.8,
+	"delay":1.6,
 
 	"movementType":"Sine_Mirror",
 	"maxHP":10.0,
 	"HP":10.0,
 	"damage":1.0,
-	"impactTime":12.0,
+	"impactTime":24.0,
 	"size":0.18,
 	"maxShields":0.0,
 	"shields":0.0,

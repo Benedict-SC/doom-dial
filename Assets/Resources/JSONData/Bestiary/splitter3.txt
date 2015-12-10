@@ -10,7 +10,7 @@
 	"maxHP":5.0,
 	"HP":5.0,
 	"damage":1.0,
-	"impactTime":14.0,
+	"impactTime":28.0,
 	"size":0.11,
 	"maxShields":0.0,
 	"shields":0.0,

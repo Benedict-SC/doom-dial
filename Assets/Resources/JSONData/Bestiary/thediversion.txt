@@ -5,13 +5,13 @@
 	"columnName":"Diversion",
 	
 	"enemyType":"TheDiversion",
-	"delay":2.2,
+	"delay":4.4,
 
 	"movementType":"Linear",
 	"maxHP":80.0,
 	"HP":80.0,
 	"damage":5.0,
-	"impactTime":16.0,
+	"impactTime":32.0,
 	"size":0.4,
 	"maxShields":0.0,
 	"shields":0.0,

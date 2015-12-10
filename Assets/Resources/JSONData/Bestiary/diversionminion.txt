@@ -4,13 +4,13 @@
 	"pointValue":1,
 	
 	"enemyType":"DiversionMinion",
-	"delay":0.8,
+	"delay":1.6,
 
 	"movementType":"Linear",
 	"maxHP":4.0,
 	"HP":4.0,
 	"damage":1.0,
-	"impactTime":16.0,
+	"impactTime":32.0,
 	"size":0.16,
 	"maxShields":0.0,
 	"shields":0.0,

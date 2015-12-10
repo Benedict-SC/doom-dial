@@ -6,13 +6,13 @@
 	"columnName":"T. of Spear",
 	
 	"enemyType":"TipOfTheSpear",
-	"delay":1.2,
+	"delay":2.4,
 
 	"movementType":"Slowing_Linear",
 	"maxHP":20.0,
 	"HP":20.0,
 	"damage":1.0,
-	"impactTime":11.0,
+	"impactTime":22.0,
 	"size":0.2,
 	"maxShields":0.0,
 	"shields":0.0,
