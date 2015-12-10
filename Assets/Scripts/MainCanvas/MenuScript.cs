@@ -31,6 +31,7 @@ public class MenuScript : MonoBehaviour {
 		}else{
 			WorldData.lastScene = Application.loadedLevelName;
 			levelName = levelHolder[menuPosition];
+			Pause.paused = false;
 			Application.LoadLevel(levelName);
 		}
 	}

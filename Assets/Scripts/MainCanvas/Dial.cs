@@ -34,6 +34,7 @@ public class Dial : MonoBehaviour,EventHandler {
 	int bonusCapacity = 30;
 	
 	void Awake(){
+		GamePause.paused = false;
 		canvasTransform = GameObject.Find("Canvas").GetComponent<RectTransform>();
 		spawnLayer = GameObject.Find("SpawnOverDialLayer").GetComponent<RectTransform>();
 		underLayer = GameObject.Find("SpawnUnderDialLayer").GetComponent<RectTransform>();

@@ -2,13 +2,13 @@
 using System.Collections;
 
 public class TempReturn : MonoBehaviour, EventHandler {
-	public WorldData WorldData;
+	//public WorldData WorldData;
 	// Use this for initialization
 	void Start () {
 		EventManager em = EventManager.Instance ();
 		em.RegisterForEventType ("mouse_release", this);
 		em.RegisterForEventType ("mouse_click", this);
-		WorldData = GameObject.FindWithTag ("DataHolder").GetComponent<WorldData> ();
+		//WorldData = GameObject.FindWithTag ("DataHolder").GetComponent<WorldData> ();
 	}
 	
 	// Update is called once per frame

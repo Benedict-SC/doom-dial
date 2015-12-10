@@ -50,6 +50,7 @@ public class MenuSelect : MonoBehaviour, EventHandler {
 					}else{
 						levelName = levelHolder[menuPosition];
 					}
+					Pause.paused = false;
 					Application.LoadLevel(levelName);
 				}
 			}	

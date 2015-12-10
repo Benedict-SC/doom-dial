@@ -35,6 +35,8 @@ public class CanvasSpinner : MonoBehaviour,EventHandler{
 				return;
 			if(TouchIsOnGunButtons()){
 				return;
+			}else if(mousepos.magnitude < Dial.DIAL_RADIUS - 28f){
+				return;
 			}else{
 				spinning = true;
 				startingDialRot = transform.eulerAngles.z * Mathf.Deg2Rad;

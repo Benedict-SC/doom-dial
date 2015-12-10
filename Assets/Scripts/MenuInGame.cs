@@ -45,6 +45,7 @@ public class MenuInGame : MonoBehaviour, EventHandler {
 					}else{
 						WorldData.lastScene = Application.loadedLevelName;
 						levelName = levelHolder[menuPosition];
+						GamePause.paused = false;
 						Application.LoadLevel(levelName);
 					}
 

@@ -16,7 +16,7 @@ public class LevelSelect : MonoBehaviour, EventHandler {
 	public GameObject textMesh;
 	public GameObject startButton;
 	public GameObject menuButton;
-	string levelName = "MainGame";
+	string levelName = "MainGameCanvas";
 	int lastPosition = 1;
 	// Use this for initialization
 	void Start () {
@@ -33,7 +33,8 @@ public class LevelSelect : MonoBehaviour, EventHandler {
 			if (Physics.Raycast (targetSeek, out targetFind)) {
 				//sees if ray collided with the start button
 				if (targetFind.collider.gameObject == startButton) {
-					
+					GamePause.paused = false;
+					Pause.paused = false;
 					Application.LoadLevel(levelName);
 				}
 
