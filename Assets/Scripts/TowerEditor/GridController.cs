@@ -534,5 +534,9 @@ public class GridController : MonoBehaviour{
 		EventManager.Instance().RaiseEvent(ge);
 		Debug.Log ("we read the thing");
 	}
-
+	public bool TouchIsOnMe(Vector3 touchpos){
+		RectTransform rt = (RectTransform)transform;
+		bool rectangleOverlap = rt.rect.Contains(rt.InverseTransformPoint(new Vector2(touchpos.x,touchpos.y)));//sr.bounds.IntersectRay(new Ray(touchpos,transform.forward));
+		return rectangleOverlap;
+	}
 }

@@ -21,6 +21,12 @@ public class EditorController : MonoBehaviour,EventHandler{
 	
 	bool gridloaded = false;
 	
+	public static bool finger1down = false;
+	public static bool finger2down = false;
+	public static bool waitingForOtherFingerToReset = false;
+	float pieceAngle = 0f;
+	float twoFingerAngle = 0f;
+	
 	public static RectTransform piecesLayer;
 	public static RectTransform overlaysLayer;
 	
@@ -44,6 +50,10 @@ public class EditorController : MonoBehaviour,EventHandler{
 		em.RegisterForEventType("piece_tapped",this);
 		em.RegisterForEventType("template_tapped",this);
 		em.RegisterForEventType("piece_dropped_on_inventory",this);
+		em.RegisterForEventType ("mouse_click", this);		
+		em.RegisterForEventType ("mouse_release", this);
+		em.RegisterForEventType ("alt_click", this);		
+		em.RegisterForEventType ("alt_release", this);
 		GamePause.paused = false;
 		
 		//LoadTower("drainpunch");
@@ -63,6 +73,19 @@ public class EditorController : MonoBehaviour,EventHandler{
 			if(!sr.vertical)
 				sr.vertical = true;
 		}
+		
+		if(finger2down && finger1down){
+			Vector3 altClickPos = InputWatcher.GetInputPosition(1);
+			Vector3 firstClickPos = InputWatcher.GetInputPosition();
+			Vector3 direction = altClickPos-firstClickPos;
+			float newAngle = Mathf.Atan2 (direction.y,direction.x) *Mathf.Rad2Deg;
+			float diff = newAngle - twoFingerAngle;
+			floatingPiece.transform.eulerAngles = new Vector3(0,0,pieceAngle+diff);
+		}
+	}
+	public void ButtonRotate(bool clockwise){
+		if(floatingPiece != null)
+			floatingPiece.RotateClockwise(clockwise);
 	}
 	public void LoadTower(string jsonfile){
 		grid.LoadTower(jsonfile);
@@ -127,7 +150,52 @@ public class EditorController : MonoBehaviour,EventHandler{
 			Activate(newPiece);
 			iwc.RemovePiece(newPiece);
 			//tappedPiece.SetCount(tappedPiece.GetCount()-1);
-		}	
+		}else if(ge.type.Equals("alt_click")){
+			if(floatingPiece == null)
+				return;
+			if(!finger1down){
+				return;
+			}
+				
+			Vector3 altClickPos = (Vector3)ge.args[0];
+			Vector3 firstClickPos = InputWatcher.GetInputPosition();
+			Vector3 direction = altClickPos-firstClickPos;
+			twoFingerAngle = Mathf.Atan2 (direction.y,direction.x) *Mathf.Rad2Deg;
+			pieceAngle = floatingPiece.transform.eulerAngles.z;
+			
+			floatingPiece.SetTwoFingerMovement(true);
+			finger2down = true;
+		}else if(ge.type.Equals("alt_release")){
+			Debug.Log ("alt release happened");
+			if(floatingPiece == null)
+				return;
+			
+			if(waitingForOtherFingerToReset){
+				floatingPiece.SetTwoFingerMovement(false);
+				waitingForOtherFingerToReset = false;
+			}else{
+				waitingForOtherFingerToReset = true;
+				floatingPiece.LockRotation();
+			}
+			finger2down = false;	
+			
+		}else if(ge.type.Equals("mouse_click")){
+			Vector3 pos = (Vector3)ge.args[0];
+			if(grid.TouchIsOnMe(pos)){
+				finger1down = true;
+			}
+		}else if(ge.type.Equals("mouse_release")){
+			if(floatingPiece == null)
+				return;
+			if(waitingForOtherFingerToReset){
+				floatingPiece.SetTwoFingerMovement(false);
+				waitingForOtherFingerToReset = false;
+			}else{
+				waitingForOtherFingerToReset = true;
+				floatingPiece.LockRotation();
+			}
+			finger1down = false;
+		}
 	}
 	public void Activate(PieceController p){
 		if(floatingPiece != null){
@@ -148,4 +216,6 @@ public class EditorController : MonoBehaviour,EventHandler{
 	public static PieceController GetFloatingPiece(){
 		return floatingPiece;
 	}
+	
+	
 }

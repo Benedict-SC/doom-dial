@@ -3,7 +3,7 @@ using System.Collections;
 
 public class InputWatcher : MonoBehaviour {
 
-	public static readonly bool INPUT_DEBUG = true;
+	public static readonly bool INPUT_DEBUG = false;
 
 	// Use this for initialization
 	void Start () {
@@ -47,53 +47,139 @@ public class InputWatcher : MonoBehaviour {
 					}
 				}
 		} else {
-			//first handle the main touch
-			if(Input.touchCount < 1){
-				return;
-			}
-			Touch main = Input.GetTouch(0);
-			switch(main.phase){
+			for(int i = 0; i < Input.touchCount; i++){
+				Touch t = Input.touches[i];
+				TouchPhase tp = lastPhase;
+				if(t.fingerId != 0)
+					tp = altPhases[t.fingerId-1];
+					
+				switch(t.phase){
 				case TouchPhase.Began:
-				if(lastPhase.Equals(TouchPhase.Began))
-					break; //avoid double touch events
-				GameEvent clickEvent = new GameEvent ("mouse_click");
-				clickEvent.addArgument (GetInputPosition ());
-				EventManager.Instance ().RaiseEvent (clickEvent);
-				lastPhase = TouchPhase.Began;
-				//start timer for taps
-				tapLengthWatcher.Restart();
-				break;
+					if(tp.Equals(TouchPhase.Began))
+						break; //avoid double touch events
+					if(t.fingerId == 0){
+						GameEvent clickEvent = new GameEvent ("mouse_click");
+						clickEvent.addArgument (GetInputPosition ());
+						EventManager.Instance ().RaiseEvent (clickEvent);
+						lastPhase = TouchPhase.Began;
+						//start timer for taps
+						tapLengthWatcher.Restart();
+					}else{
+						GameEvent clickEvent = new GameEvent ("alt_click");
+						clickEvent.addArgument (GetInputPosition (t.fingerId));
+						clickEvent.addArgument(t.fingerId);
+						EventManager.Instance ().RaiseEvent (clickEvent);
+						altPhases[t.fingerId-1] = TouchPhase.Began;
+						//start timer for taps
+						altWatchers[t.fingerId-1].Restart();
+						break;
+					}
+					break;
 				case TouchPhase.Ended:
-				if(lastPhase.Equals(TouchPhase.Ended) || lastPhase.Equals (TouchPhase.Canceled))
-					break; //avoid double touch events
-				GameEvent clickEvent2 = new GameEvent ("mouse_release");
-				clickEvent2.addArgument (GetInputPosition ());
-				EventManager.Instance ().RaiseEvent (clickEvent2);
-				lastPhase = TouchPhase.Ended;
-				if(tapLengthWatcher.TimeElapsedMillis() < 200){
-					GameEvent tapEvent = new GameEvent("tap");
-					tapEvent.addArgument(GetInputPosition());
-					EventManager.Instance().RaiseEvent(tapEvent);
-				}
-				break;
+					if(tp.Equals(TouchPhase.Ended) || tp.Equals (TouchPhase.Canceled))
+						break; //avoid double touch events
+					if (t.fingerId == 0) {
+						GameEvent clickEvent2 = new GameEvent ("mouse_release");
+						clickEvent2.addArgument (GetInputPosition ());
+						EventManager.Instance ().RaiseEvent (clickEvent2);
+						lastPhase = TouchPhase.Ended;
+						if(tapLengthWatcher.TimeElapsedMillis() < 200){
+							GameEvent tapEvent = new GameEvent("tap");
+							tapEvent.addArgument(GetInputPosition());
+							EventManager.Instance().RaiseEvent(tapEvent);
+						}
+					}else{
+						GameEvent clickEvent2 = new GameEvent ("alt_release");
+						clickEvent2.addArgument (GetInputPosition (t.fingerId));
+						clickEvent2.addArgument(t.fingerId);
+						EventManager.Instance ().RaiseEvent (clickEvent2);
+						altPhases[t.fingerId-1] = TouchPhase.Ended;
+						if(altWatchers[t.fingerId-1].TimeElapsedMillis() < 200){
+							GameEvent tapEvent = new GameEvent("alt_tap");
+							tapEvent.addArgument(GetInputPosition(t.fingerId));
+							tapEvent.addArgument(t.fingerId);
+							EventManager.Instance().RaiseEvent(tapEvent);
+						}
+					}
+					break;
 				case TouchPhase.Canceled:
-				if(lastPhase.Equals(TouchPhase.Ended) || lastPhase.Equals (TouchPhase.Canceled))
-					break; //avoid double touch events
-				GameEvent clickEvent3 = new GameEvent ("mouse_release");
-				clickEvent3.addArgument (GetInputPosition ());
-				EventManager.Instance ().RaiseEvent (clickEvent3);
-				lastPhase = TouchPhase.Canceled;
-				if(tapLengthWatcher.TimeElapsedMillis() < 200){
-					GameEvent tapEvent = new GameEvent("tap");
-					tapEvent.addArgument(GetInputPosition());
-					EventManager.Instance().RaiseEvent(tapEvent);
-				}
-				break;
+					if(tp.Equals(TouchPhase.Ended) || tp.Equals (TouchPhase.Canceled))
+						break; //avoid double touch events
+					if (t.fingerId == 0) {
+						GameEvent clickEvent2 = new GameEvent ("mouse_release");
+						clickEvent2.addArgument (GetInputPosition ());
+						EventManager.Instance ().RaiseEvent (clickEvent2);
+						lastPhase = TouchPhase.Ended;
+						if(tapLengthWatcher.TimeElapsedMillis() < 200){
+							GameEvent tapEvent = new GameEvent("tap");
+							tapEvent.addArgument(GetInputPosition());
+							EventManager.Instance().RaiseEvent(tapEvent);
+						}
+					}else{
+						GameEvent clickEvent2 = new GameEvent ("alt_release");
+						clickEvent2.addArgument (GetInputPosition (t.fingerId));
+						clickEvent2.addArgument(t.fingerId);
+						EventManager.Instance ().RaiseEvent (clickEvent2);
+						altPhases[t.fingerId-1] = TouchPhase.Ended;
+						if(altWatchers[t.fingerId-1].TimeElapsedMillis() < 200){
+							GameEvent tapEvent = new GameEvent("alt_tap");
+							tapEvent.addArgument(GetInputPosition(t.fingerId));
+							tapEvent.addArgument(t.fingerId);
+							EventManager.Instance().RaiseEvent(tapEvent);
+						}
+					}
+					break;
 				default:
-				break;
+					break;
+				}
+			}
+			/*if (main.fingerId == 0) {
+				switch(main.phase){
+					case TouchPhase.Began:
+					if(lastPhase.Equals(TouchPhase.Began))
+						break; //avoid double touch events
+					GameEvent clickEvent = new GameEvent ("mouse_click");
+					clickEvent.addArgument (GetInputPosition ());
+					EventManager.Instance ().RaiseEvent (clickEvent);
+					lastPhase = TouchPhase.Began;
+					//start timer for taps
+					tapLengthWatcher.Restart();
+					break;
+					case TouchPhase.Ended:
+					if(lastPhase.Equals(TouchPhase.Ended) || lastPhase.Equals (TouchPhase.Canceled))
+						break; //avoid double touch events
+					GameEvent clickEvent2 = new GameEvent ("mouse_release");
+					clickEvent2.addArgument (GetInputPosition ());
+					EventManager.Instance ().RaiseEvent (clickEvent2);
+					lastPhase = TouchPhase.Ended;
+					if(tapLengthWatcher.TimeElapsedMillis() < 200){
+						GameEvent tapEvent = new GameEvent("tap");
+						tapEvent.addArgument(GetInputPosition());
+						EventManager.Instance().RaiseEvent(tapEvent);
+					}
+					break;
+					case TouchPhase.Canceled:
+					if(lastPhase.Equals(TouchPhase.Ended) || lastPhase.Equals (TouchPhase.Canceled))
+						break; //avoid double touch events
+					GameEvent clickEvent3 = new GameEvent ("mouse_release");
+					clickEvent3.addArgument (GetInputPosition ());
+					EventManager.Instance ().RaiseEvent (clickEvent3);
+					lastPhase = TouchPhase.Canceled;
+					if(tapLengthWatcher.TimeElapsedMillis() < 200){
+						GameEvent tapEvent = new GameEvent("tap");
+						tapEvent.addArgument(GetInputPosition());
+						EventManager.Instance().RaiseEvent(tapEvent);
+					}
+					break;
+					default:
+					break;
+				}
+				
 			}
 			//next handle further touches
+			//Debug.Log ("touchcount: " + Input.touchCount);
 			for(int i = 2; i <= Input.touchCount; i++){
+				
 				Touch current = Input.GetTouch(i-1);
 				switch(current.phase){
 					case TouchPhase.Began:
@@ -103,6 +189,7 @@ public class InputWatcher : MonoBehaviour {
 						clickEvent.addArgument (GetInputPosition (i-1));
 						clickEvent.addArgument(i-1);
 						EventManager.Instance ().RaiseEvent (clickEvent);
+						//Debug.Log("alt click generated");
 						altPhases[i-2] = TouchPhase.Began;
 						//start timer for taps
 						altWatchers[i-2].Restart();
@@ -140,7 +227,7 @@ public class InputWatcher : MonoBehaviour {
 					default:
 						break;
 				}
-			}
+			}*/
 		}
 	}
 	static Vector3 lastPos = new Vector3(0f,0f,0f);
@@ -215,13 +302,19 @@ public class InputWatcher : MonoBehaviour {
 		} else { //return first finger position in world, or 0,0,0 if no touches exist
 			if(Input.touchCount < 2)
 				return lastPositions[idx-1];
-			Touch t = Input.GetTouch(idx);
+			Touch t = GetTouchByID(idx);
 			if(t.phase != TouchPhase.Ended)
 				lastPositions[idx-1] = Camera.main.ScreenToWorldPoint (t.position);
 			return lastPositions[idx-1];
 		}
 	}
-	
+	public static Touch GetTouchByID(int idx){
+		for(int i = 0; i < Input.touchCount; i++){
+			if(Input.GetTouch(i).fingerId == idx)
+				return Input.GetTouch(i);
+		}
+		return Input.GetTouch(0);
+	}
 	public static bool IsInputDown(){
 		if(INPUT_DEBUG){
 			return Input.GetMouseButtonDown(0);

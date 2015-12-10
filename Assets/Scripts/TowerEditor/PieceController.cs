@@ -26,55 +26,17 @@ public class PieceController : MonoBehaviour, EventHandler{
 	
 	public static float gridSquareWidth = 1.7f;
 	
-	bool finger2down = false;
-	float initialAngleRads = 0f;
-	float initialEulerZ = 0f;
-	
 	public void Start(){
 		EventManager em = EventManager.Instance ();
 		em.RegisterForEventType ("tap", this);
 		em.RegisterForEventType ("mouse_click", this);		
 		em.RegisterForEventType ("mouse_release", this);
-		if(TWO_FINGER){
-			em.RegisterForEventType ("alt_click", this);		
-			em.RegisterForEventType ("alt_release", this);
-		}
-		/*RectTransform rt = (RectTransform)transform;
-		Vector3 eulerSave = rt.eulerAngles;
-		rt.eulerAngles = new Vector3(0f,0f,0f);
-		boundsmin = rt.TransformPoint(rt.rect.min);
-		boundsmax = rt.TransformPoint(rt.rect.max);
-		rt.eulerAngles = eulerSave;*/
-		//boundsmin = transform.gameObject.GetComponent<SpriteRenderer>().bounds.min;
-		//boundsmax = transform.gameObject.GetComponent<SpriteRenderer>().bounds.max;
 	}
 	public void Update(){
-		if(moving){
+		if(moving && !externalMovement){
 			Vector3 inputPos = InputWatcher.GetInputPosition();
 			transform.position = inputPos - dragPoint;
 			transform.position = new Vector3(transform.position.x,transform.position.y,-1.0f);
-			/*RectTransform rt = (RectTransform)transform;
-			Vector3 eulerSave = rt.eulerAngles;
-			rt.eulerAngles = new Vector3(0f,0f,0f);
-			boundsmin = rt.TransformPoint(rt.rect.min);
-			boundsmax = rt.TransformPoint(rt.rect.max);
-			rt.eulerAngles = eulerSave;*/
-		}
-		if(finger2down){
-			if(!moving){
-				LockRotation();
-				finger2down = false;
-				return;
-			}
-			Vector3 dir = InputWatcher.GetInputPosition(1)-transform.position;
-			float angle = Mathf.Atan2 (dir.y,dir.x);
-			//Debug.Log ("nomod angle is " + angle);
-			angle += .5f*Mathf.PI;
-		//	Debug.Log ("angle is " + angle);
-			float angledist = angle - initialAngleRads;
-			//Debug.Log (angledist + " rads from start");
-		//	Debug.Log ("new degrees: " + (initialAngleRads + angledist)*Mathf.Rad2Deg);
-			transform.eulerAngles = (new Vector3(0,0,initialEulerZ) + new Vector3(0,0,angledist))*Mathf.Rad2Deg;			
 		}
 	}
 	
@@ -87,12 +49,11 @@ public class PieceController : MonoBehaviour, EventHandler{
 				EventManager.Instance().RaiseEvent(tapped);				
 			}
 		}else if(ge.type.Equals("mouse_click")){
-			if(TouchIsOnMe(pos) && !lockedToGrid){
+			if(!lockedToGrid && TouchIsOnMe(pos)){
 				dragPoint = pos - transform.position;
 				moving = true;
 			}
 		}else if(ge.type.Equals("mouse_release")){
-			
 			if(!lockedToGrid){ //TouchIsOnMe(pos) && 
 				//check if hovering over left of screen
 				if(transform.position.x < 0.0){
@@ -103,30 +64,13 @@ public class PieceController : MonoBehaviour, EventHandler{
 					//if so: do a tap event on it
 				moving = false;
 			}
-		}else if(ge.type.Equals("alt_click")){
-			if(!moving)
-				return;
-			if((int)ge.args[1] != 1)
-				return;			
-				
-			finger2down = true;
-			Vector3 dir = InputWatcher.GetInputPosition(1)-transform.position;
-			initialAngleRads = Mathf.Atan2(dir.y,dir.x);
-			initialAngleRads += .5f*Mathf.PI;
-			initialEulerZ = transform.rotation.eulerAngles.z * Mathf.Deg2Rad;
-			//Debug.Log (initialAngleRads + " are iniangknjnc");
-		}else if(ge.type.Equals("alt_release")){
-			if(!moving)
-				return;
-			if((int)ge.args[1] != 1)
-				return;
-				
-			LockRotation();
-			finger2down = false;
-		}
-		
+		}		
 	}
-	void LockRotation(){
+	bool externalMovement = false;
+	public void SetTwoFingerMovement(bool mov){
+		externalMovement = mov;
+	}
+	public void LockRotation(){
 		
 		float rotation = transform.eulerAngles.z;
 		rotation = 360f-rotation;
@@ -136,8 +80,22 @@ public class PieceController : MonoBehaviour, EventHandler{
 		float lockRot = Mathf.Round(rotation /90.0f)*90;
 		SetRotation(lockRot);
 	}
+	public void RotateClockwise(bool clock){
+		float clockrotation = transform.eulerAngles.z;//(float)(360-rotation);
+		Debug.Log("euler angles are " + clockrotation);
+		float dir = 90f;
+		if(clock)
+			dir *= -1;
+		Debug.Log ("dir is " + dir);
+		clockrotation += dir;
+		Debug.Log ("euler angles should be " + clockrotation);
+		SetRotation(360-clockrotation);
+		Debug.Log ("final rotation is " + transform.eulerAngles.z);
+	}
 	public bool TouchIsOnMe(Vector3 touchpos){
 		PieceController floatcheck = EditorController.GetFloatingPiece();
+		if(EditorController.finger2down)
+			return false;
 		if(floatcheck != this && floatcheck != null){
 			if(floatcheck.TouchIsOnMe(touchpos))
 				return false;
@@ -265,6 +223,10 @@ public class PieceController : MonoBehaviour, EventHandler{
 	}
 	public void SetRotation(float fRot){
 		int rot = (int)fRot;
+		while(rot < 0)
+			rot += 360;
+		while(rot > 360)
+			rot -= 360;
 		if(rot > 88 && rot < 92){
 			rot = 90;
 		}else if(rot > 178 && rot < 182){
