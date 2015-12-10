@@ -4,8 +4,7 @@
 	"towerType":"Trap",
 
 	"pieces":[
-		{"anchorX":4, "anchorY":2, "rotation":0, "pieceFilename":"poison_rare"},
-		{"anchorX":2, "anchorY":1, "rotation":0, "pieceFilename":"poison_rare"},
-		{"anchorX":0, "anchorY":3, "rotation":0, "pieceFilename":"slow_super"}
+		{"anchorX":0, "anchorY":3, "rotation":0, "pieceFilename":"slow_super"},
+		{"anchorX":6, "anchorY":4, "rotation":0, "pieceFilename":"splash_super"}
 	]
 }

@@ -106,18 +106,20 @@ public class Trap : MonoBehaviour {
 		//gameObject.SetActive (false);
 		if (splash != 0)
 		{
+            Debug.Log("trap's aoe exists");
 			if (poison != 0)
 			{
 				//POISON CLOUD HERE
 			}
 			else {
 				//AoE DAMAGE HERE
-				//Debug.Log ("got to splash");
+				Debug.Log ("got to splash");
 				knockback = 0f; //to avoid stacking knockback
 				stun = 0f; //to avoid stacking stun effect
 				penetration = 0f;
 				GameObject splashCircle = Instantiate (Resources.Load ("Prefabs/MainCanvas/SplashCircle")) as GameObject;
 				splashCircle.transform.position = this.transform.position;
+                splashCircle.transform.SetParent(Dial.spawnLayer.transform, true);
 				AoE ac = splashCircle.GetComponent<AoE>();
 				ac.scale = splashRad;
 				ac.parent = "Trap";
