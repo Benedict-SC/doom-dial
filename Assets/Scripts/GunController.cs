@@ -376,7 +376,7 @@ public class GunController : MonoBehaviour, EventHandler {
 		//	PieceParser.FillController(this,filename);
 		//	return;
 		//}
-		PieceParser.FillController(this,filename);
+		//PieceParser.FillController(this,filename);
 		/*
 		cooldownFactor = (float)(double)data["cooldownFactor"];
 		maxcool = DEF_COOLDOWN * cooldownFactor;
