@@ -63,7 +63,7 @@ public class Trap : MonoBehaviour {
 		
 		if (armTime <=0.0f && !isActive)
 		{
-			//Debug.Log ("armTime is 0 or less! nuuuu");
+			Debug.Log ("armTime is 0 or less!");
 			isActive = true;
 			Debug.Log ("trap armed!");
 		}
@@ -87,7 +87,7 @@ public class Trap : MonoBehaviour {
 	
 	void OnTriggerEnter2D(Collider2D coll) { 
 		// The following destroys This trap if a newer one is laid on top
-		//Debug.Log ("entered trigger - TRAP");
+		Debug.Log ("entered trigger - TRAP");
 		if (coll.gameObject.tag == "Trap") //if a trap is laid over this one
 		{
 			//Debug.Log ("this trigger is a trap!");
@@ -116,7 +116,7 @@ public class Trap : MonoBehaviour {
 				knockback = 0f; //to avoid stacking knockback
 				stun = 0f; //to avoid stacking stun effect
 				penetration = 0f;
-				GameObject splashCircle = Instantiate (Resources.Load ("Prefabs/SplashCircle")) as GameObject;
+				GameObject splashCircle = Instantiate (Resources.Load ("Prefabs/MainCanvas/SplashCircle")) as GameObject;
 				splashCircle.transform.position = this.transform.position;
 				AoE ac = splashCircle.GetComponent<AoE>();
 				ac.scale = splashRad;
@@ -125,6 +125,7 @@ public class Trap : MonoBehaviour {
 				ac.ScaleProps (splash);
 			}
 		}
+        Debug.Log("successfully destroyed trap");
 		Destroy (this.gameObject);
 	}
 	

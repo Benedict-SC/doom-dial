@@ -275,7 +275,7 @@ public class PieceParser{
 		float damage = 2.0f;
 		float speed = 1.0f;
 		float range = 0.5f;
-		float cooldown = 1.0f;
+		float cooldown = 2.0f;
 		float knockback = 0.0f;
 		float lifeDrain = 0.0f;
 		float poison = 0.0f;
@@ -518,7 +518,7 @@ public class PieceParser{
 		float damage = 2.0f;
 		float speed = 1.0f;
 		float range = 0.5f;
-		float cooldown = 1.0f;
+		float cooldown = 2.0f;
 		float knockback = 0.0f;
 		float lifeDrain = 0.0f;
 		float poison = 0.0f;
