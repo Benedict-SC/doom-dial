@@ -9,6 +9,7 @@
 		"thediversion",
 		"meatshieldsmall",
 		"splitter",
-		"bigfella"
+		"bigfella",
+		"blur"
 	]
 }

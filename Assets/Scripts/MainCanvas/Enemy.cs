@@ -42,6 +42,8 @@ public class Enemy : MonoBehaviour,EventHandler {
 	protected float radius;
 	protected float maxShields;
 	protected float shields;
+    protected bool tripsTraps; //some enemies are immune to traps
+    protected bool shieldPen; //and some go through player shields
 	
 	protected float highDropRate;
 	protected float medDropRate;
@@ -117,6 +119,8 @@ public class Enemy : MonoBehaviour,EventHandler {
 		radius = (float)(double)data ["size"];
 		maxShields = (float)(double)data ["maxShields"];
 		shields = (float)(double)data ["shields"];
+        tripsTraps = (bool)data ["tripsTraps"];
+        shieldPen = (bool)data ["shieldPen"];
 		
 		rarityUpWithHits = (bool)data ["rarityUpWithHits"];
 		rareDropThreshold = (int)(long)data ["rareDropThreshold"];
@@ -330,19 +334,24 @@ public class Enemy : MonoBehaviour,EventHandler {
 		}
 		else if (coll.gameObject.tag == "Trap") //if it's a trap
 		{
-			Trap tc = coll.gameObject.GetComponent<Trap> ();
-			if (tc != null) {
-				if (tc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
-				{
-					tc.enemyHit = this.gameObject;
-					//StartCoroutine (StatusEffectsTrap (tc));
-					hp -= tc.dmg;
-					tc.Collide();
-					if(hp <= 0){
-						Die ();
-					}
-				}
-			}
+            if (tripsTraps)
+            {
+                Trap tc = coll.gameObject.GetComponent<Trap>();
+                if (tc != null)
+                {
+                    if (tc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
+                    {
+                        tc.enemyHit = this.gameObject;
+                        //StartCoroutine (StatusEffectsTrap (tc));
+                        hp -= tc.dmg;
+                        tc.Collide();
+                        if (hp <= 0)
+                        {
+                            Die();
+                        }
+                    }
+                }
+            }
 		}
 		else if (coll.gameObject.tag == "Shield") //if it's a shield
 		{
