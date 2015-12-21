@@ -13,6 +13,8 @@
 	"size":0.8,
 	"maxShields":0.0,
 	"shields":0.0,
+	"tripsTraps":true,
+	"shieldPen":false,
 	
 	"rarityUpWithHits":false,
 	"rareDropThreshold":10,

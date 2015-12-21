@@ -1,21 +1,21 @@
 {	
-	"name":"Splitter (1/4)",
+	"name":"Blur",
 	"imgfile":"Placeholder",
-	"pointValue":15,
-	"columnName":"1/4split",
+	"pointValue":25,
+	"columnName":"Blur",
 	
-	"enemyType":"Splitter",
+	"enemyType":"Blur",
 
 	"movementType":"Linear",
 	"maxHP":5.0,
 	"HP":5.0,
-	"damage":1.0,
-	"impactTime":28.0,
-	"size":0.11,
+	"damage":10.0,
+	"impactTime":5.0,
+	"size":0.3,
 	"maxShields":0.0,
 	"shields":0.0,
-	"tripsTraps":true,
-	"shieldPen":false,
+	"tripsTraps":false,
+	"shieldPen":true,
 	
 	"rarityUpWithHits":false,
 	"rareDropThreshold":4,
@@ -23,6 +23,6 @@
 	"normalChance":5.0,
 	
 	"pieceTypes":[
-		"splash","homing","spread"
+		"slow","homing"
 	]
 }
