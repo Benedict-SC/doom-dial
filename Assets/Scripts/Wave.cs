@@ -160,11 +160,17 @@ public class Wave{
 				GameObject.Destroy(enemyobj.GetComponent<Enemy>());
 				Splitter s = enemyobj.AddComponent<Splitter>() as Splitter;
 				ec = s;
-			}
-			
-			//give enemy a filename to load from
-			
-			ec.SetSrcFileName(filename);
+			}else if (enemytype.Equals("Spite"))
+            {
+                GameObject enemyobj = ec.gameObject;
+                GameObject.Destroy(enemyobj.GetComponent<Enemy>());
+                Spite s = enemyobj.AddComponent<Spite>() as Spite;
+                ec = s;
+            }
+
+            //give enemy a filename to load from
+
+            ec.SetSrcFileName(filename);
 			ec.SetTrackID(track);
 			ec.SetTrackLane(trackpos);
 			
