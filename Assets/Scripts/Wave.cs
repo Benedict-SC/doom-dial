@@ -160,8 +160,17 @@ public class Wave{
 				GameObject.Destroy(enemyobj.GetComponent<Enemy>());
 				Splitter s = enemyobj.AddComponent<Splitter>() as Splitter;
 				ec = s;
-			}else if (enemytype.Equals("Spite"))
-            {
+			}else if(enemytype.Equals("Blob")){
+				GameObject enemyobj = ec.gameObject;
+				GameObject.Destroy(enemyobj.GetComponent<Enemy>());
+				Blob b = enemyobj.AddComponent<Blob>() as Blob;
+				ec = b;
+			}else if(enemytype.Equals("Megasplit")){
+				GameObject enemyobj = ec.gameObject;
+				GameObject.Destroy(enemyobj.GetComponent<Enemy>());
+				Megasplit ms = enemyobj.AddComponent<Megasplit>() as Megasplit;
+				ec = ms;
+			}else if (enemytype.Equals("Spite")){
                 GameObject enemyobj = ec.gameObject;
                 GameObject.Destroy(enemyobj.GetComponent<Enemy>());
                 Spite s = enemyobj.AddComponent<Spite>() as Spite;

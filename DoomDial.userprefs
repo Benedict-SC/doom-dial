@@ -1,20 +1,25 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CanvasAspectRatioDetector.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Wave.cs">
     <Files>
-      <File FileName="Assets\Scripts\Enemies\Chainer.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Enemies\Chainer.cs" Line="60" Column="28" />
       <File FileName="Assets\Scripts\AspectRatioDetector.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\MainCanvas\WaveManager2.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MainCanvas\Dial.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MainCanvas\Dial.cs" Line="112" Column="50" />
       <File FileName="Assets\Scripts\MainCanvas\Gun.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\MainCanvas\Bullet.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MainCanvas\Enemy.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MainCanvas\Enemy.cs" Line="287" Column="5" />
       <File FileName="Assets\Scripts\Events\EventManager.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\WorldData.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\InputWatcher.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\TowerEditor\EditorController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\TowerEditor\PieceController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\CanvasAspectRatioDetector.cs" Line="55" Column="21" />
+      <File FileName="Assets\Scripts\Enemies\Blob.cs" Line="18" Column="22" />
+      <File FileName="Assets\Scripts\Wave.cs" Line="170" Column="19" />
+      <File FileName="Assets\Scripts\Enemies\Megasplit.cs" Line="26" Column="1" />
+      <File FileName="Assets\Scripts\Enemies\SwarmMaster.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Enemies\Minisplit.cs" Line="24" Column="23" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

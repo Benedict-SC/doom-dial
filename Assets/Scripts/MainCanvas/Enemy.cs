@@ -60,7 +60,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 	protected Timer stunTimer;
 	protected Timer knockbackTimer;
 	
-	RectTransform rt;
+	protected RectTransform rt;
 	
 	//ability?
 	//weakness?

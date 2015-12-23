@@ -56,11 +56,15 @@
      <Compile Include="Assets\Scripts\DialController.cs" />
      <Compile Include="Assets\Scripts\DropController.cs" />
      <Compile Include="Assets\Scripts\EditorReturn.cs" />
+     <Compile Include="Assets\Scripts\Enemies\Blob.cs" />
      <Compile Include="Assets\Scripts\Enemies\Boss.cs" />
      <Compile Include="Assets\Scripts\Enemies\Chainer.cs" />
      <Compile Include="Assets\Scripts\Enemies\Diversion.cs" />
      <Compile Include="Assets\Scripts\Enemies\DiversionMinion.cs" />
      <Compile Include="Assets\Scripts\Enemies\MeatShield.cs" />
+     <Compile Include="Assets\Scripts\Enemies\Megasplit.cs" />
+     <Compile Include="Assets\Scripts\Enemies\Minisplit.cs" />
+     <Compile Include="Assets\Scripts\Enemies\Spite.cs" />
      <Compile Include="Assets\Scripts\Enemies\Splitter.cs" />
      <Compile Include="Assets\Scripts\Enemies\SwarmMaster.cs" />
      <Compile Include="Assets\Scripts\Enemies\TipOfTheSpear.cs" />
@@ -153,6 +157,7 @@
      <None Include="Assets\Resources\JSONData\DialConfigs\devdial.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\stun_rare.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\split_normal.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\spite.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\splash_normal.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\arc_normal.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\steve.txt" />
@@ -162,6 +167,7 @@
      <None Include="Assets\Resources\JSONData\Towers\devtest5.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\split_rare.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\splitter.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\blob.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_5.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\cdr_super.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\knockback_normal.txt" />
@@ -231,6 +237,7 @@
      <None Include="Assets\Resources\JSONData\Pieces\spread_rare.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\cdr_normal.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World2\Level1\wavedata.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\megasplit.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_2.txt" />
      <None Include="Assets\Resources\JSONData\Towers\devtest4.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\stun_super.txt" />
@@ -240,6 +247,7 @@
      <None Include="Assets\Resources\JSONData\Worlds\World4\Level3\wavedata.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\splitter3.txt" />
      <None Include="Assets\Resources\JSONData\Waves\testwave2.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\minisplit.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_1.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\speed_normal.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\arc_super.txt" />

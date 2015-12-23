@@ -1,0 +1,27 @@
+{	
+	"name":"Minisplit",
+	"imgfile":"Placeholder",
+	"pointValue":15,
+	
+	"enemyType":"Minisplit",
+
+	"movementType":"Linear",
+	"maxHP":10.0,
+	"HP":10.0,
+	"damage":2.0,
+	"impactTime":20.0,
+	"size":0.1,
+	"maxShields":0.0,
+	"shields":0.0,
+	"tripsTraps":true,
+	"shieldPen":false,
+	
+	"rarityUpWithHits":false,
+	"rareDropThreshold":4,
+	"rareChance":25.0,
+	"normalChance":5.0,
+	
+	"pieceTypes":[
+		"splash","homing","spread"
+	]
+}

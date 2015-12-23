@@ -9,6 +9,8 @@
 		"thediversion",
 		"meatshieldsmall",
 		"splitter",
+		"blob",
+		"megasplit",
 		"bigfella",
 		"blur",
 		"spite"
