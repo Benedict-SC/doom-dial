@@ -573,7 +573,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 	bool slowWaiting = false;
 	float slowDuration = 0f;
 	float slowedSpeed = 1f;
-	bool slowInProgress = false;
+	protected bool slowInProgress = false;
 	public void GetStatused(Bullet bc){
 		//life drain
 		if(bc.lifeDrain != 0){
