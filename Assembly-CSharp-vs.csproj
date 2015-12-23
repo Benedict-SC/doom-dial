@@ -48,9 +48,11 @@
   <ItemGroup>
      <Compile Include="Assets\Misc\TouchTester.cs" />
      <Compile Include="Assets\Scripts\AoEController.cs" />
+     <Compile Include="Assets\Scripts\AspectRatioDetector.cs" />
      <Compile Include="Assets\Scripts\BuildDebugConsole.cs" />
      <Compile Include="Assets\Scripts\BulletController.cs" />
      <Compile Include="Assets\Scripts\ButtonController.cs" />
+     <Compile Include="Assets\Scripts\CanvasAspectRatioDetector.cs" />
      <Compile Include="Assets\Scripts\DialController.cs" />
      <Compile Include="Assets\Scripts\DropController.cs" />
      <Compile Include="Assets\Scripts\EditorReturn.cs" />
@@ -222,6 +224,7 @@
      <None Include="Assets\Resources\JSONData\Bestiary\ENEMY_LIST.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World3\Level4\wavedata.txt" />
      <None Include="Assets\Resources\JSONData\Towers\devtest1.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\blur.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World1\Level4\wavedata.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\penetration_normal.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World4\Level1\wavedata.txt" />

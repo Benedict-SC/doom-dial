@@ -93,9 +93,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 		ConfigureEnemy (); 
 		
 		//some scaling- could maybe be done through transform.scale, but I don't trust Unity to handle the collider
-		Image sr = transform.gameObject.GetComponent<Image> ();
-		float scalefactor = (radius * 2) / ((RectTransform)(sr.gameObject.transform)).rect.size.x;
-		transform.localScale = new Vector3 (scalefactor*ENEMY_SCALE, scalefactor*ENEMY_SCALE, 1);
+		ScaleEnemy();
 		
 		timer.Restart ();
 		moving = true;
@@ -103,6 +101,11 @@ public class Enemy : MonoBehaviour,EventHandler {
 		//float angle = Mathf.Atan2(rt.anchoredPosition.y , rt.anchoredPosition.x);
 		//ySpeed = Mathf.Sin (angle) * speed;
 		//xSpeed = Mathf.Cos (angle) * speed;
+	}
+	public void ScaleEnemy(){
+		Image sr = transform.gameObject.GetComponent<Image> ();
+		float scalefactor = (radius * 2) / ((RectTransform)(sr.gameObject.transform)).rect.size.x;
+		transform.localScale = new Vector3 (scalefactor*ENEMY_SCALE, scalefactor*ENEMY_SCALE, 1);
 	}
 	public void OverrideMoverLane(float f){
 		moverLaneOverride = f;
@@ -281,18 +284,20 @@ public class Enemy : MonoBehaviour,EventHandler {
 		if(progress < 0)
 			progress = 0f;
 		
-		//rt.anchoredPosition = new Vector3 (rt.anchoredPosition.x - xSpeed, rt.anchoredPosition.y - ySpeed, rt.anchoredPosition.z);
+		DoTheMoving();
+		
+		GameObject healthCircle = transform.FindChild("Health").gameObject;
+		healthCircle.transform.localScale = new Vector3 (hp / maxhp, hp / maxhp, 1);
+	}
+	public void DoTheMoving(){
 		Vector2 point = mover.PositionFromProgress(progress);
 		rt.anchoredPosition = new Vector2(point.x,point.y);
-		//rt.anchoredPosition = new Vector3 (point.x, point.y, rt.anchoredPosition.z);
 		float distanceFromCenter = Mathf.Sqrt ((rt.anchoredPosition.x) * (rt.anchoredPosition.x) + (rt.anchoredPosition.y) * (rt.anchoredPosition.y));
 		if ( distanceFromCenter < DIAL_RADIUS ) {
 			GameEvent ge = new GameEvent("enemy_arrived");
 			ge.addArgument(transform.gameObject);
 			EventManager.Instance().RaiseEvent(ge);
 		}
-		GameObject healthCircle = transform.FindChild("Health").gameObject;
-		healthCircle.transform.localScale = new Vector3 (hp / maxhp, hp / maxhp, 1);
 	}
 	
 	public void HandleEvent(GameEvent ge){
@@ -452,7 +457,11 @@ public class Enemy : MonoBehaviour,EventHandler {
 		}
 		Destroy (this.gameObject);
 	}
+	public bool canDropPiece = true;
 	public void DropPiece(){
+		if(!canDropPiece){
+			return;
+		}
 		GameObject piece = Instantiate (Resources.Load ("Prefabs/MainCanvas/DroppedPiece")) as GameObject;
 		piece.transform.SetParent(Dial.underLayer,false);
 		Vector2 position = new Vector2 (rt.anchoredPosition.x, rt.anchoredPosition.y);

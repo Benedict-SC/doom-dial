@@ -1,273 +1,276 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-	<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-	<ProductVersion>10.0.20506</ProductVersion>
-	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{89606478-C558-6A3D-D083-9B0F24FF4E9D}</ProjectGuid>
-	<OutputType>Library</OutputType>
-	<AppDesignerFolder>Properties</AppDesignerFolder>
-	<RootNamespace></RootNamespace>
-	<AssemblyName>Assembly-CSharp</AssemblyName>
-	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-	<FileAlignment>512</FileAlignment>
-	<BaseDirectory>Assets</BaseDirectory>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{89606478-C558-6A3D-D083-9B0F24FF4E9D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <BaseDirectory>Assets</BaseDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-	<DebugSymbols>true</DebugSymbols>
-	<DebugType>full</DebugType>
-	<Optimize>false</Optimize>
-	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_5_1_1;UNITY_5_1;UNITY_5;ENABLE_NEW_BUGREPORTER;ENABLE_2D_PHYSICS;ENABLE_4_6_FEATURES;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_PHYSICS_PHYSX3;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_UNET;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_LICENSE;ENABLE_AUDIOMIXER_SUSPEND;ENABLE_EDITOR_METRICS;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;INCLUDE_DIRECTX12;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_LOCALIZATION;UNITY_ANDROID;UNITY_ANDROID_API;ENABLE_SUBSTANCE;ENABLE_TEXTUREID_MAP;ENABLE_EGL;ENABLE_NETWORK;ENABLE_RUNTIME_GI;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_MONO;DEVELOPMENT_BUILD;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN</DefineConstants>
-	<ErrorReport>prompt</ErrorReport>
-	<WarningLevel>4</WarningLevel>
-	<NoWarn>0169</NoWarn>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>Temp\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_1_1;UNITY_5_1;UNITY_5;ENABLE_NEW_BUGREPORTER;ENABLE_2D_PHYSICS;ENABLE_4_6_FEATURES;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_PHYSICS_PHYSX3;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_UNET;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_LICENSE;ENABLE_AUDIOMIXER_SUSPEND;ENABLE_EDITOR_METRICS;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;INCLUDE_DIRECTX12;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_LOCALIZATION;UNITY_ANDROID;UNITY_ANDROID_API;ENABLE_SUBSTANCE;ENABLE_TEXTUREID_MAP;ENABLE_EGL;ENABLE_NETWORK;ENABLE_RUNTIME_GI;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_MONO;DEVELOPMENT_BUILD;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-	<DebugType>pdbonly</DebugType>
-	<Optimize>true</Optimize>
-	<OutputPath>Temp\bin\Release\</OutputPath>
-	<DefineConstants>TRACE</DefineConstants>
-	<ErrorReport>prompt</ErrorReport>
-	<WarningLevel>4</WarningLevel>
-	<NoWarn>0169</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>Temp\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-	<Reference Include="System" />
-    <Reference Include="System.XML" />
-	<Reference Include="System.Core" />
-	<Reference Include="System.Xml.Linq" />
-	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
-	</Reference>
-	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
-	</Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UnityEngine">
+      <HintPath>C:\Program Files\Unity\Editor\Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>C:\Program Files\Unity\Editor\Data\Managed\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Misc\TouchTester.cs" />
-     <Compile Include="Assets\Scripts\AoEController.cs" />
-     <Compile Include="Assets\Scripts\BuildDebugConsole.cs" />
-     <Compile Include="Assets\Scripts\BulletController.cs" />
-     <Compile Include="Assets\Scripts\ButtonController.cs" />
-     <Compile Include="Assets\Scripts\DialController.cs" />
-     <Compile Include="Assets\Scripts\DropController.cs" />
-     <Compile Include="Assets\Scripts\EditorReturn.cs" />
-     <Compile Include="Assets\Scripts\Enemies\Boss.cs" />
-     <Compile Include="Assets\Scripts\Enemies\Chainer.cs" />
-     <Compile Include="Assets\Scripts\Enemies\Diversion.cs" />
-     <Compile Include="Assets\Scripts\Enemies\DiversionMinion.cs" />
-     <Compile Include="Assets\Scripts\Enemies\MeatShield.cs" />
-     <Compile Include="Assets\Scripts\Enemies\Splitter.cs" />
-     <Compile Include="Assets\Scripts\Enemies\SwarmMaster.cs" />
-     <Compile Include="Assets\Scripts\Enemies\TipOfTheSpear.cs" />
-     <Compile Include="Assets\Scripts\Enemies\WallOfDoom.cs" />
-     <Compile Include="Assets\Scripts\EnemyController.cs" />
-     <Compile Include="Assets\Scripts\Events\EventComponent.cs" />
-     <Compile Include="Assets\Scripts\Events\EventHandler.cs" />
-     <Compile Include="Assets\Scripts\Events\EventManager.cs" />
-     <Compile Include="Assets\Scripts\Events\GameEvent.cs" />
-     <Compile Include="Assets\Scripts\FileLoader.cs" />
-     <Compile Include="Assets\Scripts\GamePause.cs" />
-     <Compile Include="Assets\Scripts\GameReturn.cs" />
-     <Compile Include="Assets\Scripts\GunController.cs" />
-     <Compile Include="Assets\Scripts\InputWatcher.cs" />
-     <Compile Include="Assets\Scripts\LevelSelect.cs" />
-     <Compile Include="Assets\Scripts\MainCanvas\AoE.cs" />
-     <Compile Include="Assets\Scripts\MainCanvas\Bullet.cs" />
-     <Compile Include="Assets\Scripts\MainCanvas\CameraToggle.cs" />
-     <Compile Include="Assets\Scripts\MainCanvas\CanvasSpinner.cs" />
-     <Compile Include="Assets\Scripts\MainCanvas\Dial.cs" />
-     <Compile Include="Assets\Scripts\MainCanvas\Drop.cs" />
-     <Compile Include="Assets\Scripts\MainCanvas\Enemy.cs" />
-     <Compile Include="Assets\Scripts\MainCanvas\Gun.cs" />
-     <Compile Include="Assets\Scripts\MainCanvas\GunButton.cs" />
-     <Compile Include="Assets\Scripts\MainCanvas\MenuScale.cs" />
-     <Compile Include="Assets\Scripts\MainCanvas\MenuScript.cs" />
-     <Compile Include="Assets\Scripts\MainCanvas\MenuSpinner.cs" />
-     <Compile Include="Assets\Scripts\MainCanvas\Pause.cs" />
-     <Compile Include="Assets\Scripts\MainCanvas\TractorBeam.cs" />
-     <Compile Include="Assets\Scripts\MainCanvas\Trap.cs" />
-     <Compile Include="Assets\Scripts\MainCanvas\WaveManager2.cs" />
-     <Compile Include="Assets\Scripts\MainCanvas\WaveMessageBox.cs" />
-     <Compile Include="Assets\Scripts\MainCanvas\ZoneWarning.cs" />
-     <Compile Include="Assets\Scripts\MenuButton.cs" />
-     <Compile Include="Assets\Scripts\MenuClickScript.cs" />
-     <Compile Include="Assets\Scripts\MenuInGame.cs" />
-     <Compile Include="Assets\Scripts\MenuReturn.cs" />
-     <Compile Include="Assets\Scripts\MenuScaleEffect.cs" />
-     <Compile Include="Assets\Scripts\MenuSelect.cs" />
-     <Compile Include="Assets\Scripts\MenuSelectScaleEffect.cs" />
-     <Compile Include="Assets\Scripts\MenuSpinScript.cs" />
-     <Compile Include="Assets\Scripts\MiniJSON.cs" />
-     <Compile Include="Assets\Scripts\Movers\BlinkMover.cs" />
-     <Compile Include="Assets\Scripts\Movers\EnemyMover.cs" />
-     <Compile Include="Assets\Scripts\Movers\LinearMover.cs" />
-     <Compile Include="Assets\Scripts\Movers\SemicircleMover.cs" />
-     <Compile Include="Assets\Scripts\Movers\SidestepMover.cs" />
-     <Compile Include="Assets\Scripts\Movers\SineMover.cs" />
-     <Compile Include="Assets\Scripts\Movers\SlowingLinearMover.cs" />
-     <Compile Include="Assets\Scripts\Movers\StrafingMover.cs" />
-     <Compile Include="Assets\Scripts\Movers\SwerveMover.cs" />
-     <Compile Include="Assets\Scripts\Movers\WinkMover.cs" />
-     <Compile Include="Assets\Scripts\Movers\ZigzagMover.cs" />
-     <Compile Include="Assets\Scripts\PieceParser.cs" />
-     <Compile Include="Assets\Scripts\RotationLock.cs" />
-     <Compile Include="Assets\Scripts\RunOnceOnGameStartup.cs" />
-     <Compile Include="Assets\Scripts\ShieldController.cs" />
-     <Compile Include="Assets\Scripts\SpinScript.cs" />
-     <Compile Include="Assets\Scripts\TempReturn.cs" />
-     <Compile Include="Assets\Scripts\TestDataLoader.cs" />
-     <Compile Include="Assets\Scripts\Timer.cs" />
-     <Compile Include="Assets\Scripts\TowerEditor\EditorController.cs" />
-     <Compile Include="Assets\Scripts\TowerEditor\EditorWheelController.cs" />
-     <Compile Include="Assets\Scripts\TowerEditor\GridController.cs" />
-     <Compile Include="Assets\Scripts\TowerEditor\InventoryWindowController.cs" />
-     <Compile Include="Assets\Scripts\TowerEditor\PieceController.cs" />
-     <Compile Include="Assets\Scripts\TowerEditor\PieceTemplateController.cs" />
-     <Compile Include="Assets\Scripts\TowerEditor\StatReadout.cs" />
-     <Compile Include="Assets\Scripts\TowerLoad.cs" />
-     <Compile Include="Assets\Scripts\TowerSelect.cs" />
-     <Compile Include="Assets\Scripts\TrackController.cs" />
-     <Compile Include="Assets\Scripts\TrapController.cs" />
-     <Compile Include="Assets\Scripts\UIRectTranslator.cs" />
-     <Compile Include="Assets\Scripts\Wave.cs" />
-     <Compile Include="Assets\Scripts\WaveEditor\BossTabController.cs" />
-     <Compile Include="Assets\Scripts\WaveEditor\EnemyDraggableController.cs" />
-     <Compile Include="Assets\Scripts\WaveEditor\EnemyInvController.cs" />
-     <Compile Include="Assets\Scripts\WaveEditor\EnemyListEntryController.cs" />
-     <Compile Include="Assets\Scripts\WaveEditor\EnemyTemplateController.cs" />
-     <Compile Include="Assets\Scripts\WaveEditor\ScrollArrowController.cs" />
-     <Compile Include="Assets\Scripts\WaveEditor\WaveEditorController.cs" />
-     <Compile Include="Assets\Scripts\WaveEditor\WaveFrameController.cs" />
-     <Compile Include="Assets\Scripts\WaveEditor\ZonePanelController.cs" />
-     <Compile Include="Assets\Scripts\WaveManager.cs" />
-     <Compile Include="Assets\Scripts\WorldData.cs" />
-     <Compile Include="Assets\Scripts\WorldSelect.cs" />
-     <Compile Include="Assets\Scripts\ZoneConeController.cs" />
-     <None Include="Assets\Resources\JSONData\Bestiary\meatshieldsmall.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\speed_rare.txt" />
-     <None Include="Assets\Resources\JSONData\DialConfigs\devdial.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\stun_rare.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\split_normal.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\splash_normal.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\arc_normal.txt" />
-     <None Include="Assets\Resources\JSONData\Bestiary\steve.txt" />
-     <None Include="Assets\Resources\JSONData\Bestiary\bleedin&apos; joe.txt" />
-     <None Include="Assets\Resources\JSONData\Bestiary\tipofthespear.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\spread_super.txt" />
-     <None Include="Assets\Resources\JSONData\Towers\devtest5.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\split_rare.txt" />
-     <None Include="Assets\Resources\JSONData\Bestiary\splitter.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_5.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\cdr_super.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\knockback_normal.txt" />
-     <None Include="Assets\Resources\JSONData\Towers\devtest2.txt" />
-     <None Include="Assets\Resources\JSONData\Bestiary\chainers.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\splash_rare.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\damage_normal.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\homing_rare.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\shred_rare.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\penetration_rare.txt" />
-     <None Include="Assets\Misc\BulletEffectsLog.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\poison_normal.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\damage_rare.txt" />
-     <None Include="Assets\Resources\JSONData\DialConfigs\fivedial.txt" />
-     <None Include="Assets\Resources\JSONData\MiscData\inventory.txt" />
-     <None Include="Assets\Resources\JSONData\Levels\testlevel.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\slow_normal.txt" />
-     <None Include="Assets\Resources\JSONData\Bestiary\diversionminion.txt" />
-     <None Include="Assets\Resources\JSONData\DialConfigs\twodial.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\range_normal.txt" />
-     <None Include="Assets\Resources\JSONData\Towers\drainpunch.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\stun_normal.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\drain_super.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\shred_normal.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\knockback_rare.txt" />
-     <None Include="Assets\Resources\JSONData\Worlds\World1\Level3\wavedata.txt" />
-     <None Include="Assets\Resources\JSONData\Bestiary\thediversion.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\cdr_rare.txt" />
-     <None Include="Assets\Resources\JSONData\Worlds\World3\Level1\wavedata.txt" />
-     <None Include="Assets\Resources\JSONData\DialConfigs\onedial.txt" />
-     <None Include="Assets\Resources\JSONData\Bestiary\splitter2.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\homing_normal.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\spread_normal.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\homing_super.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\damage_super.txt" />
-     <None Include="Assets\Resources\JSONData\Bestiary\meatshieldbig.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_3.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\drain_normal.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\penetration_super.txt" />
-     <None Include="Assets\Resources\JSONData\DialConfigs\sixdial.txt" />
-     <None Include="Assets\Resources\JSONData\Worlds\World4\Level4\wavedata.txt" />
-     <None Include="Assets\Resources\JSONData\Waves\testwave.txt" />
-     <None Include="Assets\Resources\JSONData\Waves\testwave3.txt" />
-     <None Include="Assets\Resources\JSONData\Bestiary\bigfella.txt" />
-     <None Include="Assets\Resources\JSONData\DialConfigs\testdial.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\range_rare.txt" />
-     <None Include="Assets\Resources\JSONData\Worlds\World2\Level4\wavedata.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\slow_rare.txt" />
-     <None Include="Assets\Resources\JSONData\Worlds\World4\Level2\wavedata.txt" />
-     <None Include="Assets\Resources\JSONData\DialConfigs\threedial.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\knockback_super.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\poison_rare.txt" />
-     <None Include="Assets\Resources\JSONData\Towers\devtest6.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\arc_rare.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_6.txt" />
-     <None Include="Assets\Resources\JSONData\Bestiary\testenemy.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\shred_super.txt" />
-     <None Include="Assets\Resources\JSONData\MiscData\inventorybackup.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\slow_super.txt" />
-     <None Include="Assets\Resources\JSONData\Bestiary\ENEMY_LIST.txt" />
-     <None Include="Assets\Resources\JSONData\Worlds\World3\Level4\wavedata.txt" />
-     <None Include="Assets\Resources\JSONData\Towers\devtest1.txt" />
-     <None Include="Assets\Resources\JSONData\Worlds\World1\Level4\wavedata.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\penetration_normal.txt" />
-     <None Include="Assets\Resources\JSONData\Worlds\World4\Level1\wavedata.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\spread_rare.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\cdr_normal.txt" />
-     <None Include="Assets\Resources\JSONData\Worlds\World2\Level1\wavedata.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_2.txt" />
-     <None Include="Assets\Resources\JSONData\Towers\devtest4.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\stun_super.txt" />
-     <None Include="Assets\Resources\JSONData\Worlds\World1\Level1\wavedata.txt" />
-     <None Include="Assets\Resources\JSONData\Worlds\World3\Level3\wavedata.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\range_super.txt" />
-     <None Include="Assets\Resources\JSONData\Worlds\World4\Level3\wavedata.txt" />
-     <None Include="Assets\Resources\JSONData\Bestiary\splitter3.txt" />
-     <None Include="Assets\Resources\JSONData\Waves\testwave2.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_1.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\speed_normal.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\arc_super.txt" />
-     <None Include="Assets\Resources\JSONData\Worlds\World1\Level2\wavedata.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\poison_super.txt" />
-     <None Include="Assets\Resources\JSONData\Bestiary\wallofdoom.txt" />
-     <None Include="Assets\Resources\JSONData\DialConfigs\fourdial.txt" />
-     <None Include="Assets\Resources\JSONData\Worlds\World2\Level2\wavedata.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_4.txt" />
-     <None Include="Assets\Resources\JSONData\Towers\devtest3.txt" />
-     <None Include="Assets\Resources\JSONData\Bestiary\swarmminion.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\speed_super.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\TOWER_DEFAULTS.txt" />
-     <None Include="Assets\Resources\JSONData\Towers\piecetower.txt" />
-     <None Include="Assets\Resources\JSONData\Worlds\World3\Level2\wavedata.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\drain_rare.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\splash_super.txt" />
-     <None Include="Assets\Resources\JSONData\Pieces\split_super.txt" />
-     <None Include="Assets\Resources\JSONData\Worlds\World2\Level3\wavedata.txt" />
- <Reference Include="UnityEngine.UI">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Networking">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Analytics">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.iOS.Extensions.Xcode">
- <HintPath>C:/Program Files/Unity/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
- </Reference>
+    <Compile Include="Assets\Misc\TouchTester.cs" />
+    <Compile Include="Assets\Scripts\AoEController.cs" />
+    <Compile Include="Assets\Scripts\AspectRatioDetector.cs" />
+    <Compile Include="Assets\Scripts\BuildDebugConsole.cs" />
+    <Compile Include="Assets\Scripts\BulletController.cs" />
+    <Compile Include="Assets\Scripts\ButtonController.cs" />
+    <Compile Include="Assets\Scripts\CanvasAspectRatioDetector.cs" />
+    <Compile Include="Assets\Scripts\DialController.cs" />
+    <Compile Include="Assets\Scripts\DropController.cs" />
+    <Compile Include="Assets\Scripts\EditorReturn.cs" />
+    <Compile Include="Assets\Scripts\Enemies\Boss.cs" />
+    <Compile Include="Assets\Scripts\Enemies\Chainer.cs" />
+    <Compile Include="Assets\Scripts\Enemies\Diversion.cs" />
+    <Compile Include="Assets\Scripts\Enemies\DiversionMinion.cs" />
+    <Compile Include="Assets\Scripts\Enemies\MeatShield.cs" />
+    <Compile Include="Assets\Scripts\Enemies\Splitter.cs" />
+    <Compile Include="Assets\Scripts\Enemies\SwarmMaster.cs" />
+    <Compile Include="Assets\Scripts\Enemies\TipOfTheSpear.cs" />
+    <Compile Include="Assets\Scripts\Enemies\WallOfDoom.cs" />
+    <Compile Include="Assets\Scripts\EnemyController.cs" />
+    <Compile Include="Assets\Scripts\Events\EventComponent.cs" />
+    <Compile Include="Assets\Scripts\Events\EventHandler.cs" />
+    <Compile Include="Assets\Scripts\Events\EventManager.cs" />
+    <Compile Include="Assets\Scripts\Events\GameEvent.cs" />
+    <Compile Include="Assets\Scripts\FileLoader.cs" />
+    <Compile Include="Assets\Scripts\GamePause.cs" />
+    <Compile Include="Assets\Scripts\GameReturn.cs" />
+    <Compile Include="Assets\Scripts\GunController.cs" />
+    <Compile Include="Assets\Scripts\InputWatcher.cs" />
+    <Compile Include="Assets\Scripts\LevelSelect.cs" />
+    <Compile Include="Assets\Scripts\MainCanvas\AoE.cs" />
+    <Compile Include="Assets\Scripts\MainCanvas\Bullet.cs" />
+    <Compile Include="Assets\Scripts\MainCanvas\CameraToggle.cs" />
+    <Compile Include="Assets\Scripts\MainCanvas\CanvasSpinner.cs" />
+    <Compile Include="Assets\Scripts\MainCanvas\Dial.cs" />
+    <Compile Include="Assets\Scripts\MainCanvas\Drop.cs" />
+    <Compile Include="Assets\Scripts\MainCanvas\Enemy.cs" />
+    <Compile Include="Assets\Scripts\MainCanvas\Gun.cs" />
+    <Compile Include="Assets\Scripts\MainCanvas\GunButton.cs" />
+    <Compile Include="Assets\Scripts\MainCanvas\MenuScale.cs" />
+    <Compile Include="Assets\Scripts\MainCanvas\MenuScript.cs" />
+    <Compile Include="Assets\Scripts\MainCanvas\MenuSpinner.cs" />
+    <Compile Include="Assets\Scripts\MainCanvas\Pause.cs" />
+    <Compile Include="Assets\Scripts\MainCanvas\TractorBeam.cs" />
+    <Compile Include="Assets\Scripts\MainCanvas\Trap.cs" />
+    <Compile Include="Assets\Scripts\MainCanvas\WaveManager2.cs" />
+    <Compile Include="Assets\Scripts\MainCanvas\WaveMessageBox.cs" />
+    <Compile Include="Assets\Scripts\MainCanvas\ZoneWarning.cs" />
+    <Compile Include="Assets\Scripts\MenuButton.cs" />
+    <Compile Include="Assets\Scripts\MenuClickScript.cs" />
+    <Compile Include="Assets\Scripts\MenuInGame.cs" />
+    <Compile Include="Assets\Scripts\MenuReturn.cs" />
+    <Compile Include="Assets\Scripts\MenuScaleEffect.cs" />
+    <Compile Include="Assets\Scripts\MenuSelect.cs" />
+    <Compile Include="Assets\Scripts\MenuSelectScaleEffect.cs" />
+    <Compile Include="Assets\Scripts\MenuSpinScript.cs" />
+    <Compile Include="Assets\Scripts\MiniJSON.cs" />
+    <Compile Include="Assets\Scripts\Movers\BlinkMover.cs" />
+    <Compile Include="Assets\Scripts\Movers\EnemyMover.cs" />
+    <Compile Include="Assets\Scripts\Movers\LinearMover.cs" />
+    <Compile Include="Assets\Scripts\Movers\SemicircleMover.cs" />
+    <Compile Include="Assets\Scripts\Movers\SidestepMover.cs" />
+    <Compile Include="Assets\Scripts\Movers\SineMover.cs" />
+    <Compile Include="Assets\Scripts\Movers\SlowingLinearMover.cs" />
+    <Compile Include="Assets\Scripts\Movers\StrafingMover.cs" />
+    <Compile Include="Assets\Scripts\Movers\SwerveMover.cs" />
+    <Compile Include="Assets\Scripts\Movers\WinkMover.cs" />
+    <Compile Include="Assets\Scripts\Movers\ZigzagMover.cs" />
+    <Compile Include="Assets\Scripts\PieceParser.cs" />
+    <Compile Include="Assets\Scripts\RotationLock.cs" />
+    <Compile Include="Assets\Scripts\RunOnceOnGameStartup.cs" />
+    <Compile Include="Assets\Scripts\ShieldController.cs" />
+    <Compile Include="Assets\Scripts\SpinScript.cs" />
+    <Compile Include="Assets\Scripts\TempReturn.cs" />
+    <Compile Include="Assets\Scripts\TestDataLoader.cs" />
+    <Compile Include="Assets\Scripts\Timer.cs" />
+    <Compile Include="Assets\Scripts\TowerEditor\EditorController.cs" />
+    <Compile Include="Assets\Scripts\TowerEditor\EditorWheelController.cs" />
+    <Compile Include="Assets\Scripts\TowerEditor\GridController.cs" />
+    <Compile Include="Assets\Scripts\TowerEditor\InventoryWindowController.cs" />
+    <Compile Include="Assets\Scripts\TowerEditor\PieceController.cs" />
+    <Compile Include="Assets\Scripts\TowerEditor\PieceTemplateController.cs" />
+    <Compile Include="Assets\Scripts\TowerEditor\StatReadout.cs" />
+    <Compile Include="Assets\Scripts\TowerLoad.cs" />
+    <Compile Include="Assets\Scripts\TowerSelect.cs" />
+    <Compile Include="Assets\Scripts\TrackController.cs" />
+    <Compile Include="Assets\Scripts\TrapController.cs" />
+    <Compile Include="Assets\Scripts\UIRectTranslator.cs" />
+    <Compile Include="Assets\Scripts\Wave.cs" />
+    <Compile Include="Assets\Scripts\WaveEditor\BossTabController.cs" />
+    <Compile Include="Assets\Scripts\WaveEditor\EnemyDraggableController.cs" />
+    <Compile Include="Assets\Scripts\WaveEditor\EnemyInvController.cs" />
+    <Compile Include="Assets\Scripts\WaveEditor\EnemyListEntryController.cs" />
+    <Compile Include="Assets\Scripts\WaveEditor\EnemyTemplateController.cs" />
+    <Compile Include="Assets\Scripts\WaveEditor\ScrollArrowController.cs" />
+    <Compile Include="Assets\Scripts\WaveEditor\WaveEditorController.cs" />
+    <Compile Include="Assets\Scripts\WaveEditor\WaveFrameController.cs" />
+    <Compile Include="Assets\Scripts\WaveEditor\ZonePanelController.cs" />
+    <Compile Include="Assets\Scripts\WaveManager.cs" />
+    <Compile Include="Assets\Scripts\WorldData.cs" />
+    <Compile Include="Assets\Scripts\WorldSelect.cs" />
+    <Compile Include="Assets\Scripts\ZoneConeController.cs" />
+    <None Include="Assets\Resources\JSONData\Bestiary\meatshieldsmall.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\speed_rare.txt" />
+    <None Include="Assets\Resources\JSONData\DialConfigs\devdial.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\stun_rare.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\split_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\splash_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\arc_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Bestiary\steve.txt" />
+    <None Include="Assets\Resources\JSONData\Bestiary\tipofthespear.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\spread_super.txt" />
+    <None Include="Assets\Resources\JSONData\Towers\devtest5.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\split_rare.txt" />
+    <None Include="Assets\Resources\JSONData\Bestiary\splitter.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_5.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\cdr_super.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\knockback_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Towers\devtest2.txt" />
+    <None Include="Assets\Resources\JSONData\Bestiary\chainers.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\splash_rare.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\damage_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\homing_rare.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\shred_rare.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\penetration_rare.txt" />
+    <None Include="Assets\Misc\BulletEffectsLog.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\poison_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\damage_rare.txt" />
+    <None Include="Assets\Resources\JSONData\DialConfigs\fivedial.txt" />
+    <None Include="Assets\Resources\JSONData\MiscData\inventory.txt" />
+    <None Include="Assets\Resources\JSONData\Levels\testlevel.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\slow_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Bestiary\diversionminion.txt" />
+    <None Include="Assets\Resources\JSONData\DialConfigs\twodial.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\range_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Towers\drainpunch.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\stun_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\drain_super.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\shred_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\knockback_rare.txt" />
+    <None Include="Assets\Resources\JSONData\Worlds\World1\Level3\wavedata.txt" />
+    <None Include="Assets\Resources\JSONData\Bestiary\thediversion.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\cdr_rare.txt" />
+    <None Include="Assets\Resources\JSONData\Worlds\World3\Level1\wavedata.txt" />
+    <None Include="Assets\Resources\JSONData\DialConfigs\onedial.txt" />
+    <None Include="Assets\Resources\JSONData\Bestiary\splitter2.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\homing_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\spread_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\homing_super.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\damage_super.txt" />
+    <None Include="Assets\Resources\JSONData\Bestiary\meatshieldbig.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_3.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\drain_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\penetration_super.txt" />
+    <None Include="Assets\Resources\JSONData\DialConfigs\sixdial.txt" />
+    <None Include="Assets\Resources\JSONData\Worlds\World4\Level4\wavedata.txt" />
+    <None Include="Assets\Resources\JSONData\Waves\testwave.txt" />
+    <None Include="Assets\Resources\JSONData\Waves\testwave3.txt" />
+    <None Include="Assets\Resources\JSONData\Bestiary\bigfella.txt" />
+    <None Include="Assets\Resources\JSONData\DialConfigs\testdial.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\range_rare.txt" />
+    <None Include="Assets\Resources\JSONData\Worlds\World2\Level4\wavedata.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\slow_rare.txt" />
+    <None Include="Assets\Resources\JSONData\Worlds\World4\Level2\wavedata.txt" />
+    <None Include="Assets\Resources\JSONData\DialConfigs\threedial.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\knockback_super.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\poison_rare.txt" />
+    <None Include="Assets\Resources\JSONData\Towers\devtest6.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\arc_rare.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_6.txt" />
+    <None Include="Assets\Resources\JSONData\Bestiary\testenemy.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\shred_super.txt" />
+    <None Include="Assets\Resources\JSONData\MiscData\inventorybackup.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\slow_super.txt" />
+    <None Include="Assets\Resources\JSONData\Bestiary\ENEMY_LIST.txt" />
+    <None Include="Assets\Resources\JSONData\Worlds\World3\Level4\wavedata.txt" />
+    <None Include="Assets\Resources\JSONData\Towers\devtest1.txt" />
+    <None Include="Assets\Resources\JSONData\Bestiary\blur.txt" />
+    <None Include="Assets\Resources\JSONData\Worlds\World1\Level4\wavedata.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\penetration_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Worlds\World4\Level1\wavedata.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\spread_rare.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\cdr_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Worlds\World2\Level1\wavedata.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_2.txt" />
+    <None Include="Assets\Resources\JSONData\Towers\devtest4.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\stun_super.txt" />
+    <None Include="Assets\Resources\JSONData\Worlds\World1\Level1\wavedata.txt" />
+    <None Include="Assets\Resources\JSONData\Worlds\World3\Level3\wavedata.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\range_super.txt" />
+    <None Include="Assets\Resources\JSONData\Worlds\World4\Level3\wavedata.txt" />
+    <None Include="Assets\Resources\JSONData\Bestiary\splitter3.txt" />
+    <None Include="Assets\Resources\JSONData\Waves\testwave2.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_1.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\speed_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\arc_super.txt" />
+    <None Include="Assets\Resources\JSONData\Worlds\World1\Level2\wavedata.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\poison_super.txt" />
+    <None Include="Assets\Resources\JSONData\Bestiary\wallofdoom.txt" />
+    <None Include="Assets\Resources\JSONData\DialConfigs\fourdial.txt" />
+    <None Include="Assets\Resources\JSONData\Worlds\World2\Level2\wavedata.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_4.txt" />
+    <None Include="Assets\Resources\JSONData\Towers\devtest3.txt" />
+    <None Include="Assets\Resources\JSONData\Bestiary\swarmminion.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\speed_super.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\TOWER_DEFAULTS.txt" />
+    <None Include="Assets\Resources\JSONData\Towers\piecetower.txt" />
+    <None Include="Assets\Resources\JSONData\Worlds\World3\Level2\wavedata.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\drain_rare.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\splash_super.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\split_super.txt" />
+    <None Include="Assets\Resources\JSONData\Worlds\World2\Level3\wavedata.txt" />
+    <Reference Include="UnityEngine.UI">
+      <HintPath>C:\Program Files\Unity\Editor\Data\UnityExtensions\Unity\GUISystem\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Networking">
+      <HintPath>C:\Program Files\Unity\Editor\Data\UnityExtensions\Unity\Networking\UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Analytics">
+      <HintPath>C:\Program Files\Unity\Editor\Data\UnityExtensions\Unity\UnityAnalytics\UnityEngine.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+      <HintPath>C:\Program Files\Unity\Editor\Data\PlaybackEngines\iOSSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+    </Reference>
+    <None Include="Assets\Resources\JSONData\Bestiary\bleedin%27 joe.txt" />
+    <Compile Include="Assets\Scripts\Enemies\Blob.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -277,5 +280,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  
 </Project>
