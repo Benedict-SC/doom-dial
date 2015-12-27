@@ -12,6 +12,7 @@
 		"blob",
 		"megasplit",
 		"melders",
+		"bigsplit",
 		"bigfella",
 		"blur",
 		"spite"

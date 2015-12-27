@@ -56,6 +56,7 @@
      <Compile Include="Assets\Scripts\DialController.cs" />
      <Compile Include="Assets\Scripts\DropController.cs" />
      <Compile Include="Assets\Scripts\EditorReturn.cs" />
+     <Compile Include="Assets\Scripts\Enemies\BigSplit.cs" />
      <Compile Include="Assets\Scripts\Enemies\Blob.cs" />
      <Compile Include="Assets\Scripts\Enemies\Boss.cs" />
      <Compile Include="Assets\Scripts\Enemies\Chainer.cs" />
@@ -190,8 +191,10 @@
      <None Include="Assets\Resources\JSONData\Bestiary\diversionminion.txt" />
      <None Include="Assets\Resources\JSONData\DialConfigs\twodial.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\range_normal.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\bigsplit2.txt" />
      <None Include="Assets\Resources\JSONData\Towers\drainpunch.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\stun_normal.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\bigsplit.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\drain_super.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\melded.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\shred_normal.txt" />

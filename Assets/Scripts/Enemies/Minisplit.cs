@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class Minisplit : Enemy{
 	
@@ -33,6 +34,10 @@ public class Minisplit : Enemy{
 		
 		snapping = true;
 	} 
+	
+	public override void AddToBonus(List<System.Object> bonusList){
+		//don't add minisplits to bonus
+	}
 	
 	public override void Update(){
 		if(snapping){
