@@ -11,6 +11,7 @@
 		"splitter",
 		"blob",
 		"megasplit",
+		"melders",
 		"bigfella",
 		"blur",
 		"spite"

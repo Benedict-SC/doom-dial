@@ -15,6 +15,10 @@ public class Blob : Enemy{
 	}
 
 	public override void Update(){
+		if (!moving){
+			base.Update();
+			return;
+		}
 		base.Update();
 		if(progress > 0.5f){
 			progress = 0.5f;

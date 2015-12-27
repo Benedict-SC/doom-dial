@@ -563,11 +563,20 @@ public class Enemy : MonoBehaviour,EventHandler {
 	public void SetProgress(float f){
 		progress = f;
 	}
+	public float GetProgress(){
+		return progress;
+	}
 	public void SetHP(float f){
 		hp = f;
 	}
 	public void SetMaxHP(float f){
 		maxhp = f;
+	}
+	public float GetHP(){
+		return hp;
+	}	
+	public float GetMaxHP(){
+		return maxhp;
 	}
 	
 	bool poisoned = false;

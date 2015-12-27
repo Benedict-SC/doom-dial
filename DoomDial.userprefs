@@ -1,26 +1,21 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Wave.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Enemies\Melder.cs">
     <Files>
-      <File FileName="Assets\Scripts\Enemies\Chainer.cs" Line="56" Column="78" />
-      <File FileName="Assets\Scripts\AspectRatioDetector.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Enemies\Blob.cs" Line="21" Column="4" />
+      <File FileName="Assets\Scripts\Enemies\Chainer.cs" Line="77" Column="2" />
       <File FileName="Assets\Scripts\MainCanvas\WaveManager2.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MainCanvas\Dial.cs" Line="112" Column="50" />
-      <File FileName="Assets\Scripts\MainCanvas\Gun.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MainCanvas\Bullet.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MainCanvas\Enemy.cs" Line="287" Column="5" />
-      <File FileName="Assets\Scripts\Events\EventManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\WorldData.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\InputWatcher.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\TowerEditor\EditorController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\TowerEditor\PieceController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\CanvasAspectRatioDetector.cs" Line="55" Column="21" />
-      <File FileName="Assets\Scripts\Enemies\Blob.cs" Line="18" Column="22" />
-      <File FileName="Assets\Scripts\Wave.cs" Line="178" Column="14" />
-      <File FileName="Assets\Scripts\Enemies\Megasplit.cs" Line="36" Column="28" />
-      <File FileName="Assets\Scripts\Enemies\SwarmMaster.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Enemies\Minisplit.cs" Line="23" Column="47" />
-      <File FileName="Assets\Scripts\Enemies\Spite.cs" Line="18" Column="23" />
+      <File FileName="Assets\Scripts\MainCanvas\Dial.cs" Line="141" Column="27" />
+      <File FileName="Assets\Scripts\MainCanvas\Enemy.cs" Line="573" Column="13" />
+      <File FileName="Assets\Scripts\InputWatcher.cs" Line="321" Column="9" />
+      <File FileName="Assets\Scripts\Enemies\Megasplit.cs" Line="45" Column="136" />
+      <File FileName="Assets\Scripts\Enemies\Boss.cs" Line="51" Column="11" />
+      <File FileName="Assets\Scripts\Enemies\Splitter.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Enemies\WallOfDoom.cs" Line="18" Column="3" />
+      <File FileName="Assets\Scripts\Enemies\Melder.cs" Line="215" Column="30" />
+      <File FileName="Assets\Scripts\Wave.cs" Line="171" Column="41" />
+      <File FileName="Assets\Scripts\MainCanvas\Gun.cs" Line="550" Column="1" />
+      <File FileName="Assets\Scripts\Enemies\Melded.cs" Line="10" Column="37" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -63,6 +63,8 @@
      <Compile Include="Assets\Scripts\Enemies\DiversionMinion.cs" />
      <Compile Include="Assets\Scripts\Enemies\MeatShield.cs" />
      <Compile Include="Assets\Scripts\Enemies\Megasplit.cs" />
+     <Compile Include="Assets\Scripts\Enemies\Melded.cs" />
+     <Compile Include="Assets\Scripts\Enemies\Melder.cs" />
      <Compile Include="Assets\Scripts\Enemies\Minisplit.cs" />
      <Compile Include="Assets\Scripts\Enemies\Spite.cs" />
      <Compile Include="Assets\Scripts\Enemies\Splitter.cs" />
@@ -191,6 +193,7 @@
      <None Include="Assets\Resources\JSONData\Towers\drainpunch.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\stun_normal.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\drain_super.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\melded.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\shred_normal.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\knockback_rare.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World1\Level3\wavedata.txt" />
@@ -228,6 +231,7 @@
      <None Include="Assets\Resources\JSONData\MiscData\inventorybackup.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\slow_super.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\ENEMY_LIST.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\melders.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World3\Level4\wavedata.txt" />
      <None Include="Assets\Resources\JSONData\Towers\devtest1.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\blur.txt" />

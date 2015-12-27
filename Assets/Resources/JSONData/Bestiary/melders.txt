@@ -1,0 +1,28 @@
+{	
+	"name":"Melders",
+	"imgfile":"Placeholder",
+	"pointValue":20,
+	"columnName":"Melders",
+	
+	"enemyType":"Melder",
+
+	"movementType":"Linear",
+	"maxHP":30.0,
+	"HP":30.0,
+	"damage":5.0,
+	"impactTime":30.0,
+	"size":0.25,
+	"maxShields":0.0,
+	"shields":0.0,
+	"tripsTraps":true,
+	"shieldPen":false,
+	
+	"rarityUpWithHits":false,
+	"rareDropThreshold":4,
+	"rareChance":25.0,
+	"normalChance":5.0,
+	
+	"pieceTypes":[
+		"splash","homing","spread"
+	]
+}

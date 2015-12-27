@@ -133,12 +133,12 @@ public class Gun : MonoBehaviour,EventHandler{
 				SpawnBulletI ();
 				break;
 			case 2:
-				SpawnBulletV ();
+				SpawnBulletWideV ();
 				break;
 			case 3:
 				if (shootingV)
 				{
-					SpawnBulletV ();
+					SpawnBulletWideV ();
 					shootingV = false;
 				}
 				else if (!shootingV)
