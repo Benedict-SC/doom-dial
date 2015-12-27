@@ -46,6 +46,14 @@ public class Boss : MonoBehaviour{
 		
 		HandleModeStuff();
 	}
+	public void TakeDamage(float damage){
+		if(damage >= hp){
+			hp = 0;
+			Die ();
+		}else{
+			hp -= damage;
+		}
+	}
 	public virtual void HandleModeStuff(){ //override if boss has different transitions
 		if(level == 1)
 			return;

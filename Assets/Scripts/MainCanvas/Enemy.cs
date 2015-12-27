@@ -299,7 +299,14 @@ public class Enemy : MonoBehaviour,EventHandler {
 			EventManager.Instance().RaiseEvent(ge);
 		}
 	}
-	
+	public void TakeDamage(float damage){
+		if(damage >= hp){
+			hp = 0;
+			Die ();
+		}else{
+			hp -= damage;
+		}
+	}
 	public void HandleEvent(GameEvent ge){
 		//unpack shot location argument, check for collision, if it collided with you take damage from it
 		//actually never mind that, Unity has its own collision detection system!
@@ -332,6 +339,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 						}
 					}
 					if(hp <= 0){
+						hp = 0;
 						Die ();
 					}
 				}

@@ -43,6 +43,7 @@ public class Dial : MonoBehaviour,EventHandler {
 	void Start () {
 		
 		EventManager.Instance ().RegisterForEventType ("enemy_arrived", this);
+		EventManager.Instance ().RegisterForEventType ("dial_damaged", this);
 		LoadDialConfigFromJSON (WorldData.dialSelected);
 		
 		bonusWaveDictionary = new Dictionary<string,System.Object>();
@@ -104,38 +105,41 @@ public class Dial : MonoBehaviour,EventHandler {
 	}
 	
 	public void HandleEvent(GameEvent ge){
-		GameObject eh = (GameObject)ge.args[0];
-		if(eh == null || eh.Equals(null) ){
-			return;
+		if (ge.type.Equals("enemy_arrived")) {
+						GameObject eh = (GameObject)ge.args [0];
+						if (eh == null || eh.Equals (null)) {
+								return;
+						}
+						Enemy enemy = eh.GetComponent<Enemy> ();
+						enemy.AddToBonus ((List<System.Object>)bonusWaveDictionary ["enemies"]);
+						float rawDamage = enemy.GetDamage ();
+						int trackID = enemy.GetCurrentTrackID ();
+						if (shields [trackID - 1] != null) { //if this enemy's lane is shielded
+								int arrayInd = trackID - 1; //index of shield array to reference
+								GameObject shield = shields [trackID - 1];
+								ShieldController sc = shield.GetComponent<ShieldController> ();
+								float oldHP = sc.hp; //the shield's hp pre-absorbing damage
+								Debug.Log ("old shield HP = " + oldHP);
+								sc.hp -= rawDamage;
+								sc.UpdateHPMeter ();
+								sc.PrintHP (); //debug
+								if (sc.hp <= 0.0f) { //if the shield's now dead
+										float dialDamage = (oldHP - rawDamage); //this should be a negative value or 0
+										health += dialDamage; //dial takes damage (adds the negative value)
+										Destroy (shields [arrayInd]); //destroy the shield
+										Debug.Log ("shield destroyed");
+								}
+						} else { //if there's no shield
+								health -= rawDamage;
+								//Debug.Log ("damage taken, new health is " + health);
+						}
+						enemy.Die ();
+		}else if(ge.type.Equals("dial_damaged")){
+			GameObject damageSource = (GameObject)ge.args[0];
+			float damageAmount = (float)ge.args[1];
+			
+			health -= damageAmount;
 		}
-		Enemy enemy = eh.GetComponent<Enemy>();
-		enemy.AddToBonus((List<System.Object>)bonusWaveDictionary["enemies"]);
-		float rawDamage = enemy.GetDamage ();
-		int trackID = enemy.GetCurrentTrackID();
-		if (shields[trackID - 1] != null) //if this enemy's lane is shielded
-		{
-			int arrayInd = trackID - 1; //index of shield array to reference
-			GameObject shield = shields[trackID - 1];
-			ShieldController sc = shield.GetComponent<ShieldController>();
-			float oldHP = sc.hp; //the shield's hp pre-absorbing damage
-			Debug.Log ("old shield HP = " + oldHP);
-			sc.hp -= rawDamage;
-			sc.UpdateHPMeter();
-			sc.PrintHP(); //debug
-			if (sc.hp <= 0.0f) //if the shield's now dead
-			{
-				float dialDamage = (oldHP - rawDamage); //this should be a negative value or 0
-				health += dialDamage; //dial takes damage (adds the negative value)
-				Destroy (shields[arrayInd]); //destroy the shield
-				Debug.Log ("shield destroyed");
-			}
-		}
-		else //if there's no shield
-		{
-			health -= rawDamage;
-			//Debug.Log ("damage taken, new health is " + health);
-		}
-		enemy.Die ();
 	}
 	
 	public void LoadDialConfigFromJSON(string filename){
@@ -240,5 +244,16 @@ public class Dial : MonoBehaviour,EventHandler {
 		}
 		Debug.Log ("Dial health += " + amt);
 		Debug.Log ("health is " + health);
+	}
+	public static List<Enemy> GetAllEnemiesInZone(int zoneID){
+		GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+		List<Enemy> zoneOccupants = new List<Enemy>();
+		foreach(GameObject go in enemies){
+			Enemy e = go.GetComponent<Enemy>();
+			if(e.GetCurrentTrackID() == zoneID){
+				zoneOccupants.Add(e);
+			}
+		}
+		return zoneOccupants;
 	}
 }
