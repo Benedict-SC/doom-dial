@@ -175,33 +175,6 @@ public class SwarmMaster : Boss{
 		secondsToReverse = MIN_SECS + (float)(rand.NextDouble()*(MAX_SECS-MIN_SECS));
 		directiontimer.Restart();
 	}
-	int SpawnIndexToZoneID(int index){
-		int a = ((5-index)+3)%6;
-	    if(a==0)
-	    	return 6;
-	    else
-	    	return a;
-	}
-	int PositionToZoneID(){
-		int degrees = (int)(thetas.x * Mathf.Rad2Deg);
-		int idx = degrees / 60;
-		//Debug.Log (degrees + " deg, near spawnidx " + idx);
-		//Debug.Log (degrees + " (which converts to zone " + SpawnIndexToZoneID(idx));
-		return SpawnIndexToZoneID(idx);		
-	}
-	int PositionToLaneID(){
-		int degrees = (int)(thetas.x * Mathf.Rad2Deg);
-		int remaining = degrees % 60;
-		
-		if(remaining < 22.5)
-			return 1;
-		else if(remaining > 37.5)
-			return -1;
-		else if(remaining > 22.5 && remaining < 37.5)
-			return 0;
-		else
-			return 999; //don't spawn enemies on zone borders
-	}
 	public void Poop(){
 		if(PositionToZoneID() == 999){ //don't poop on zone borders
 			secondsToPoop = 0.25f;
@@ -258,6 +231,7 @@ public class SwarmMaster : Boss{
 		degrees *= Mathf.Deg2Rad;
 		((RectTransform)enemyobj.transform).anchoredPosition = new Vector2(Dial.ENEMY_SPAWN_LENGTH*Mathf.Cos(degrees),
 										Dial.ENEMY_SPAWN_LENGTH*Mathf.Sin(degrees));
+		c.spawnedByBoss = true;
 		c.StartMoving();
 	}
 	public void DropSpear(){
@@ -286,6 +260,7 @@ public class SwarmMaster : Boss{
 		degrees *= Mathf.Deg2Rad;
 		((RectTransform)enemyobj.transform).anchoredPosition = new Vector2(Dial.ENEMY_SPAWN_LENGTH*Mathf.Cos(degrees),
 		                                                                   Dial.ENEMY_SPAWN_LENGTH*Mathf.Sin(degrees));
+		tots.spawnedByBoss = true;
 		tots.StartMoving();
 	}
 	public void DropWall(){
@@ -311,6 +286,7 @@ public class SwarmMaster : Boss{
 		degrees *= Mathf.Deg2Rad;
 		((RectTransform)enemyobj.transform).anchoredPosition = new Vector2(Dial.ENEMY_SPAWN_LENGTH*Mathf.Cos(degrees),
 		                                                                   Dial.ENEMY_SPAWN_LENGTH*Mathf.Sin(degrees));
+		wod.spawnedByBoss = true;
 		wod.StartMoving();
 	}
 	public void DropDiversion(){
@@ -338,6 +314,7 @@ public class SwarmMaster : Boss{
 		degrees *= Mathf.Deg2Rad;
 		((RectTransform)enemyobj.transform).anchoredPosition = new Vector2(Dial.ENEMY_SPAWN_LENGTH*Mathf.Cos(degrees),
 		                                                                   Dial.ENEMY_SPAWN_LENGTH*Mathf.Sin(degrees));
+		d.spawnedByBoss = true;
 		d.StartMoving();
 	}
 	

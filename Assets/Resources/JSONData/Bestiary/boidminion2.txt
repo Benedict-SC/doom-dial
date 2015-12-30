@@ -1,0 +1,28 @@
+{	
+	"name":"Megaboid minion 2",
+	"imgfile":"Placeholder",
+	"pointValue":0,
+	"columnName":"n/a",
+	
+	"enemyType":"Normal",
+
+	"movementType":"Linear",
+	"maxHP":70.0,
+	"HP":70.0,
+	"damage":30.0,
+	"impactTime":30.0,
+	"size":0.41,
+	"maxShields":0.0,
+	"shields":0.0,
+	"tripsTraps":true,
+	"shieldPen":false,
+	
+	"rarityUpWithHits":false,
+	"rareDropThreshold":4,
+	"rareChance":50.0,
+	"normalChance":5.0,
+	
+	"pieceTypes":[
+		"splash","homing","spread"
+	]
+}

@@ -183,7 +183,8 @@ public class Diversion : Enemy{
 			Dictionary<string,System.Object> enemyDict = new Dictionary<string,System.Object>();
 			enemyDict.Add("enemyID",srcFileName);
 			enemyDict.Add("trackID",(long)GetCurrentTrackID());
-			bonusList.Add(enemyDict);
+			if(!spawnedByBoss)
+				bonusList.Add(enemyDict);
 			
 			//tell everyone else not to do the thing
 			groupAddedToBonus = true;

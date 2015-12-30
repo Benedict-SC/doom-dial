@@ -9,6 +9,7 @@ public class Melded : Enemy{
 			Dictionary<string,System.Object> enemyDict = new Dictionary<string,System.Object>();
 			enemyDict.Add("enemyID","melders");
 			enemyDict.Add("trackID",(long)GetCurrentTrackID());
+		if(!spawnedByBoss)
 			bonusList.Add(enemyDict);
 		
 	}

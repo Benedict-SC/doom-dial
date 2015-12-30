@@ -42,7 +42,8 @@ public class DiversionMinion : Enemy{
 			Dictionary<string,System.Object> enemyDict = new Dictionary<string,System.Object>();
 			enemyDict.Add("enemyID",leader.GetSrcFileName());
 			enemyDict.Add("trackID",(long)leader.GetCurrentTrackID());
-			bonusList.Add(enemyDict);
+			if(!spawnedByBoss)
+				bonusList.Add(enemyDict);
 			
 			//tell everyone else not to do the thing
 			groupAddedToBonus = true;

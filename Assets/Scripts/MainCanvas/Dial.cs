@@ -29,6 +29,7 @@ public class Dial : MonoBehaviour,EventHandler {
 	public static RectTransform spawnLayer;
 	public static RectTransform underLayer;
 	public static RectTransform unmaskedLayer;
+	static Dial thisDial;
 	
 	Dictionary<string,System.Object> bonusWaveDictionary;
 	int bonusCapacity = 30;
@@ -39,6 +40,7 @@ public class Dial : MonoBehaviour,EventHandler {
 		spawnLayer = GameObject.Find("SpawnOverDialLayer").GetComponent<RectTransform>();
 		underLayer = GameObject.Find("SpawnUnderDialLayer").GetComponent<RectTransform>();
 		unmaskedLayer = GameObject.Find ("UnmaskedSpawns").GetComponent<RectTransform>();
+		thisDial = this;
 	}
 	void Start () {
 		
@@ -255,5 +257,11 @@ public class Dial : MonoBehaviour,EventHandler {
 			}
 		}
 		return zoneOccupants;
+	}
+	public Dictionary<string,System.Object> GetBonusDict(){
+		return bonusWaveDictionary;
+	}
+	public static void CallEnemyAddBonus(Enemy e){
+		e.AddToBonus((List<System.Object>)thisDial.GetBonusDict()["enemies"]);
 	}
 }

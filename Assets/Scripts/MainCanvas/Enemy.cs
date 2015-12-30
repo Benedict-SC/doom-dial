@@ -26,6 +26,8 @@ public class Enemy : MonoBehaviour,EventHandler {
 	protected float hp = 100.0f;
 	protected string srcFileName;
 	
+	public bool spawnedByBoss = false;
+	
 	//float ySpeed;
 	//float xSpeed;
 	
@@ -409,6 +411,8 @@ public class Enemy : MonoBehaviour,EventHandler {
 		
 	}
 	public virtual void AddToBonus(List<System.Object> bonusList){
+		if(spawnedByBoss)
+			return;
 		Dictionary<string,System.Object> enemyDict = new Dictionary<string,System.Object>();
 		enemyDict.Add("enemyID",srcFileName);
 		enemyDict.Add("trackID",(long)GetCurrentTrackID());

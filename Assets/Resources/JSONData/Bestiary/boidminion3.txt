@@ -1,0 +1,28 @@
+{	
+	"name":"Megaboid minion 3",
+	"imgfile":"Placeholder",
+	"pointValue":0,
+	"columnName":"n/a",
+	
+	"enemyType":"Normal",
+
+	"movementType":"Linear",
+	"maxHP":90.0,
+	"HP":90.0,
+	"damage":40.0,
+	"impactTime":30.0,
+	"size":0.45,
+	"maxShields":0.0,
+	"shields":0.0,
+	"tripsTraps":true,
+	"shieldPen":false,
+	
+	"rarityUpWithHits":false,
+	"rareDropThreshold":4,
+	"rareChance":70.0,
+	"normalChance":5.0,
+	
+	"pieceTypes":[
+		"splash","homing","spread"
+	]
+}

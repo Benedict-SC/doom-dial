@@ -187,4 +187,30 @@ public class Boss : MonoBehaviour{
 	public void SetRadius(float f){
 		radii.x = f;
 	}
+	
+	public int SpawnIndexToZoneID(int index){
+		int a = ((5-index)+3)%6;
+		if(a==0)
+			return 6;
+		else
+			return a;
+	}
+	public int PositionToZoneID(){
+		int degrees = (int)(thetas.x * Mathf.Rad2Deg);
+		int idx = degrees / 60;
+		return SpawnIndexToZoneID(idx);		
+	}
+	public int PositionToLaneID(){
+		int degrees = (int)(thetas.x * Mathf.Rad2Deg);
+		int remaining = degrees % 60;
+		
+		if(remaining < 22.5)
+			return 1;
+		else if(remaining > 37.5)
+			return -1;
+		else if(remaining > 22.5 && remaining < 37.5)
+			return 0;
+		else
+			return 999; //don't spawn enemies on zone borders
+	}
 }

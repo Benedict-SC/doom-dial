@@ -110,6 +110,9 @@ public class BigSplit : Enemy{
 		split2.SetProgress(progress);	
 		split.SetTrackID(trackID);
 		split2.SetTrackID(trackID);
+		split.spawnedByBoss = spawnedByBoss;
+		split2.spawnedByBoss = spawnedByBoss;
+		
 		
 		/*if(imtheleftone){
 			split.talktome = true;
@@ -134,7 +137,8 @@ public class BigSplit : Enemy{
 			Dictionary<string,System.Object> enemyDict = new Dictionary<string,System.Object>();
 			enemyDict.Add("enemyID","bigsplit");
 			enemyDict.Add("trackID",(long)GetCurrentTrackID());
-			bonusList.Add(enemyDict);
+			if(!spawnedByBoss)
+				bonusList.Add(enemyDict);
 			
 			//tell everyone else not to do the thing
 			groupAddedToBonus = true;
