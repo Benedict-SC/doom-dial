@@ -219,7 +219,7 @@ public class Gun : MonoBehaviour,EventHandler{
 	{
 		for (int i = 1; i <= 1; i++)
 		{
-			Debug.Log ("called instantiate bullet");
+			//Debug.Log ("called instantiate bullet");
 			GameObject bullet = Instantiate (Resources.Load ("Prefabs/MainCanvas/Bullet")) as GameObject; //make a bullet
 			bullet.transform.SetParent(Dial.spawnLayer,false);
 			RectTransform bulletRect = (RectTransform)bullet.transform;
@@ -231,7 +231,7 @@ public class Gun : MonoBehaviour,EventHandler{
 			float ownangle = this.transform.eulerAngles.z;
 			float angle = (ownangle +  90) % 360 ;
 			angle *= (float)Math.PI / 180;
-			Debug.Log ("original angle: " + angle);
+			//Debug.Log ("original angle: " + angle);
 			angle = (angle - (float)Math.PI / 6f) + ((((float)Math.PI / 3f) / (2)) * i); //handles spread effect
 			//find where to spawn the bullet
 			float gunDistFromCenter = (float)Math.Sqrt (rt.anchoredPosition.x*rt.anchoredPosition.x + rt.anchoredPosition.y*rt.anchoredPosition.y);
@@ -252,7 +252,7 @@ public class Gun : MonoBehaviour,EventHandler{
 	{
 		for (int i = 1; i <= 2; i++)
 		{
-			Debug.Log ("called instantiate bullet");
+			//Debug.Log ("called instantiate bullet");
 			GameObject bullet = Instantiate (Resources.Load ("Prefabs/MainCanvas/Bullet")) as GameObject; //make a bullet
 			bullet.transform.SetParent(Dial.spawnLayer,false);
 			Bullet bc = bullet.GetComponent<Bullet>();
@@ -264,7 +264,7 @@ public class Gun : MonoBehaviour,EventHandler{
 			float ownangle = this.transform.eulerAngles.z;
 			float angle = (ownangle +  90) % 360 ;
 			angle *= (float)Math.PI / 180;
-			Debug.Log ("original angle: " + angle);
+			//Debug.Log ("original angle: " + angle);
 			angle = (angle - (float)Math.PI / 6f) + ((((float)Math.PI / 3f) / (3)) * i); //handles spread effect
 			//find where to spawn the bullet
 			float gunDistFromCenter = (float)Math.Sqrt (rt.anchoredPosition.x*rt.anchoredPosition.x + rt.anchoredPosition.y*rt.anchoredPosition.y);
@@ -285,7 +285,7 @@ public class Gun : MonoBehaviour,EventHandler{
 	{
 		for (int i = 1; i <= 2; i++)
 		{
-			Debug.Log ("called instantiate bullet");
+			//Debug.Log ("called instantiate bullet");
 			GameObject bullet = Instantiate (Resources.Load ("Prefabs/MainCanvas/Bullet")) as GameObject; //make a bullet
 			bullet.transform.SetParent(Dial.spawnLayer,false);
 			Bullet bc = bullet.GetComponent<Bullet>();
@@ -297,7 +297,7 @@ public class Gun : MonoBehaviour,EventHandler{
 			float ownangle = this.transform.eulerAngles.z;
 			float angle = (ownangle +  90) % 360 ;
 			angle *= (float)Math.PI / 180;
-			Debug.Log ("original angle: " + angle);
+			//Debug.Log ("original angle: " + angle);
 			float mult = 1f;
 			if (i == 2)
 			{

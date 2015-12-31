@@ -46,13 +46,16 @@ public class Boss : MonoBehaviour{
 		
 		HandleModeStuff();
 	}
-	public void TakeDamage(float damage){
+	public virtual void TakeDamage(float damage){
 		if(damage >= hp){
 			hp = 0;
 			Die ();
 		}else{
 			hp -= damage;
 		}
+	}
+	public void SetDamage(float damage){
+		hp = maxHP - damage;
 	}
 	public virtual void HandleModeStuff(){ //override if boss has different transitions
 		if(level == 1)
@@ -91,7 +94,7 @@ public class Boss : MonoBehaviour{
 					if (bc.isSplitBullet && bc.timerElapsed || !bc.isSplitBullet)
 					{
 						bc.enemyHit = this.gameObject;
-						hp -= bc.dmg + bc.arcDmg;
+						TakeDamage(bc.dmg + bc.arcDmg);
 					}
 					if (!bc.isSplitBullet)
 					{
@@ -103,9 +106,6 @@ public class Boss : MonoBehaviour{
 						{
 							bc.Collide ();
 						}
-					}
-					if(hp <= 0){
-						Die ();
 					}
 				}
 			}
@@ -186,6 +186,9 @@ public class Boss : MonoBehaviour{
 	}
 	public void SetRadius(float f){
 		radii.x = f;
+	}
+	public float GetHP(){
+		return hp;
 	}
 	
 	public int SpawnIndexToZoneID(int index){

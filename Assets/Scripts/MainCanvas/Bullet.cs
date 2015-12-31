@@ -152,7 +152,7 @@ public class Bullet : MonoBehaviour {
 				collide2D.enabled = true;
 			}
 			if(distance > range * TRACK_LENGTH + (Dial.DIAL_RADIUS-spawnDistFromCenter)){
-				Debug.Log ("we somehow destroyed ourselves / at (" + rt.anchoredPosition.x + "," + rt.anchoredPosition.y + ")");
+				//Debug.Log ("we somehow destroyed ourselves / at (" + rt.anchoredPosition.x + "," + rt.anchoredPosition.y + ")");
 				Collide();
 				return;
 			}
@@ -316,7 +316,7 @@ public class Bullet : MonoBehaviour {
 	//called when the bullet hits something, from the OnCollisionEnter in EnemyController
 	public void Collide()
 	{
-		Debug.Log ("collided (called method Collide())");
+		//Debug.Log ("collided (called method Collide())");
 		if (splash != 0)
 		{
 			if (poison != 0)

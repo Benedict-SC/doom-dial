@@ -10,7 +10,7 @@ public class Megaboid : Boss{
 	int mergeIdx = 0;
 	bool goingRight = true;
 	Timer mergeTimer;
-	float mergeDelay = 3f;
+	float mergeDelay = 3f; 
 	bool hitYet = false;
 	
 	Timer directiontimer;
@@ -23,12 +23,20 @@ public class Megaboid : Boss{
 	Vector2 center = new Vector2(0f,0f);
 	float progcenter = 0f;
 	
-	enum state{MERGING,SPAWNING,MOVING,DECIDING};
+	public enum state{MERGING,SPAWNING,MOVING,DECIDING,BOUNCING};
 	state currentState = state.DECIDING;
+	
+	List<Megaboid> bosses = new List<Megaboid>();
+	public bool bounceLeft = true;
+	float bounceVel = .04f;
+	float bounceAcc = .002f;
 	
 	GameObject overlay;
 	
 	public override void Start(){
+		if(isClone){
+			return;
+		}
 		base.Start();
 		maxHP = 200;
 		hp = 200;
@@ -36,7 +44,21 @@ public class Megaboid : Boss{
 		mergeTimer = new Timer();
 		directiontimer = new Timer();
 		overlay = transform.FindChild("Health").gameObject;
+		bosses.Add(this);
 	}
+	public bool isClone = false;
+	public void StartClone(){ //fine, we'll start things manually
+		isClone = true;
+		maxHP = 200;
+		hp = 200;
+		thetas = new Vector3(mergepoints[5]+0.05f,0f,0f);
+		radii = new Vector3(Dial.FULL_LENGTH,0f,0f);
+		mergeTimer = new Timer();
+		directiontimer = new Timer();
+		overlay = transform.FindChild("Health").gameObject;
+		bosses.Add(this);
+	}
+	
 	public override void Update(){
 		Debug.Log ("hit yet: " + hitYet + ", mode: " + mode + ", state: " + currentState);
 		base.Update();
@@ -50,6 +72,19 @@ public class Megaboid : Boss{
 			currentState = state.MOVING;
 		}else if(currentState == state.MOVING){
 			Arrive ();
+		}else if(currentState == state.BOUNCING){
+			if(bounceLeft){
+				if(thetas.y < 0){
+					thetas.y = 0;
+					currentState = state.DECIDING; 
+				}
+			}else{
+				//Debug.Log("thetas: " + thetas.x + "," + thetas.y + "," + thetas.z);
+				if(thetas.y > 0){
+					thetas.y = 0;
+					currentState = state.DECIDING; 
+				}
+			}
 		}else if(currentState == state.SPAWNING){
 			System.Random rand = new System.Random();
 			List<Enemy> enemies = Dial.GetAllEnemiesInZone(SpawnIndexToZoneID(mergeIdx));
@@ -97,6 +132,66 @@ public class Megaboid : Boss{
 			}
 		}
 	}
+	public override void TakeDamage(float damage){
+		//Debug.Log ("we're taking " +damage+ " damage");
+		int firstmode = mode;
+		base.TakeDamage(damage);
+		HandleModeStuff();
+		int newmode = mode;
+		if(firstmode != newmode){//mode changed
+			//Debug.Log ("mode changed to " + mode);
+			if(newmode == 2 || newmode == 3 && bosses.Count < 3){
+				Split();
+			}
+		}
+	}
+	
+	public void AddBoss(Megaboid meg){
+		bosses.Add(meg);
+	}
+	public void SetState(Megaboid.state megState){
+		currentState = megState;
+	}
+	void Split(){
+		GameObject boss = GameObject.Instantiate (Resources.Load ("Prefabs/MainCanvas/Megaboid")) as GameObject;
+		RectTransform brt = boss.GetComponent<RectTransform>();
+		brt.anchoredPosition = ((RectTransform)transform).anchoredPosition;
+		boss.transform.SetParent(Dial.unmaskedLayer,false);
+		Megaboid mb = boss.GetComponent<Megaboid>();
+		mb.StartClone();
+		this.bounceLeft = true;
+		mb.bounceLeft = false;
+		thetas.y = bounceVel;
+		thetas.z = -bounceAcc;
+		mb.SetTheta(0,thetas.x);
+		mb.SetTheta(1,-bounceVel);
+		mb.SetTheta(2,bounceAcc);
+		currentState = state.BOUNCING;
+		mb.SetState(state.BOUNCING);
+		
+		float damageTaken = maxHP-hp;
+		mb.SetDamage(damageTaken);
+		mb.RefreshHP();
+		mb.HandleModeStuff();
+		
+		foreach(Megaboid boid in bosses){
+			if(boid != this)
+				boid.AddBoss(mb);
+			mb.AddBoss(boid);
+		}
+		AddBoss(mb);
+	}
+	void SetTheta(int depth,float val){
+		if(depth == 0){
+			thetas.x = val;
+		}else if(depth == 1){
+			thetas.y = val;
+		}else if(depth == 2){
+			thetas.z = val;
+		}else{
+			Debug.Log("depth is " + depth);
+		}
+	}
 	void BeginMerge(){
 		//get everything in the lane
 		List<Enemy> zoneGuys = Dial.GetAllEnemiesInZone(SpawnIndexToZoneID(mergeIdx));
@@ -115,6 +210,7 @@ public class Megaboid : Boss{
 		foreach(Enemy e in zoneGuys){
 			GameObject facs = GameObject.Instantiate(e.gameObject);
 			GameObject.Destroy(facs.GetComponent<Enemy>());
+			facs.tag = "Untagged";
 			MegaboidFacsimile mf = facs.AddComponent<MegaboidFacsimile>() as MegaboidFacsimile;
 			facs.transform.SetParent(Dial.spawnLayer,false);
 			facsimiles.Add(facs);
@@ -228,6 +324,10 @@ public class Megaboid : Boss{
 		b.StartMoving();
 	}
 	
+	public int GetTargetZone(){
+		return mergeIdx;
+	}
+	
 	public void PickTargetZone(){
 		if(directiontimer.TimeElapsedSecs() >= secondsToReverse){
 			ReverseDirection(); 		
@@ -236,16 +336,39 @@ public class Megaboid : Boss{
 			mergeIdx--;
 		else
 			mergeIdx++;
+		while(IsAPartnerTargetingThisZone(mergeIdx)){
+			if(clockwise)
+				mergeIdx--;
+			else
+				mergeIdx++;
+		}
+			
 		if(mergeIdx >= mergepoints.Length)
 			mergeIdx -= mergepoints.Length;
 		if(mergeIdx <= -1)
 			mergeIdx += mergepoints.Length;
 	}
+	bool IsAPartnerTargetingThisZone(int midx){
+		bool targeted = false;
+		foreach(Megaboid mb in bosses){
+			if(mb != this){
+				int partnerTarg = mb.GetTargetZone();
+				if(partnerTarg == midx){
+					targeted = true;
+					break;
+				}
+			}
+		}
+		return targeted;
+	}
 	public override void OnTriggerEnter2D(Collider2D coll){
 		base.OnTriggerEnter2D(coll);
 		overlay.transform.localScale = new Vector3(hp/maxHP,hp/maxHP,1f);
-		if(!coll.gameObject.tag.Equals("Enemy"))
+		if(coll.gameObject.tag.Equals("Bullet") || coll.gameObject.tag.Equals("Trap") || coll.gameObject.tag.Equals("AoE"))
 			hitYet = true;
+	}
+	public void RefreshHP(){
+		overlay.transform.localScale = new Vector3(hp/maxHP,hp/maxHP,1f);
 	}
 	public void ReverseDirection(){
 		clockwise = !clockwise;
