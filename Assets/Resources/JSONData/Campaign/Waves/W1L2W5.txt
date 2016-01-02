@@ -1,0 +1,1 @@
+{"levelID":1000,"waveID":1004,"maxMilliseconds":30000,"minimumInterval":1000,"enemies":[{"enemyID":"splitter","trackID":2,"trackpos":0},{"enemyID":"splitter","trackID":3,"trackpos":0},{"enemyID":"splitter","trackID":5,"trackpos":0},{"enemyID":"splitter","trackID":6,"trackpos":0}]}

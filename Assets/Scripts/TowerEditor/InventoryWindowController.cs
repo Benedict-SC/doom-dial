@@ -93,6 +93,14 @@ public class InventoryWindowController : MonoBehaviour{
 				text.text = bulletText;				
 			}else{
 				Debug.Log ("it ain't bullet");
+				FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Pieces",pieceFileName);
+				string json = fl.Read ();
+				Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
+				
+				string bulletText = (string)data["bulletText"];
+				Text text = frame.transform.FindChild("StatsText").gameObject.GetComponent<Text>();
+				text.text = bulletText;		
+				Debug.Log ("but we're doing all this anyway for now since we don't have the rest of it");
 			}
 		}
 	}

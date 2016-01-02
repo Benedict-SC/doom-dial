@@ -1,0 +1,1 @@
+{"levelID":1000,"waveID":1003,"maxMilliseconds":30000,"minimumInterval":1000,"enemies":[{"enemyID":"thediversion","trackID":2,"trackpos":0},{"enemyID":"steve","trackID":2,"trackpos":0},{"enemyID":"meatshieldsmall","trackID":5,"trackpos":0},{"enemyID":"steve","trackID":5,"trackpos":0}]}

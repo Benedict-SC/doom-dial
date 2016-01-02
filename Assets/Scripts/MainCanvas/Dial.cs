@@ -159,7 +159,7 @@ public class Dial : MonoBehaviour,EventHandler {
 			
 			GameObject gun = GameObject.Find ("Gun" + (i+1)).gameObject;
 			Gun gc = gun.GetComponent<Gun>();
-			Debug.Log(towerfile);
+			//Debug.Log(towerfile);
 			gc.SetValuesFromJSON(towerfile);
 			gun.SetActive(active);
 		}

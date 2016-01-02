@@ -40,6 +40,10 @@ public class FileLoader{
 		
 	}
 	public string CreatedPath(){
+		if(path.Equals(badpath)){
+			string slashfolder = folder.Replace(Path.DirectorySeparatorChar,'/');
+			return slashfolder + "/" + fileName;
+		}
 		return path + Path.DirectorySeparatorChar + fileName + ".txt";
 	}
 	

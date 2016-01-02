@@ -334,8 +334,6 @@ public class GridController : MonoBehaviour{
 		decalFilename = (string)data["decalFilename"];
 		towerType = (string)data["towerType"];
 		
-		//nameEntry.text = towerName;
-		
 		List<System.Object> pieces = data["pieces"] as List<System.Object>;
 		foreach(System.Object pObj in pieces){
 			Dictionary<string,System.Object> pdata = pObj as Dictionary<string,System.Object>;

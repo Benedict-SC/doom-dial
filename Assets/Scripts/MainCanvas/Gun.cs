@@ -339,7 +339,7 @@ public class Gun : MonoBehaviour,EventHandler{
 		decalSet = true;
 		
 		towerType = data ["towerType"] as string;
-		Debug.Log (filename + " tower type is " + towerType);
+		//Debug.Log (filename + " tower type is " + towerType);
 		
 		//if(filename.Equals("piecetower")){
 		//	PieceParser.FillController(this,filename);

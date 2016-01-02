@@ -1,0 +1,14 @@
+{
+	"levelID": 0,
+	"waveID": 0,
+	"maxMilliseconds": 30000,
+	"minimumInterval": 1000,
+	"enemies": [
+		{"enemyID":"testenemy","spawntime":3001,"trackID":1,"trackpos":0},
+		{"enemyID":"testenemy","spawntime":6000,"trackID":1,"trackpos":0},
+		{"enemyID":"testenemy","spawntime":7000,"trackID":4,"trackpos":0},
+		{"enemyID":"spite","spawntime":7500,"trackID":3,"trackpos":0},
+		{"enemyID":"testenemy","spawntime":8000,"trackID":4,"trackpos":0},
+		{"enemyID":"testenemy","spawntime":11000,"trackID":1,"trackpos":0}
+	]
+}

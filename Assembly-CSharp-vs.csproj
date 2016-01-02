@@ -53,6 +53,14 @@
      <Compile Include="Assets\Scripts\BulletController.cs" />
      <Compile Include="Assets\Scripts\ButtonController.cs" />
      <Compile Include="Assets\Scripts\CanvasAspectRatioDetector.cs" />
+     <Compile Include="Assets\Scripts\CanvasMenus\LevelMenuOption.cs" />
+     <Compile Include="Assets\Scripts\CanvasMenus\LevelSelectMenu.cs" />
+     <Compile Include="Assets\Scripts\CanvasMenus\LoadSceneMenuOption.cs" />
+     <Compile Include="Assets\Scripts\CanvasMenus\MenuDial.cs" />
+     <Compile Include="Assets\Scripts\CanvasMenus\MenuOption.cs" />
+     <Compile Include="Assets\Scripts\CanvasMenus\MenuScaleEffectCanvas.cs" />
+     <Compile Include="Assets\Scripts\CanvasMenus\WorldMenuOption.cs" />
+     <Compile Include="Assets\Scripts\CanvasMenus\WorldSelectMenu.cs" />
      <Compile Include="Assets\Scripts\DialController.cs" />
      <Compile Include="Assets\Scripts\DropController.cs" />
      <Compile Include="Assets\Scripts\EditorReturn.cs" />
@@ -157,9 +165,12 @@
      <Compile Include="Assets\Scripts\WorldData.cs" />
      <Compile Include="Assets\Scripts\WorldSelect.cs" />
      <Compile Include="Assets\Scripts\ZoneConeController.cs" />
+     <None Include="Assets\Resources\JSONData\Campaign\Waves\W1L2W5.txt" />
+     <None Include="Assets\Resources\JSONData\Campaign\Levels\W1L2.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\meatshieldsmall.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\speed_rare.txt" />
      <None Include="Assets\Resources\JSONData\DialConfigs\devdial.txt" />
+     <None Include="Assets\Resources\JSONData\Campaign\Worlds\W3.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\stun_rare.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\split_normal.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\spite.txt" />
@@ -175,14 +186,18 @@
      <None Include="Assets\Resources\JSONData\Bestiary\blob.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_5.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\cdr_super.txt" />
+     <None Include="Assets\Resources\JSONData\Campaign\Waves\W1L2W3.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\knockback_normal.txt" />
      <None Include="Assets\Resources\JSONData\Towers\devtest2.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\chainers.txt" />
+     <None Include="Assets\Resources\JSONData\Campaign\Waves\W1L2W2.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\splash_rare.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\damage_normal.txt" />
+     <None Include="Assets\Resources\JSONData\Campaign\Waves\W1L2W1.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\homing_rare.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\shred_rare.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\penetration_rare.txt" />
+     <None Include="Assets\Resources\JSONData\Campaign\Levels\testlevel.txt" />
      <None Include="Assets\Misc\BulletEffectsLog.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\poison_normal.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\damage_rare.txt" />
@@ -194,6 +209,7 @@
      <None Include="Assets\Resources\JSONData\DialConfigs\twodial.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\range_normal.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\bigsplit2.txt" />
+     <None Include="Assets\Resources\JSONData\Campaign\Worlds\W6.txt" />
      <None Include="Assets\Resources\JSONData\Towers\drainpunch.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\stun_normal.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\bigsplit.txt" />
@@ -201,6 +217,7 @@
      <None Include="Assets\Resources\JSONData\Bestiary\melded.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\shred_normal.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\knockback_rare.txt" />
+     <None Include="Assets\Resources\JSONData\Campaign\Waves\testwave.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World1\Level3\wavedata.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\thediversion.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\cdr_rare.txt" />
@@ -212,9 +229,12 @@
      <None Include="Assets\Resources\JSONData\Pieces\spread_normal.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\homing_super.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\damage_super.txt" />
+     <None Include="Assets\Resources\JSONData\Campaign\Worlds\W5.txt" />
+     <None Include="Assets\Resources\JSONData\Campaign\Worlds\W4.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\meatshieldbig.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\boidminion2.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_3.txt" />
+     <None Include="Assets\Resources\JSONData\Campaign\Waves\W1L2W4.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\drain_normal.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\penetration_super.txt" />
      <None Include="Assets\Resources\JSONData\DialConfigs\sixdial.txt" />
@@ -228,6 +248,8 @@
      <None Include="Assets\Resources\JSONData\Pieces\slow_rare.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World4\Level2\wavedata.txt" />
      <None Include="Assets\Resources\JSONData\DialConfigs\threedial.txt" />
+     <None Include="Assets\Resources\JSONData\Campaign\Waves\testwave2.txt" />
+     <None Include="Assets\Resources\JSONData\Campaign\Worlds\W2.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\knockback_super.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\poison_rare.txt" />
      <None Include="Assets\Resources\JSONData\Towers\devtest6.txt" />
@@ -237,6 +259,7 @@
      <None Include="Assets\Resources\JSONData\Pieces\shred_super.txt" />
      <None Include="Assets\Resources\JSONData\MiscData\inventorybackup.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\slow_super.txt" />
+     <None Include="Assets\Resources\JSONData\Campaign\Waves\W1L2W6.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\ENEMY_LIST.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\melders.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World3\Level4\wavedata.txt" />
@@ -261,6 +284,7 @@
      <None Include="Assets\Resources\JSONData\Bestiary\minisplit.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_1.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\speed_normal.txt" />
+     <None Include="Assets\Resources\JSONData\Campaign\WORLD_LIST.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\arc_super.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World1\Level2\wavedata.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\poison_super.txt" />
@@ -273,11 +297,13 @@
      <None Include="Assets\Resources\JSONData\Bestiary\swarmminion.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\speed_super.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\TOWER_DEFAULTS.txt" />
+     <None Include="Assets\Resources\JSONData\Campaign\Waves\testwave3.txt" />
      <None Include="Assets\Resources\JSONData\Towers\piecetower.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World3\Level2\wavedata.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\drain_rare.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\splash_super.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\split_super.txt" />
+     <None Include="Assets\Resources\JSONData\Campaign\Worlds\W1.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World2\Level3\wavedata.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

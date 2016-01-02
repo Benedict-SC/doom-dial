@@ -7,7 +7,7 @@ public class WorldData : MonoBehaviour {
 	//on it, and will auto-delete normally.
 	public int placeholder = 0;
 	public static string worldSelected = "";
-	public static string levelSelected = "";
+	public static string levelSelected = "testlevel";
 	public static string lastScene = "";
 	public static string dialSelected = "devdial";
 	

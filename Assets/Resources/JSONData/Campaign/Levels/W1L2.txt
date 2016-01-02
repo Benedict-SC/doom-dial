@@ -1,0 +1,11 @@
+{
+	"waves":[
+		{"wavename":"W1L2W1"},
+		{"wavename":"W1L2W2"},
+		{"wavename":"W1L2W3"},
+		{"wavename":"W1L2W4"},
+		{"wavename":"W1L2W5"},
+		{"wavename":"W1L2W6"}
+	],
+	"boss":0
+}

@@ -1,0 +1,8 @@
+{
+	"waves":[
+		{"wavename":"testwave"},
+		{"wavename":"testwave2"},
+		{"wavename":"testwave3"}
+	],
+	"boss":0
+}

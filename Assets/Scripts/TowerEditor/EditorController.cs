@@ -13,6 +13,7 @@ public class EditorController : MonoBehaviour,EventHandler{
 	ScrollRect sr;
 	InputField nameEntry;
 	Image decalButtonImg;
+	Image typeButtonImg;
 	public static Canvas canvas;
 	
 	string towerName;
@@ -44,6 +45,7 @@ public class EditorController : MonoBehaviour,EventHandler{
 		
 		nameEntry = canvas.gameObject.transform.FindChild("NameEntry").GetComponent<InputField>();
 		decalButtonImg = canvas.gameObject.transform.FindChild("DecalButton").FindChild("Decal").GetComponent<Image>();
+		typeButtonImg = canvas.gameObject.transform.FindChild("TypeButton").FindChild("TypeIcon").GetComponent<Image>();
 		//grid.editor = this;
 		
 		EventManager em = EventManager.Instance();
@@ -89,12 +91,13 @@ public class EditorController : MonoBehaviour,EventHandler{
 	}
 	public void LoadTower(string jsonfile){
 		grid.LoadTower(jsonfile);
-		FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Towers",jsonfile);
+		FileLoader fl = new FileLoader (Application.persistentDataPath,"Towers",jsonfile);
 		string json = fl.Read ();
 		Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
 		
 		towerName = (string)data["towerName"];
 		decalFilename = (string)data["decalFilename"];
+		Debug.Log ("decal name: " + decalFilename);
 		towerType = (string)data["towerType"];
 		
 		nameEntry.text = towerName;
@@ -104,6 +107,22 @@ public class EditorController : MonoBehaviour,EventHandler{
 		decalButtonImg.sprite = UnityEngine.Sprite.Create (
 			decal,
 			new Rect(0,0,decal.width,decal.height),
+			new Vector2(0.5f,0.5f),
+			100f);
+		
+		//handle tower type
+		string typeIconFile = "PieceNormalDrop";
+		if(towerType == "Bullet"){
+			typeIconFile = "BulletIconTemp";
+		}else if(towerType == "Trap"){
+			typeIconFile = "TrapIconTemp";
+		}else if(towerType == "Shield"){
+			typeIconFile = "ShieldIconTemp";
+		}
+		Texture2D typeIcon = Resources.Load<Texture2D> ("Sprites/" + typeIconFile);
+		typeButtonImg.sprite = UnityEngine.Sprite.Create (
+			typeIcon,
+			new Rect(0,0,typeIcon.width,typeIcon.height),
 			new Vector2(0.5f,0.5f),
 			100f);
 	}

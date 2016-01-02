@@ -1,0 +1,10 @@
+{
+	"worlds":[
+		{"filename":"W1","iconLabel":"World 1","icon":"Tower1","name":"World 1: Vanguard"},
+		{"filename":"W2","iconLabel":"World 2","icon":"Tower2","name":"World 2: Swarm"},
+		{"filename":"W3","iconLabel":"World 3","icon":"Tower3","name":"World 3: Amoeboid"},
+		{"filename":"W4","iconLabel":"World 4","icon":"Tower4","name":"World 4: Bulk"},
+		{"filename":"W5","iconLabel":"World 5","icon":"Tower5","name":"World 5: Skuzzard"},
+		{"filename":"W6","iconLabel":"World 6","icon":"Tower6","name":"World 6: Psyloid"}
+	]
+}

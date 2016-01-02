@@ -29,7 +29,8 @@ public class WaveManager2 : MonoBehaviour {
 		waveProgress = new Timer();
 		
 		//do a ton of JSON parsing
-		FileLoader leveldata = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Worlds" + Path.DirectorySeparatorChar + worldVar + Path.DirectorySeparatorChar + levelVar, "wavedata");
+		FileLoader leveldata = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Campaign" + Path.DirectorySeparatorChar + "Levels", WorldData.levelSelected);
+		Debug.Log (leveldata.CreatedPath());
 		bool loadingUserLevel = false;
 		if(WorldData.loadUserLevel){
 			leveldata = new FileLoader (Application.persistentDataPath,"UserLevels","userlevel");
@@ -45,7 +46,7 @@ public class WaveManager2 : MonoBehaviour {
 		foreach (System.Object thing in wavesdata) {
 			Dictionary<string,System.Object> dict = thing as Dictionary<string,System.Object>;
 			string filename = dict["wavename"] as string;
-			string path = "JSONData" + Path.DirectorySeparatorChar + "Waves";
+			string path = "JSONData" + Path.DirectorySeparatorChar + "Campaign" + Path.DirectorySeparatorChar + "Waves";
 			FileLoader file = new FileLoader (path, filename);
 			if(loadingUserLevel){
 				file = new FileLoader(Application.persistentDataPath,"UserLevels",filename);
