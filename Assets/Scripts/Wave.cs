@@ -185,6 +185,11 @@ public class Wave{
                 GameObject.Destroy(enemyobj.GetComponent<Enemy>());
                 Spite s = enemyobj.AddComponent<Spite>() as Spite;
                 ec = s;
+            }else if (enemytype.Equals("Executor")){
+                GameObject enemyobj = ec.gameObject;
+                GameObject.Destroy(enemyobj.GetComponent<Enemy>());
+                Executor s = enemyobj.AddComponent<Executor>() as Executor;
+                ec = s;
             }
 
             //give enemy a filename to load from
