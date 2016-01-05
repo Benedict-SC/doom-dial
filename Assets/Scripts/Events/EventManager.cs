@@ -39,6 +39,10 @@ public class EventManager{
 			self = new EventManager();
 		return self;
 	}
+	public void ClearAllEvents(){
+		eventQueues.Clear();
+		//registry.Clear();
+	}
 	
 	public void RegisterForEventType(string type,EventHandler listener){
 		if (registry.ContainsKey (type)) {

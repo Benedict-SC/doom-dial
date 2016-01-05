@@ -100,12 +100,14 @@
      <Compile Include="Assets\Scripts\MainCanvas\Dial.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\Drop.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\Enemy.cs" />
+     <Compile Include="Assets\Scripts\MainCanvas\EnemyShield.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\Gun.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\GunButton.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\MenuScale.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\MenuScript.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\MenuSpinner.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\Pause.cs" />
+     <Compile Include="Assets\Scripts\MainCanvas\ShieldFragment.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\TractorBeam.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\Trap.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\WaveManager2.cs" />
@@ -133,6 +135,7 @@
      <Compile Include="Assets\Scripts\Movers\ZigzagMover.cs" />
      <Compile Include="Assets\Scripts\PieceParser.cs" />
      <Compile Include="Assets\Scripts\RotationLock.cs" />
+     <Compile Include="Assets\Scripts\Rotations.cs" />
      <Compile Include="Assets\Scripts\RunOnceOnGameStartup.cs" />
      <Compile Include="Assets\Scripts\ShieldController.cs" />
      <Compile Include="Assets\Scripts\SpinScript.cs" />

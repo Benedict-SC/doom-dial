@@ -30,6 +30,7 @@ public class MenuClickScript : MonoBehaviour, EventHandler {
 				if (targetFind.collider.gameObject.tag == "Button") {
 					//what triggers changes based on what menu the camera is focused on.
 					if(targetFind.transform.position.x == 0.0f){
+						Debug.Log("we're loading the thing now");
 						WorldData.lastScene = Application.loadedLevelName;
 						Application.LoadLevel (levelList[menuPosition]);
 					}
