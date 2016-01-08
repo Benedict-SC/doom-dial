@@ -128,6 +128,7 @@ public class TipOfTheSpear : Enemy{
 		}
 	}
 	public override void Die(){
+		dead = true;
 		if (hp <= 0.0f) {
 			dialCon.IncreaseSuperPercent();
 		}

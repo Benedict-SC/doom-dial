@@ -37,6 +37,7 @@ public class ShieldFragment : MonoBehaviour {
 			img.fillAmount = arc;
 	}
 	public void SetManager(EnemyShield es){
+		manager = es;
 		transform.SetParent(es.transform,false);
 		es.AddFragment(this);
 	}
@@ -53,8 +54,8 @@ public class ShieldFragment : MonoBehaviour {
 		hitAngleRadians = Rotations.ClipRadians(hitAngleRadians);
 		float orientation = Rotations.EulerAnglesToRadiansCounterclockwiseFromXAxis(transform.rotation.eulerAngles.z+180f);//the 180 is because the sprite fill is from the 180 mark for some reason
 		float bound = orientation - arc*Rotations.TWO_PI;
-		Debug.Log ("arc spans " + (bound*Mathf.Rad2Deg) + " through " + (orientation*Mathf.Rad2Deg));
-		Debug.Log ("hit angle is " + (hitAngleRadians*Mathf.Rad2Deg));
+		//Debug.Log ("arc spans " + (bound*Mathf.Rad2Deg) + " through " + (orientation*Mathf.Rad2Deg));
+		//Debug.Log ("hit angle is " + (hitAngleRadians*Mathf.Rad2Deg));
 		bool hitUs = false;
 		if(bound >= 0){
 			hitUs = (hitAngleRadians < orientation && hitAngleRadians > bound);
@@ -62,7 +63,8 @@ public class ShieldFragment : MonoBehaviour {
 			float bigbound = bound + Rotations.TWO_PI;
 			hitUs = (hitAngleRadians < orientation || hitAngleRadians > bigbound);
 		}
-		manager.GetHitBy(coll);
+		if(hitUs)
+			manager.GetHitBy(coll);
 	}
 	bool IsShieldableTag(Collider2D coll){
 		string colltag = coll.gameObject.tag;

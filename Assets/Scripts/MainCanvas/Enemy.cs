@@ -64,6 +64,9 @@ public class Enemy : MonoBehaviour,EventHandler {
 	
 	protected RectTransform rt;
 	
+	protected EnemyShield shield = null;
+	protected bool dead = false; //WE NEED THIS APPARENTLY???
+	
 	//ability?
 	//weakness?
 	
@@ -131,6 +134,23 @@ public class Enemy : MonoBehaviour,EventHandler {
 		rareDropThreshold = (int)(long)data ["rareDropThreshold"];
 		rareChance = (float)(double)data ["rareChance"];
 		normalChance = (float)(double)data ["normalChance"];
+		
+		//shield stuff
+		if(data.ContainsKey("shielded")){
+			bool shielded = (bool)data["shielded"];
+			if(shielded){ //from here we assume all the shield properties are defined
+				float shieldMax = (float)(double)data ["shieldMax"];
+				float shieldHP = (float)(double)data ["shieldHP"];
+				float shieldRegen = (float)(double)data ["shieldRegen"];
+				float shieldSpeed = (float)(double)data["shieldSpeed"];
+				List<System.Object> fragments = (List<System.Object>)data["fragments"];
+				
+				GameObject shieldObj = Instantiate (Resources.Load ("Prefabs/MainCanvas/EnemyShield")) as GameObject;
+				shieldObj.transform.SetParent(transform,false);
+				shield = shieldObj.GetComponent<EnemyShield>();
+				shield.ConfigureShield(shieldMax,shieldHP,shieldRegen,shieldSpeed,fragments);
+			}
+		}
 		
 		//movement types
 		string moveString = (string)data["movementType"];
@@ -223,6 +243,10 @@ public class Enemy : MonoBehaviour,EventHandler {
 		lastPause = moving;
 		if (!moving)
 			return;
+			
+		CheckShieldCollisions();
+		if(dead)
+			return;
 		
 		//handle poison
 		if(poisoned){
@@ -313,8 +337,43 @@ public class Enemy : MonoBehaviour,EventHandler {
 		//unpack shot location argument, check for collision, if it collided with you take damage from it
 		//actually never mind that, Unity has its own collision detection system!
 	}
-	public virtual void OnTriggerEnter2D(Collider2D coll){ //this is said system.
-		//Debug.Log ("a collision happened!");
+	public void CheckShieldCollisions(){
+		if(shield == null){
+			//do nothing
+		}else{
+			if(shield.hitThisFrame){//we're fine, shield took it
+				//do nothing
+			}else if(collidedThisFrame){//shield was not hit last frame, but we were
+				secondaryCollisionTicket = true; //get a new ticket to manually call collision
+				Debug.Log ("calling on trigger enter");
+				OnTriggerEnter2D(heldCollision);
+				
+			}
+			//whatever else happens, we clear the shield's collision
+			shield.hitThisFrame = false;	
+		}
+		collidedThisFrame = false; //and clear our own collision when we're done
+		
+	}
+	public bool collidedThisFrame = false;
+	public bool secondaryCollisionTicket = false;
+	public Collider2D heldCollision = null;
+	public virtual void OnTriggerEnter2D(Collider2D coll){
+		if(shield != null){
+			if(shield.hitThisFrame)//the shield handled collision for us this time
+				return;
+			else{//the shield was either missed or hasn't been handled by collision yet
+				if(secondaryCollisionTicket){
+					//let execution through to actually handle the collision- we're calling this function manually
+					secondaryCollisionTicket = false; //punch the ticket
+				}else{//skip colliding- wait until update to check if the shield got it for us
+					collidedThisFrame = true;
+					heldCollision = coll; //store the collision so we can handle it if/when we call this manually
+					return;
+				}
+			}
+		}
+		Debug.Log ("!!! we made it through to our own collision");
 		if (coll.gameObject.tag == "Bullet") //if it's a bullet
 		{
 			Bullet bc = coll.gameObject.GetComponent<Bullet> ();
@@ -408,7 +467,6 @@ public class Enemy : MonoBehaviour,EventHandler {
 			
 		}
 		//other types of collision?
-		
 	}
 	public virtual void AddToBonus(List<System.Object> bonusList){
 		if(spawnedByBoss)
@@ -420,6 +478,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 	}
 	
 	public virtual void Die(){
+		dead = true;
 		//put more dying functionality here
 		System.Random r = new System.Random ();
 		float rng = (float)r.NextDouble() * 100; //random float between 0 and 100

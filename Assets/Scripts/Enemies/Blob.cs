@@ -64,6 +64,7 @@ public class Blob : Enemy{
 	}
 	public override void Die ()
 	{
+		dead = true;
 		if(!blowingUp){
 			blastTimer.Restart();
 			blowingUp = true;

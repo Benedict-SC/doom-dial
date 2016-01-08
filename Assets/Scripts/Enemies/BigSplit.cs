@@ -168,6 +168,7 @@ public class BigSplit : Enemy{
 	}
 	
 	public override void Die(){
+		dead = true;
 		if (hp <= 0.0f) {
 			dialCon.IncreaseSuperPercent();
 		}

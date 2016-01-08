@@ -213,6 +213,7 @@ public class MeatShield : Enemy{
 		}
 	}
 	public override void Die(){
+		dead = true;
 		if (hp <= 0.0f) {
 			dialCon.IncreaseSuperPercent();
 			Debug.Log ("increasing super percent");

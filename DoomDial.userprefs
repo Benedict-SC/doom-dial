@@ -2,9 +2,9 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MainCanvas\EnemyShield.cs">
     <Files>
+      <File FileName="Assets\Scripts\MainCanvas\Enemy.cs" Line="480" Column="28" />
       <File FileName="Assets\Scripts\MainCanvas\Dial.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Wave.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MainCanvas\Enemy.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\MainCanvas\WaveManager2.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\TowerEditor\InventoryWindowController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\TowerEditor\GridController.cs" Line="1" Column="1" />
@@ -14,11 +14,11 @@
       <File FileName="Assets\Scripts\CanvasMenus\MenuOption.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\CanvasMenus\WorldSelectMenu.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\CanvasMenus\WorldMenuOption.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\WaveEditor\WaveEditorController.cs" Line="91" Column="89" />
-      <File FileName="Assets\Scripts\InputWatcher.cs" Line="6" Column="48" />
-      <File FileName="Assets\Scripts\MainCanvas\ShieldFragment.cs" Line="10" Column="29" />
-      <File FileName="Assets\Scripts\Rotations.cs" Line="8" Column="42" />
-      <File FileName="Assets\Scripts\MainCanvas\EnemyShield.cs" Line="21" Column="35" />
+      <File FileName="Assets\Scripts\WaveEditor\WaveEditorController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\InputWatcher.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MainCanvas\ShieldFragment.cs" Line="50" Column="4" />
+      <File FileName="Assets\Scripts\Rotations.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MainCanvas\EnemyShield.cs" Line="49" Column="43" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

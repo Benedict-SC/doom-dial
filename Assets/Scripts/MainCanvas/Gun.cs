@@ -109,7 +109,7 @@ public class Gun : MonoBehaviour,EventHandler{
 			//Debug.Log ("not tower " + buttonID);
 			return;
 		if (cooldown > 0) {
-			Debug.Log ("cooldown > 0");
+			//Debug.Log ("cooldown > 0");
 			return;
 		}
 		if (GameObject.Find ("Dial").GetComponent<CanvasSpinner> ().IsSpinning ()) {
@@ -393,7 +393,7 @@ public class Gun : MonoBehaviour,EventHandler{
 		bc.homingStrength = homingStrength;
 		bc.arcDmg = arcDmg;
 		bc.isSplitBullet = false;
-		Debug.Log ("bullet slowDur is " + bc.slowDur);
+		//Debug.Log ("bullet slowDur is " + bc.slowDur);
 	}
 	
 	//Assigns skill values to traps
@@ -460,7 +460,7 @@ public class Gun : MonoBehaviour,EventHandler{
 	public void SetDmg(float pdmg)
 	{
 		dmg = pdmg;
-		Debug.Log ("Set tower damage to " + dmg);
+		//Debug.Log ("Set tower damage to " + dmg);
 	}
 	public void SetSpeed(float pspeed)
 	{

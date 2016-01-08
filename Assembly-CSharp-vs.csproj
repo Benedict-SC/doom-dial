@@ -70,6 +70,7 @@
      <Compile Include="Assets\Scripts\Enemies\Chainer.cs" />
      <Compile Include="Assets\Scripts\Enemies\Diversion.cs" />
      <Compile Include="Assets\Scripts\Enemies\DiversionMinion.cs" />
+     <Compile Include="Assets\Scripts\Enemies\Executor.cs" />
      <Compile Include="Assets\Scripts\Enemies\MeatShield.cs" />
      <Compile Include="Assets\Scripts\Enemies\Megaboid.cs" />
      <Compile Include="Assets\Scripts\Enemies\MegaboidFacsimile.cs" />
@@ -244,6 +245,7 @@
      <None Include="Assets\Resources\JSONData\Worlds\World4\Level4\wavedata.txt" />
      <None Include="Assets\Resources\JSONData\Waves\testwave.txt" />
      <None Include="Assets\Resources\JSONData\Waves\testwave3.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\executor.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\bigfella.txt" />
      <None Include="Assets\Resources\JSONData\DialConfigs\testdial.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\range_rare.txt" />
@@ -271,6 +273,7 @@
      <None Include="Assets\Resources\JSONData\Worlds\World1\Level4\wavedata.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\penetration_normal.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World4\Level1\wavedata.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\shieldtest.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\spread_rare.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\cdr_normal.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World2\Level1\wavedata.txt" />
