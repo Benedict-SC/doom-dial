@@ -179,6 +179,7 @@
      <None Include="Assets\Resources\JSONData\Pieces\split_normal.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\spite.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\splash_normal.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\janus.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\arc_normal.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\steve.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\bleedin&apos; joe.txt" />
@@ -205,6 +206,7 @@
      <None Include="Assets\Misc\BulletEffectsLog.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\poison_normal.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\damage_rare.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\strobes.txt" />
      <None Include="Assets\Resources\JSONData\DialConfigs\fivedial.txt" />
      <None Include="Assets\Resources\JSONData\MiscData\inventory.txt" />
      <None Include="Assets\Resources\JSONData\Levels\testlevel.txt" />
@@ -246,6 +248,7 @@
      <None Include="Assets\Resources\JSONData\Waves\testwave.txt" />
      <None Include="Assets\Resources\JSONData\Waves\testwave3.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\executor.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\compensator.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\bigfella.txt" />
      <None Include="Assets\Resources\JSONData\DialConfigs\testdial.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\range_rare.txt" />

@@ -1,0 +1,38 @@
+{
+	"name":"Strobes",
+	"imgfile":"Placeholder",
+	"pointValue":5,
+	"columnName":"Strobes",
+
+	"enemyType":"Normal",
+	
+	"movementType":"Linear",
+	"maxHP":30.0,
+	"HP":30.0,
+	"damage":20.0,
+	"impactTime":28.0,
+	"size":0.38,
+	"maxShields":0.0,
+	"shields":0.0,
+	"tripsTraps":true,
+	"shieldPen":false,
+	
+	"shielded":true,
+	"shieldMax":70.0,
+	"shieldHP":70.0,
+	"shieldRegen":0.02,
+	"shieldSpeed":2.0,
+	"fragments":[
+		{"fragAngle":0.0,"fragArc":90.0},
+		{"fragAngle":180.0,"fragArc":90.0}
+	]
+	
+	"rarityUpWithHits":false,
+	"rareDropThreshold":4,
+	"rareChance":25.0,
+	"normalChance":5.0,
+	
+	"pieceTypes":[
+		"shred","penetration"
+	]
+}

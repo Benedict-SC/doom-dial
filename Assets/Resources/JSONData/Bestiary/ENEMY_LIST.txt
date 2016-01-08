@@ -14,8 +14,11 @@
 		"megasplit",
 		"melders",
 		"bigsplit",
-		"bigfella",
+		"janus",
+		"strobes",
+		"compensator",
 		"blur",
-		"spite"
+		"spite",
+		"bigfella"
 	]
 }

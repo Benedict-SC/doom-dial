@@ -1,0 +1,37 @@
+{
+	"name":"Janus",
+	"imgfile":"Placeholder",
+	"pointValue":5,
+	"columnName":"Janus",
+
+	"enemyType":"Normal",
+	
+	"movementType":"Linear",
+	"maxHP":60.0,
+	"HP":60.0,
+	"damage":10.0,
+	"impactTime":31.0,
+	"size":0.32,
+	"maxShields":0.0,
+	"shields":0.0,
+	"tripsTraps":true,
+	"shieldPen":false,
+	
+	"shielded":true,
+	"shieldMax":30.0,
+	"shieldHP":30.0,
+	"shieldRegen":0.02,
+	"shieldSpeed":2.0,
+	"fragments":[
+		{"fragAngle":0.0,"fragArc":180.0}
+	]
+	
+	"rarityUpWithHits":false,
+	"rareDropThreshold":4,
+	"rareChance":25.0,
+	"normalChance":5.0,
+	
+	"pieceTypes":[
+		"shred","penetration"
+	]
+}
