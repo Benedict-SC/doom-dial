@@ -1,0 +1,37 @@
+{
+	"name":"Junior",
+	"imgfile":"Placeholder",
+	"pointValue":5,
+	"columnName":"Junior",
+
+	"enemyType":"Junior",
+	
+	"movementType":"Linear",
+	"maxHP":30.0,
+	"HP":30.0,
+	"damage":5.0,
+	"impactTime":25.0,
+	"size":0.22,
+	"maxShields":0.0,
+	"shields":0.0,
+	"tripsTraps":true,
+	"shieldPen":false,
+	
+	"shielded":true,
+	"shieldMax":20.0,
+	"shieldHP":20.0,
+	"shieldRegen":0.04,
+	"shieldSpeed":2.0,
+	"fragments":[
+		{"fragAngle":0.0,"fragArc":360.0}
+	]
+	
+	"rarityUpWithHits":false,
+	"rareDropThreshold":4,
+	"rareChance":25.0,
+	"normalChance":5.0,
+	
+	"pieceTypes":[
+		"shred","penetration"
+	]
+}

@@ -14,6 +14,15 @@ public class EnemyShield : MonoBehaviour{
 	
 	public int frameLastHit = 0;
 	public bool hitThisFrame = false;
+	
+	public void SetAllShieldHP(float hp){
+		referenceCapacity = hp;
+		capacity = hp;
+		power = hp;
+	}
+	public float GetBaseHP(){
+		return referenceCapacity;
+	}
 
 	public void ConfigureShield(float maxHP,float hp, float regen, float speed, List<System.Object> fragments){
 		capacity = maxHP;
@@ -39,16 +48,24 @@ public class EnemyShield : MonoBehaviour{
 	public void Update(){
 		transform.Rotate(rot);
 	}
+	public void RefreshShieldColors(){
+		float percent = power/referenceCapacity;
+		foreach(ShieldFragment sf in fragments){
+			Image i = sf.gameObject.GetComponent<Image>();
+			i.color = new Color(percent,percent,1f);
+		}
+	}
 	public void AddFragment(ShieldFragment sf){
 		fragments.Add(sf);
 	}
 	public void GetHitBy(Collider2D collider){
 		frameLastHit = Time.frameCount;
 		hitThisFrame = true;
-		Debug.Log ("shield hit!");
+		//Debug.Log ("shield hit!");
 		if(collider.gameObject.tag == "Bullet"){
 			Bullet b = collider.gameObject.GetComponent<Bullet>();
 			power -= b.dmg;
+			//Debug.Log("shield power: " + power + "/" + capacity);
 			b.Collide();
 			if(power <= 0){
 				GetBroken();
@@ -58,9 +75,12 @@ public class EnemyShield : MonoBehaviour{
 		}else if(collider.gameObject.tag == "Trap"){
 		
 		}
+		RefreshShieldColors();
 	}
 	
 	public void GetBroken(){
+		Enemy e = transform.parent.GetComponent<Enemy>();
+		e.NullShield();
 		Destroy (gameObject);
 	}
 	

@@ -641,6 +641,18 @@ public class Enemy : MonoBehaviour,EventHandler {
 	public float GetMaxHP(){
 		return maxhp;
 	}
+	public void GiveShield(float power,float sSpeed, float sRegen, List<System.Object> fragDicts){
+		GameObject shieldObj = Instantiate (Resources.Load ("Prefabs/MainCanvas/EnemyShield")) as GameObject;
+		shieldObj.transform.SetParent(transform,false);
+		shield = shieldObj.GetComponent<EnemyShield>();
+		shield.ConfigureShield(power,power,sRegen,sSpeed,fragDicts);
+	}
+	public void NullShield(){
+		shield = null;
+	}
+	public EnemyShield GetShield(){
+		return shield;
+	}
 	
 	bool poisoned = false;
 	float poisonPerTick = 0f;

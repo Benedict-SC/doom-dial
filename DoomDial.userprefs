@@ -1,11 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MainCanvas\EnemyShield.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Wave.cs">
     <Files>
-      <File FileName="Assets\Scripts\MainCanvas\Enemy.cs" Line="480" Column="28" />
+      <File FileName="Assets\Scripts\MainCanvas\Enemy.cs" Line="654" Column="17" />
       <File FileName="Assets\Scripts\MainCanvas\Dial.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Wave.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MainCanvas\WaveManager2.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Wave.cs" Line="183" Column="41" />
+      <File FileName="Assets\Scripts\MainCanvas\WaveManager2.cs" Line="193" Column="1" />
       <File FileName="Assets\Scripts\TowerEditor\InventoryWindowController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\TowerEditor\GridController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\MainCanvas\CanvasSpinner.cs" Line="1" Column="1" />
@@ -16,9 +16,11 @@
       <File FileName="Assets\Scripts\CanvasMenus\WorldMenuOption.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\WaveEditor\WaveEditorController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\InputWatcher.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MainCanvas\ShieldFragment.cs" Line="50" Column="4" />
+      <File FileName="Assets\Scripts\MainCanvas\ShieldFragment.cs" Line="61" Column="57" />
       <File FileName="Assets\Scripts\Rotations.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MainCanvas\EnemyShield.cs" Line="49" Column="43" />
+      <File FileName="Assets\Scripts\MainCanvas\EnemyShield.cs" Line="24" Column="28" />
+      <File FileName="Assets\Scripts\Enemies\Cheater.cs" Line="17" Column="25" />
+      <File FileName="Assets\Scripts\Enemies\Junior.cs" Line="6" Column="93" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

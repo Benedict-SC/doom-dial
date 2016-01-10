@@ -68,9 +68,11 @@
      <Compile Include="Assets\Scripts\Enemies\Blob.cs" />
      <Compile Include="Assets\Scripts\Enemies\Boss.cs" />
      <Compile Include="Assets\Scripts\Enemies\Chainer.cs" />
+     <Compile Include="Assets\Scripts\Enemies\Cheater.cs" />
      <Compile Include="Assets\Scripts\Enemies\Diversion.cs" />
      <Compile Include="Assets\Scripts\Enemies\DiversionMinion.cs" />
      <Compile Include="Assets\Scripts\Enemies\Executor.cs" />
+     <Compile Include="Assets\Scripts\Enemies\Junior.cs" />
      <Compile Include="Assets\Scripts\Enemies\MeatShield.cs" />
      <Compile Include="Assets\Scripts\Enemies\Megaboid.cs" />
      <Compile Include="Assets\Scripts\Enemies\MegaboidFacsimile.cs" />
@@ -205,6 +207,7 @@
      <None Include="Assets\Resources\JSONData\Campaign\Levels\testlevel.txt" />
      <None Include="Assets\Misc\BulletEffectsLog.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\poison_normal.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\cheater.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\damage_rare.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\strobes.txt" />
      <None Include="Assets\Resources\JSONData\DialConfigs\fivedial.txt" />
@@ -306,6 +309,7 @@
      <None Include="Assets\Resources\JSONData\Bestiary\swarmminion.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\speed_super.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\TOWER_DEFAULTS.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\junior.txt" />
      <None Include="Assets\Resources\JSONData\Campaign\Waves\testwave3.txt" />
      <None Include="Assets\Resources\JSONData\Towers\piecetower.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World3\Level2\wavedata.txt" />

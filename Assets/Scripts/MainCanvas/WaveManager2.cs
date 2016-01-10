@@ -176,6 +176,12 @@ public class WaveManager2 : MonoBehaviour {
 					spawnedThisCycle.Add (enemy);
 					enemy.SetActive (true);
 					e.StartMoving ();
+					//handle junior
+					if(e is Junior){
+						int bonusWaveNumber = 1; //change this later when we have multiple bonus waves
+						float extraShielding = bonusWaveNumber * Junior.extraShieldPerWave;
+						e.GetShield().SetAllShieldHP(e.GetShield().GetBaseHP() + extraShielding);
+					}
 				}
 			}
 			foreach (GameObject spawned in spawnedThisCycle) {
