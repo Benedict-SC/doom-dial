@@ -12,16 +12,30 @@ public class EnemyShield : MonoBehaviour{
 	float power = 2; //hp
 	float regenRate = 0.02f;
 	
+	public bool bulked = false;
+	
 	public int frameLastHit = 0;
 	public bool hitThisFrame = false;
+	
+	bool growing = false;
+	Timer growTimer;
+	float growDur = 2f;
 	
 	public void SetAllShieldHP(float hp){
 		referenceCapacity = hp;
 		capacity = hp;
 		power = hp;
 	}
+	public void IncreaseAllShieldHP(float hp){
+		referenceCapacity += hp;
+		capacity += hp;
+		power += hp;
+	}
 	public float GetBaseHP(){
 		return referenceCapacity;
+	}
+	public float GetCurrentHP(){
+		return power;
 	}
 
 	public void ConfigureShield(float maxHP,float hp, float regen, float speed, List<System.Object> fragments){
@@ -46,7 +60,42 @@ public class EnemyShield : MonoBehaviour{
 		}
 	}
 	public void Update(){
+		if(growing){
+			float percent = growTimer.TimeElapsedSecs()/growDur;
+			if(percent > 1){
+				growing = false;
+			}else{
+				foreach(ShieldFragment sf in fragments){
+					sf.transform.localScale = new Vector3(percent,percent,1f);
+				}
+			}
+		}
+	
 		transform.Rotate(rot);
+		if(power < 0){
+			GetBroken ();
+		}else{
+			Regenerate ();
+		}
+	}
+	public void GrowShields(){
+		growing = true;
+		growTimer = new Timer();
+	}
+	public void MakeStuffRealTinyInPreparationForGrowing(){
+		foreach(ShieldFragment sf in fragments){
+			sf.transform.localScale = new Vector3(0.01f,0.01f,1f);
+		}
+	}
+	public void Regenerate(){
+		if(power >= capacity)
+			return;
+		float regen = regenRate;
+		if(bulked)
+			regen *= 2;
+		power += regen;
+		if(power > capacity)
+			power = capacity;
 	}
 	public void RefreshShieldColors(){
 		float percent = power/referenceCapacity;
@@ -82,6 +131,14 @@ public class EnemyShield : MonoBehaviour{
 		Enemy e = transform.parent.GetComponent<Enemy>();
 		e.NullShield();
 		Destroy (gameObject);
+	}
+	public float Drain(float hp){ //takes hp and returns how much was successfully taken
+		power -= hp;
+		if(power < 0){
+			hp += power;
+		}
+		RefreshShieldColors();
+		return hp;
 	}
 	
 }

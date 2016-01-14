@@ -64,6 +64,8 @@
      <Compile Include="Assets\Scripts\DialController.cs" />
      <Compile Include="Assets\Scripts\DropController.cs" />
      <Compile Include="Assets\Scripts\EditorReturn.cs" />
+     <Compile Include="Assets\Scripts\Enemies\BigBulk.cs" />
+     <Compile Include="Assets\Scripts\Enemies\BigBulkShieldEater.cs" />
      <Compile Include="Assets\Scripts\Enemies\BigSplit.cs" />
      <Compile Include="Assets\Scripts\Enemies\Blob.cs" />
      <Compile Include="Assets\Scripts\Enemies\Boss.cs" />
@@ -140,6 +142,7 @@
      <Compile Include="Assets\Scripts\RotationLock.cs" />
      <Compile Include="Assets\Scripts\Rotations.cs" />
      <Compile Include="Assets\Scripts\RunOnceOnGameStartup.cs" />
+     <Compile Include="Assets\Scripts\Seeker.cs" />
      <Compile Include="Assets\Scripts\ShieldController.cs" />
      <Compile Include="Assets\Scripts\SpinScript.cs" />
      <Compile Include="Assets\Scripts\TempReturn.cs" />

@@ -62,9 +62,12 @@ public class Enemy : MonoBehaviour,EventHandler {
 	protected Timer stunTimer;
 	protected Timer knockbackTimer;
 	
+	protected bool frozen = false;
+	
 	protected RectTransform rt;
 	
 	protected EnemyShield shield = null;
+	protected bool beingShieldDrainedByBulk = false;
 	protected bool dead = false; //WE NEED THIS APPARENTLY???
 	
 	//ability?
@@ -232,6 +235,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 		mover.RightOffset(moverLaneOverride);
 	}
 	
+	
 	// Update is called once per frame
 	public virtual void Update () {
 		//handle whether or not to update, pause stuff
@@ -239,6 +243,8 @@ public class Enemy : MonoBehaviour,EventHandler {
 		if (lastPause != moving) {
 			timer.Restart();
 		}
+		if(frozen)
+			return;
 		//Debug.Log (moving + " " + lastPause);
 		lastPause = moving;
 		if (!moving)
@@ -359,6 +365,8 @@ public class Enemy : MonoBehaviour,EventHandler {
 	public bool secondaryCollisionTicket = false;
 	public Collider2D heldCollision = null;
 	public virtual void OnTriggerEnter2D(Collider2D coll){
+		if(frozen)
+			return;
 		if(shield != null){
 			if(shield.hitThisFrame)//the shield handled collision for us this time
 				return;
@@ -372,6 +380,10 @@ public class Enemy : MonoBehaviour,EventHandler {
 					return;
 				}
 			}
+		}
+		if(coll == null){
+			Debug.Log ("bullet's gone");
+			return;
 		}
 		Debug.Log ("!!! we made it through to our own collision");
 		if (coll.gameObject.tag == "Bullet") //if it's a bullet
@@ -646,6 +658,8 @@ public class Enemy : MonoBehaviour,EventHandler {
 		shieldObj.transform.SetParent(transform,false);
 		shield = shieldObj.GetComponent<EnemyShield>();
 		shield.ConfigureShield(power,power,sRegen,sSpeed,fragDicts);
+		shield.MakeStuffRealTinyInPreparationForGrowing();
+		shield.GrowShields();
 	}
 	public void NullShield(){
 		shield = null;
@@ -741,5 +755,22 @@ public class Enemy : MonoBehaviour,EventHandler {
 			slowWaiting = true;
 		stunInProgress = false;
 		slowInProgress = false;
+	}
+	
+	public void Freeze(){
+		frozen = true;
+	}
+	public void Unfreeze(){
+		frozen = false;
+		timer.Restart();
+	}
+	public void MakeBulkDrainTarget(){
+		beingShieldDrainedByBulk = true;
+	}
+	public void UndoBulkDrainTarget(){
+		beingShieldDrainedByBulk = false;
+	}
+	public bool IsBeingBulkDrained(){
+		return beingShieldDrainedByBulk;
 	}
 }

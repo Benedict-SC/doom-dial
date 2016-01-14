@@ -258,6 +258,27 @@ public class Dial : MonoBehaviour,EventHandler {
 		}
 		return zoneOccupants;
 	}
+	public static List<Enemy> GetAllEnemies(){
+		GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+		List<Enemy> zoneOccupants = new List<Enemy>();
+		foreach(GameObject go in enemies){
+			Enemy e = go.GetComponent<Enemy>();
+			zoneOccupants.Add(e);
+		}
+		return zoneOccupants;
+	}
+	public static List<Enemy> GetAllShieldedEnemies(){
+		GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+		List<Enemy> zoneOccupants = new List<Enemy>();
+		foreach(GameObject go in enemies){
+			Enemy e = go.GetComponent<Enemy>();
+			if(e.GetShield() != null){
+				if(!e.IsBeingBulkDrained())
+					zoneOccupants.Add(e);
+			}
+		}
+		return zoneOccupants;
+	}
 	public Dictionary<string,System.Object> GetBonusDict(){
 		return bonusWaveDictionary;
 	}
