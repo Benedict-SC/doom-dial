@@ -68,10 +68,10 @@ public class WaveManager2 : MonoBehaviour {
 		if(bosscode == 2){
 			GameObject boss = GameObject.Instantiate (Resources.Load ("Prefabs/MainCanvas/Megaboid")) as GameObject;
 			boss.transform.SetParent(Dial.unmaskedLayer,false);
-		}/*else if(bosscode == 3){
-			GameObject boss = GameObject.Instantiate (Resources.Load ("Prefabs/BigBulk")) as GameObject;
+		}else if(bosscode == 3){
+			GameObject boss = GameObject.Instantiate (Resources.Load ("Prefabs/MainCanvas/BigBulk")) as GameObject;
+			boss.transform.SetParent(Dial.unmaskedLayer,false);
 		}
-		*/
 	}
 	public void Update(){
 		if(Pause.paused)

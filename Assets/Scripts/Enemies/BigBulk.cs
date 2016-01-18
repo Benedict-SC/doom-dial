@@ -34,6 +34,13 @@ public class BigBulk : Boss{
 	
 	GameObject overlay;
 	
+	Image shieldImage;
+	bool shieldActive = true;
+	float referenceCapacity = 300f;
+	float capacity = 300f;
+	float power = 300f;
+	float regenSpeed = 0.25f;
+	
 	public override void Start(){
 		base.Start();
 		maxHP = 250;//50;
@@ -44,12 +51,37 @@ public class BigBulk : Boss{
 		eaterTimer = new Timer();
 		directiontimer = new Timer();
 		overlay = transform.FindChild("Health").gameObject;
+		shieldImage = transform.FindChild("ShieldImage").GetComponent<Image>();
+	}
+	public override void HandleModeStuff(){
+		float healthRatio = power/referenceCapacity;
+		if(level == 1)
+			return;
+		else if(level == 2){
+			if(mode < 1 && healthRatio <= .5)
+				mode = 1;
+		}else if(level == 3){
+			if(mode < 2 && healthRatio <= .333)
+				mode = 2;
+			else if(mode < 1 && healthRatio <= .666)
+				mode = 1;
+		}else if(level >= 4){
+			if(mode < 3 && healthRatio <= .25)
+				mode = 3;
+			else if(mode < 2 && healthRatio <= .5)
+				mode = 2;
+			else if(mode < 1 && healthRatio <= .75)
+				mode = 1;	
+		}
 	}
 	public override void Update(){
 		base.Update();
 		moving = !GamePause.paused;
 		if (!moving)
 			return;
+			
+		Regenerate();
+			
 		if(mode == 0){ //shielding
 			if(currentState == state.DECIDING){
 				goingRight = !ShouldWeGoLeft(thingpoints[thingIdx]); //pick a direction to move in
@@ -282,15 +314,96 @@ public class BigBulk : Boss{
 	public void ReceiveDrainedShields(float amount){
 		//do nothing yet because it doesn't have a shield
 	}
+	public void TakeShieldDamage(float amount){
+		power -= amount;
+		RefreshShieldColors();
+		if(power <= 0){
+			power = 0f;
+			shieldImage.gameObject.SetActive(false);
+			shieldActive = false;
+		}
+	}
+	public void Regenerate(){
+		power += regenSpeed;
+		if(power > capacity){
+			power = capacity;
+		}
+		RefreshShieldColors();
+	}
+	public void RefreshShieldColors(){
+		float percent = power/referenceCapacity;
+		shieldImage.color = new Color(percent,percent,1f);
+	}
 	
 	
-	
-	
-	
-	
-	public override void OnTriggerEnter2D(Collider2D coll){
+	public void HandleUnshieldedCollision(Collider2D coll){
 		base.OnTriggerEnter2D(coll);
 		overlay.transform.localScale = new Vector3(1f,hp/maxHP,1f);
+	}
+	public void HandleShieldedCollision(Collider2D coll){
+		if (coll.gameObject.tag == "Bullet") //if it's a bullet
+		{
+			Bullet bc = coll.gameObject.GetComponent<Bullet> ();
+			if (bc != null) {
+				if (bc.CheckActive()){ //if we get a Yes, this bullet/trap/shield is active
+					if (bc.isSplitBullet && bc.timerElapsed || !bc.isSplitBullet){
+						bc.enemyHit = this.gameObject;
+						TakeShieldDamage(bc.dmg + bc.arcDmg);
+					}
+					if (!bc.isSplitBullet)
+						bc.Collide();
+					else if (bc.isSplitBullet)
+						if (bc.timerElapsed)
+							bc.Collide ();
+				}
+			}
+		}
+		else if (coll.gameObject.tag == "Trap") //if it's a trap
+		{
+			Trap tc = coll.gameObject.GetComponent<Trap> ();
+			if (tc != null) {
+				if (tc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
+				{
+					tc.enemyHit = this.gameObject;
+					TakeShieldDamage(tc.dmg);
+					tc.Collide();
+				}
+			}
+		}
+		else if (coll.gameObject.tag == "Shield") //if it's a shield
+		{}
+		else if (coll.gameObject.tag == "AoE")
+		{
+			Debug.Log ("shield collided with AoE");
+			GameObject obj = coll.gameObject;
+			AoE ac = obj.GetComponent<AoE>();
+			if (ac.parent == "Bullet")
+			{
+				if (ac.aoeBulletCon.enemyHit != this.gameObject) //if this isn't the enemy originally hit
+				{
+					//Debug.Log ("parent is bullet@");
+					Bullet bc = ac.aoeBulletCon;
+					TakeShieldDamage(bc.dmg);
+				}
+			}
+			else if (ac.parent == "Trap")
+			{
+				if (ac.aoeTrapCon.enemyHit != this.gameObject) //if this isn't the enemy originally hit
+				{
+					Trap tc = ac.aoeTrapCon;
+					TakeShieldDamage(tc.dmg);
+				}
+			}
+			
+		}
+		//other types of collision?
+	}
+	public void ReceiveCollisionFromChildCollider(Collider2D coll,bool shieldColl){
+		if(shieldColl && shieldActive){
+			HandleShieldedCollision(coll);
+		}else if(!shieldColl && !shieldActive){
+			HandleUnshieldedCollision(coll);
+		}
 	}
 	public void ReverseDirection(){
 		clockwise = !clockwise;

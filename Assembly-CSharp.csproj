@@ -65,6 +65,7 @@
      <Compile Include="Assets\Scripts\DropController.cs" />
      <Compile Include="Assets\Scripts\EditorReturn.cs" />
      <Compile Include="Assets\Scripts\Enemies\BigBulk.cs" />
+     <Compile Include="Assets\Scripts\Enemies\BigBulkCollisionPasser.cs" />
      <Compile Include="Assets\Scripts\Enemies\BigBulkShieldEater.cs" />
      <Compile Include="Assets\Scripts\Enemies\BigSplit.cs" />
      <Compile Include="Assets\Scripts\Enemies\Blob.cs" />

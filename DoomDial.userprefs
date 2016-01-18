@@ -1,23 +1,19 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Seeker.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MainCanvas\WaveManager2.cs">
     <Files>
-      <File FileName="Assets\Scripts\Enemies\Boss.cs" Line="193" Column="2" />
-      <File FileName="Assets\Scripts\MainCanvas\Enemy.cs" Line="654" Column="50" />
+      <File FileName="Assets\Scripts\Enemies\BigBulk.cs" Line="51" Column="28" />
+      <File FileName="Assets\Scripts\Enemies\Boss.cs" Line="81" Column="4" />
+      <File FileName="Assets\Scripts\MainCanvas\Enemy.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\MainCanvas\Dial.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Wave.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MainCanvas\WaveManager2.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\WaveEditor\WaveEditorController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\InputWatcher.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\MainCanvas\ShieldFragment.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Rotations.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MainCanvas\EnemyShield.cs" Line="22" Column="18" />
-      <File FileName="Assets\Scripts\Enemies\SwarmMaster.cs" Line="165" Column="5" />
-      <File FileName="Assets\Scripts\Enemies\BigBulk.cs" Line="14" Column="23" />
-      <File FileName="Assets\Scripts\Enemies\Megaboid.cs" Line="350" Column="3" />
-      <File FileName="Assets\Scripts\MainCanvas\TractorBeam.cs" Line="87" Column="25" />
-      <File FileName="Assets\Scripts\Enemies\Cheater.cs" Line="24" Column="1" />
-      <File FileName="Assets\Scripts\Seeker.cs" Line="21" Column="30" />
+      <File FileName="Assets\Scripts\MainCanvas\EnemyShield.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Enemies\BigBulkShieldEater.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Enemies\BigBulkCollisionPasser.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MainCanvas\WaveManager2.cs" Line="72" Column="89" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
