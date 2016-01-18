@@ -24,8 +24,8 @@ public class ShieldController : MonoBehaviour {
 		regenAmt = 1.0f; //amount to regen every regenRate seconds
 
 		hp = maxHP;
+        RectTransform rt = GetComponent<RectTransform>();
 		SpriteRenderer sr = transform.gameObject.GetComponent<SpriteRenderer> ();
-		this.transform.position = new Vector3 (spawnx, spawny, this.transform.position.z);
 
 		UpdateHPMeter();
 

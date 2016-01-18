@@ -191,7 +191,8 @@ public class Gun : MonoBehaviour,EventHandler{
 				dialCon.DestroyShield(GetCurrentLaneID() - 1); //destroy that shield
 				Debug.Log ("destroyed previous shield");
 			}
-			GameObject shield = Instantiate (Resources.Load ("Prefabs/Shield")) as GameObject; //make a shield
+			GameObject shield = Instantiate (Resources.Load ("Prefabs/MainCanvas/Shield")) as GameObject; //make a shield
+            shield.transform.SetParent(canvas.transform, false);
 			ShieldController sc = shield.GetComponent<ShieldController>();
 			//make it the type of shield this thing deploys
 			ConfigureShield (sc);
@@ -202,9 +203,10 @@ public class Gun : MonoBehaviour,EventHandler{
 			//find where to spawn the shield
 			float shieldSpawnRange = shieldRange;
 			shieldSpawnRange += 0.5f;
-			sc.spawnx = shieldSpawnRange * (float)Math.Cos (shieldAngle);
-			sc.spawny = shieldSpawnRange * (float)Math.Sin (shieldAngle);
-			sc.gameObject.transform.rotation = this.gameObject.transform.rotation;
+            RectTransform shieldRt = sc.GetComponent<RectTransform>();
+            shieldRt.position = new Vector3(shieldSpawnRange * Mathf.Cos(shieldAngle), shieldSpawnRange * Mathf.Sin(shieldAngle), 0f);
+            Debug.Log("shield y should be " + shieldSpawnRange * Mathf.Sin(shieldAngle));
+			shieldRt.rotation = this.gameObject.transform.rotation;
 			dialCon.PlaceShield (GetCurrentLaneID() - 1, shield); //mark current lane as shielded (placed in array)
 			break;
 		default:

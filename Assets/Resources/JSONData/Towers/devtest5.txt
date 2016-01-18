@@ -1,10 +1,9 @@
 {
 	"towerName":"Hypodermic",
 	"decalFilename":"TowerIcon5",
-	"towerType":"Bullet",
+	"towerType":"Shield",
 
 	"pieces":[
-		{"anchorX":1, "anchorY":0, "rotation":0, "pieceFilename":"drain_super"},
-		{"anchorX":1, "anchorY":3, "rotation":0, "pieceFilename":"damage_super"}
+		
 	]
 }
