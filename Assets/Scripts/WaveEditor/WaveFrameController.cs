@@ -58,7 +58,7 @@ public class WaveFrameController : MonoBehaviour, EventHandler{
 			Debug.Log ("NO DRAGGING AND SNAPPING AT THE SAME TIME");
 		}
 		if(dragging){
-			Debug.Log ("dragging");
+			//Debug.Log ("dragging");
 			RectTransform rt = (RectTransform)leveltrack.transform;
 			Vector3 touchpos = InputWatcher.GetInputPosition();
 			//RectTransform canvas = (RectTransform)WaveEditorController.singleton.canvas.transform;
@@ -72,7 +72,7 @@ public class WaveFrameController : MonoBehaviour, EventHandler{
 				rt.anchoredPosition = new Vector2 (initialTrackPos + x,rt.anchoredPosition.y);
 		}
 		if(snapping){
-			Debug.Log ("snapping");
+			//Debug.Log ("snapping");
 			RectTransform rt = (RectTransform)leveltrack.transform;
 			float trackPos = rt.anchoredPosition.x;
 			float distance = snapTarget - trackPos; //distance should always be 412.5 > x > -412.5
@@ -111,7 +111,7 @@ public class WaveFrameController : MonoBehaviour, EventHandler{
 		}
 	}
 	public void Reset(){ //if something else needs to take input focus from the dragging, this sets the wave track to its resting state
-		Debug.Log ("reset");
+		//Debug.Log ("reset");
 		dragging = false;
 		snapping = false;
 		clickUpdateCycled = false;
@@ -129,6 +129,8 @@ public class WaveFrameController : MonoBehaviour, EventHandler{
 	static bool eventWaiting = false;
 	static GameEvent heldEvent = null;
 	public void HandleEvent(GameEvent ge){
+		if(BossTabController.open)
+			return;
 		if(ge.type.Equals("mouse_click")){
 			if(snapping || dragging)
 				return;
@@ -149,6 +151,7 @@ public class WaveFrameController : MonoBehaviour, EventHandler{
 				return;
 			dragging = false;
 			snapping = true;
+			//Debug.Log("we decided to snap");
 			//decide which to snap to
 			
 			//swipe distance based
@@ -157,19 +160,19 @@ public class WaveFrameController : MonoBehaviour, EventHandler{
 			Vector3 newpoint = canvas.InverseTransformPoint(new Vector2(touchpos.x,touchpos.y));
 			float distance = newpoint.x - initialTouchPos;
 			if(distance > movementThreshold){
-				Debug.Log ("old snap index: " + snapIndex);
+				//Debug.Log ("old snap index: " + snapIndex);
 				snapIndex--;
-				Debug.Log ("new snap index: " + snapIndex);
+				//Debug.Log ("new snap index: " + snapIndex);
 				if(snapIndex < 0){
-					Debug.Log ("snap index is " + snapIndex + " which is under 0. setting to " + 0);	
+					//Debug.Log ("snap index is " + snapIndex + " which is under 0. setting to " + 0);	
 					snapIndex = 0;
 				}
 			}else if(distance < -movementThreshold){
-				Debug.Log ("old snap index: " + snapIndex);
+				//Debug.Log ("old snap index: " + snapIndex);
 				snapIndex++;
-				Debug.Log ("new snap index: " + snapIndex);
+				//Debug.Log ("new snap index: " + snapIndex);
 				if(snapIndex >= thresholds.Length + 1){
-					Debug.Log ("snap index is " + snapIndex + " which is over five. setting to " + thresholds.Length);	
+					//Debug.Log ("snap index is " + snapIndex + " which is over five. setting to " + thresholds.Length);	
 					snapIndex = thresholds.Length;
 				}
 			}
@@ -197,7 +200,7 @@ public class WaveFrameController : MonoBehaviour, EventHandler{
 		}
 	}
 	public bool IsEmpty(){
-		Debug.Log ("empty");
+		//Debug.Log ("empty");
 		foreach(List<EnemyListEntryController> column in zonelists){
 			if(column.Count != 0)
 				return false;

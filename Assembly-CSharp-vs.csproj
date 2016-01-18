@@ -59,6 +59,7 @@
      <Compile Include="Assets\Scripts\CanvasMenus\MenuDial.cs" />
      <Compile Include="Assets\Scripts\CanvasMenus\MenuOption.cs" />
      <Compile Include="Assets\Scripts\CanvasMenus\MenuScaleEffectCanvas.cs" />
+     <Compile Include="Assets\Scripts\CanvasMenus\TowerMenu.cs" />
      <Compile Include="Assets\Scripts\CanvasMenus\WorldMenuOption.cs" />
      <Compile Include="Assets\Scripts\CanvasMenus\WorldSelectMenu.cs" />
      <Compile Include="Assets\Scripts\DialController.cs" />
