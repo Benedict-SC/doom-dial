@@ -113,6 +113,7 @@
      <Compile Include="Assets\Scripts\MainCanvas\MenuScript.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\MenuSpinner.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\Pause.cs" />
+     <Compile Include="Assets\Scripts\MainCanvas\Shield.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\ShieldFragment.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\TractorBeam.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\Trap.cs" />

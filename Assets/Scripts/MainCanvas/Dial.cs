@@ -119,7 +119,7 @@ public class Dial : MonoBehaviour,EventHandler {
 						if (shields [trackID - 1] != null) { //if this enemy's lane is shielded
 								int arrayInd = trackID - 1; //index of shield array to reference
 								GameObject shield = shields [trackID - 1];
-								ShieldController sc = shield.GetComponent<ShieldController> ();
+								Shield sc = shield.GetComponent<Shield> ();
 								float oldHP = sc.hp; //the shield's hp pre-absorbing damage
 								Debug.Log ("old shield HP = " + oldHP);
 								sc.hp -= rawDamage;

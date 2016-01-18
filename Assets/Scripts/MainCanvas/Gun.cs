@@ -38,7 +38,7 @@ public class Gun : MonoBehaviour,EventHandler{
 	
 	float shieldHP; //shield max HP
 	float shieldRegen; //shield regen rate
-	float shieldRange; //just so it's not hardcoded
+	float shieldRange = 55f; //just so it's not hardcoded
 	//***Skill values end here***
 	
 	/* Another tower attribute
@@ -75,7 +75,6 @@ public class Gun : MonoBehaviour,EventHandler{
 		speed = defaultBulletSpeed;
 		range = defaultBulletRange;
 		shieldHP = 100;*/
-		shieldRange = 1.0f;
 		
 		if (spread > 4)
 			spread = 4;
@@ -192,8 +191,8 @@ public class Gun : MonoBehaviour,EventHandler{
 				Debug.Log ("destroyed previous shield");
 			}
 			GameObject shield = Instantiate (Resources.Load ("Prefabs/MainCanvas/Shield")) as GameObject; //make a shield
-            shield.transform.SetParent(canvas.transform, false);
-			ShieldController sc = shield.GetComponent<ShieldController>();
+            shield.transform.SetParent(Dial.underLayer, false);
+			Shield sc = shield.GetComponent<Shield>();
 			//make it the type of shield this thing deploys
 			ConfigureShield (sc);
 			//find your angle
@@ -204,7 +203,7 @@ public class Gun : MonoBehaviour,EventHandler{
 			float shieldSpawnRange = shieldRange;
 			shieldSpawnRange += 0.5f;
             RectTransform shieldRt = sc.GetComponent<RectTransform>();
-            shieldRt.position = new Vector3(shieldSpawnRange * Mathf.Cos(shieldAngle), shieldSpawnRange * Mathf.Sin(shieldAngle), 0f);
+            shieldRt.anchoredPosition = new Vector2(shieldSpawnRange*Mathf.Cos(shieldAngle),shieldSpawnRange*Mathf.Sin (shieldAngle));
             Debug.Log("shield y should be " + shieldSpawnRange * Mathf.Sin(shieldAngle));
 			shieldRt.rotation = this.gameObject.transform.rotation;
 			dialCon.PlaceShield (GetCurrentLaneID() - 1, shield); //mark current lane as shielded (placed in array)
@@ -420,11 +419,11 @@ public class Gun : MonoBehaviour,EventHandler{
 	}
 	
 	//Assigns skill values to shields
-	private void ConfigureShield(ShieldController bc)
+	private void ConfigureShield(Shield sc)
 	{
 		if (shieldHP == 0)
 			print ("Check your shield HP value!  might be 0!");
-		bc.maxHP = shieldHP;
+		sc.maxHP = shieldHP;
 		//bc.regenRate = shieldRegen; //commented out since regen rate doesn't vary, according to joe
 	}
 	
