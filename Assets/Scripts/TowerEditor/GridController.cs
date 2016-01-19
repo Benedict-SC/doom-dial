@@ -520,6 +520,9 @@ public class GridController : MonoBehaviour{
 		                                                    pc.transform.position.z);
 		pc.transform.SetParent(EditorController.piecesLayer,false);
 	}
+	public void SetTowerType(string type){
+		towerType = type;
+	}
 	public void UpdateReadout(){
 		List<string> filenames = new List<string>();
 		foreach(PieceRecord pr in allPieces){

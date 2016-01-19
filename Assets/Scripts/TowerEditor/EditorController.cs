@@ -60,6 +60,7 @@ public class EditorController : MonoBehaviour,EventHandler{
 		
 		//LoadTower("drainpunch");
 	}
+	
 	public void Update(){
 		if(!gridloaded){
 			gridloaded = true;
@@ -125,6 +126,27 @@ public class EditorController : MonoBehaviour,EventHandler{
 			new Rect(0,0,typeIcon.width,typeIcon.height),
 			new Vector2(0.5f,0.5f),
 			100f);
+	}
+	public void SetTowerType(string newtype){
+		grid.SetTowerType(newtype);
+		towerType = newtype;
+		string typeIconFile = towerType + "IconTemp";
+		Texture2D typeIcon = Resources.Load<Texture2D> ("Sprites/" + typeIconFile);
+		typeButtonImg.sprite = UnityEngine.Sprite.Create (
+			typeIcon,
+			new Rect(0,0,typeIcon.width,typeIcon.height),
+			new Vector2(0.5f,0.5f),
+			100f);
+		Debug.Log(towerType);
+	}
+	public void ToggleType(){
+		if(towerType.Equals("Bullet")){
+			SetTowerType("Trap");
+		}else if(towerType.Equals("Trap")){
+			SetTowerType("Shield");
+		}else if(towerType.Equals("Shield")){
+			SetTowerType("Bullet");
+		}
 	}
 	public void HandleEvent(GameEvent ge){
 		if(ge.type.Equals("piece_tapped")){
