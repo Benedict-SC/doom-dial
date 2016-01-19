@@ -122,15 +122,27 @@ public class Dial : MonoBehaviour,EventHandler {
 								Shield sc = shield.GetComponent<Shield> ();
 								float oldHP = sc.hp; //the shield's hp pre-absorbing damage
 								Debug.Log ("old shield HP = " + oldHP);
-								sc.hp -= rawDamage;
-								sc.UpdateHPMeter ();
-								sc.PrintHP (); //debug
-								if (sc.hp <= 0.0f) { //if the shield's now dead
-										float dialDamage = (oldHP - rawDamage); //this should be a negative value or 0
-										health += dialDamage; //dial takes damage (adds the negative value)
-										Destroy (shields [arrayInd]); //destroy the shield
-										Debug.Log ("shield destroyed");
-								}
+                                if (enemy.GetComponentInChildren<Saboteur>() != null) //if this enemy is a Saboteur
+                                {
+                                    Saboteur sb = enemy.GetComponentInChildren<Saboteur>();
+                                    Destroy(shields[arrayInd]); //destroy the shield
+                                    Debug.Log("shield destroyed by saboteur");
+                                    health -= oldHP; //lose amount equal to shield HP
+                                }
+                                else
+                                {
+                                    sc.hp -= rawDamage;
+                                    sc.UpdateHPMeter();
+                                    sc.PrintHP(); //debug
+                                    if (sc.hp <= 0.0f)
+                                    { //if the shield's now dead
+                                        float dialDamage = (oldHP - rawDamage); //this should be a negative value or 0
+                                        health += dialDamage; //dial takes damage (adds the negative value)
+                                        Destroy(shields[arrayInd]); //destroy the shield
+                                        Debug.Log("shield destroyed");
+                                    }
+                                }
+								
 						} else { //if there's no shield
 								health -= rawDamage;
 								//Debug.Log ("damage taken, new health is " + health);
