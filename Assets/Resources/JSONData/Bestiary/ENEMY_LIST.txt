@@ -21,6 +21,7 @@
 		"compensator",
 		"blur",
 		"spite",
-		"bigfella"
+		"bigfella",
+		"saboteur"
 	]
 }

@@ -200,6 +200,11 @@ public class Wave{
                 GameObject.Destroy(enemyobj.GetComponent<Enemy>());
                 Executor s = enemyobj.AddComponent<Executor>() as Executor;
                 ec = s;
+            }else if (enemytype.Equals("Saboteur")){
+                GameObject enemyobj = ec.gameObject;
+                GameObject.Destroy(enemyobj.GetComponent<Enemy>());
+                Saboteur s = enemyobj.AddComponent<Saboteur>() as Saboteur;
+                ec = s;
             }
 
             //give enemy a filename to load from
