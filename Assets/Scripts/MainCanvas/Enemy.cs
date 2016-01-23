@@ -77,7 +77,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 	public virtual void Start () {
 		rt = (RectTransform)transform;
 		dialCon = GameObject.Find("Dial").GetComponent<Dial>();
-		EventManager.Instance ().RegisterForEventType ("shot_collided", this);
+		//EventManager.Instance ().RegisterForEventType ("shot_collided", this);
 		//SpriteRenderer sr = transform.gameObject.GetComponent<SpriteRenderer> ();
 		//float rad = sr.bounds.size.x / 2;
 		//CircleCollider2D collider = transform.gameObject.GetComponent<CircleCollider2D> ();

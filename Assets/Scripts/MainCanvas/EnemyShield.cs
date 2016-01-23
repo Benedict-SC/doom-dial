@@ -8,18 +8,25 @@ public class EnemyShield : MonoBehaviour{
 	List<ShieldFragment> fragments = new List<ShieldFragment>();
 
 	float referenceCapacity = 2; //true max hp, without shred applied
-	float capacity = 2; //max hp
-	float power = 2; //hp
+	public float capacity = 2; //max hp
+	public float power = 2; //hp
 	float regenRate = 0.02f;
+	
+	bool charged = false;
+	Timer brokenTimer;
+	float breakWait = 2f;
+	bool waitingToRecharge = false;
+	bool growing = false;
+	Timer growTimer;
+	float growDur = 2f;
 	
 	public bool bulked = false;
 	
 	public int frameLastHit = 0;
 	public bool hitThisFrame = false;
 	
-	bool growing = false;
-	Timer growTimer;
-	float growDur = 2f;
+	Enemy parent;
+	
 	
 	public void SetAllShieldHP(float hp){
 		referenceCapacity = hp;
@@ -39,6 +46,7 @@ public class EnemyShield : MonoBehaviour{
 	}
 
 	public void ConfigureShield(float maxHP,float hp, float regen, float speed, List<System.Object> fragments){
+		parent = transform.parent.GetComponent<Enemy>();
 		capacity = maxHP;
 		referenceCapacity = maxHP;
 		power = hp;
@@ -64,15 +72,22 @@ public class EnemyShield : MonoBehaviour{
 			float percent = growTimer.TimeElapsedSecs()/growDur;
 			if(percent > 1){
 				growing = false;
+				charged = true;
 			}else{
 				foreach(ShieldFragment sf in fragments){
 					sf.transform.localScale = new Vector3(percent,percent,1f);
 				}
 			}
 		}
+		if(waitingToRecharge){
+			if(brokenTimer.TimeElapsedSecs() >= breakWait){
+				waitingToRecharge = false;
+				BeginRegrowth();
+			}
+		}
 	
 		transform.Rotate(rot);
-		if(power < 0){
+		if(power < 0 && charged){
 			GetBroken ();
 		}else{
 			Regenerate ();
@@ -96,6 +111,7 @@ public class EnemyShield : MonoBehaviour{
 		power += regen;
 		if(power > capacity)
 			power = capacity;
+		RefreshShieldColors();
 	}
 	public void RefreshShieldColors(){
 		float percent = power/referenceCapacity;
@@ -116,8 +132,20 @@ public class EnemyShield : MonoBehaviour{
 			power -= b.dmg;
 			//Debug.Log("shield power: " + power + "/" + capacity);
 			b.Collide();
+			parent.GetStatused(b);
 			if(power <= 0){
 				GetBroken();
+			}
+			if(b.penetration > 0){
+				float penDamage = b.penetration*b.dmg;
+				parent.TakeDamage(penDamage);
+			}
+			if(b.shieldShred > 0){
+				float shredDamage = b.shieldShred*b.dmg;
+				capacity -= shredDamage;
+				if(power > capacity){
+					power = capacity;
+				}
 			}
 		}else if(collider.gameObject.tag == "AoE"){
 		
@@ -126,11 +154,21 @@ public class EnemyShield : MonoBehaviour{
 		}
 		RefreshShieldColors();
 	}
-	
+	public void TakeDamage(float hp){
+		power -= hp;
+		if(power <= 0){
+			power = 0f;
+			GetBroken();
+		}
+	}
 	public void GetBroken(){
-		Enemy e = transform.parent.GetComponent<Enemy>();
-		e.NullShield();
-		Destroy (gameObject);
+		charged = false;
+		MakeStuffRealTinyInPreparationForGrowing();
+		brokenTimer = new Timer();
+		waitingToRecharge = true;
+	}
+	public void BeginRegrowth(){
+		GrowShields();
 	}
 	public float Drain(float hp){ //takes hp and returns how much was successfully taken
 		power -= hp;
