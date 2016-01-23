@@ -22,6 +22,7 @@
 		"blur",
 		"spite",
 		"bigfella",
-		"saboteur"
+		"saboteur",
+		"pusher"
 	]
 }

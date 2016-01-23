@@ -1,0 +1,28 @@
+{	
+	"name":"Pusher",
+	"imgfile":"Placeholder",
+	"pointValue":25,
+	"columnName":"Pusher",
+	
+	"enemyType":"Pusher",
+
+	"movementType":"Linear",
+	"maxHP":15.0,
+	"HP":15.0,
+	"damage":5.0,
+	"impactTime":25.0,
+	"size":0.4,
+	"maxShields":0.0,
+	"shields":0.0,
+	"tripsTraps":false,
+	"shieldPen":true,
+	
+	"rarityUpWithHits":false,
+	"rareDropThreshold":4,
+	"rareChance":25.0,
+	"normalChance":5.0,
+	
+	"pieceTypes":[
+		"slow","homing"
+	]
+}
