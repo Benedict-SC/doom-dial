@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class Megasplit : Enemy{
 	
 	Timer countdown;
+	float splitDelay = 5f;
 	float[] spawnThetas = {-28.125f,-24.375f,-20.625f,-16.875f,-13.125f,-9.375f,-5.625f,-1.875f,
 							1.875f,5.625f,9.375f,13.125f,16.875f,20.625f,24.375f,28.125f}; //in degrees
 	float spawnRadius = 0f;
@@ -15,7 +16,7 @@ public class Megasplit : Enemy{
 	
 	public override void Update(){
 		base.Update();
-		if(countdown.TimeElapsedSecs() >= 10f){
+		if(countdown.TimeElapsedSecs() >= splitDelay){
 			//split up
 			spawnRadius = Mathf.Sqrt((rt.anchoredPosition.x*rt.anchoredPosition.x)+(rt.anchoredPosition.y*rt.anchoredPosition.y));
 			for(int i = 0; i < spawnThetas.Length; i++){

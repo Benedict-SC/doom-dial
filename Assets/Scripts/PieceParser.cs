@@ -7,7 +7,7 @@ using UnityEngine;
 public class PieceParser{
 
 	static float DAMAGE_DEFAULT = 2.0f;
-	static float SPEED_DEFAULT = 1.0f;
+	public static float SPEED_DEFAULT = 1.0f;
 	static float RANGE_DEFAULT = 0.5f;
 	static float COOLDOWN_DEFAULT = 2.0f;
 	static float KNOCKBACK_DEFAULT = 0f;
@@ -477,7 +477,7 @@ public class PieceParser{
 			//Range
 			gc.SetRange (range);
 			//Speed
-			gc.SetSpeed (speed * SPEED_CONSTANT);
+			gc.SetSpeed ((1f/speed) * SPEED_CONSTANT);
 			//Cooldown
 			gc.SetCooldown (cooldown);
 			//Poison

@@ -46,6 +46,9 @@ public class Bullet : MonoBehaviour {
 	public Timer splitTimer;
 	
 	public GameObject homingTarget;
+	float homingStrengthConstant = 6f;
+	
+	Image bulletImg;
 	GameObject gameManager;
 	WaveManager waveMan;
 	
@@ -77,6 +80,8 @@ public class Bullet : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		RectTransform sr = (RectTransform)transform;
+		bulletImg = GetComponent<Image>();
+		
 		float radius = sr.rect.size.x / 2;
 		CircleCollider2D collider = transform.gameObject.GetComponent<CircleCollider2D> ();
 		collider.radius = radius;
@@ -109,6 +114,10 @@ public class Bullet : MonoBehaviour {
 	void Update () {
 		if(Pause.paused)
 			return;
+		if(arcFalling){
+			ArcBulletFallingUpdate();
+			return;
+		}
 		if (!isSplitBullet)
 		{
 			RectTransform rt = (RectTransform)transform;
@@ -132,29 +141,43 @@ public class Bullet : MonoBehaviour {
 				}
 				else if (homingTarget != null)
 				{
-					Vector3 homeDir = Vector3.Lerp (this.transform.position, homingTarget.transform.position, homingStrength);
+					float speedMult = speed/PieceParser.SPEED_CONSTANT;
+					Vector2 targPos = homingTarget.GetComponent<RectTransform>().anchoredPosition;
+					Vector2 homeDir = targPos - rt.anchoredPosition; //direction to home in
+					homeDir = homeDir.normalized * homingStrengthConstant * speedMult;
 					Debug.Log ("homeDir: " + homeDir.ToString());
-					//homeDir *= homingStrength;
-					Debug.Log ("vx: " + vx);
-					Debug.Log ("vy: " + vy);
-					this.transform.position += homeDir - this.transform.position;
-					Debug.Log ("new vx: " + vx);
-					Debug.Log ("new vy: " + vy);
+					homeDir *= homingStrength;
+					//Debug.Log ("vx: " + vx);
+					//Debug.Log ("vy: " + vy);
+					vx += homeDir.x;
+					vy += homeDir.y;
+					//Debug.Log ("new vx: " + vx);
+					//Debug.Log ("new vy: " + vy);
 				}
 			}
 			
 			float distance = (float)Math.Sqrt ((rt.anchoredPosition.x - spawnx) * (rt.anchoredPosition.x - spawnx)
 			                                   + (rt.anchoredPosition.y - spawny) * (rt.anchoredPosition.y - spawny));
-			//Debug.Log ("distance is " + distance + " and range is " + (range*TRACK_LENGTH) );
-			if (distance > (range * TRACK_LENGTH + (Dial.DIAL_RADIUS-spawnDistFromCenter)) - 0.5f) //give a bit of a window for an arcing projectile hitting
-			{
-				isActive = true;
-				collide2D.enabled = true;
+			if(arcDmg > 0){
+				float prog = distance / (range * TRACK_LENGTH + (Dial.DIAL_RADIUS-spawnDistFromCenter));
+				float midFarness = Math.Abs(0.5f-prog);
+				midFarness *= 2;
+				float height = 1f - midFarness;//float 0 to 1 representing the percent of the bullet's "max height"
+				transform.localScale = new Vector3(1f+height,1f+height,1);
+				bulletImg.color = new Color(bulletImg.color.r,bulletImg.color.g,bulletImg.color.b,0.5f+(midFarness*0.5f));
 			}
+			//Debug.Log ("distance is " + distance + " and range is " + (range*TRACK_LENGTH) );
 			if(distance > range * TRACK_LENGTH + (Dial.DIAL_RADIUS-spawnDistFromCenter)){
-				//Debug.Log ("we somehow destroyed ourselves / at (" + rt.anchoredPosition.x + "," + rt.anchoredPosition.y + ")");
-				Collide();
-				return;
+				if(arcDmg > 0){
+					isActive = true;
+					collide2D.enabled = true;
+					arcFallTimer = new Timer();
+					arcFalling = true;
+				}else{
+					//Debug.Log ("we somehow destroyed ourselves / at (" + rt.anchoredPosition.x + "," + rt.anchoredPosition.y + ")");
+					Collide();
+					return;
+				}
 			}
 			
 			//after moving, check collision with enemies
@@ -182,6 +205,14 @@ public class Bullet : MonoBehaviour {
 			}
 		}
 		
+	}
+	Timer arcFallTimer;
+	bool arcFalling = false;
+	float arcFallDuration = .5f; //long enough for at least one frame to pass and do collision checking with enemies
+	void ArcBulletFallingUpdate(){
+		if(arcFallTimer.TimeElapsedSecs() > arcFallDuration){
+			Collide ();
+		}
 	}
 	float spawnDistFromCenter = 0f;
 	public void UpdateSpawnDist(){
@@ -268,7 +299,7 @@ public class Bullet : MonoBehaviour {
 			if (enemy != null)
 			{
 				Enemy ec = enemy.GetComponent<Enemy>();
-				if (ec.GetTrackID() == GetCurrentTrackID()) //if this enemy is in this bullet's zone
+				if (ec.GetCurrentTrackID() == GetCurrentTrackID()) //if this enemy is in this bullet's zone
 				{
 					Debug.Log ("FindNearestEnemy found a candidate!");
                     RectTransform rt = (RectTransform)transform;

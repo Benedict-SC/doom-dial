@@ -1,11 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\Trellis\Assets\Scripts\TestMovementChar.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MainCanvas\EnemyShield.cs">
     <Files>
-      <File FileName="..\Trellis\Assets\Scripts\ColliderEgg.cs" Line="21" Column="35" />
-      <File FileName="Assets\Scripts\Wave.cs" Line="1" Column="1" />
-      <File FileName="..\Trellis\Assets\Scripts\TestMovementChar.cs" Line="39" Column="8" />
-      <File FileName="..\Trellis\Assets\Scripts\CameraFollowScript.cs" Line="6" Column="2" />
+      <File FileName="Assets\Scripts\MainCanvas\EnemyShield.cs" Line="12" Column="9" />
+      <File FileName="Assets\Scripts\MainCanvas\Enemy.cs" Line="331" Column="43" />
+      <File FileName="Assets\Scripts\MainCanvas\ShieldFragment.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

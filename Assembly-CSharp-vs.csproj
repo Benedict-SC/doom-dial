@@ -84,6 +84,7 @@
      <Compile Include="Assets\Scripts\Enemies\Melded.cs" />
      <Compile Include="Assets\Scripts\Enemies\Melder.cs" />
      <Compile Include="Assets\Scripts\Enemies\Minisplit.cs" />
+     <Compile Include="Assets\Scripts\Enemies\Pusher.cs" />
      <Compile Include="Assets\Scripts\Enemies\Saboteur.cs" />
      <Compile Include="Assets\Scripts\Enemies\Spite.cs" />
      <Compile Include="Assets\Scripts\Enemies\Splitter.cs" />
@@ -242,6 +243,7 @@
      <None Include="Assets\Resources\JSONData\Bestiary\splitter2.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\boidminion3.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\homing_normal.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\pusher.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\spread_normal.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\homing_super.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\damage_super.txt" />
