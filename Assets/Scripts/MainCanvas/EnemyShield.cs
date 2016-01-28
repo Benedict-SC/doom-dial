@@ -21,6 +21,7 @@ public class EnemyShield : MonoBehaviour{
 	float growDur = 2f;
 	
 	public bool bulked = false;
+	public float slowedAmount = 0f;
 	
 	public int frameLastHit = 0;
 	public bool hitThisFrame = false;
@@ -108,6 +109,8 @@ public class EnemyShield : MonoBehaviour{
 		float regen = regenRate;
 		if(bulked)
 			regen *= 2;
+		if(slowedAmount > 0)
+			regen *= (1f-slowedAmount);
 		power += regen;
 		if(power > capacity)
 			power = capacity;
@@ -147,6 +150,9 @@ public class EnemyShield : MonoBehaviour{
 					power = capacity;
 				}
 			}
+			if(b.slowsShields != 0){
+				SlowRegen(b.slowsShields);
+			}
 		}else if(collider.gameObject.tag == "AoE"){
 		
 		}else if(collider.gameObject.tag == "Trap"){
@@ -177,6 +183,11 @@ public class EnemyShield : MonoBehaviour{
 		}
 		RefreshShieldColors();
 		return hp;
+	}
+	public void SlowRegen(float percent){
+		slowedAmount += percent;
+		if(slowedAmount > 1)
+			slowedAmount = 1f;
 	}
 	
 }

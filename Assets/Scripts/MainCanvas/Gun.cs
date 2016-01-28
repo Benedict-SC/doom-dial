@@ -36,6 +36,10 @@ public class Gun : MonoBehaviour,EventHandler{
 	float arcDmg; //dmg bonus of arc -- if above 0, it will arc
 	int spread; //1 is normal, 2 is V, 3 is alternating V and I, 4 is three shots
 	
+	bool chainsPoison;
+	float slowsShields;
+	float aoeRadiusBonus = 1.0f;
+	
 	float shieldHP; //shield max HP
 	float shieldRegen; //shield regen rate
 	float shieldRange = 55f; //just so it's not hardcoded
@@ -383,13 +387,15 @@ public class Gun : MonoBehaviour,EventHandler{
 		bc.lifeDrain = lifeDrain;
 		bc.poison = poison;
 		bc.poisonDur = poisonDur;
+		bc.chainsPoison = chainsPoison;
 		bc.splash = splash;
-		bc.splashRad = splashRad;
+		bc.splashRad = splashRad * aoeRadiusBonus;
 		bc.stun = stun;
 		bc.slowdown = slowdown;
 		bc.slowDur = slowDur;
 		bc.penetration = penetration;
 		bc.shieldShred = shieldShred;
+		bc.slowsShields = slowsShields;
 		bc.splitCount = splitCount;
 		bc.homingStrength = homingStrength;
 		bc.arcDmg = arcDmg;
@@ -409,7 +415,7 @@ public class Gun : MonoBehaviour,EventHandler{
 		bc.poison = poison;
 		bc.poisonDur = poisonDur;
 		bc.splash = splash;
-		bc.splashRad = splashRad;
+		bc.splashRad = splashRad * aoeRadiusBonus;
 		bc.stun = stun;
 		bc.slowdown = slowdown;
 		bc.slowDur = slowDur;
@@ -487,9 +493,15 @@ public class Gun : MonoBehaviour,EventHandler{
 	{
 		poisonDur = pPoisonDur;
 	}
+	public void SetChainPoison(bool chainPois){
+		chainsPoison = chainPois;
+	}
 	public void SetSplash(float pSplash)
 	{
 		splash = pSplash;
+	}
+	public void SetSplashRadiusBonus(float percentBonus){
+		aoeRadiusBonus = 1f + percentBonus;
 	}
 	public void SetStun(float pStun)
 	{
@@ -510,6 +522,9 @@ public class Gun : MonoBehaviour,EventHandler{
 	public void SetShieldShred(float pShieldShred)
 	{
 		shieldShred = pShieldShred;
+	}
+	public void SetShieldSlow(float pShieldSlow){
+		slowsShields = pShieldSlow;
 	}
 	public void SetTrapArmTime(float pTrapArmTime)
 	{

@@ -256,9 +256,10 @@ public class Enemy : MonoBehaviour,EventHandler {
 		
 		//handle poison
 		if(poisoned){
-			Debug.Log("i'm poisoned");
+			//Debug.Log("i'm poisoned");
 			if(poisonTimer.TimeElapsedSecs() >= poisonDuration){
 				poisoned = false;
+				lethargyPoisoned = false;
 			}else if(poisonTickTimer.TimeElapsedSecs() > 0.5f){
 				float poisonDamage = poisonPerTick*maxhp;
 				hp -= poisonDamage;
@@ -266,6 +267,9 @@ public class Enemy : MonoBehaviour,EventHandler {
 			}else{
 				//do nothing
 			}
+			if(lethargyPoisoned){
+				RefreshSlow();
+			}	
 		}
 		
 		if (hp <= 0.0f)
@@ -367,6 +371,13 @@ public class Enemy : MonoBehaviour,EventHandler {
 	public virtual void OnTriggerEnter2D(Collider2D coll){
 		if(frozen)
 			return;
+		if(coll.gameObject.tag == "Enemy"){ //handled before anything that cares about shields
+			if(chainPoisoned){
+				Enemy e = coll.gameObject.GetComponent<Enemy>();
+				e.GetChainPoisoned(poisonPerTick,poisonDuration);
+			}
+			return;
+		}
 		if(shield != null){
 			if(shield.hitThisFrame)//the shield handled collision for us this time
 				return;
@@ -670,6 +681,8 @@ public class Enemy : MonoBehaviour,EventHandler {
 	
 	bool poisoned = false;
 	float poisonPerTick = 0f;
+	bool chainPoisoned = false;
+	bool lethargyPoisoned = false;
 	float poisonDuration = 0f;
 	bool knockbackInProgress = false;
 	float knockbackPower = 0f;
@@ -679,6 +692,8 @@ public class Enemy : MonoBehaviour,EventHandler {
 	bool slowWaiting = false;
 	float slowDuration = 0f;
 	float slowedSpeed = 1f;
+	float savedSlowDuration = 0f;
+	float savedSlowSpeed = 1f;
 	protected bool slowInProgress = false;
 	public void GetStatused(Bullet bc){
 		//life drain
@@ -698,6 +713,9 @@ public class Enemy : MonoBehaviour,EventHandler {
 				poisonPerTick = bc.poison;
 			}
 			poisonDuration = bc.poisonDur;
+			chainPoisoned = bc.chainsPoison;
+			if(chainPoisoned)
+				Debug.Log ("oh butts i've been chained");
 			poisonTimer.Restart();
 			poisoned = true;
 		}else{
@@ -741,7 +759,37 @@ public class Enemy : MonoBehaviour,EventHandler {
 			}
 			slowDuration = bc.slowDur;
 			slowedSpeed = bc.slowdown;
+			if(bc.poison != 0){
+				lethargyPoisoned = true;
+				savedSlowDuration = slowDuration;
+				savedSlowSpeed = slowedSpeed;
+			}
 		}
+	}
+	public void GetChainPoisoned(float pstrength, float pduration){
+		Debug.Log ("tried to chain poison");
+		if(poisoned){
+			if(poisonPerTick < pstrength)
+				poisonPerTick = pstrength;
+		}else{
+			poisonPerTick = pstrength;
+		}
+		poisonDuration = pduration;
+		chainPoisoned = false;
+		poisonTimer.Restart();
+		poisoned = true;
+	}
+	public void RefreshSlow(){
+		if(knockbackInProgress || stunInProgress){
+			slowWaiting = true;
+			slowInProgress = false;
+		}else{
+			slowInProgress = true;
+			slowWaiting = false;
+			slowTimer.Restart();
+		}
+		slowDuration = savedSlowDuration;
+		slowedSpeed = savedSlowSpeed;
 	}
 	
 	public void SelfKnockback(float f){

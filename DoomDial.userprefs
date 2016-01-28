@@ -1,10 +1,16 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MainCanvas\EnemyShield.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Movers\EnemyMover.cs">
     <Files>
-      <File FileName="Assets\Scripts\MainCanvas\EnemyShield.cs" Line="12" Column="9" />
-      <File FileName="Assets\Scripts\MainCanvas\Enemy.cs" Line="331" Column="43" />
+      <File FileName="Assets\Scripts\MainCanvas\Enemy.cs" Line="711" Column="46" />
+      <File FileName="Assets\Scripts\Enemies\Boss.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MainCanvas\EnemyShield.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\MainCanvas\ShieldFragment.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MainCanvas\Bullet.cs" Line="62" Column="9" />
+      <File FileName="Assets\Scripts\PieceParser.cs" Line="487" Column="40" />
+      <File FileName="Assets\Scripts\MainCanvas\Gun.cs" Line="413" Column="28" />
+      <File FileName="Assets\Scripts\Enemies\Megasplit.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Movers\EnemyMover.cs" Line="36" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

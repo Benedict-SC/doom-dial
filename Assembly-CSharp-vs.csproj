@@ -293,6 +293,7 @@
      <None Include="Assets\Resources\JSONData\Pieces\cdr_normal.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World2\Level1\wavedata.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\megasplit.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\leftenemy.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_2.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\saboteur.txt" />
      <None Include="Assets\Resources\JSONData\Towers\devtest4.txt" />

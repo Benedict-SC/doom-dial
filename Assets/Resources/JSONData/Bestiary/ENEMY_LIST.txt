@@ -1,6 +1,7 @@
 {
 	"enemies": [
 		"testenemy",
+		"leftenemy",
 		"shieldtest",
 		"steve",
 		"bleedin' joe",

@@ -24,6 +24,10 @@ public class PieceParser{
 	static int SPLIT_TYPE_DEFAULT = 0;
 	static float HOMING_STRENGTH_DEFAULT = 0f;
 	static float ARC_BOOST_DEFAULT = 0f;
+	
+	static float MAXIMUM_SLOWDOWN = .8f;
+	static float PERCENT_AOE_RANGE_PER_PAIR = .25f;
+	static float PERCENT_SHIELD_REGEN_SLOW_PER_PAIR = .25f;
 
 	public static Dictionary<string,float> GetStatsFromGrid(List<string> files){
 		Dictionary<string,float> result = new Dictionary<string, float>();
@@ -380,14 +384,16 @@ public class PieceParser{
 				poisonCount++;
 			//slow - in percent of enemy speed - set enemy speed to this percent
 			float pminslow = (float)(double)pdata["slowdownMin"];
-			slowdownMin += pminslow;
+			if(pminslow > 0)
+				slowdownMin += 1f-pminslow;
 			float pmaxslow = (float)(double)pdata["slowdownMax"];
-			slowdownMax += pmaxslow;
-			if(slowdownMin < -1.0f)
-				slowdownMin = -1.0f;
-			if(slowdownMax < -1.0f)
-				slowdownMax = -1.0f; //cap slowdowns so they don't become knockbacks
-			if(pmaxslow < 0.0f)
+			if(pmaxslow > 0)
+				slowdownMax += 1f-pmaxslow;
+			if(slowdownMin > MAXIMUM_SLOWDOWN)
+				slowdownMin = MAXIMUM_SLOWDOWN;
+			if(slowdownMax > MAXIMUM_SLOWDOWN)
+				slowdownMax = MAXIMUM_SLOWDOWN; //cap slowdowns so they don't become knockbacks
+			if(pmaxslow > 0.0f)
 				slowCount++;
 			//knockback - in terms of percent progress to roll back. value needs to be converted to an actual speed somehow. will take some fiddling with
 			float pknockback = (float)(double)pdata["knockback"];
@@ -471,7 +477,7 @@ public class PieceParser{
 		
 		//Set tower stats based on these values
 		if(gc.GetTowerType().Equals ("Bullet")){
-			Debug.Log("speed is " + ((1f/speed) * SPEED_CONSTANT));
+			//Debug.Log("speed is " + ((1f/speed) * SPEED_CONSTANT));
 			//Damage
 			gc.SetDmg (damage);
 			//Range
@@ -482,10 +488,12 @@ public class PieceParser{
 			gc.SetCooldown (cooldown);
 			//Poison
 			gc.SetPoison (poison);
-			Debug.Log (gc.buttonID + " poison value is set to " + poison);
+			//Debug.Log (gc.buttonID + " poison value is set to " + poison);
 			gc.SetPoisonDur (3f);
+			gc.SetChainPoison(chainPoisonBonus);
 			//Slowdown
-			gc.SetSlowdown (slowdownMax); //for now.  eventually add in that scaling system for slow/fast enemies?
+			gc.SetSlowdown (1f-slowdownMax); //for now.  eventually add in that scaling system for slow/fast enemies?
+			//Debug.Log (slowdownMax + "is max slowdown");
 			gc.SetSlowDur (0.75f);
 			//Knockback
 			gc.SetKnockback(knockback);
@@ -493,12 +501,14 @@ public class PieceParser{
 			gc.SetLifeDrain (lifeDrain);
 			//Splash
 			gc.SetSplash (splash);
+			gc.SetSplashRadiusBonus(splashBonusCount * PERCENT_AOE_RANGE_PER_PAIR);
 			//Stun
 			gc.SetStun (stun);
 			//Penetration
 			gc.SetPenetration (penetration);
 			//Shieldshred
 			gc.SetShieldShred (shieldShred);
+			gc.SetShieldSlow(regenBonusCount*PERCENT_SHIELD_REGEN_SLOW_PER_PAIR);
 			//Spread
 			gc.SetSpread(spread);
 			//SplitCount
@@ -522,6 +532,7 @@ public class PieceParser{
             gc.SetPoison(poison);
             Debug.Log(gc.buttonID + " poison value is set to " + poison);
             gc.SetPoisonDur(3f);
+			gc.SetChainPoison(chainPoisonBonus);
             //Slowdown
             gc.SetSlowdown(slowdownMax); //for now.  eventually add in that scaling system for slow/fast enemies?
             gc.SetSlowDur(0.75f);
@@ -531,12 +542,14 @@ public class PieceParser{
             gc.SetLifeDrain(lifeDrain);
             //Splash
             gc.SetSplash(splash);
+			gc.SetSplashRadiusBonus(splashBonusCount * PERCENT_AOE_RANGE_PER_PAIR);
             //Stun
             gc.SetStun(stun);
             //Penetration
             gc.SetPenetration(penetration);
             //Shieldshred
             gc.SetShieldShred(shieldShred);
+			gc.SetShieldSlow(regenBonusCount*PERCENT_SHIELD_REGEN_SLOW_PER_PAIR);
             //Spread
             gc.SetSpread(spread);
             //SplitCount

@@ -49,8 +49,8 @@ public class Bullet : MonoBehaviour {
 	float homingStrengthConstant = 6f;
 	
 	Image bulletImg;
-	GameObject gameManager;
-	WaveManager waveMan;
+	/*GameObject gameManager;
+	WaveManager waveMan;*/ //why were these here? bullets don't need to know about wave timing
 	
 	//BEING WORKED ON
 	
@@ -58,6 +58,10 @@ public class Bullet : MonoBehaviour {
 	public float penetration; //ignores this amount of enemy shield
 	public float shieldShred; //lowers enemy shield's max value by this
 	public float homingStrength; //strength of homing effect
+	
+	public bool chainsPoison = false;
+	public float slowsShields = 0f;
+	
 	
 	/*
 	 * End of attributes passed from tower
@@ -102,12 +106,12 @@ public class Bullet : MonoBehaviour {
 			splitTimer = new Timer();
 			timerElapsed = false;
 		}
-		gameManager = GameObject.Find ("GameManager");
+		/*gameManager = GameObject.Find ("GameManager");
 		if (gameManager == null)
 		{
 			Debug.Log ("zonecone couldn't find GameManager!");
 		}
-		waveMan = gameManager.GetComponent<WaveManager>();
+		waveMan = gameManager.GetComponent<WaveManager>();*/
 	}
 	
 	// Update is called once per frame
@@ -208,7 +212,7 @@ public class Bullet : MonoBehaviour {
 	}
 	Timer arcFallTimer;
 	bool arcFalling = false;
-	float arcFallDuration = .5f; //long enough for at least one frame to pass and do collision checking with enemies
+	float arcFallDuration = .3f; //long enough for at least one frame to pass and do collision checking with enemies
 	void ArcBulletFallingUpdate(){
 		if(arcFallTimer.TimeElapsedSecs() > arcFallDuration){
 			Collide ();
@@ -363,7 +367,8 @@ public class Bullet : MonoBehaviour {
 					knockback = 0f;
 					stun = 0f;
 					penetration = 0f;
-					GameObject splashCircle = Instantiate (Resources.Load ("Prefabs/SplashCircle")) as GameObject;
+					GameObject splashCircle = Instantiate (Resources.Load ("Prefabs/MainCanvas/SplashCircle")) as GameObject;
+					splashCircle.transform.SetParent(Dial.spawnLayer,false);
 					splashCircle.transform.position = this.transform.position;
 					AoE ac = splashCircle.GetComponent<AoE>();
 					ac.scale = splashRad;
@@ -382,20 +387,11 @@ public class Bullet : MonoBehaviour {
 					splashCone.transform.SetParent(Dial.spawnLayer,false);
 					splashCone.transform.position = this.transform.position;
 					splashCone.transform.rotation = this.transform.rotation;
-					/*splashCone.transform.rotation = new Quaternion(gameObject.transform.rotation.x,
-					                                               gameObject.transform.rotation.y,
-					                                               gameObject.transform.rotation.z,
-					                                               gameObject.transform.rotation.w);*/
 					AoE ac = splashCone.GetComponent<AoE>();
 					ac.scale = splashRad;
-					/*Debug.Log ("old splash damage: " + dmg);
-					Debug.Log ("old splash lifedrain: " + lifeDrain);*/
-					//Debug.Log ("splashRad is " + splashRad);
 					ac.parent = "Bullet";
 					ac.aoeBulletCon = this;
 					ac.ScaleProps(splash);
-					/*Debug.Log ("new splash damage: " + ac.aoeBulletCon.dmg);
-					Debug.Log ("new splash life: " + ac.aoeBulletCon.lifeDrain);*/
 				}
 			}
 		}

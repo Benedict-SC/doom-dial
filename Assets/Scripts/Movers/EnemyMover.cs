@@ -20,10 +20,10 @@ public abstract class EnemyMover{
 		return degrees;
 	}
 	public void PutInLeftLane(){
-		radiansOffset = -15f;
+		radiansOffset = 15f;
 	}
 	public void PutInRightLane(){
-		radiansOffset = 15f;
+		radiansOffset = -15f;
 	}
 	public void LeftOffset(float f){
 		radiansOffset -= f;
