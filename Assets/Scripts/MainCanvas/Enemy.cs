@@ -260,6 +260,8 @@ public class Enemy : MonoBehaviour,EventHandler {
 			if(poisonTimer.TimeElapsedSecs() >= poisonDuration){
 				poisoned = false;
 				lethargyPoisoned = false;
+				chainPoisoned = false;
+				EndChainPoisonRadius();
 			}else if(poisonTickTimer.TimeElapsedSecs() > 0.5f){
 				float poisonDamage = poisonPerTick*maxhp;
 				hp -= poisonDamage;
@@ -713,9 +715,9 @@ public class Enemy : MonoBehaviour,EventHandler {
 				poisonPerTick = bc.poison;
 			}
 			poisonDuration = bc.poisonDur;
-			chainPoisoned = bc.chainsPoison;
-			if(chainPoisoned)
-				Debug.Log ("oh butts i've been chained");
+			if(bc.chainsPoison){
+				AddChainPoisonRadius(bc.poison,bc.poisonDur);
+			}
 			poisonTimer.Restart();
 			poisoned = true;
 		}else{
@@ -766,7 +768,29 @@ public class Enemy : MonoBehaviour,EventHandler {
 			}
 		}
 	}
+	bool chainPoisonSource = false;
+	public void AddChainPoisonRadius(float strength,float duration){
+		if(chainPoisonSource){
+			return;
+		}
+		float CP_EXTRA_RADIUS = 20f;
+		float cpradius = rt.sizeDelta.x/2f + CP_EXTRA_RADIUS/transform.localScale.x;
+		GameObject cpcollider = Instantiate (Resources.Load ("Prefabs/MainCanvas/ChainPoisonRadius")) as GameObject;
+		ChainPoisonRadius cpr = cpcollider.GetComponent<ChainPoisonRadius>();
+		cpr.SetRadius(cpradius);
+		cpr.SetStrengthAndDuration(strength,duration);
+		cpcollider.transform.SetParent(transform,false);
+		chainPoisonSource = true;
+	}
+	public void EndChainPoisonRadius(){
+		if(chainPoisonSource){
+			chainPoisonSource = false;
+			Destroy(transform.FindChild("ChainPoisonRadius").gameObject);
+		}		
+	}
 	public void GetChainPoisoned(float pstrength, float pduration){
+		if(chainPoisoned)
+			return;//you already got poisoned this way
 		Debug.Log ("tried to chain poison");
 		if(poisoned){
 			if(poisonPerTick < pstrength)
@@ -775,7 +799,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 			poisonPerTick = pstrength;
 		}
 		poisonDuration = pduration;
-		chainPoisoned = false;
+		chainPoisoned = true;
 		poisonTimer.Restart();
 		poisoned = true;
 	}

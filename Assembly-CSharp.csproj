@@ -106,6 +106,7 @@
      <Compile Include="Assets\Scripts\MainCanvas\Bullet.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\CameraToggle.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\CanvasSpinner.cs" />
+     <Compile Include="Assets\Scripts\MainCanvas\ChainPoisonRadius.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\Dial.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\Drop.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\Enemy.cs" />
@@ -151,6 +152,7 @@
      <Compile Include="Assets\Scripts\ShieldController.cs" />
      <Compile Include="Assets\Scripts\SpinScript.cs" />
      <Compile Include="Assets\Scripts\TempReturn.cs" />
+     <Compile Include="Assets\Scripts\TestComponent.cs" />
      <Compile Include="Assets\Scripts\TestDataLoader.cs" />
      <Compile Include="Assets\Scripts\Timer.cs" />
      <Compile Include="Assets\Scripts\TowerEditor\EditorController.cs" />
