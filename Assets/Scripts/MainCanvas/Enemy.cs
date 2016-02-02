@@ -407,7 +407,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 				{
 					//dude, the timer on split bullets is to keep it from colliding with itself, not enemies
 					
-					/*if (bc.isSplitBullet && bc.timerElapsed || !bc.isSplitBullet)
+					if (bc.isSplitBullet && bc.timerElapsed || !bc.isSplitBullet)
 					{
 						bc.enemyHit = this.gameObject;
 						GetStatused(bc);
@@ -425,14 +425,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 						//{
 							bc.Collide ();
 						//}
-					}*/
-					
-					bc.enemyHit = this.gameObject;
-					GetStatused(bc);
-					//StartCoroutine (StatusEffectsBullet (bc));
-					hp -= bc.dmg + bc.arcDmg;
-					timesShot++;
-					bc.Collide();
+					}
 					
 					if(hp <= 0){
 						hp = 0;

@@ -198,7 +198,7 @@ public class Bullet : MonoBehaviour {
 		{
 			RectTransform rt = (RectTransform)transform;
 			
-			if (!timerElapsed && splitTimer.TimeElapsedMillis () >= 200) //wait until the two splits have separated
+			if (!timerElapsed && splitTimer.TimeElapsedMillis () >= 100) //wait until the two splits have separated
 			{
 				timerElapsed = true;
 			}
