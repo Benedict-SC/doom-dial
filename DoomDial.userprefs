@@ -1,13 +1,16 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MainCanvas\ChainPoisonRadius.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PieceParser.cs">
     <Files>
+      <File FileName="Assets\Scripts\MainCanvas\Bullet.cs" Line="1" Column="1" />
       <File FileName="..\Trellis\Assets\Scripts\ColliderEgg.cs" Line="1" Column="1" />
-      <File FileName="..\Trellis\Assets\Scripts\Canvas\CanvasColliderEgg.cs" Line="40" Column="40" />
-      <File FileName="..\Trellis\Assets\Scripts\TestMovementChar.cs" Line="10" Column="14" />
-      <File FileName="..\Trellis\Assets\Scripts\Canvas\Ivy.cs" Line="9" Column="35" />
-      <File FileName="..\Trellis\Assets\Scripts\Canvas\CameraFollowScript.cs" Line="10" Column="7" />
+      <File FileName="..\Trellis\Assets\Scripts\Canvas\CanvasColliderEgg.cs" Line="1" Column="1" />
+      <File FileName="..\Trellis\Assets\Scripts\TestMovementChar.cs" Line="1" Column="1" />
+      <File FileName="..\Trellis\Assets\Scripts\Canvas\Ivy.cs" Line="1" Column="1" />
+      <File FileName="..\Trellis\Assets\Scripts\Canvas\CameraFollowScript.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\MainCanvas\ChainPoisonRadius.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MainCanvas\Enemy.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\PieceParser.cs" Line="21" Column="40" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

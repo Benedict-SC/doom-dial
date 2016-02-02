@@ -29,13 +29,20 @@ public class Bullet : MonoBehaviour {
 	public float splashRad; //radius of splash damage
 	public float arcDmg; //dmg bonus from arcing - if above 0 it arcs
 	
-	
 	public float splitDistance = 0f; //radius
 	public float splitStartingAngle = 0f; //degrees of where the bullet initially split
 	public float splitTravelDist = 0f; //degrees traveled since splitting
 	public float splitSpeed = 0f; //degrees per frame
 	public float SPLIT_SPEED_DEFAULT = 3f; //how fast to go without speed pieces
 	public int splitDirection; //1 or -1 to determine direction
+	
+	public bool multiSplits = false;
+	float alignmentSpacing = 35f;//Dial.middle_radius-Dial.inner_radius;
+	public Timer alignTimer = null;
+	float ALIGNMENT_TIME = 1.1f;
+	public float alignmentProgress = 0f;
+	public int alignCode = 0; //0 is middle, 1 is outer, -1 is inner
+	public float initialAlignRadius = 0f;
 	
 	public bool isSplitBullet; //whether it's the result of a split
 	public Bullet splitParent; //source of the split bullet
@@ -196,6 +203,17 @@ public class Bullet : MonoBehaviour {
 				timerElapsed = true;
 			}
 			
+			if(alignCode != 0){
+				alignmentProgress = alignTimer.TimeElapsedSecs()/ALIGNMENT_TIME;
+				if(alignmentProgress < 1){
+					float displacement = Mathf.Sin((Mathf.PI / 2)*alignmentProgress) * alignmentSpacing*alignCode; //curved motion away from middle
+					splitDistance = initialAlignRadius + displacement;
+				}else{
+					alignCode = 0;//this might be an issue if we need to know whether it's an inner/middle/outer bullet later
+					//but for now it should save on divides
+				}
+			}
+				
 			splitTravelDist += splitSpeed; //increase angle relative to start
 			float currentSplitAngle = splitStartingAngle + splitTravelDist; //calculate a fixed angle
 			float radians = currentSplitAngle * Mathf.Deg2Rad; //convert to radians
@@ -400,10 +418,12 @@ public class Bullet : MonoBehaviour {
 		{
 			if (!isSplitBullet) //only pre-split bullets
 			{
+				RectTransform rt = GetComponent<RectTransform>();
 				//Debug.Log ("spawned 2 split bullets");
 				ScaleProps(0.5f);
 				
 				GameObject split1 = Instantiate (Resources.Load ("Prefabs/MainCanvas/Bullet")) as GameObject;
+				split1.transform.SetParent(Dial.spawnLayer,false);
 				Bullet splitbc = split1.GetComponent<Bullet>();
 				splitbc.splitDirection = -1;
 				splitbc.splitParent = this;
@@ -412,11 +432,62 @@ public class Bullet : MonoBehaviour {
 				splitbc.SetSplitPropsNew(this);
 				
 				GameObject split2 = Instantiate (Resources.Load ("Prefabs/MainCanvas/Bullet")) as GameObject;
+				split2.transform.SetParent(Dial.spawnLayer,false);
 				Bullet splitbc2 = split2.GetComponent<Bullet>();
 				splitbc2.splitDirection = 1;
 				splitbc2.splitParent = this;
 				split2.transform.position = this.transform.position;
 				splitbc2.SetSplitPropsNew(this);
+				if(multiSplits){
+					float currentRadius = Mathf.Sqrt(rt.anchoredPosition.x*rt.anchoredPosition.x + rt.anchoredPosition.y*rt.anchoredPosition.y);
+					
+					GameObject splitLO = Instantiate (Resources.Load ("Prefabs/MainCanvas/Bullet")) as GameObject;
+					GameObject splitRO = Instantiate (Resources.Load ("Prefabs/MainCanvas/Bullet")) as GameObject;
+					splitLO.transform.SetParent(Dial.spawnLayer,false);
+					splitRO.transform.SetParent(Dial.spawnLayer,false);
+					Bullet bLO = splitLO.GetComponent<Bullet>();
+					bLO.splitDirection = 1;
+					bLO.splitParent = this;
+					bLO.transform.position = this.transform.position;
+					bLO.SetSplitPropsNew(this);
+					bLO.alignTimer = new Timer();
+					bLO.alignCode = 1;
+					bLO.initialAlignRadius = currentRadius;
+					
+					Bullet bRO = splitRO.GetComponent<Bullet>();
+					bRO.splitDirection = -1;
+					bRO.splitParent = this;
+					bRO.transform.position = this.transform.position;
+					bRO.SetSplitPropsNew(this);
+					bRO.alignTimer = new Timer();
+					bRO.alignCode = 1;
+					bRO.initialAlignRadius = currentRadius;
+					
+					if(currentRadius - alignmentSpacing > Dial.inner_radius){ //don't spawn bullets that would hit the dial
+						GameObject splitLI = Instantiate (Resources.Load ("Prefabs/MainCanvas/Bullet")) as GameObject;
+						GameObject splitRI = Instantiate (Resources.Load ("Prefabs/MainCanvas/Bullet")) as GameObject;
+						splitLI.transform.SetParent(Dial.spawnLayer,false);
+						splitRI.transform.SetParent(Dial.spawnLayer,false);
+						
+						Bullet bLI = splitLI.GetComponent<Bullet>();
+						bLI.splitDirection = 1;
+						bLI.splitParent = this;
+						bLI.transform.position = this.transform.position;
+						bLI.SetSplitPropsNew(this);
+						bLI.alignTimer = new Timer();
+						bLI.alignCode = -1;
+						bLI.initialAlignRadius = currentRadius;
+						
+						Bullet bRI = splitRI.GetComponent<Bullet>();
+						bRI.splitDirection = -1;
+						bRI.splitParent = this;
+						bRI.transform.position = this.transform.position;
+						bRI.SetSplitPropsNew(this);
+						bRI.alignTimer = new Timer();
+						bRI.alignCode = -1;
+						bRI.initialAlignRadius = currentRadius;
+					}
+				}
 			}
 		}
 		

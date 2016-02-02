@@ -23,6 +23,7 @@ public class Dial : MonoBehaviour,EventHandler {
 	float halfLifeFullLifeConsequences = 0.08f;
 	float quarterLifeHalfwayToDestruction = 0.1f;
 	float tenthLifeBonus = 0.2f;
+	float tractorBeamCost = 0.05f;
 	
 	GameObject[] shields = new GameObject[6];
 	public static RectTransform canvasTransform;
@@ -99,6 +100,21 @@ public class Dial : MonoBehaviour,EventHandler {
 		float baseWidth = DIAL_RADIUS / FULL_LENGTH;
 		float multiplier = 1-baseWidth;
 		
+		for(int i = 0; i < 3; i++){
+			GameObject barObj = superBars[i];
+			Transform bar = barObj.transform;
+			bar.localScale = new Vector3(baseWidth + (multiplier*superPercentage), bar.localScale.y,bar.localScale.z);
+		}
+	}
+	public void SpendSuperPercent(float percent){
+		superPercentage -= percent;
+		if(superPercentage > 1)
+			superPercentage = 1.0f;
+		else if(superPercentage < 0){
+			superPercentage = 0.0f;
+		}
+		float baseWidth = DIAL_RADIUS / FULL_LENGTH;
+		float multiplier = 1-baseWidth;
 		for(int i = 0; i < 3; i++){
 			GameObject barObj = superBars[i];
 			Transform bar = barObj.transform;
@@ -188,11 +204,18 @@ public class Dial : MonoBehaviour,EventHandler {
 		bonusWaveDictionary.Add("enemies",new List<System.Object>());
 	}
 	public void TractorBeam(){
+		
 		GameObject[] drops = GameObject.FindGameObjectsWithTag("DroppedPiece");
 		if(drops.Length <= 0){
 			return;
 		}
-		//don't forget to lower the super percent
+		
+		if(superPercentage < tractorBeamCost){
+			Debug.Log ("not enough super!");
+			return;
+		}else{
+			SpendSuperPercent(tractorBeamCost);
+		}
 		
 		//get the subset of super rares
 		List<GameObject> superRares = new List<GameObject>();

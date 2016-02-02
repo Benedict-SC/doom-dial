@@ -405,7 +405,9 @@ public class Enemy : MonoBehaviour,EventHandler {
 			if (bc != null) {
 				if (bc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
 				{
-					if (bc.isSplitBullet && bc.timerElapsed || !bc.isSplitBullet)
+					//dude, the timer on split bullets is to keep it from colliding with itself, not enemies
+					
+					/*if (bc.isSplitBullet && bc.timerElapsed || !bc.isSplitBullet)
 					{
 						bc.enemyHit = this.gameObject;
 						GetStatused(bc);
@@ -419,11 +421,19 @@ public class Enemy : MonoBehaviour,EventHandler {
 					}
 					else if (bc.isSplitBullet)
 					{
-						if (bc.timerElapsed)
-						{
+						//if (bc.timerElapsed)
+						//{
 							bc.Collide ();
-						}
-					}
+						//}
+					}*/
+					
+					bc.enemyHit = this.gameObject;
+					GetStatused(bc);
+					//StartCoroutine (StatusEffectsBullet (bc));
+					hp -= bc.dmg + bc.arcDmg;
+					timesShot++;
+					bc.Collide();
+					
 					if(hp <= 0){
 						hp = 0;
 						Die ();

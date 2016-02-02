@@ -39,6 +39,7 @@ public class Gun : MonoBehaviour,EventHandler{
 	bool chainsPoison;
 	float slowsShields;
 	float aoeRadiusBonus = 1.0f;
+	bool multiSplits;
 	
 	float shieldHP; //shield max HP
 	float shieldRegen; //shield regen rate
@@ -397,6 +398,7 @@ public class Gun : MonoBehaviour,EventHandler{
 		bc.shieldShred = shieldShred;
 		bc.slowsShields = slowsShields;
 		bc.splitCount = splitCount;
+		bc.multiSplits = multiSplits;
 		bc.homingStrength = homingStrength;
 		bc.arcDmg = arcDmg;
 		bc.isSplitBullet = false;
@@ -537,6 +539,9 @@ public class Gun : MonoBehaviour,EventHandler{
 	public void SetSplit(int pDoesSplit)
 	{
 		splitCount = pDoesSplit;
+	}
+	public void SetMultiSplit(bool pMultiSplits){
+		multiSplits = pMultiSplits;
 	}
 	public void SetIsHoming(float pIsHoming)
 	{

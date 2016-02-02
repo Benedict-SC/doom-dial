@@ -513,6 +513,7 @@ public class PieceParser{
 			gc.SetSpread(spread);
 			//SplitCount
 			gc.SetSplit (splitType);
+			gc.SetMultiSplit(recursiveSplitBonus);
 			//Homing
 			gc.SetIsHoming (homingStrength);
 			//ArcStrength
