@@ -144,6 +144,10 @@
      <Compile Include="Assets\Scripts\Movers\SwerveMover.cs" />
      <Compile Include="Assets\Scripts\Movers\WinkMover.cs" />
      <Compile Include="Assets\Scripts\Movers\ZigzagMover.cs" />
+     <Compile Include="Assets\Scripts\Pathing\AIEnemy.cs" />
+     <Compile Include="Assets\Scripts\Pathing\PathEditor.cs" />
+     <Compile Include="Assets\Scripts\Pathing\PathLink.cs" />
+     <Compile Include="Assets\Scripts\Pathing\Steering.cs" />
      <Compile Include="Assets\Scripts\PieceParser.cs" />
      <Compile Include="Assets\Scripts\RotationLock.cs" />
      <Compile Include="Assets\Scripts\Rotations.cs" />

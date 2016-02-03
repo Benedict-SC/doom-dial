@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using MiniJSON;
 
-public class Enemy : MonoBehaviour,EventHandler {
+public class AIEnemy : MonoBehaviour,EventHandler {
 	
 	public readonly float DIAL_RADIUS = 52.1f; //hard coded to avoid constantly querying dial
 	//if dial size ever needs to change, replace references to this with calls to a getter
@@ -31,10 +31,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 	//float ySpeed;
 	//float xSpeed;
 	
-	protected Timer timer = new Timer();
-	protected EnemyMover mover;
 	public bool moving = false;
-	protected float progress = 0.0f;
 	protected float moverLaneOverride = 0f;
 	
 	protected float timesShot = 0.0f;
@@ -44,8 +41,8 @@ public class Enemy : MonoBehaviour,EventHandler {
 	protected float radius;
 	protected float maxShields;
 	protected float shields;
-    protected bool tripsTraps; //some enemies are immune to traps
-    protected bool shieldPen; //and some go through player shields
+	protected bool tripsTraps; //some enemies are immune to traps
+	protected bool shieldPen; //and some go through player shields
 	
 	protected float highDropRate;
 	protected float medDropRate;
@@ -63,11 +60,6 @@ public class Enemy : MonoBehaviour,EventHandler {
 	protected Timer knockbackTimer;
 	
 	protected bool frozen = false;
-	
-	protected bool carried = false; //for knockback chaining
-	protected Enemy carrier = null;
-	protected List<Enemy> carryList = new List<Enemy>();
-	protected float carrySpacing = 0.08f;
 	
 	protected RectTransform rt;
 	
@@ -108,7 +100,6 @@ public class Enemy : MonoBehaviour,EventHandler {
 		//some scaling- could maybe be done through transform.scale, but I don't trust Unity to handle the collider
 		ScaleEnemy();
 		
-		timer.Restart ();
 		moving = true;
 		
 		//float angle = Mathf.Atan2(rt.anchoredPosition.y , rt.anchoredPosition.x);
@@ -135,8 +126,8 @@ public class Enemy : MonoBehaviour,EventHandler {
 		radius = (float)(double)data ["size"];
 		maxShields = (float)(double)data ["maxShields"];
 		shields = (float)(double)data ["shields"];
-        tripsTraps = (bool)data ["tripsTraps"];
-        shieldPen = (bool)data ["shieldPen"];
+		tripsTraps = (bool)data ["tripsTraps"];
+		shieldPen = (bool)data ["shieldPen"];
 		
 		rarityUpWithHits = (bool)data ["rarityUpWithHits"];
 		rareDropThreshold = (int)(long)data ["rareDropThreshold"];
@@ -162,82 +153,27 @@ public class Enemy : MonoBehaviour,EventHandler {
 		
 		//movement types
 		string moveString = (string)data["movementType"];
-		if(moveString.Equals("Linear")){
-			mover = new LinearMover(this);
+		/****/if(moveString.Equals("Linear")){
 		}else if(moveString.Equals("Linear_Right")){
-			mover = new LinearMover(this);
-			mover.PutInRightLane();
 		}else if(moveString.Equals("Linear_Left")){
-			mover = new LinearMover(this);
-			mover.PutInLeftLane();
 		}else if(moveString.Equals("Slowing_Linear")){
-			mover = new SlowingLinearMover(this);
 		}else if(moveString.Equals("Slowing_Linear_Right")){
-			mover = new SlowingLinearMover(this);
-			mover.PutInRightLane();
 		}else if(moveString.Equals("Slowing_Linear_Left")){
-			mover = new SlowingLinearMover(this);
-			mover.PutInLeftLane();
 		}else if(moveString.Equals ("Zigzag")){
-			mover = new ZigzagMover(this);
 		}else if(moveString.Equals ("Zigzag_Mirror")){
-			ZigzagMover zm = new ZigzagMover(this);
-			zm.Mirror();
-			mover = zm;
 		}else if(moveString.Equals ("Strafing")){
-			mover = new StrafingMover(this);
 		}else if(moveString.Equals ("Strafing_Mirror")){
-			StrafingMover sm = new StrafingMover(this);
-			sm.Mirror();
-			mover = sm;
 		}else if(moveString.Equals ("Sine")){
-			mover = new SineMover(this);
 		}else if(moveString.Equals ("Sine_Mirror")){
-			SineMover sm = new SineMover(this);
-			sm.Mirror();
-			mover = sm;
 		}else if(moveString.Equals ("Swerve_Left")){
-			mover = new SwerveMover(this);
 		}else if(moveString.Equals ("Swerve_Right")){
-			SwerveMover sm = new SwerveMover(this);
-			sm.Mirror();
-			mover = sm;
 		}else if(moveString.Equals ("Swerve_In_Left")){
-			SwerveMover sm = new SwerveMover(this);
-			sm.PutInRightLane();
-			mover = sm;
 		}else if(moveString.Equals ("Swerve_In_Right")){
-			SwerveMover sm = new SwerveMover(this);
-			sm.PutInLeftLane();
-			sm.Mirror();
-			mover = sm;
 		}else if(moveString.Equals ("Semicircle")){
-			mover = new SemicircleMover(this);
 		}else if(moveString.Equals ("Semicircle_Mirror")){
-			SemicircleMover sm = new SemicircleMover(this);
-			sm.Mirror();
-			mover = sm;
-		}else if(moveString.Equals ("Blink")){
-			mover = new BlinkMover(this);
-		}else if(moveString.Equals ("Blink_Mirror")){
-			BlinkMover bm = new BlinkMover(this);
-			bm.Mirror();
-			mover = bm;
-		}else if(moveString.Equals ("Wink")){
-			mover = new WinkMover(this);
-		}else if(moveString.Equals ("Wink_Mirror")){
-			WinkMover wm = new WinkMover(this);
-			wm.Mirror();
-			mover = wm;
 		}else if(moveString.Equals ("Sidestep")){
-			mover = new SidestepMover(this);
 		}else if(moveString.Equals ("Sidestep_Mirror")){
-			SidestepMover sm = new SidestepMover(this);
-			sm.Mirror();
-			mover = sm;
 		}
-		//do any lane overriding
-		mover.RightOffset(moverLaneOverride);
 	}
 	
 	
@@ -245,17 +181,12 @@ public class Enemy : MonoBehaviour,EventHandler {
 	public virtual void Update () {
 		//handle whether or not to update, pause stuff
 		moving = !Pause.paused;
-		if (lastPause != moving) {
-			timer.Restart();
-		}
 		if(frozen){
 			return;
 		}
-		//Debug.Log (moving + " " + lastPause);
-		lastPause = moving;
 		if (!moving)
 			return;
-			
+		
 		CheckShieldCollisions();
 		if(dead)
 			return;
@@ -284,80 +215,11 @@ public class Enemy : MonoBehaviour,EventHandler {
 		{
 			Die ();
 		}
-		if(carried){
-			DoTheMoving();
-			return;
-		}
-		if(carryList.Count > 0){
-			for(int i = 0; i < carryList.Count; i++){
-				Enemy e = carryList[i];
-				e.SetProgress(progress - ((i+1)*carrySpacing));
-			}
-		}
-		//make progress
-		float secsPassed = timer.TimeElapsedSecs ();
-		timer.Restart ();
-		float progressIncrement = secsPassed / impactTime;
-		//calculate progress increment and deal with speed effects
-		if(knockbackInProgress){
-			//Debug.Log ("knocking back");
-			if(knockbackTimer.TimeElapsedSecs() >= KNOCK_DURATION){//we're done knocking back, time to stop
-				knockbackInProgress = false;
-				if(knockChained){
-					DropEnemies();
-				}
-				knockChained = false;
-				
-				if(stunWaiting){
-					stunInProgress = true;
-					stunWaiting = false;
-					stunTimer.Restart();
-				}else if(slowWaiting){
-					slowInProgress = true;
-					slowWaiting = false;
-					slowTimer.Restart();
-				}
-			}else{
-				progressIncrement = -knockbackPower*KNOCK_CONSTANT;
-			}
-		}else if(stunInProgress){
-			if(stunTimer.TimeElapsedSecs() >= stunDuration){//done being stunned
-				stunInProgress = false;
-				if(slowWaiting){
-					slowInProgress = true;
-					slowWaiting = false;
-					slowTimer.Restart();
-				}
-			}else{
-				progressIncrement = 0;
-			}	
-		}else if(slowInProgress){
-			if(slowTimer.TimeElapsedSecs() >= slowDuration){
-				slowInProgress = false;
-			}else{
-				progressIncrement *= slowedSpeed;
-			}
-		}
-		//increment is calculated, so apply
-		progress += progressIncrement;
-		if(progress < 0)
-			progress = 0f;
-		
-		DoTheMoving();
 		
 		GameObject healthCircle = transform.FindChild("Health").gameObject;
 		healthCircle.transform.localScale = new Vector3 (hp / maxhp, hp / maxhp, 1);
 	}
-	public void DoTheMoving(){
-		Vector2 point = mover.PositionFromProgress(progress);
-		rt.anchoredPosition = new Vector2(point.x,point.y);
-		float distanceFromCenter = Mathf.Sqrt ((rt.anchoredPosition.x) * (rt.anchoredPosition.x) + (rt.anchoredPosition.y) * (rt.anchoredPosition.y));
-		if ( distanceFromCenter < DIAL_RADIUS ) {
-			GameEvent ge = new GameEvent("enemy_arrived");
-			ge.addArgument(transform.gameObject);
-			EventManager.Instance().RaiseEvent(ge);
-		}
-	}
+	
 	public void TakeDamage(float damage){
 		if(damage >= hp){
 			hp = 0;
@@ -366,10 +228,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 			hp -= damage;
 		}
 	}
-	public void HandleEvent(GameEvent ge){
-		//unpack shot location argument, check for collision, if it collided with you take damage from it
-		//actually never mind that, Unity has its own collision detection system!
-	}
+	public void HandleEvent(GameEvent ge){}
 	public void CheckShieldCollisions(){
 		if(shield == null){
 			//do nothing
@@ -396,10 +255,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 			return;
 		if(coll.gameObject.tag == "Enemy"){ //handled before anything that cares about shields
 			if(knockChained){
-				Enemy e = coll.GetComponent<Enemy>();
-				float progressGap = progress-e.GetProgress();
-				carrySpacing = progressGap;
-				CarryEnemy(e);
+				
 			}
 		}
 		if(shield != null){
@@ -445,7 +301,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 					{
 						//if (bc.timerElapsed)
 						//{
-							bc.Collide ();
+						bc.Collide ();
 						//}
 					}
 					
@@ -458,24 +314,24 @@ public class Enemy : MonoBehaviour,EventHandler {
 		}
 		else if (coll.gameObject.tag == "Trap") //if it's a trap
 		{
-            if (tripsTraps)
-            {
-                Trap tc = coll.gameObject.GetComponent<Trap>();
-                if (tc != null)
-                {
-                    if (tc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
-                    {
-                        tc.enemyHit = this.gameObject;
-                        //StartCoroutine (StatusEffectsTrap (tc));
-                        hp -= tc.dmg;
-                        tc.Collide();
-                        if (hp <= 0)
-                        {
-                            Die();
-                        }
-                    }
-                }
-            }
+			if (tripsTraps)
+			{
+				Trap tc = coll.gameObject.GetComponent<Trap>();
+				if (tc != null)
+				{
+					if (tc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
+					{
+						tc.enemyHit = this.gameObject;
+						//StartCoroutine (StatusEffectsTrap (tc));
+						hp -= tc.dmg;
+						tc.Collide();
+						if (hp <= 0)
+						{
+							Die();
+						}
+					}
+				}
+			}
 		}
 		else if (coll.gameObject.tag == "Shield") //if it's a shield
 		{
@@ -672,13 +528,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 	}
 	public float GetImpactTime(){
 		return impactTime;
-	}
-	public void SetProgress(float f){
-		progress = f;
-	}
-	public float GetProgress(){
-		return progress;
-	}
+ 	}
 	public void SetHP(float f){
 		hp = f;
 	}
@@ -863,26 +713,6 @@ public class Enemy : MonoBehaviour,EventHandler {
 	}
 	public void Unfreeze(){
 		frozen = false;
-		timer.Restart();
-	}
-	public void DropEnemies(){
-		foreach (Enemy e in carryList){
-			e.GetDropped();
-		}
-		carryList = new List<Enemy>();
-	}
-	public void GetDropped(){
-		carried = false;
-		carrier = null;
-		timer.Restart();
-	}
-	public void CarryEnemy(Enemy e){
-		e.GetCarried(this);
-		carryList.Add(e);
-	}
-	public void GetCarried(Enemy e){
-		carried = true;
-		carrier = e;
 	}
 	public void MakeBulkDrainTarget(){
 		beingShieldDrainedByBulk = true;
@@ -894,3 +724,4 @@ public class Enemy : MonoBehaviour,EventHandler {
 		return beingShieldDrainedByBulk;
 	}
 }
+
