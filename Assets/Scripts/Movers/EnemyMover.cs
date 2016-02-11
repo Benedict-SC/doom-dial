@@ -2,7 +2,7 @@
 
 public abstract class EnemyMover{
 
-	protected float radiansOffset = 0;
+	protected float radiansOffset = 0; //oh my god this is in degrees why did i call it that
 	public abstract Vector2 PositionFromProgress (float progress);
 
 	public float RealRadiansOfEnemy(EnemyController ec){ //returns angle of WHERE IT STARTED, not current angle
@@ -16,6 +16,7 @@ public abstract class EnemyMover{
 		float degrees = (ec.GetTrackID()-1)*60; //clockwise of y-axis
 		degrees += 15*ec.GetTrackLane(); //negative trackpos is left side, positive is right side, 0 is middle
 		degrees = ((360-degrees) + 90)%360; //convert to counterclockwise of x axis
+		degrees += radiansOffset;
 		degrees *= Mathf.Deg2Rad;
 		return degrees;
 	}

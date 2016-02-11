@@ -9,6 +9,8 @@ public class Blob : Enemy{
 	float blastDuration = 1.5f;
 	bool blowingUp = false;
 	
+	bool sittingThere = false;
+	
 	public override void Start(){
 		base.Start ();
 		blastTimer = new Timer();
@@ -20,9 +22,10 @@ public class Blob : Enemy{
 			return;
 		}
 		base.Update();
-		if(progress > 0.5f){
-			progress = 0.5f;
-			DoTheMoving();
+		
+		if(!sittingThere && progress > 0.5f){
+			sittingThere = true;
+			steering.allowedToMove = false;
 		}
 		
 		if(blowingUp){

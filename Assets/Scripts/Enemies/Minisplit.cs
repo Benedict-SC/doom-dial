@@ -15,10 +15,11 @@ public class Minisplit : Enemy{
 	
 	public override void Start(){
 		base.Start ();
-		snapTimer = new Timer();
+		//snapTimer = new Timer();
 	}
 	
 	public void SetPolarTarget(float thetaDegrees,float destinationRadius,Megasplit parent){
+		return;
 		rt = (RectTransform)transform;
 		startX = ((RectTransform)(parent.transform)).anchoredPosition.x;
 		startY = ((RectTransform)(parent.transform)).anchoredPosition.y;
@@ -40,7 +41,7 @@ public class Minisplit : Enemy{
 	}
 	
 	public override void Update(){
-		if(snapping){
+		/*if(snapping){
 			if(snapTimer.TimeElapsedSecs() > snapTime){
 				snapping = false;
 			}else{
@@ -51,7 +52,8 @@ public class Minisplit : Enemy{
 			}
 		}else{
 			base.Update();
-		}
+		}*/
+		base.Update ();
 	}
 	
 }

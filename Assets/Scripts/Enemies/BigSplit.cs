@@ -9,9 +9,9 @@ public class BigSplit : Enemy{
 	public bool justStarted = false;
 	public bool groupAddedToBonus = false;
 	
-	float bounceDist;
+	/*float bounceDist;
 	float traveled = 0f;
-	bool bouncing;
+	bool bouncing;*/
 	
 	public bool imtheleftone = false;
 	public bool talktome = false;
@@ -47,26 +47,28 @@ public class BigSplit : Enemy{
 		}else{
 			//Debug.Log (size + " is size and hp is " + hp);
 		}
-		if(bouncing){
+		/*if(bouncing){
 			float increment = bounceDist/7f;
 			if(traveled/bounceDist < .5f){
 				traveled += increment;
-				mover.RightOffset(increment);
+				path.SetAngle(path.GetAngle()+increment);
+				//mover.RightOffset(increment);
 			}else if(traveled/bounceDist < .8f){
 				traveled += increment/2f;
-				mover.RightOffset(increment/2f);
+				path.SetAngle(path.GetAngle()+(increment/2f));
+				//mover.RightOffset(increment/2f);
 			}else{
 				traveled += increment/4f;
-				mover.RightOffset(increment/4f);
+				path.SetAngle(path.GetAngle()+(increment/4f));
 			}
 			if(Mathf.Abs(traveled) > Mathf.Abs(bounceDist)){
 				float correction = traveled - bounceDist;
-				mover.LeftOffset(correction);
+				path.SetAngle(path.GetAngle()-correction);
 				bouncing = false;
 				traveled = 0;
 			}
 			
-		}
+		}*/
 	}
 	public void Split(){
 		//Debug.Log ("we should be splitting");
@@ -87,8 +89,8 @@ public class BigSplit : Enemy{
 		if(size == 3){
 			split.SetSrcFileName("bigsplit2");
 			split2.SetSrcFileName("bigsplit2");
-			split.SetTrackLane(0);
-			split2.SetTrackLane(0);
+			split.SetTrackLane(1);
+			split2.SetTrackLane(-1);
 		}
 		split.InitializePartnersForSomeReason();
 		split2.InitializePartnersForSomeReason();
@@ -106,8 +108,10 @@ public class BigSplit : Enemy{
 		split.AddPartner(split2);
 		split2.AddPartner(split);
 		
-		split.SetProgress(progress);
-		split2.SetProgress(progress);	
+		//split.SetProgress(progress);
+		//split2.SetProgress(progress);
+		split.GetComponent<RectTransform>().anchoredPosition = rt.anchoredPosition;
+		split2.GetComponent<RectTransform>().anchoredPosition = rt.anchoredPosition;
 		split.SetTrackID(trackID);
 		split2.SetTrackID(trackID);
 		split.spawnedByBoss = spawnedByBoss;
@@ -123,8 +127,8 @@ public class BigSplit : Enemy{
 		split2.StartMoving();
 		split.justStarted = true;
 		split2.justStarted = true;
-		split.Bounce (true);
-		split2.Bounce (false);
+		//split.Bounce (true);
+		//split2.Bounce (false);
 		
 		PlayDead();
 	}
@@ -147,7 +151,7 @@ public class BigSplit : Enemy{
 			}
 		}
 	}
-	public void Bounce(bool left){
+	/*public void Bounce(bool left){
 		bouncing = true;
 		if(size == 2){
 			if(left){
@@ -165,7 +169,7 @@ public class BigSplit : Enemy{
 				bounceDist = -5f;
 			}
 		}
-	}
+	}*/
 	
 	public override void Die(){
 		dead = true;
@@ -190,6 +194,7 @@ public class BigSplit : Enemy{
 		playingDead = true;
 		gameObject.GetComponent<Image>().enabled = false;
 		transform.FindChild("Health").GetComponent<Image>().enabled = false;
+		Destroy (GetComponent<Collider2D>());
 	}
 	public void RealDie(){
 		RectTransform rt = (RectTransform)transform;

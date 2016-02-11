@@ -15,6 +15,7 @@ public class TipOfTheSpear : Enemy{
 	bool doneSpawning = false;
 	float batch1;
 	float batch2;
+	Vector2 originalSpot = Vector2.zero;
 	
 	public bool groupAddedToBonus = false;
 	
@@ -22,6 +23,7 @@ public class TipOfTheSpear : Enemy{
 		base.Start();
 		partnerSpawn = new Timer();
 		partnerSpawn.Restart();
+		originalSpot = rt.anchoredPosition;
 	}
 	public override void Update(){
 		if (!moving){
@@ -47,7 +49,7 @@ public class TipOfTheSpear : Enemy{
 				TipOfTheSpear minion = enemyspawn.AddComponent<TipOfTheSpear>() as TipOfTheSpear;
 				enemyspawn.transform.SetParent(Dial.spawnLayer,false);
 				RectTransform ert = enemyspawn.GetComponent<RectTransform>();
-				ert.anchoredPosition = new Vector2(0f,300f);
+				ert.anchoredPosition = originalSpot;
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.SetSrcFileName("tipofthespear");
 				minion.SetTrackID(trackID);
@@ -76,7 +78,7 @@ public class TipOfTheSpear : Enemy{
 				TipOfTheSpear minion = enemyspawn.AddComponent<TipOfTheSpear>() as TipOfTheSpear;
 				enemyspawn.transform.SetParent(Dial.spawnLayer,false);
 				RectTransform ert = enemyspawn.GetComponent<RectTransform>();
-				ert.anchoredPosition = new Vector2(0f,300f);
+				ert.anchoredPosition = originalSpot;
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.SetSrcFileName("tipofthespear");
 				minion.SetTrackID(trackID);
@@ -153,6 +155,7 @@ public class TipOfTheSpear : Enemy{
 		playingDead = true;
 		gameObject.GetComponent<Image>().enabled = false;
 		transform.FindChild("Health").GetComponent<Image>().enabled = false;
+		Destroy (GetComponent<Collider2D>());
 	}
 	public void RealDie(){
 		RectTransform rt = (RectTransform)transform;

@@ -9,9 +9,9 @@ public class Splitter : Enemy{
 	public bool justStarted = false;
 	public bool groupAddedToBonus = false;
 	
-	float bounceDist;
-	float traveled = 0f;
-	bool bouncing;
+	//float bounceDist;
+	//float traveled = 0f;
+	//bool bouncing;
 	
 	public bool imtheleftone = false;
 	public bool talktome = false;
@@ -45,26 +45,26 @@ public class Splitter : Enemy{
 		if(size > 1 && hp/maxhp < 0.5f){
 			Split ();
 		}
-		if(bouncing){
+		/*if(bouncing){
 			float increment = bounceDist/7f;
 			if(traveled/bounceDist < .5f){
 				traveled += increment;
-				mover.RightOffset(increment);
+				path.SetAngle(path.GetAngle()+(increment));
 			}else if(traveled/bounceDist < .8f){
 				traveled += increment/2f;
-				mover.RightOffset(increment/2f);
+				path.SetAngle(path.GetAngle()+(increment/2f));
 			}else{
 				traveled += increment/4f;
-				mover.RightOffset(increment/4f);
+				path.SetAngle(path.GetAngle()+(increment/4f));
 			}
 			if(Mathf.Abs(traveled) > Mathf.Abs(bounceDist)){
 				float correction = traveled - bounceDist;
-				mover.LeftOffset(correction);
+				path.SetAngle(path.GetAngle()-correction);
 				bouncing = false;
 				traveled = 0;
 			}
 				
-		}
+		}*/
 	}
 	public void Split(){
 		GameObject enemyspawn1 = GameObject.Instantiate (Resources.Load ("Prefabs/MainCanvas/Enemy")) as GameObject;
@@ -84,16 +84,21 @@ public class Splitter : Enemy{
 		if(size == 3){
 			split.SetSrcFileName("splitter2");
 			split2.SetSrcFileName("splitter2");
-			split.SetTrackLane(0);
-			split2.SetTrackLane(0);
+			split.SetTrackLane(1);
+			split2.SetTrackLane(-1);
+			split.imtheleftone = true;
 		}else if(size == 2){
 			split.SetSrcFileName("splitter3");
 			if(imtheleftone){
 				split.SetTrackLane(1);
-				split2.SetTrackLane(1);
+				split2.SetTrackLane(0);
+				split2.OverrideMoverLane(-2f);
+				split.imtheleftone = true;
 			}else{
-				split.SetTrackLane(-1);
+				split.SetTrackLane(0);
 				split2.SetTrackLane(-1);
+				split.OverrideMoverLane(2f);
+				split.imtheleftone = true;
 			}
 			split2.SetSrcFileName("splitter3");
 		}
@@ -113,8 +118,8 @@ public class Splitter : Enemy{
 		split.AddPartner(split2);
 		split2.AddPartner(split);
 		
-		split.SetProgress(progress);
-		split2.SetProgress(progress);	
+		//split.SetProgress(progress);
+		//split2.SetProgress(progress);	
 		split.SetTrackID(trackID);
 		split2.SetTrackID(trackID);
 		
@@ -122,13 +127,14 @@ public class Splitter : Enemy{
 			split.talktome = true;
 			split2.talktome = true;
 		}*/
-		
+		split.GetComponent<RectTransform>().anchoredPosition = rt.anchoredPosition;
+		split2.GetComponent<RectTransform>().anchoredPosition = rt.anchoredPosition;
 		split.StartMoving();
 		split2.StartMoving();
 		split.justStarted = true;
 		split2.justStarted = true;
-		split.Bounce (true);
-		split2.Bounce (false);
+		//split.Bounce (true);
+		//split2.Bounce (false);
 		
 		PlayDead();
 	}
@@ -151,7 +157,7 @@ public class Splitter : Enemy{
 			}
 		}
 	}
-	public void Bounce(bool left){
+	/*public void Bounce(bool left){
 		bouncing = true;
 		if(size == 2){
 			if(left){
@@ -169,7 +175,7 @@ public class Splitter : Enemy{
 				bounceDist = -5f;
 			}
 		}
-	}
+	}*/
 
 	public override void Die(){
 		dead = true;
@@ -194,6 +200,7 @@ public class Splitter : Enemy{
 		playingDead = true;
 		gameObject.GetComponent<Image>().enabled = false;
 		transform.FindChild("Health").GetComponent<Image>().enabled = false;
+		Destroy (GetComponent<Collider2D>());
 	}
 	public void RealDie(){
 		RectTransform rt = (RectTransform)transform;

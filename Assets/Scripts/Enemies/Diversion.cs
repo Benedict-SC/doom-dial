@@ -50,8 +50,6 @@ public class Diversion : Enemy{
 				Destroy (enemyspawn.GetComponent<Enemy>());
 				DiversionMinion minion = enemyspawn.AddComponent<DiversionMinion>() as DiversionMinion;
 				enemyspawn.transform.SetParent(Dial.spawnLayer,false);
-				RectTransform ert = enemyspawn.GetComponent<RectTransform>();
-				ert.anchoredPosition = new Vector2(0f,300f);
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.leader = this;
 				minion.SetSrcFileName("diversionminion");
@@ -72,6 +70,7 @@ public class Diversion : Enemy{
 					dm.AddFollower(minion);
 					minion.AddFollower(dm);
 				}
+				minion.SetPositionBasedOnAngle();
 				minion.StartMoving();
 			}
 			spawnsDone[0] = true;
@@ -83,8 +82,6 @@ public class Diversion : Enemy{
 				Destroy (enemyspawn.GetComponent<Enemy>());
 				DiversionMinion minion = enemyspawn.AddComponent<DiversionMinion>() as DiversionMinion;
 				enemyspawn.transform.SetParent(Dial.spawnLayer,false);
-				RectTransform ert = enemyspawn.GetComponent<RectTransform>();
-				ert.anchoredPosition = new Vector2(0f,300f);
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.leader = this;
 				minion.SetSrcFileName("diversionminion");
@@ -103,6 +100,7 @@ public class Diversion : Enemy{
 					dm.AddFollower(minion);
 					minion.AddFollower(dm);
 				}
+				minion.SetPositionBasedOnAngle();
 				minion.StartMoving();
 			}
 			spawnsDone[1] = true;
@@ -115,8 +113,6 @@ public class Diversion : Enemy{
 				Destroy (enemyspawn.GetComponent<Enemy>());
 				DiversionMinion minion = enemyspawn.AddComponent<DiversionMinion>() as DiversionMinion;
 				enemyspawn.transform.SetParent(Dial.spawnLayer,false);
-				RectTransform ert = enemyspawn.GetComponent<RectTransform>();
-				ert.anchoredPosition = new Vector2(0f,300f);
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.leader = this;
 				minion.SetSrcFileName("diversionminion");
@@ -133,6 +129,7 @@ public class Diversion : Enemy{
 					dm.AddFollower(minion);
 					minion.AddFollower(dm);
 				}
+				minion.SetPositionBasedOnAngle();
 				minion.StartMoving();
 			}
 			spawnsDone[2] = true;
@@ -144,8 +141,6 @@ public class Diversion : Enemy{
 			Destroy (enemyspawn.GetComponent<Enemy>());
 			DiversionMinion minion = enemyspawn.AddComponent<DiversionMinion>() as DiversionMinion;
 			enemyspawn.transform.SetParent(Dial.spawnLayer,false);
-			RectTransform ert = enemyspawn.GetComponent<RectTransform>();
-			ert.anchoredPosition = new Vector2(0f,300f);
 			minion.numberOfFollowers = numberOfFollowers;
 			minion.leader = this;
 			minion.SetSrcFileName("diversionminion");
@@ -159,6 +154,7 @@ public class Diversion : Enemy{
 				dm.AddFollower(minion);
 				minion.AddFollower(dm);
 			}
+			minion.SetPositionBasedOnAngle();
 			minion.StartMoving();
 			
 			spawnsDone[3] = true;
@@ -220,6 +216,7 @@ public class Diversion : Enemy{
 		playingDead = true;
 		gameObject.GetComponent<Image>().enabled = false;
 		transform.FindChild("Health").GetComponent<Image>().enabled = false;
+		Destroy (GetComponent<Collider2D>());
 	}
 	public void RealDie(){
 		RectTransform rt = (RectTransform)transform;

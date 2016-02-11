@@ -6,11 +6,14 @@ using System.Collections.Generic;
 using System.IO;
 using MiniJSON;
 
-public class AIEnemy : MonoBehaviour,EventHandler {
+public class Enemy : MonoBehaviour,EventHandler {
 	
 	public readonly float DIAL_RADIUS = 52.1f; //hard coded to avoid constantly querying dial
 	//if dial size ever needs to change, replace references to this with calls to a getter
 	public static readonly float NORMALNESS_RANGE = 2.0f;//constant for determining if an enemy is "slow" or "fast" - ***balance later
+	public static readonly float NORMAL_SPEED = .2f;
+	public static readonly float NORMAL_IMPACT_TIME = 25f;
+	public static readonly float FRAMES_FROM_ZERO_TO_MAX = 3f;
 	public static readonly float KNOCK_CONSTANT = 0.03f;// constant for knockback per update - ***balance this at some point!
 	public static readonly float KNOCK_DURATION = 0.75f;// constant for knockback time
 	public readonly float ENEMY_SCALE = 35f;
@@ -28,11 +31,10 @@ public class AIEnemy : MonoBehaviour,EventHandler {
 	
 	public bool spawnedByBoss = false;
 	
-	//float ySpeed;
-	//float xSpeed;
-	
 	public bool moving = false;
 	protected float moverLaneOverride = 0f;
+	protected string moverType = "Linear";
+	protected AIPath path;
 	
 	protected float timesShot = 0.0f;
 	
@@ -62,10 +64,21 @@ public class AIEnemy : MonoBehaviour,EventHandler {
 	protected bool frozen = false;
 	
 	protected RectTransform rt;
+	protected Steering steering;
 	
 	protected EnemyShield shield = null;
 	protected bool beingShieldDrainedByBulk = false;
 	protected bool dead = false; //WE NEED THIS APPARENTLY???
+	
+	protected float progress //being sneaky with C# properties to avoid breaking progress-dependent code in stuff
+	{
+		get { 	float dist = rt.anchoredPosition.magnitude;
+				dist -= Dial.DIAL_RADIUS; //is now distance from dial, not center
+				float prog = Dial.TRACK_LENGTH - dist;
+				return prog/Dial.TRACK_LENGTH;
+			}
+		set { return; }//no setting progress directly
+	}
 	
 	//ability?
 	//weakness?
@@ -94,9 +107,51 @@ public class AIEnemy : MonoBehaviour,EventHandler {
 		//Debug.Log ("enemy radius is " + radius);
 		
 	}
-	public void StartMoving(){
-		ConfigureEnemy (); 
+	public void SetPositionBasedOnAngle(){
+		float trackangle = GetStartingTrackAngle();
+		trackangle -= trackLane*15f;
+		trackangle += moverLaneOverride;
+		trackangle += 90f; //correct for math
+		trackangle *= Mathf.Deg2Rad;
+		Vector2 pos = Dial.ENEMY_SPAWN_LENGTH * new Vector2(Mathf.Cos (trackangle),Mathf.Sin(trackangle));
+		if(rt == null)
+			rt = GetComponent<RectTransform>();
+		rt.anchoredPosition = pos;
+	}
+	public void SetPositionBasedOnProgress(float fakeprog){
+		float trackangle = GetStartingTrackAngle();
+		trackangle -= trackLane*15f;
+		trackangle += moverLaneOverride;
+		trackangle += 90f; //correct for math
+		trackangle *= Mathf.Deg2Rad;
 		
+		float fakeprogressdist = Dial.DIAL_RADIUS + (Dial.TRACK_LENGTH - (fakeprog*Dial.TRACK_LENGTH));
+		
+		Vector2 pos = fakeprogressdist * new Vector2(Mathf.Cos (trackangle),Mathf.Sin(trackangle));
+		if(rt == null)
+			rt = GetComponent<RectTransform>();
+		rt.anchoredPosition = pos;
+	}
+	public void StartMoving(){
+		//Debug.Log ("start moving called on " + this.ToString());
+		ConfigureEnemy (); 
+		steering = gameObject.AddComponent<Steering>() as Steering;
+		steering.enemy = this;
+		float speedMult = 1f/(impactTime/NORMAL_IMPACT_TIME);
+		steering.maxSpeed = speedMult * NORMAL_SPEED;
+		steering.maxAccel = steering.maxSpeed/FRAMES_FROM_ZERO_TO_MAX;
+		path = AIPath.CreatePathFromJSONFilename(moverType);
+		path.SetDialDimensions(Dial.spawnLayer.anchoredPosition,Dial.FULL_LENGTH);
+		path.SetAngle(GetStartingTrackAngle() + (-trackLane*15f) + moverLaneOverride);
+		steering.StartFollowingPath(path);
+		/*List<Vector2> pathlist = path.GetPathAsListOfVectors();
+		foreach(Vector2 node in pathlist){ //path visualization
+			GameObject dot = new GameObject();
+			Image dimg = dot.AddComponent<Image>() as Image;
+			dot.transform.SetParent(Dial.unmaskedLayer,false);
+			dot.GetComponent<RectTransform>().sizeDelta = new Vector2(5f,5f);
+			dot.GetComponent<RectTransform>().anchoredPosition = node;
+		}*/
 		//some scaling- could maybe be done through transform.scale, but I don't trust Unity to handle the collider
 		ScaleEnemy();
 		
@@ -152,28 +207,8 @@ public class AIEnemy : MonoBehaviour,EventHandler {
 		}
 		
 		//movement types
-		string moveString = (string)data["movementType"];
-		/****/if(moveString.Equals("Linear")){
-		}else if(moveString.Equals("Linear_Right")){
-		}else if(moveString.Equals("Linear_Left")){
-		}else if(moveString.Equals("Slowing_Linear")){
-		}else if(moveString.Equals("Slowing_Linear_Right")){
-		}else if(moveString.Equals("Slowing_Linear_Left")){
-		}else if(moveString.Equals ("Zigzag")){
-		}else if(moveString.Equals ("Zigzag_Mirror")){
-		}else if(moveString.Equals ("Strafing")){
-		}else if(moveString.Equals ("Strafing_Mirror")){
-		}else if(moveString.Equals ("Sine")){
-		}else if(moveString.Equals ("Sine_Mirror")){
-		}else if(moveString.Equals ("Swerve_Left")){
-		}else if(moveString.Equals ("Swerve_Right")){
-		}else if(moveString.Equals ("Swerve_In_Left")){
-		}else if(moveString.Equals ("Swerve_In_Right")){
-		}else if(moveString.Equals ("Semicircle")){
-		}else if(moveString.Equals ("Semicircle_Mirror")){
-		}else if(moveString.Equals ("Sidestep")){
-		}else if(moveString.Equals ("Sidestep_Mirror")){
-		}
+		moverType = (string)data["movementType"];
+		
 	}
 	
 	
@@ -210,6 +245,9 @@ public class AIEnemy : MonoBehaviour,EventHandler {
 				RefreshSlow();
 			}	
 		}
+		//movement
+		
+		
 		
 		if (hp <= 0.0f)
 		{
@@ -279,14 +317,15 @@ public class AIEnemy : MonoBehaviour,EventHandler {
 		//Debug.Log ("!!! we made it through to our own collision");
 		if (coll.gameObject.tag == "Bullet") //if it's a bullet
 		{
+			Debug.Log ("we got hit by a bullet");
 			Bullet bc = coll.gameObject.GetComponent<Bullet> ();
 			if (bc != null) {
 				if (bc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
 				{
-					//dude, the timer on split bullets is to keep it from colliding with itself, not enemies
-					
+					Debug.Log ("bullet was active");
 					if (bc.isSplitBullet && bc.timerElapsed || !bc.isSplitBullet)
 					{
+						Debug.Log ("all the split stuff went through");
 						bc.enemyHit = this.gameObject;
 						GetStatused(bc);
 						//StartCoroutine (StatusEffectsBullet (bc));
@@ -511,6 +550,22 @@ public class AIEnemy : MonoBehaviour,EventHandler {
 			return 0;
 		}
 	}
+	public float GetStartingTrackAngle(){
+		if(trackID == 1){
+			return 0f;
+		}else if(trackID == 2){
+			return 300f;
+		}else if(trackID == 3){
+			return 240f;
+		}else if(trackID == 4){
+			return 180f;
+		}else if(trackID == 5){
+			return 120f;
+		}else if(trackID == 6){
+			return 60f;
+		}else
+			return 0f;
+	}
 	public void SetTrackLane(int lane){
 		trackLane = lane;
 	}
@@ -528,6 +583,13 @@ public class AIEnemy : MonoBehaviour,EventHandler {
 	}
 	public float GetImpactTime(){
 		return impactTime;
+ 	}
+ 	public float GetProgress(){
+ 		return progress;
+ 	}
+ 	public void SetProgress(float prog){
+ 		Debug.Log("THIS CHUCKLEFUCK'S TRYING TO SET PROGRESS EVEN THOUGH THAT DOESN'T EXIST");
+ 		return;
  	}
 	public void SetHP(float f){
 		hp = f;
@@ -713,6 +775,9 @@ public class AIEnemy : MonoBehaviour,EventHandler {
 	}
 	public void Unfreeze(){
 		frozen = false;
+	}
+	public bool IsFrozen(){
+		return frozen;
 	}
 	public void MakeBulkDrainTarget(){
 		beingShieldDrainedByBulk = true;

@@ -54,8 +54,6 @@ public class MeatShield : Enemy{
 				Destroy (enemyspawn.GetComponent<Enemy>());
 				MeatShield minion = enemyspawn.AddComponent<MeatShield>() as MeatShield;
 				enemyspawn.transform.SetParent(Dial.spawnLayer,false);
-				RectTransform ert = enemyspawn.GetComponent<RectTransform>();
-				ert.anchoredPosition = new Vector2(0f,300f);
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.SetSrcFileName("meatshieldsmall");
 				minion.SetTrackID(trackID);
@@ -71,6 +69,7 @@ public class MeatShield : Enemy{
 					ms.AddPartner(minion);
 					minion.AddPartner(ms);
 				}
+				minion.SetPositionBasedOnAngle();
 				minion.StartMoving();
 			}
 			spawnsDone[0] = true;
@@ -82,8 +81,6 @@ public class MeatShield : Enemy{
 				Destroy (enemyspawn.GetComponent<Enemy>());
 				MeatShield minion = enemyspawn.AddComponent<MeatShield>() as MeatShield;
 				enemyspawn.transform.SetParent(Dial.spawnLayer,false);
-				RectTransform ert = enemyspawn.GetComponent<RectTransform>();
-				ert.anchoredPosition = new Vector2(0f,300f);
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.SetSrcFileName("meatshieldsmall");
 				minion.SetTrackID(trackID);
@@ -97,6 +94,7 @@ public class MeatShield : Enemy{
 					ms.AddPartner(minion);
 					minion.AddPartner(ms);
 				}
+				minion.SetPositionBasedOnAngle();
 				minion.StartMoving();
 			}
 			spawnsDone[1] = true;
@@ -108,8 +106,6 @@ public class MeatShield : Enemy{
 				Destroy (enemyspawn.GetComponent<Enemy>());
 				MeatShield minion = enemyspawn.AddComponent<MeatShield>() as MeatShield;
 				enemyspawn.transform.SetParent(Dial.spawnLayer,false);
-				RectTransform ert = enemyspawn.GetComponent<RectTransform>();
-				ert.anchoredPosition = new Vector2(0f,300f);
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.SetSrcFileName("meatshieldsmall");
 				minion.SetTrackID(trackID);
@@ -125,6 +121,7 @@ public class MeatShield : Enemy{
 					ms.AddPartner(minion);
 					minion.AddPartner(ms);
 				}
+				minion.SetPositionBasedOnAngle();
 				minion.StartMoving();
 			}
 			spawnsDone[2] = true;
@@ -136,8 +133,6 @@ public class MeatShield : Enemy{
 				Destroy (enemyspawn.GetComponent<Enemy>());
 				MeatShield minion = enemyspawn.AddComponent<MeatShield>() as MeatShield;
 				enemyspawn.transform.SetParent(Dial.spawnLayer,false);
-				RectTransform ert = enemyspawn.GetComponent<RectTransform>();
-				ert.anchoredPosition = new Vector2(0f,300f);
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.SetSrcFileName("meatshieldsmall");
 				minion.SetTrackID(trackID);
@@ -151,6 +146,7 @@ public class MeatShield : Enemy{
 					ms.AddPartner(minion);
 					minion.AddPartner(ms);
 				}
+				minion.SetPositionBasedOnAngle();
 				minion.StartMoving();
 			}
 			spawnsDone[3] = true;
@@ -162,8 +158,6 @@ public class MeatShield : Enemy{
 				Destroy (enemyspawn.GetComponent<Enemy>());
 				MeatShield minion = enemyspawn.AddComponent<MeatShield>() as MeatShield;
 				enemyspawn.transform.SetParent(Dial.spawnLayer,false);
-				RectTransform ert = enemyspawn.GetComponent<RectTransform>();
-				ert.anchoredPosition = new Vector2(0f,300f);
 				minion.numberOfFollowers = numberOfFollowers;
 				minion.SetSrcFileName("meatshieldbig");
 				minion.SetTrackID(trackID);
@@ -177,6 +171,7 @@ public class MeatShield : Enemy{
 					ms.AddPartner(minion);
 					minion.AddPartner(ms);
 				}
+				minion.SetPositionBasedOnAngle();
 				minion.StartMoving();
 			}
 			
@@ -241,6 +236,7 @@ public class MeatShield : Enemy{
 		playingDead = true;
 		gameObject.GetComponent<Image>().enabled = false;
 		transform.FindChild("Health").GetComponent<Image>().enabled = false;
+		Destroy (GetComponent<Collider2D>());
 	}
 	public void RealDie(){
 		RectTransform rt = (RectTransform)transform;

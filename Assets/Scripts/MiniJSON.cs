@@ -521,6 +521,28 @@ namespace MiniJSON {
 			}
 			
 			void SerializeOther(object value) {
+				if (value is int
+				    || value is uint
+				    || value is long
+				    || value is sbyte
+				    || value is byte
+				    || value is short
+				    || value is ushort
+				    || value is ulong) {
+					builder.Append(value.ToString());
+				}
+				else if (value is float
+				         || value is double
+				         || value is decimal)
+				{
+					builder.Append(string.Format("{0:F}", value));
+				}
+				else {
+					SerializeString(value.ToString());
+				}
+			}
+			/* old version that messed up whole number floats
+			void SerializeOther(object value) {
 				// NOTE: decimals lose precision during serialization.
 				// They always have, I'm just letting you know.
 				// Previously floats and doubles lost precision too.
@@ -541,7 +563,7 @@ namespace MiniJSON {
 				} else {
 					SerializeString(value.ToString());
 				}
-			}
+			}*/
 		}
 	}
 }

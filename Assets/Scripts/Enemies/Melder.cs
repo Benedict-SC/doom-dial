@@ -103,7 +103,7 @@ public class Melder : Enemy{
 		wall2.SetTrackLane(1);
 		
 		//calculate and set positions
-		float degrees1 = (trackID-1)*60; //clockwise of y-axis
+		/*float degrees1 = (trackID-1)*60; //clockwise of y-axis
 		degrees1 += 15*wall.GetTrackLane(); //negative trackpos is left side, positive is right side, 0 is middle
 		degrees1 = ((360-degrees1) + 90)%360; //convert to counterclockwise of x axis
 		degrees1 *= Mathf.Deg2Rad;
@@ -114,7 +114,9 @@ public class Melder : Enemy{
 		degrees2 = ((360-degrees2) + 90)%360; //convert to counterclockwise of x axis
 		degrees2 *= Mathf.Deg2Rad;
 		enemyspawn2.transform.position = new Vector3(Dial.ENEMY_SPAWN_LENGTH*Mathf.Cos(degrees2),Dial.ENEMY_SPAWN_LENGTH*Mathf.Sin(degrees2),0);
-		
+		*/
+		wall.SetPositionBasedOnAngle();
+		wall2.SetPositionBasedOnAngle();
 		wall.StartMoving();
 		wall2.StartMoving();
 	}
@@ -161,6 +163,7 @@ public class Melder : Enemy{
 		playingDead = true;
 		gameObject.GetComponent<Image>().enabled = false;
 		transform.FindChild("Health").GetComponent<Image>().enabled = false;
+		Destroy (GetComponent<Collider2D>());
 	}
 	public void RealDie(){
 		RectTransform rt = (RectTransform)transform;
@@ -234,12 +237,14 @@ public class Melder : Enemy{
 		mini.SetTrackLane(trackLane);
 		
 		//calculate and set position
-		float degrees = (trackID-1)*60; //clockwise of y-axis
+		/*float degrees = (trackID-1)*60; //clockwise of y-axis
 		degrees += 15*trackLane; //negative trackpos is left side, positive is right side, 0 is middle
 		degrees = ((360-degrees) + 90)%360; //convert to counterclockwise of x axis
 		degrees *= Mathf.Deg2Rad;
 		enemyspawn.transform.position = new Vector3(Dial.ENEMY_SPAWN_LENGTH*Mathf.Cos(degrees),Dial.ENEMY_SPAWN_LENGTH*Mathf.Sin(degrees),0);
-		
+		*/
+		//give super unit correct progress
+		mini.SetPositionBasedOnProgress(centerProg);
 		mini.StartMoving();
 		
 		//damage super unit according to thing
@@ -248,8 +253,7 @@ public class Melder : Enemy{
 			damage += (m.GetMaxHP() - m.GetHP());
 		}
 		mini.TakeDamage(damage);
-		//give super unit correct progress
-		mini.SetProgress(centerProg);
+		
 		
 		//kill everyone
 		foreach(Melder m in partners){

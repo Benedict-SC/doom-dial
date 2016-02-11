@@ -39,13 +39,14 @@ public class Megasplit : Enemy{
 		mini.OverrideMoverLane(theta);
 		
 		//calculate and set position
-		float degrees = (trackID-1)*60; //clockwise of y-axis
+		/*float degrees = (trackID-1)*60; //clockwise of y-axis
 		degrees += 15*trackLane; //negative trackpos is left side, positive is right side, 0 is middle
 		degrees = ((360-degrees) + 90)%360; //convert to counterclockwise of x axis
 		degrees *= Mathf.Deg2Rad;
 		enemyspawn.transform.position = new Vector3(Dial.ENEMY_SPAWN_LENGTH*Mathf.Cos(degrees),Dial.ENEMY_SPAWN_LENGTH*Mathf.Sin(degrees),0);
 		
-		mini.SetProgress(progress);
+		mini.SetProgress(progress);*/
+		mini.GetComponent<RectTransform>().anchoredPosition = rt.anchoredPosition;
 		mini.StartMoving();
 		
 		mini.SetPolarTarget(theta,spawnRadius,this);

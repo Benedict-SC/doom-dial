@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using MiniJSON;
 
-public class Enemy : MonoBehaviour,EventHandler {
+public class OldEnemy : MonoBehaviour,EventHandler {
 	
 	public readonly float DIAL_RADIUS = 52.1f; //hard coded to avoid constantly querying dial
 	//if dial size ever needs to change, replace references to this with calls to a getter
@@ -44,8 +44,8 @@ public class Enemy : MonoBehaviour,EventHandler {
 	protected float radius;
 	protected float maxShields;
 	protected float shields;
-    protected bool tripsTraps; //some enemies are immune to traps
-    protected bool shieldPen; //and some go through player shields
+	protected bool tripsTraps; //some enemies are immune to traps
+	protected bool shieldPen; //and some go through player shields
 	
 	protected float highDropRate;
 	protected float medDropRate;
@@ -135,8 +135,8 @@ public class Enemy : MonoBehaviour,EventHandler {
 		radius = (float)(double)data ["size"];
 		maxShields = (float)(double)data ["maxShields"];
 		shields = (float)(double)data ["shields"];
-        tripsTraps = (bool)data ["tripsTraps"];
-        shieldPen = (bool)data ["shieldPen"];
+		tripsTraps = (bool)data ["tripsTraps"];
+		shieldPen = (bool)data ["shieldPen"];
 		
 		rarityUpWithHits = (bool)data ["rarityUpWithHits"];
 		rareDropThreshold = (int)(long)data ["rareDropThreshold"];
@@ -162,7 +162,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 		
 		//movement types
 		string moveString = (string)data["movementType"];
-		if(moveString.Equals("Linear")){
+		/*if(moveString.Equals("Linear")){
 			mover = new LinearMover(this);
 		}else if(moveString.Equals("Linear_Right")){
 			mover = new LinearMover(this);
@@ -237,7 +237,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 			mover = sm;
 		}
 		//do any lane overriding
-		mover.RightOffset(moverLaneOverride);
+		mover.RightOffset(moverLaneOverride);*/
 	}
 	
 	
@@ -255,7 +255,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 		lastPause = moving;
 		if (!moving)
 			return;
-			
+		
 		CheckShieldCollisions();
 		if(dead)
 			return;
@@ -303,9 +303,9 @@ public class Enemy : MonoBehaviour,EventHandler {
 			//Debug.Log ("knocking back");
 			if(knockbackTimer.TimeElapsedSecs() >= KNOCK_DURATION){//we're done knocking back, time to stop
 				knockbackInProgress = false;
-				if(knockChained){
+				/*if(knockChained){
 					DropEnemies();
-				}
+				}*/
 				knockChained = false;
 				
 				if(stunWaiting){
@@ -394,14 +394,14 @@ public class Enemy : MonoBehaviour,EventHandler {
 	public virtual void OnTriggerEnter2D(Collider2D coll){
 		if(frozen)
 			return;
-		if(coll.gameObject.tag == "Enemy"){ //handled before anything that cares about shields
+		/*if(coll.gameObject.tag == "Enemy"){ //handled before anything that cares about shields
 			if(knockChained){
 				Enemy e = coll.GetComponent<Enemy>();
 				float progressGap = progress-e.GetProgress();
 				carrySpacing = progressGap;
 				CarryEnemy(e);
 			}
-		}
+		}*/
 		if(shield != null){
 			if(shield.hitThisFrame)//the shield handled collision for us this time
 				return;
@@ -445,7 +445,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 					{
 						//if (bc.timerElapsed)
 						//{
-							bc.Collide ();
+						bc.Collide ();
 						//}
 					}
 					
@@ -458,24 +458,24 @@ public class Enemy : MonoBehaviour,EventHandler {
 		}
 		else if (coll.gameObject.tag == "Trap") //if it's a trap
 		{
-            if (tripsTraps)
-            {
-                Trap tc = coll.gameObject.GetComponent<Trap>();
-                if (tc != null)
-                {
-                    if (tc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
-                    {
-                        tc.enemyHit = this.gameObject;
-                        //StartCoroutine (StatusEffectsTrap (tc));
-                        hp -= tc.dmg;
-                        tc.Collide();
-                        if (hp <= 0)
-                        {
-                            Die();
-                        }
-                    }
-                }
-            }
+			if (tripsTraps)
+			{
+				Trap tc = coll.gameObject.GetComponent<Trap>();
+				if (tc != null)
+				{
+					if (tc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
+					{
+						tc.enemyHit = this.gameObject;
+						//StartCoroutine (StatusEffectsTrap (tc));
+						hp -= tc.dmg;
+						tc.Collide();
+						if (hp <= 0)
+						{
+							Die();
+						}
+					}
+				}
+			}
 		}
 		else if (coll.gameObject.tag == "Shield") //if it's a shield
 		{
@@ -865,7 +865,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 		frozen = false;
 		timer.Restart();
 	}
-	public void DropEnemies(){
+	/*public void DropEnemies(){
 		foreach (Enemy e in carryList){
 			e.GetDropped();
 		}
@@ -883,7 +883,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 	public void GetCarried(Enemy e){
 		carried = true;
 		carrier = e;
-	}
+	}*/
 	public void MakeBulkDrainTarget(){
 		beingShieldDrainedByBulk = true;
 	}

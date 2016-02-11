@@ -8,7 +8,7 @@ public class Dial : MonoBehaviour,EventHandler {
 	public static readonly float DIAL_RADIUS = 52.1f;
 	public static readonly float TRACK_LENGTH = 110.8f;
 	public static readonly float ENEMY_SPAWN_LENGTH = 187f;
-	public static readonly float ENEMY_TRACK_LENGTH = 134.9f;
+	public static readonly float ENEMY_TRACK_LENGTH = 110.8f;//134.9f; extra space to spawn off dial no longer a concern
 	
 	public float maxHealth = 100.0f;
 	public float health = 100.0f;
@@ -121,7 +121,13 @@ public class Dial : MonoBehaviour,EventHandler {
 			bar.localScale = new Vector3(baseWidth + (multiplier*superPercentage), bar.localScale.y,bar.localScale.z);
 		}
 	}
-	
+	public void OnTriggerEnter2D(Collider2D coll){
+		if(coll.gameObject.tag == "DialCollider"){
+			GameEvent ge = new GameEvent("enemy_arrived");
+			ge.addArgument(coll.transform.parent.gameObject);
+			EventManager.Instance().RaiseEvent(ge);
+		}
+	}
 	public void HandleEvent(GameEvent ge){
 		if (ge.type.Equals("enemy_arrived")) {
 						GameObject eh = (GameObject)ge.args [0];

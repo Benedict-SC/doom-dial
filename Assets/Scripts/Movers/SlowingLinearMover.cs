@@ -16,7 +16,6 @@ public class SlowingLinearMover : EnemyMover{
 	
 	public override Vector2 PositionFromProgress (float progress){
 		float angle = RealRadiansOfEnemy (parent);
-		angle += radiansOffset*Mathf.Deg2Rad;
 		float logprog = Mathf.Log(progress + logmin) + logoffset;
 		logprog /= logscale;
 		

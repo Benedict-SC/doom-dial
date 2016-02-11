@@ -5,7 +5,7 @@
 	"columnName":"Big One",
 	
 	"enemyType":"MeatShield",
-	"delay":2.4,
+	"delay":1.7,
 
 	"movementType":"Linear",
 	"maxHP":4.0,

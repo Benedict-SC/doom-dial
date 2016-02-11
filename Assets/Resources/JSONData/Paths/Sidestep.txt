@@ -1,0 +1,1 @@
+{"polarPoints":[{"theta":0.01,"radius":1.00},{"theta":0.01,"radius":0.78},{"theta":0.14,"radius":0.78},{"theta":0.26,"radius":0.77},{"theta":0.26,"radius":0.64},{"theta":0.23,"radius":0.51},{"theta":0.00,"radius":0.52},{"theta":0.01,"radius":0.42},{"theta":0.01,"radius":0.32}]}

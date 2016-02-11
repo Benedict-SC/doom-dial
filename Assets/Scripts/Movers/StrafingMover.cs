@@ -68,8 +68,9 @@ public class StrafingMover : EnemyMover{
 			float ringWidth = Dial.inner_radius - Dial.DIAL_RADIUS;
 			float travelDist = (ringWidth/2.0f) + ProgressThroughLeg(progress,10)*(ringWidth/2.0f);
 			distFromCenter = Dial.inner_radius - travelDist;
+			
 		}
-		
+		Debug.Log (distFromCenter);
 		if(mirrored)
 			deviation *= -1.0f;
 		angle += deviation * Mathf.Deg2Rad;
