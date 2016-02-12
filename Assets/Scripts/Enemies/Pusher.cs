@@ -21,7 +21,7 @@ public class Pusher : Enemy
             //parent the trap to this enemy
             Trap trapCon = other.gameObject.GetComponent<Trap>();
             RectTransform rt = other.gameObject.GetComponent<RectTransform>();
-            rt.SetParent(GetComponent<RectTransform>(), true); //should this be false?..
+            rt.SetParent(GetComponent<RectTransform>(), false); //should this be false?.. //false yeah
             impactDamage += trapCon.dmg * ExtraDMG_SCALAR;
             Debug.Log("Pusher's new damage after getting Trap is: " + impactDamage);
         }
@@ -30,7 +30,8 @@ public class Pusher : Enemy
 
     public override void Die()
     {
-        transform.DetachChildren();
+        transform.DetachChildren(); //this detatches the health and the collider, so they stay on the map
+        //which we don't want, so try and update this so it only detaches the trap
         base.Die();
     }
 }

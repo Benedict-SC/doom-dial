@@ -18,8 +18,10 @@ public class Steering : MonoBehaviour{
 	bool matchOrientationToVelocity = true;
 	
 	public float maxSpeed = 3f;
+	public float referenceMaxSpeed = 3f;
 	public float maxAccel = 0.5f;
-	public int lookAhead = 1;
+	public float referenceMaxAccel = .5f;
+	public int lookAhead = 1;	
 	
 	void Update(){
 		if(enemy == null){return;}
@@ -29,14 +31,16 @@ public class Steering : MonoBehaviour{
 			return;
 		}if(!allowedToMove){
 			return;
+		}if(stunned){
+			return;
 		}
-		/*temporary*/
 		if(enemyPath != null){
 			FollowPath(enemyPath);
 		}
-	
+		
 		vel += acc;
-		if(vel.magnitude > maxSpeed){
+		
+		if(vel.magnitude > maxSpeed && clipVelocity){
 			vel.Normalize();
 			vel *= maxSpeed;
 		}
@@ -62,5 +66,33 @@ public class Steering : MonoBehaviour{
 	public void StartFollowingPath(AIPath path){
 		enemyPath = path;
 	}
+	
+	#region StatusEffects (when status fucks up movement)
+	public bool clipVelocity = true;
+	float knockbackConstant = 9f;
+	public bool stunned = false;
+	public void Knockback(Vector2 bulletpos,float knockbackpower){
+		RevertSpeed ();
+		Vector2 dir = (rt.anchoredPosition/* - bulletpos*/).normalized;
+		Vector2 knockForce = dir*knockbackConstant*knockbackpower;
+		vel += knockForce;
+		clipVelocity = false;
+		maxAccel = knockForce.magnitude / 20f;
+		stunned = false;
+	}
+	public void Slow(float speed){
+		maxSpeed = referenceMaxSpeed*speed;
+		clipVelocity = true;
+		stunned = false;
+	}
+	public void RevertSpeed(){
+		maxSpeed = referenceMaxSpeed;
+	}
+	public void Stun(){
+		stunned = true;
+		clipVelocity = true;
+		RevertSpeed();
+	}
+	#endregion
 
 }

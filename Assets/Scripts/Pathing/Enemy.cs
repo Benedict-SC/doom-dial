@@ -139,7 +139,9 @@ public class Enemy : MonoBehaviour,EventHandler {
 		steering.enemy = this;
 		float speedMult = 1f/(impactTime/NORMAL_IMPACT_TIME);
 		steering.maxSpeed = speedMult * NORMAL_SPEED;
+		steering.referenceMaxSpeed = steering.maxSpeed;
 		steering.maxAccel = steering.maxSpeed/FRAMES_FROM_ZERO_TO_MAX;
+		steering.referenceMaxAccel = steering.maxAccel;
 		path = AIPath.CreatePathFromJSONFilename(moverType);
 		path.SetDialDimensions(Dial.spawnLayer.anchoredPosition,Dial.FULL_LENGTH);
 		path.SetAngle(GetStartingTrackAngle() + (-trackLane*15f) + moverLaneOverride);
@@ -247,15 +249,61 @@ public class Enemy : MonoBehaviour,EventHandler {
 		}
 		//movement
 		
+		if(knockbackInProgress){
+			//Debug.Log ("knocking back");
+			//calculate knock direction
+			Vector2 dirToDial = Vector2.zero - rt.anchoredPosition;
+			float dotprod = Vector2.Dot(dirToDial,steering.vel);
+			if(dotprod >= 0 || dirToDial.magnitude > Dial.FULL_LENGTH){//we're done knocking back, time to stop
+				//Debug.Log("knockback over, (" +dotprod+", "+steering.vel.ToString()+")");
+				knockbackInProgress = false;
+				/*if(knockChained){
+					DropEnemies();
+				}*/
+				knockChained = false;
+				steering.clipVelocity = true;
+				steering.maxAccel = steering.referenceMaxAccel;
+				
+				if(stunWaiting){
+					stunInProgress = true;
+					stunWaiting = false;
+					stunTimer.Restart();
+					steering.Stun ();
+				}else if(slowWaiting){
+					slowInProgress = true;
+					slowWaiting = false;
+					slowTimer.Restart();
+					steering.Slow(slowedSpeed);
+				}
+			}
+		}else if(stunInProgress){
+			if(stunTimer.TimeElapsedSecs() >= stunDuration){//done being stunned
+				stunInProgress = false;
+				steering.stunned = false;
+				if(slowWaiting){
+					slowInProgress = true;
+					slowWaiting = false;
+					slowTimer.Restart();
+					steering.Slow(slowedSpeed);
+				}
+			}
+		}else if(slowInProgress){
+			if(slowTimer.TimeElapsedSecs() >= slowDuration){
+				slowInProgress = false;
+				steering.RevertSpeed();
+			}
+		}
 		
+		
+		GameObject healthCircle = transform.FindChild("Health").gameObject;
+		healthCircle.transform.localScale = new Vector3 (hp / maxhp, hp / maxhp, 1);
 		
 		if (hp <= 0.0f)
 		{
 			Die ();
 		}
 		
-		GameObject healthCircle = transform.FindChild("Health").gameObject;
-		healthCircle.transform.localScale = new Vector3 (hp / maxhp, hp / maxhp, 1);
+		
 	}
 	
 	public void TakeDamage(float damage){
@@ -658,14 +706,11 @@ public class Enemy : MonoBehaviour,EventHandler {
 			}
 			poisonTimer.Restart();
 			poisoned = true;
-		}else{
-			Debug.Log ("poison was " + bc.poison);
 		}
 		//knockback
 		if(bc.knockback != 0){
 			knockbackInProgress = true;
 			knockbackPower = bc.knockback;
-			knockbackTimer.Restart();
 			if(stunInProgress)
 				stunWaiting = true;
 			if(slowInProgress)
@@ -675,6 +720,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 			if(bc.stun != 0){
 				knockChained = true;
 			}
+			steering.Knockback(bc.GetComponent<RectTransform>().anchoredPosition,bc.knockback);
 		}
 		//stun
 		if(bc.stun != 0){
@@ -687,6 +733,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 				stunTimer.Restart();
 				if(slowInProgress)
 					slowWaiting = true;
+				steering.Stun ();
 			}
 			stunDuration = bc.stun;
 		}
@@ -699,9 +746,11 @@ public class Enemy : MonoBehaviour,EventHandler {
 				slowInProgress = true;
 				slowWaiting = false;
 				slowTimer.Restart();
+				steering.Slow(bc.slowdown);
 			}
 			slowDuration = bc.slowDur;
 			slowedSpeed = bc.slowdown;
+			
 			if(bc.poison != 0){
 				lethargyPoisoned = true;
 				savedSlowDuration = slowDuration;
