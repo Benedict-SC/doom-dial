@@ -6,8 +6,16 @@ using System.Collections.Generic;
 using System.IO;
 using MiniJSON;
 
+/*************
+* Oh man look how clean this is suddenly!
+* Why didn't anyone tell me about #region tags?!
+* Now you can collapse and expand the different sections,
+*  instead of scrolling up and down constantly!
+*************/
+
 public class Enemy : MonoBehaviour,EventHandler {
 	
+	#region GeneralData (all the data declarations, except for status stuff)
 	public readonly float DIAL_RADIUS = 52.1f; //hard coded to avoid constantly querying dial
 	//if dial size ever needs to change, replace references to this with calls to a getter
 	public static readonly float NORMALNESS_RANGE = 2.0f;//constant for determining if an enemy is "slow" or "fast" - ***balance later
@@ -79,10 +87,9 @@ public class Enemy : MonoBehaviour,EventHandler {
 			}
 		set { return; }//no setting progress directly
 	}
+	#endregion
 	
-	//ability?
-	//weakness?
-	
+	#region Setup (things enemies need to do before they get a move on)
 	// Use this for initialization
 	public virtual void Start () {
 		rt = (RectTransform)transform;
@@ -212,7 +219,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 		moverType = (string)data["movementType"];
 		
 	}
-	
+	#endregion
 	
 	// Update is called once per frame
 	public virtual void Update () {
@@ -306,6 +313,8 @@ public class Enemy : MonoBehaviour,EventHandler {
 		
 	}
 	
+	
+	#region AssaultAndBattery (things that happen if the enemy gets hit or dies)
 	public void TakeDamage(float damage){
 		if(damage >= hp){
 			hp = 0;
@@ -338,10 +347,20 @@ public class Enemy : MonoBehaviour,EventHandler {
 	public Collider2D heldCollision = null;
 	public virtual void OnTriggerEnter2D(Collider2D coll){
 		if(frozen)
-			return;
+			return; //invincible while boss is moving it
 		if(coll.gameObject.tag == "Enemy"){ //handled before anything that cares about shields
 			if(knockChained){
-				
+				Debug.Log ("we hit something with knockchain");
+				float timeEstimate = 1.3f; //how long stuff presumably gets knocked back for
+				//it's an estimate since we can't see it directly (without writing a script to measure it)
+				float duration = knockbackTimer.TimeElapsedSecs();
+				float remainingTime = timeEstimate-duration;
+				if(remainingTime > 0){
+					float power = (remainingTime/timeEstimate) * knockbackPower;
+					coll.GetComponent<Enemy>().SelfKnockback(power);
+					coll.GetComponent<Enemy>().SelfStun(stunDuration);
+					Debug.Log ("we're calling selfknockback on something");
+				}
 			}
 		}
 		if(shield != null){
@@ -558,6 +577,9 @@ public class Enemy : MonoBehaviour,EventHandler {
 		//add relevant arguments
 		ge.addArgument (position);
 	}
+	#endregion
+	
+	#region GettersAndSetters (accessors for various properties)
 	public long GetSpawnTime(){
 		return spawntime;
 	}
@@ -651,6 +673,9 @@ public class Enemy : MonoBehaviour,EventHandler {
 	public float GetMaxHP(){
 		return maxhp;
 	}
+	#endregion
+	
+	#region Shields (shield stuff)
 	public void GiveShield(float power,float sSpeed, float sRegen, List<System.Object> fragDicts){
 		GameObject shieldObj = Instantiate (Resources.Load ("Prefabs/MainCanvas/EnemyShield")) as GameObject;
 		shieldObj.transform.SetParent(transform,false);
@@ -665,7 +690,9 @@ public class Enemy : MonoBehaviour,EventHandler {
 	public EnemyShield GetShield(){
 		return shield;
 	}
+	#endregion
 	
+	#region StatusEffects (status effects applied by bullets/traps/aoe)
 	bool poisoned = false;
 	float poisonPerTick = 0f;
 	bool chainPoisoned = false;
@@ -711,6 +738,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 		if(bc.knockback != 0){
 			knockbackInProgress = true;
 			knockbackPower = bc.knockback;
+			knockbackTimer.Restart();
 			if(stunInProgress)
 				stunWaiting = true;
 			if(slowInProgress)
@@ -720,7 +748,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 			if(bc.stun != 0){
 				knockChained = true;
 			}
-			steering.Knockback(bc.GetComponent<RectTransform>().anchoredPosition,bc.knockback);
+			steering.Knockback(bc.knockback);
 		}
 		//stun
 		if(bc.stun != 0){
@@ -778,6 +806,9 @@ public class Enemy : MonoBehaviour,EventHandler {
 			Destroy(transform.FindChild("ChainPoisonRadius").gameObject);
 		}		
 	}
+	#endregion
+	
+	#region IndividualStatusEffects (acquire status effects from something other than a bullet/trap/aoe)
 	public void GetChainPoisoned(float pstrength, float pduration){
 		if(chainPoisoned)
 			return;//you already got poisoned this way
@@ -801,11 +832,11 @@ public class Enemy : MonoBehaviour,EventHandler {
 			slowInProgress = true;
 			slowWaiting = false;
 			slowTimer.Restart();
+			steering.Slow(savedSlowSpeed);
 		}
 		slowDuration = savedSlowDuration;
 		slowedSpeed = savedSlowSpeed;
 	}
-	
 	public void SelfKnockback(float f){
 		//Debug.Log("selfknock called");
 		knockbackInProgress = true;
@@ -817,8 +848,25 @@ public class Enemy : MonoBehaviour,EventHandler {
 			slowWaiting = true;
 		stunInProgress = false;
 		slowInProgress = false;
+		steering.Knockback(f);
 	}
+	public void SelfStun(float secs){
+		if(knockbackInProgress){
+			stunInProgress = false;
+			stunWaiting = true;
+		}else{
+			stunInProgress = true;
+			stunWaiting = false;
+			stunTimer.Restart();
+			if(slowInProgress)
+				slowWaiting = true;
+			steering.Stun ();
+		}
+		stunDuration = secs;
+	}
+	#endregion
 	
+	#region BossShenanigans (stuff bosses do to enemies)
 	public void Freeze(){
 		frozen = true;
 	}
@@ -837,5 +885,6 @@ public class Enemy : MonoBehaviour,EventHandler {
 	public bool IsBeingBulkDrained(){
 		return beingShieldDrainedByBulk;
 	}
+	#endregion
 }
 

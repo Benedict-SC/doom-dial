@@ -34,7 +34,10 @@ public class Steering : MonoBehaviour{
 		}if(stunned){
 			return;
 		}
-		if(enemyPath != null){
+		
+		if(!clipVelocity){ //being knocked back
+			acc = drag;
+		}else if(enemyPath != null){ //pathfollowing
 			FollowPath(enemyPath);
 		}
 		
@@ -69,15 +72,16 @@ public class Steering : MonoBehaviour{
 	
 	#region StatusEffects (when status fucks up movement)
 	public bool clipVelocity = true;
-	float knockbackConstant = 9f;
+	Vector2 drag = Vector2.zero;
+	float knockbackConstant = 20f;
 	public bool stunned = false;
-	public void Knockback(Vector2 bulletpos,float knockbackpower){
+	public void Knockback(float knockbackpower){
 		RevertSpeed ();
 		Vector2 dir = (rt.anchoredPosition/* - bulletpos*/).normalized;
 		Vector2 knockForce = dir*knockbackConstant*knockbackpower;
 		vel += knockForce;
 		clipVelocity = false;
-		maxAccel = knockForce.magnitude / 20f;
+		drag = -knockForce/16f;
 		stunned = false;
 	}
 	public void Slow(float speed){
