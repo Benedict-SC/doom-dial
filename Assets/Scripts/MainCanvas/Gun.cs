@@ -40,6 +40,7 @@ public class Gun : MonoBehaviour,EventHandler{
 	float slowsShields;
 	float aoeRadiusBonus = 1.0f;
 	bool multiSplits;
+	int pierces = 0;
 	
 	float shieldHP; //shield max HP
 	float shieldRegen; //shield regen rate
@@ -99,6 +100,7 @@ public class Gun : MonoBehaviour,EventHandler{
 			}
 		}
 	}
+	#region Firing (make the gun shoot a thing)
 	public void Fire(){
 		if(GamePause.paused)
 			return;
@@ -250,6 +252,9 @@ public class Gun : MonoBehaviour,EventHandler{
 			bc.transform.rotation = transform.rotation;
 			bc.vx = bc.speed * (float)Math.Cos(angle);
 			bc.vy = bc.speed * (float)Math.Sin(angle);
+			if(spread == 4){
+				bc.splitCount = 0; //don't split if you're the middle split on a 3-way thing
+			}
 		}
 		
 	}
@@ -283,6 +288,11 @@ public class Gun : MonoBehaviour,EventHandler{
 			bc.transform.rotation = transform.rotation;
 			bc.vx = bc.speed * (float)Math.Cos(angle);
 			bc.vy = bc.speed * (float)Math.Sin(angle);
+			if(i == 1){
+				bc.spreadCode = -1;
+			}else{
+				bc.spreadCode = 1;
+			}
 		}
 		
 	}
@@ -321,9 +331,16 @@ public class Gun : MonoBehaviour,EventHandler{
 			bc.transform.rotation = transform.rotation;
 			bc.vx = bc.speed * (float)Math.Cos(angle);
 			bc.vy = bc.speed * (float)Math.Sin(angle);
+			if(i == 1){
+				bc.spreadCode = -1;
+			}else{
+				bc.spreadCode = 1;
+			}
 		}
 	}
+	#endregion
 	
+	#region Setup (get the gun ready to do stuff)
 	public void SetValuesFromJSON(string filename){
 		//FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Towers",filename);
 		FileLoader fl = new FileLoader (Application.persistentDataPath,"Towers",filename);
@@ -402,6 +419,9 @@ public class Gun : MonoBehaviour,EventHandler{
 		bc.homingStrength = homingStrength;
 		bc.arcDmg = arcDmg;
 		bc.isSplitBullet = false;
+		bc.piercesLeft = pierces;
+		if(pierces > 0)
+			bc.pierces = true;
 		//Debug.Log ("bullet slowDur is " + bc.slowDur);
 	}
 	
@@ -434,7 +454,9 @@ public class Gun : MonoBehaviour,EventHandler{
 		sc.maxHP = shieldHP;
 		//bc.regenRate = shieldRegen; //commented out since regen rate doesn't vary, according to joe
 	}
+	#endregion
 	
+	#region GettersAndSetters (accessing properties)
 	public float GetCooldownRatio(){
 		return cooldown / maxcool;
 	}
@@ -521,6 +543,9 @@ public class Gun : MonoBehaviour,EventHandler{
 	{
 		penetration = pPenetration;
 	}
+	public void SetPiercing(int pierceCount){
+		pierces = pierceCount;
+	}
 	public void SetShieldShred(float pShieldShred)
 	{
 		shieldShred = pShieldShred;
@@ -567,4 +592,5 @@ public class Gun : MonoBehaviour,EventHandler{
 	{
 		maxcool = pCooldown;
 	}
+	#endregion
 }

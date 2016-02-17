@@ -7,6 +7,7 @@ public class ChainPoisonRadius : MonoBehaviour{
 
 	public void SetRadius(float r){
 		GetComponent<CircleCollider2D>().radius = r;
+		GetComponent<CircleCollider2D>().isTrigger = true;
 	}
 	public void SetStrengthAndDuration(float strength,float duration){
 		pstrength = strength;

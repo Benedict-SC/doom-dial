@@ -52,6 +52,8 @@ public class Bullet : MonoBehaviour {
 	public bool timerElapsed;
 	public Timer splitTimer;
 	
+	public int spreadCode = 0;
+	
 	public GameObject homingTarget;
 	float homingStrengthConstant = 6f;
 	
@@ -69,6 +71,8 @@ public class Bullet : MonoBehaviour {
 	public bool chainsPoison = false;
 	public float slowsShields = 0f;
 	
+	public bool pierces = false;
+	public int piercesLeft = 0;
 	
 	/*
 	 * End of attributes passed from tower
@@ -96,10 +100,11 @@ public class Bullet : MonoBehaviour {
 		float radius = sr.rect.size.x / 2;
 		CircleCollider2D collider = transform.gameObject.GetComponent<CircleCollider2D> ();
 		collider.radius = radius;
-		if (isSplitBullet)
+		
+		/*if (isSplitBullet) //what the heck???
 		{
 			collider.radius *= 2f;
-		}
+		}*/
 		collide2D = collider;
 		//Debug.Log ("bullet radius is: " + radius);
 		if (arcDmg > 0)
@@ -186,6 +191,7 @@ public class Bullet : MonoBehaviour {
 					arcFalling = true;
 				}else{
 					//Debug.Log ("we somehow destroyed ourselves / at (" + rt.anchoredPosition.x + "," + rt.anchoredPosition.y + ")");
+					piercesLeft = 0;
 					Collide();
 					return;
 				}
@@ -223,6 +229,7 @@ public class Bullet : MonoBehaviour {
 			rt.anchoredPosition = new Vector2(Mathf.Cos(radians)*splitDistance,Mathf.Sin (radians)*splitDistance);
 			
 			if(Mathf.Abs(splitTravelDist) > splitCount*60f){ //if you've gone past your max range
+				piercesLeft = 0;
 				Collide ();
 			}
 		}
@@ -233,6 +240,7 @@ public class Bullet : MonoBehaviour {
 	float arcFallDuration = .3f; //long enough for at least one frame to pass and do collision checking with enemies
 	void ArcBulletFallingUpdate(){
 		if(arcFallTimer.TimeElapsedSecs() > arcFallDuration){
+			piercesLeft = 0;
 			Collide ();
 		}
 	}
@@ -252,7 +260,7 @@ public class Bullet : MonoBehaviour {
 			{
 				if (isSplitBullet)
 				{
-					if (bc.splitParent == this.splitParent)
+					if (bc.splitParent == this.splitParent && splitDirection != bc.splitDirection)
 					{
 						Debug.Log ("the two splits collided!");
 						//Determine lane ID and spawn aoe in appropriate lane
@@ -369,6 +377,14 @@ public class Bullet : MonoBehaviour {
 	//called when the bullet hits something, from the OnCollisionEnter in EnemyController
 	public void Collide()
 	{
+		if(pierces){
+			//Debug.Log ("pierce bullet called collide with " + piercesLeft + " pierces left");
+			if(piercesLeft > 0){
+				piercesLeft--;
+				//Debug.Log ("pierces left: " + (piercesLeft));
+				return;
+			}
+		}
 		//Debug.Log ("collided (called method Collide())");
 		if (splash != 0)
 		{
@@ -486,7 +502,23 @@ public class Bullet : MonoBehaviour {
 						bRI.alignTimer = new Timer();
 						bRI.alignCode = -1;
 						bRI.initialAlignRadius = currentRadius;
+						
+						if(spreadCode == -1){ //all these spreadcode checks prevent extra bullets from spawning
+							Destroy (splitLI);
+						}else if(spreadCode == 1){
+							Destroy (splitRI);
+						}
 					}
+					if(spreadCode == -1){
+						Destroy (splitLO);
+					}else if(spreadCode == 1){
+						Destroy (splitRO);
+					}
+				}
+				if(spreadCode == -1){
+					Destroy (split2);
+				}else if(spreadCode == 1){
+					Destroy (split1);
 				}
 			}
 		}

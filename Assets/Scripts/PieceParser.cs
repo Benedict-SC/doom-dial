@@ -368,7 +368,7 @@ public class PieceParser{
 			speed += pspeed;
 			if(speed < 0.1f)
 				speed = 0.1f;
-			if(pspeed > 0.0f)
+			if(pspeed < 0.0f)
 				speedCount++;
 			//cooldown - as number of seconds
 			float pcool = (float)(double)pdata["cooldownFactor"];
@@ -506,6 +506,7 @@ public class PieceParser{
 			gc.SetStun (stun);
 			//Penetration
 			gc.SetPenetration (penetration);
+			gc.SetPiercing(penetrationBonusCount);
 			//Shieldshred
 			gc.SetShieldShred (shieldShred);
 			gc.SetShieldSlow(regenBonusCount*PERCENT_SHIELD_REGEN_SLOW_PER_PAIR);
@@ -548,6 +549,7 @@ public class PieceParser{
             gc.SetStun(stun);
             //Penetration
             gc.SetPenetration(penetration);
+			gc.SetPiercing(penetrationBonusCount);
             //Shieldshred
             gc.SetShieldShred(shieldShred);
 			gc.SetShieldSlow(regenBonusCount*PERCENT_SHIELD_REGEN_SLOW_PER_PAIR);
