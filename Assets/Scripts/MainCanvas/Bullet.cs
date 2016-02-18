@@ -70,6 +70,7 @@ public class Bullet : MonoBehaviour {
 	
 	public bool chainsPoison = false;
 	public float slowsShields = 0f;
+	public bool leeches = false;
 	
 	public bool pierces = false;
 	public int piercesLeft = 0;
@@ -148,7 +149,7 @@ public class Bullet : MonoBehaviour {
 				//if bullet exceeds its range, disappear
 				//Debug.Log ("x is " + transform.position.x + " and spawnx is " + spawnx);
 			}
-			else if (homingStrength != 0)
+			else if (homingStrength != 0 && arcDmg == 0)
 			{
 				rt.anchoredPosition = new Vector2(rt.anchoredPosition.x + vx, rt.anchoredPosition.y + vy);
 				if (homingTarget == null)
@@ -174,7 +175,7 @@ public class Bullet : MonoBehaviour {
 			
 			float distance = (float)Math.Sqrt ((rt.anchoredPosition.x - spawnx) * (rt.anchoredPosition.x - spawnx)
 			                                   + (rt.anchoredPosition.y - spawny) * (rt.anchoredPosition.y - spawny));
-			if(arcDmg > 0){
+			if(arcDmg > 0 && homingStrength == 0){
 				float prog = distance / (range * TRACK_LENGTH + (Dial.DIAL_RADIUS-spawnDistFromCenter));
 				float midFarness = Math.Abs(0.5f-prog);
 				midFarness *= 2;
@@ -195,6 +196,39 @@ public class Bullet : MonoBehaviour {
 					Collide();
 					return;
 				}
+			}
+			
+			if(arcDmg > 0 && homingStrength > 0){//arc/homing combo
+				float maxrange = range * TRACK_LENGTH + (Dial.DIAL_RADIUS-spawnDistFromCenter);
+				float modifiedHomingStrength = (.25f/.015f)*homingStrength; 
+				float maxDeviation = modifiedHomingStrength*(Mathf.PI/3f);
+				Debug.Log ("homing strength was " + homingStrength);
+				Debug.Log ("max deviation was " + maxDeviation + " radians");
+				SetHomingTarget();
+				Vector2 targetPos;
+				if(homingTarget == null){
+					targetPos = new Vector2(spawnx,spawny);
+				}else{
+					targetPos = homingTarget.GetComponent<RectTransform>().anchoredPosition;
+				}
+				
+				float angle = Mathf.Atan2(spawny,spawnx);
+				float targetAngle = Mathf.Atan2(targetPos.y,targetPos.x);
+				float difference = targetAngle - angle;
+				if(Mathf.Abs(difference) <= maxDeviation){
+					angle += difference;
+				}else{
+					if(difference > 0){
+						angle += maxDeviation;
+					}else{
+						angle -= maxDeviation;
+					}
+				}
+				rt.anchoredPosition = new Vector2(Mathf.Cos(angle)*maxrange,Mathf.Sin (angle)*maxrange);
+				isActive = true;
+				collide2D.enabled = true;
+				arcFallTimer = new Timer();
+				arcFalling = true;
 			}
 			
 			//after moving, check collision with enemies

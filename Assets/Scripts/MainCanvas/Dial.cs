@@ -47,6 +47,7 @@ public class Dial : MonoBehaviour,EventHandler {
 		
 		EventManager.Instance ().RegisterForEventType ("enemy_arrived", this);
 		EventManager.Instance ().RegisterForEventType ("dial_damaged", this);
+		EventManager.Instance ().RegisterForEventType ("health_leeched",this);
 		LoadDialConfigFromJSON (WorldData.dialSelected);
 		
 		bonusWaveDictionary = new Dictionary<string,System.Object>();
@@ -175,6 +176,12 @@ public class Dial : MonoBehaviour,EventHandler {
 			float damageAmount = (float)ge.args[1];
 			
 			health -= damageAmount;
+		}else if(ge.type.Equals ("health_leeched")){
+			float healAmount = (float)ge.args[0];
+			health += healAmount;
+			if(health > maxHealth){
+				health = maxHealth;
+			}
 		}
 	}
 	

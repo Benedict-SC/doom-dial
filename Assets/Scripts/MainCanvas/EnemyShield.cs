@@ -22,6 +22,7 @@ public class EnemyShield : MonoBehaviour{
 	
 	public bool bulked = false;
 	public float slowedAmount = 0f;
+	public bool leeched = false;
 	
 	public int frameLastHit = 0;
 	public bool hitThisFrame = false;
@@ -104,17 +105,28 @@ public class EnemyShield : MonoBehaviour{
 		}
 	}
 	public void Regenerate(){
-		if(power >= capacity)
-			return;
-		float regen = regenRate;
-		if(bulked)
-			regen *= 2;
-		if(slowedAmount > 0)
-			regen *= (1f-slowedAmount);
-		power += regen;
-		if(power > capacity)
-			power = capacity;
-		RefreshShieldColors();
+		if(!leeched){
+			if(power >= capacity)
+				return;
+			float regen = regenRate;
+			if(bulked)
+				regen *= 2;
+			if(slowedAmount > 0)
+				regen *= (1f-slowedAmount);
+			power += regen;
+			if(power > capacity)
+				power = capacity;
+			RefreshShieldColors();
+		}else{//leeched
+			float regen = regenRate;
+			if(bulked)
+				regen *= 2;
+			if(slowedAmount > 0)
+				regen *= (1f-slowedAmount);
+			GameEvent ge = new GameEvent("health_leeched");
+			ge.addArgument(regen);
+			EventManager.Instance().RaiseEvent(ge);
+		}
 	}
 	public void RefreshShieldColors(){
 		float percent = power/referenceCapacity;

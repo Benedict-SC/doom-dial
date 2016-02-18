@@ -734,6 +734,12 @@ public class Enemy : MonoBehaviour,EventHandler {
 			poisonTimer.Restart();
 			poisoned = true;
 		}
+		//leeching
+		if(bc.leeches){
+			if(shield != null){
+				shield.leeched = true;
+			}
+		}
 		//knockback
 		if(bc.knockback != 0){
 			knockbackInProgress = true;

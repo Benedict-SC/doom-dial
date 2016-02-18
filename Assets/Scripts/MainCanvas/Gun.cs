@@ -41,6 +41,7 @@ public class Gun : MonoBehaviour,EventHandler{
 	float aoeRadiusBonus = 1.0f;
 	bool multiSplits;
 	int pierces = 0;
+	bool leeches;
 	
 	float shieldHP; //shield max HP
 	float shieldRegen; //shield regen rate
@@ -406,6 +407,7 @@ public class Gun : MonoBehaviour,EventHandler{
 		bc.poison = poison;
 		bc.poisonDur = poisonDur;
 		bc.chainsPoison = chainsPoison;
+		bc.leeches = leeches;
 		bc.splash = splash;
 		bc.splashRad = splashRad * aoeRadiusBonus;
 		bc.stun = stun;
@@ -519,6 +521,9 @@ public class Gun : MonoBehaviour,EventHandler{
 	}
 	public void SetChainPoison(bool chainPois){
 		chainsPoison = chainPois;
+	}
+	public void SetLeeches(bool leech){
+		leeches = leech;
 	}
 	public void SetSplash(float pSplash)
 	{

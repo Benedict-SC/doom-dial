@@ -491,6 +491,7 @@ public class PieceParser{
 			//Debug.Log (gc.buttonID + " poison value is set to " + poison);
 			gc.SetPoisonDur (3f);
 			gc.SetChainPoison(chainPoisonBonus);
+			gc.SetLeeches(hijackRegenBonus);
 			//Slowdown
 			gc.SetSlowdown (1f-slowdownMax); //for now.  eventually add in that scaling system for slow/fast enemies?
 			//Debug.Log (slowdownMax + "is max slowdown");
@@ -535,6 +536,7 @@ public class PieceParser{
             Debug.Log(gc.buttonID + " poison value is set to " + poison);
             gc.SetPoisonDur(3f);
 			gc.SetChainPoison(chainPoisonBonus);
+			gc.SetLeeches(hijackRegenBonus);
             //Slowdown
             gc.SetSlowdown(slowdownMax); //for now.  eventually add in that scaling system for slow/fast enemies?
             gc.SetSlowDur(0.75f);
