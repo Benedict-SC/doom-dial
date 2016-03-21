@@ -41,6 +41,15 @@ public class BigBulk : Boss{
 	float power = 300f;
 	float regenSpeed = 0.25f;
 	
+	float slowedAmount = 0f;
+	bool leeched = false;
+	Timer brokenTimer;
+	float breakWait = 2f;
+	bool waitingToRecharge = false;
+	bool growing = false;
+	Timer growTimer;
+	float growDur = 2f;
+	
 	public override void Start(){
 		base.Start();
 		maxHP = 250;//50;
@@ -80,7 +89,7 @@ public class BigBulk : Boss{
 		if (!moving)
 			return;
 			
-		Regenerate();
+		ShieldUpdate();
 			
 		if(mode == 0){ //shielding
 			if(currentState == state.DECIDING){
@@ -91,7 +100,8 @@ public class BigBulk : Boss{
 			}else if(currentState == state.SHIELDING){
 				ShieldingLoop ();
 			}
-		}else if(mode == 1){ //boosting regen
+		}
+		else if(mode == 1){ //boosting regen
 			if(currentState == state.DECIDING){
 				goingRight = !ShouldWeGoLeft(thingpoints[thingIdx]); //pick a direction to move in
 				currentState = state.MOVING;
@@ -102,7 +112,8 @@ public class BigBulk : Boss{
 			}else if(currentState == state.BOOSTING){
 				BoostingLoop ();
 			}
-		}else if(mode == 2){ //blocking shots
+		}
+		else if(mode == 2){ //blocking shots
 			if(currentState == state.DECIDING){
 				if(reachedMiddle)
 					currentState = state.MOVING;
@@ -164,7 +175,8 @@ public class BigBulk : Boss{
 					currentState = state.DECIDING;
 				}
 			}*/
-		}else if(mode == 3){ //stealing
+		}
+		else if(mode == 3){ //stealing
 			//beams proceed independent of state
 			List<Enemy> potentialTargets = Dial.GetAllShieldedEnemies();
 			if(eaterTimer.TimeElapsedSecs() > eatDelay && potentialTargets.Count > 0){
@@ -234,6 +246,7 @@ public class BigBulk : Boss{
 			}
 		}
 	}
+	#region BulkBehavior (stuff this boss does)
 	List<Enemy> targets = new List<Enemy>();
 	public void PrepTargets(){
 		targets = Dial.GetAllEnemiesInZone(SpawnIndexToZoneID(thingIdx));
@@ -310,25 +323,133 @@ public class BigBulk : Boss{
 			currentState = state.DECIDING;
 		}
 	}
-	
+	#endregion
+	#region Shields (stuff to do with its own shields)
+	public void ShieldUpdate(){
+		if(growing){
+			float percent = growTimer.TimeElapsedSecs()/growDur;
+			if(percent > 1){
+				growing = false;
+				shieldActive = true;
+			}else{
+				shieldImage.transform.localScale = new Vector3(percent,percent,1f);
+			}
+		}
+		if(waitingToRecharge){
+			if(brokenTimer.TimeElapsedSecs() >= breakWait){
+				waitingToRecharge = false;
+				BeginRegrowth();
+			}
+		}
+		
+		if(shieldActive){
+			Regenerate ();
+		}
+	}
 	public void ReceiveDrainedShields(float amount){
 		//do nothing yet because it doesn't have a shield
 	}
-	public void TakeShieldDamage(float amount){
+	public void GetBroken(){
+		power = 0f;
+		//shieldImage.gameObject.SetActive(false);
+		shieldActive = false;
+		MakeStuffRealTinyInPreparationForGrowing();
+		brokenTimer = new Timer();
+		waitingToRecharge = true;
+	}
+	public void MakeStuffRealTinyInPreparationForGrowing(){
+		shieldImage.transform.localScale = new Vector3(0.01f,0.01f,1f);
+	}
+	public void SlowRegen(float slow){
+		slowedAmount += slow;
+		if(slowedAmount > 1)
+			slowedAmount = 1f;
+	}
+	public void GrowShields(){
+		growing = true;
+		growTimer = new Timer();
+	}
+	public void BeginRegrowth(){
+		GrowShields();
+	}
+	public float Drain(float hp){ //takes hp and returns how much was successfully taken
+		power -= hp;
+		if(power < 0){
+			hp += power;
+		}
+		RefreshShieldColors();
+		return hp;
+	}
+	public void ShieldAgainstBullet(Bullet b){
+		float amount = b.dmg + b.arcDmg;
 		power -= amount;
 		RefreshShieldColors();
 		if(power <= 0){
-			power = 0f;
-			shieldImage.gameObject.SetActive(false);
-			shieldActive = false;
+			GetBroken ();
+		}
+
+		GetStatused(b);
+		
+		if(b.penetration > 0){
+			float penDamage = b.penetration*b.dmg;
+			TakeDamage(penDamage);
+		}
+		if(b.shieldShred > 0){
+			float shredDamage = b.shieldShred*b.dmg;
+			capacity -= shredDamage;
+			if(power > capacity){
+				power = capacity;
+			}
+		}
+		if(b.slowsShields != 0){
+			SlowRegen(b.slowsShields);
 		}
 	}
-	public void Regenerate(){
-		power += regenSpeed;
-		if(power > capacity){
-			power = capacity;
-		}
+	public void ShieldAgainstTrap(Trap t){
+		float amount = t.dmg;
+		power -= amount;
 		RefreshShieldColors();
+		if(power <= 0){
+			GetBroken ();
+		}
+		
+		GetStatused(t);
+		if(t.penetration > 0){
+			float penDamage = t.penetration*t.dmg;
+			TakeDamage(penDamage);
+		}
+		if(t.shieldShred > 0){
+			float shredDamage = t.shieldShred*t.dmg;
+			capacity -= shredDamage;
+			if(power > capacity){
+				power = capacity;
+			}
+		}
+		/*if(t.slowsShields != 0){
+			SlowRegen(t.slowsShields);
+		}*/
+	}
+	public void Regenerate(){
+		
+		if(!leeched){
+			if(power >= capacity)
+				return;
+			float regen = regenSpeed;
+			if(slowedAmount > 0)
+				regen *= (1f-slowedAmount);
+			power += regen;
+			if(power > capacity)
+				power = capacity;
+			RefreshShieldColors();
+		}else{//leeched
+			float regen = regenSpeed;
+			if(slowedAmount > 0)
+				regen *= (1f-slowedAmount);
+			GameEvent ge = new GameEvent("health_leeched");
+			ge.addArgument(regen);
+			EventManager.Instance().RaiseEvent(ge);
+			RefreshShieldColors();
+		}
 	}
 	public void RefreshShieldColors(){
 		float percent = power/referenceCapacity;
@@ -348,7 +469,7 @@ public class BigBulk : Boss{
 				if (bc.CheckActive()){ //if we get a Yes, this bullet/trap/shield is active
 					if (bc.isSplitBullet && bc.timerElapsed || !bc.isSplitBullet){
 						bc.enemyHit = this.gameObject;
-						TakeShieldDamage(bc.dmg + bc.arcDmg);
+						ShieldAgainstBullet(bc);
 					}
 					if (!bc.isSplitBullet)
 						bc.Collide();
@@ -365,7 +486,7 @@ public class BigBulk : Boss{
 				if (tc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
 				{
 					tc.enemyHit = this.gameObject;
-					TakeShieldDamage(tc.dmg);
+					ShieldAgainstTrap(tc);
 					tc.Collide();
 				}
 			}
@@ -383,7 +504,7 @@ public class BigBulk : Boss{
 				{
 					//Debug.Log ("parent is bullet@");
 					Bullet bc = ac.aoeBulletCon;
-					TakeShieldDamage(bc.dmg);
+					ShieldAgainstBullet(bc);
 				}
 			}
 			else if (ac.parent == "Trap")
@@ -391,7 +512,7 @@ public class BigBulk : Boss{
 				if (ac.aoeTrapCon.enemyHit != this.gameObject) //if this isn't the enemy originally hit
 				{
 					Trap tc = ac.aoeTrapCon;
-					TakeShieldDamage(tc.dmg);
+					ShieldAgainstTrap (tc);
 				}
 			}
 			
@@ -405,6 +526,8 @@ public class BigBulk : Boss{
 			HandleUnshieldedCollision(coll);
 		}
 	}
+	#endregion
+	#region Movement (special movement stuff)
 	public void ReverseDirection(){
 		clockwise = !clockwise;
 		System.Random rand = new System.Random();
@@ -520,4 +643,5 @@ public class BigBulk : Boss{
 			return Mathf.Abs ((Mathf.PI-highval)+lowval); //don't ask me how this works, i'm not even sure it does
 		}
 	}
+	#endregion
 }

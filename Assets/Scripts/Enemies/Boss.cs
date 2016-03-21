@@ -162,6 +162,18 @@ public class Boss : MonoBehaviour{
 		//other types of collision?
 		
 	}
+	public void GetStatused(Bullet b){
+	
+	}
+	public void GetStatused(Shield s){
+		
+	}
+	public void GetStatused(AoE aoe){
+		
+	}
+	public void GetStatused(Trap t){
+		
+	}
 	
 	public float GetAngle(){
 		return thetas.x;
