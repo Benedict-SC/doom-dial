@@ -128,6 +128,14 @@ public class Dial : MonoBehaviour,EventHandler {
 			ge.addArgument(coll.transform.parent.gameObject);
 			EventManager.Instance().RaiseEvent(ge);
 		}
+		if(coll.gameObject.tag == "Boss"){
+			Debug.Log ("dial hit boss");
+			//check if it's a Skizzard, which deals contact damage
+			Skizzard skizz = coll.gameObject.GetComponent<Skizzard>();
+			if(skizz != null){
+				skizz.HitDial();
+			}
+		}
 	}
 	public void HandleEvent(GameEvent ge){
 		if (ge.type.Equals("enemy_arrived")) {

@@ -1,11 +1,16 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\InputWatcher.cs">
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Enemies\Skizzard.cs">
     <Files>
-      <File FileName="Assets\Scripts\InputWatcher.cs" Line="1" Column="1" />
-      <File FileName="..\Miscellaneous\Assets\Big Duck Test\TestManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\CanvasMenus\MenuOption.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\CanvasMenus\WorldSelectMenu.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Enemies\Boss.cs" Line="10" Column="8" />
+      <File FileName="Assets\Scripts\Enemies\Skizzard.cs" Line="66" Column="37" />
+      <File FileName="Assets\Scripts\MainCanvas\Dial.cs" Line="132" Column="32" />
+      <File FileName="Assets\Scripts\Pathing\Enemy.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Enemies\BigBulk.cs" Line="35" Column="2" />
+      <File FileName="Assets\Scripts\Enemies\SwarmMaster.cs" Line="168" Column="2" />
+      <File FileName="Assets\Scripts\MainCanvas\Bullet.cs" Line="8" Column="33" />
+      <File FileName="Assets\Scripts\Lifespan.cs" Line="25" Column="82" />
+      <File FileName="Assets\Scripts\MainCanvas\TractorBeam.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

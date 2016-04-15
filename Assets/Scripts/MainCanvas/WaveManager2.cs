@@ -128,6 +128,10 @@ public class WaveManager2 : MonoBehaviour {
 						GameObject boss = GameObject.Instantiate (Resources.Load ("Prefabs/MainCanvas/SwarmMaster")) as GameObject;
 						boss.transform.SetParent(Dial.unmaskedLayer,false);
 					}
+					if(bosscode == 4){
+						GameObject boss = GameObject.Instantiate (Resources.Load ("Prefabs/MainCanvas/Skizzard")) as GameObject;
+						boss.transform.SetParent(Dial.unmaskedLayer,false);
+					}
 				}
 			}
 			return;

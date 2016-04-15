@@ -86,6 +86,7 @@
      <Compile Include="Assets\Scripts\Enemies\Minisplit.cs" />
      <Compile Include="Assets\Scripts\Enemies\Pusher.cs" />
      <Compile Include="Assets\Scripts\Enemies\Saboteur.cs" />
+     <Compile Include="Assets\Scripts\Enemies\Skizzard.cs" />
      <Compile Include="Assets\Scripts\Enemies\Spite.cs" />
      <Compile Include="Assets\Scripts\Enemies\Splitter.cs" />
      <Compile Include="Assets\Scripts\Enemies\SwarmMaster.cs" />
@@ -102,6 +103,7 @@
      <Compile Include="Assets\Scripts\GunController.cs" />
      <Compile Include="Assets\Scripts\InputWatcher.cs" />
      <Compile Include="Assets\Scripts\LevelSelect.cs" />
+     <Compile Include="Assets\Scripts\Lifespan.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\AoE.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\Bullet.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\CameraToggle.cs" />

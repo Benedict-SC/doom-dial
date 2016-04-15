@@ -891,6 +891,9 @@ public class Enemy : MonoBehaviour,EventHandler {
 	public bool IsBeingBulkDrained(){
 		return beingShieldDrainedByBulk;
 	}
+	public void SpeedUp(float mult, float secs){
+		steering.SpeedBoost(mult,secs);
+	}
 	#endregion
 }
 

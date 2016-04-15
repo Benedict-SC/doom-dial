@@ -3,10 +3,13 @@ using UnityEngine.UI;
 
 public class Boss : MonoBehaviour{
 
+	public static float DISTANCE = 160f; //replace with dial full length minus an offset so there's no edge cases with bullets
+
 	public bool moving = true;
 
-	protected Vector3 thetas; //x is position, y is velocity, z is acceleration
+	public Vector3 thetas; //x is position, y is velocity, z is acceleration
 	protected Vector3 radii; //x is position, y is velocity, z is acceleration
+	protected bool thetaOverflowedThisFrame = false;
 	
 	protected float maxHP=1;
 	protected float hp=1;
@@ -18,7 +21,7 @@ public class Boss : MonoBehaviour{
 	
 	public virtual void Start(){
 		thetas = new Vector3(0f,0.00f,0.000f);
-		radii = new Vector3(Dial.FULL_LENGTH,0f,0f);
+		radii = new Vector3(Dial.FULL_LENGTH-3,0f,0f);
 	}
 	void OnEnable(){
 		rt = (RectTransform)transform;
@@ -28,6 +31,7 @@ public class Boss : MonoBehaviour{
 			return;
 		if (!moving)
 			return;
+		thetaOverflowedThisFrame = false;
 		//Debug.Log(thetas.x + ", " + thetas.y + ", " + thetas.z);
 		//kinematic movement
 		thetas.x += thetas.y;
@@ -37,8 +41,10 @@ public class Boss : MonoBehaviour{
 		//cap theta position
 		if(thetas.x > 2*Mathf.PI){
 			thetas.x -= 2*Mathf.PI;
+			thetaOverflowedThisFrame = true;
 		}else if(thetas.x < 0){
 			thetas.x += 2*Mathf.PI;
+			thetaOverflowedThisFrame = true;
 		}
 		//set x/y position based on theta and r
 		rt.anchoredPosition = new Vector2(Mathf.Cos(thetas.x)*radii.x,Mathf.Sin (thetas.x)*radii.x);
@@ -53,6 +59,11 @@ public class Boss : MonoBehaviour{
 		}else{
 			hp -= damage;
 		}
+	}
+	public virtual void HealDamage(float damage){
+		hp += damage;
+		if(hp > maxHP)
+			hp = maxHP;
 	}
 	public void SetDamage(float damage){
 		hp = maxHP - damage;

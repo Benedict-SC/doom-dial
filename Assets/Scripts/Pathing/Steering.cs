@@ -23,11 +23,22 @@ public class Steering : MonoBehaviour{
 	public float referenceMaxAccel = .5f;
 	public int lookAhead = 1;	
 	
+	public float speedMult = 1f;
+	public float boostDuration = 0f;
+	Timer boostTimer;
+	
 	void Update(){
 		if(enemy == null){return;}
 		if(!enemy.moving){
 			return;
-		}if(enemy.IsFrozen()){
+		}
+		//speed boost should be allowed to expire even when enemy is frozen
+		if(speedMult != 1f && boostTimer != null){
+			if(boostTimer.TimeElapsedSecs() > boostDuration){
+				speedMult = 1f;
+			}
+		}
+		if(enemy.IsFrozen()){
 			return;
 		}if(!allowedToMove){
 			return;
@@ -45,7 +56,7 @@ public class Steering : MonoBehaviour{
 		
 		if(vel.magnitude > maxSpeed && clipVelocity){
 			vel.Normalize();
-			vel *= maxSpeed;
+			vel *= maxSpeed * speedMult;
 		}
 		rt.anchoredPosition += vel;
 		if(matchOrientationToVelocity){
@@ -96,6 +107,12 @@ public class Steering : MonoBehaviour{
 		stunned = true;
 		clipVelocity = true;
 		RevertSpeed();
+	}
+	
+	public void SpeedBoost(float multiplier, float seconds){
+		speedMult *= multiplier; //allow for stacking
+		boostDuration = seconds;
+		boostTimer = new Timer();		
 	}
 	#endregion
 

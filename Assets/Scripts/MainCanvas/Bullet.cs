@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Bullet : MonoBehaviour {
 	
-	float TRACK_LENGTH = 110.8f; //hard coded to avoid querying track size all the time
+	float TRACK_LENGTH = 110.8f + 5; //hard coded to avoid querying track size all the time
 	// ^^^ RELATIVE TO WHERE BULLET STARTS, NOT CENTER
 	
 	//For bullet types (as opposed to traps and shield types)
