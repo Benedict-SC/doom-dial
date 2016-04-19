@@ -110,7 +110,7 @@ public class Wave{
 				trackpos = (int)(long)enemydict["trackpos"];
 			//make enemy
 			GameObject enemyspawn = GameObject.Instantiate (Resources.Load ("Prefabs/MainCanvas/Enemy")) as GameObject;
-			Debug.Log("we're setting it to the spawn layer");
+			//Debug.Log("we're setting it to the spawn layer");
 			//Debug.Log (Dial.spawnLayer == null);
 			enemyspawn.transform.SetParent(Dial.spawnLayer,false);
 			enemyspawn.SetActive(false);

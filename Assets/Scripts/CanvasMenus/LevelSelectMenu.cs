@@ -46,6 +46,7 @@ public class LevelSelectMenu : MonoBehaviour{
 			GameObject.Destroy(optionobj.GetComponent<MenuOption>());
 			LevelMenuOption option = optionobj.AddComponent<LevelMenuOption>() as LevelMenuOption;
 			option.levelFilename = levelfile;
+			option.levelIndex = levels.IndexOf(levelobj);
 			option.ConfigureOption(iconfile,iconlabel,buttonlabel);
 			optionobj.transform.SetParent(md.transform,false);
 			md.AddOption(option);

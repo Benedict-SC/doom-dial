@@ -26,6 +26,8 @@ public class Steering : MonoBehaviour{
 	public float speedMult = 1f;
 	public float boostDuration = 0f;
 	Timer boostTimer;
+
+	public Vector2 pftarget;
 	
 	void Update(){
 		if(enemy == null){return;}
@@ -75,6 +77,7 @@ public class Steering : MonoBehaviour{
 			rt = GetComponent<RectTransform>();
 		}
 		Vector2 target = path.PathFollowingTarget(rt.anchoredPosition,lookAhead);
+		pftarget = target;
 		Seek (target);
 	}
 	public void StartFollowingPath(AIPath path){

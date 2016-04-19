@@ -522,7 +522,7 @@ public class PieceParser{
 			gc.SetDoesArc (arcBoost);
 		}else if(gc.GetTowerType().Equals("Trap")){
             //***GET TRAP SCALARS FROM JOE***
-            Debug.Log("speed is " + ((1f / speed) * SPEED_CONSTANT));
+            //Debug.Log("speed is " + ((1f / speed) * SPEED_CONSTANT));
             //Damage
             gc.SetDmg(damage);
             //Range
@@ -533,7 +533,7 @@ public class PieceParser{
             gc.SetCooldown(cooldown);
             //Poison
             gc.SetPoison(poison);
-            Debug.Log(gc.buttonID + " poison value is set to " + poison);
+            //Debug.Log(gc.buttonID + " poison value is set to " + poison);
             gc.SetPoisonDur(3f);
 			gc.SetChainPoison(chainPoisonBonus);
 			gc.SetLeeches(hijackRegenBonus);

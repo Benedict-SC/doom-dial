@@ -8,9 +8,12 @@ using System.Collections.Generic;
  * shot_fired
  * shot_collided
  * enemy_arrived
+ * enemy_finished (string filename, float damage)
+ * boss_hit (string bossname, float damage)
  * dial_damaged
  * warning (Enemy e)
  * piece_dropped
+ * piece_obtained (string filename)
  * wave_message_flash (string message, float seconds, int waveNumber)
  *
  * tap

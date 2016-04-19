@@ -57,6 +57,15 @@ public class PathEditor : MonoBehaviour{
 		newpoint.name = "Point" + pointCount;
 		return newpoint;
 	}
+	public void MirrorPoints(){
+		List<GameObject> points = GetPoints();
+		foreach(GameObject point in points){
+			RectTransform rt = point.GetComponent<RectTransform>();
+			rt.anchoredPosition = new Vector2(rt.anchoredPosition.x*-1,rt.anchoredPosition.y);
+		}
+		DisconnectPoints();
+		ConnectPoints();
+	}
 	public void DisconnectPoints(){
 		List<GameObject> links = GetLinks ();
 		foreach(GameObject link in links){

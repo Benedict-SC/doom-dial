@@ -95,6 +95,10 @@ public class Drop : MonoBehaviour{
 		
 		string filedata = Json.Serialize(data);
 		fl.Write(filedata);
+
+		GameEvent ge = new GameEvent("piece_obtained");
+		ge.addArgument(piecetype + piecerarity);
+		EventManager.Instance().RaiseEvent(ge);
 	}
 	public int GetRarity(){
 		return rarity;

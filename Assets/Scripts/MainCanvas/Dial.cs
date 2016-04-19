@@ -78,6 +78,7 @@ public class Dial : MonoBehaviour,EventHandler {
 		{
 			health = 0.0f;
 			Debug.Log ("health is negative@");
+			Die();
 		}
 		GameObject healthbar = transform.FindChild ("Health").gameObject;
 		healthbar.transform.localScale = new Vector3 (health / maxHealth, health / maxHealth, 1);
@@ -159,6 +160,10 @@ public class Dial : MonoBehaviour,EventHandler {
                                     Destroy(shields[arrayInd]); //destroy the shield
                                     Debug.Log("shield destroyed by saboteur");
                                     health -= oldHP; //lose amount equal to shield HP
+										GameEvent hitlog = new GameEvent("enemy_finished");
+	                                    hitlog.addArgument(enemy.GetSrcFileName());
+	                                    hitlog.addArgument(oldHP);
+	                                    EventManager.Instance().RaiseEvent(hitlog);
                                 }
                                 else
                                 {
@@ -169,6 +174,10 @@ public class Dial : MonoBehaviour,EventHandler {
                                     { //if the shield's now dead
                                         float dialDamage = (oldHP - rawDamage); //this should be a negative value or 0
                                         health += dialDamage; //dial takes damage (adds the negative value)
+	                                        GameEvent hitlog = new GameEvent("enemy_finished");
+	                                        hitlog.addArgument(enemy.GetSrcFileName());
+	                                        hitlog.addArgument(-dialDamage);
+	                                        EventManager.Instance().RaiseEvent(hitlog);
                                         Destroy(shields[arrayInd]); //destroy the shield
                                         Debug.Log("shield destroyed");
                                     }
@@ -176,6 +185,10 @@ public class Dial : MonoBehaviour,EventHandler {
 								
 						} else { //if there's no shield
 								health -= rawDamage;
+									GameEvent hitlog = new GameEvent("enemy_finished");
+                                    hitlog.addArgument(enemy.GetSrcFileName());
+                                    hitlog.addArgument(rawDamage);
+                                    EventManager.Instance().RaiseEvent(hitlog);
 								//Debug.Log ("damage taken, new health is " + health);
 						}
 						enemy.Die ();
@@ -191,6 +204,10 @@ public class Dial : MonoBehaviour,EventHandler {
 				health = maxHealth;
 			}
 		}
+	}
+	public void Die(){
+		GameEvent death = new GameEvent("game_over");
+		EventManager.Instance().RaiseEvent(death);
 	}
 	
 	public void LoadDialConfigFromJSON(string filename){

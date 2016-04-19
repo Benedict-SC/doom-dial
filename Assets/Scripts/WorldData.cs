@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using MiniJSON;
 
 public class WorldData : MonoBehaviour {
 	//Saves data for later use
@@ -7,6 +9,7 @@ public class WorldData : MonoBehaviour {
 	//on it, and will auto-delete normally.
 	public int placeholder = 0;
 	public static string worldSelected = "";
+	public static int levelIndex = -1;
 	public static string levelSelected = "testlevel";
 	public static string lastScene = "";
 	public static string dialSelected = "devdial";
@@ -20,5 +23,19 @@ public class WorldData : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+	}
+	public static void LoadNextLevel(){
+		if(levelIndex < 0 || levelIndex > 4){ //last level has no next level
+			return;
+		}
+		levelIndex++;
+		FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Campaign" + Path.DirectorySeparatorChar + "Worlds",WorldData.worldSelected);
+		string json = fl.Read ();
+		Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
+		
+		List<System.Object> levels = (List<System.Object>)data["levels"];
+		Dictionary<string,System.Object> ldata = (Dictionary<string,System.Object>)levels[levelIndex];
+		levelSelected = (string)ldata["filename"];
+		Debug.Log("level is: " + levelSelected);
 	}
 }
