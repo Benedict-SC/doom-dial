@@ -20,8 +20,8 @@ public class Drop : MonoBehaviour{
 		
 	}
 	
-	public void SetTypes(string enemyfile){
-		FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Bestiary",enemyfile);
+	public void SetTypes(string filename){
+		FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Campaign",filename);
 		string json = fl.Read ();
 		Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
 		List<System.Object> castable = data["pieceTypes"] as List<System.Object>;
