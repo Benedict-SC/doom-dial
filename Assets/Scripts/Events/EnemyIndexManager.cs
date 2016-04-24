@@ -1,56 +1,52 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
+using MiniJSON;
+using System.Collections.Generic;
+using System.IO;
 
 public class EnemyIndexManager : MonoBehaviour {
 
     //After being SEEN once, add its image to the bestiary
-    static void IncrementTimesSeen(string enemyFile)
-    {
-        //implement
-    }
-    
-    static void IncrementTimesHit(string enemyFile)
-    {
-        //implement later, and do this for other functions here too
-    }
-
     //First time you kill an enemy, reveal its HP and base shield stat in bestiary
     //After 10 kills you get its description/ability/other stats
     //50 kills: get emblem for towers
     //100 kills: ability to use it in level editor
-    static void IncrementTimesKilled(string enemyFile)
-    {
-        //implementation
-    }
-
     //After getting hit once by an enemy, reveal its damage stat in bestiary
-    static void IncrementTimesHitBy(string enemyFile)
+    //accepts the following stats: timesHit, timesKilled, timesHitBy, timesKilledBy, timesSeen
+    static void IncrementEnemyLogStat(string enemyFile, string statName)
     {
-        //implement
+        FileLoader fl = FileLoader.GetSaveDataLoader("Bestiary", "bestiary_logging");
+        string json = fl.Read();
+        Dictionary<string, System.Object> enDict = (Dictionary<string, System.Object>)Json.Deserialize(json);
+        List<System.Object> enemies = enDict["enemyLogs"] as List<System.Object>;
+        foreach (System.Object enemy in enemies)
+        {
+            Dictionary<string, System.Object> edata = enemy as Dictionary<string, System.Object>;
+            string filename = edata["name"] as string;
+            if (filename.Equals(enemyFile)) //find the correct enemy corresponding to enemyFile
+            {
+                //increment the indicated stat
+                long stat = (long)edata[statName];
+                stat += 1;
+                edata[statName] = stat;
+                string newfiledata = Json.Serialize(edata);
+                fl.Write(newfiledata);
+            }
+        }
     }
 
-    static void IncrementTimesKilledBy(string enemyFile)
+    //accepts the following stats: totalKills, totalDeaths, totalHits, totalHitBy
+    static void IncrementTotalsLogStat(string statName)
     {
-        //imp
-    }
-
-    static void IncrementTotalKills()
-    {
-        //implementation
-    }
-
-    static void IncrementTotalDeaths()
-    {
-        //imp
-    }
-
-    static void IncrementTotalHits()
-    {
-        //asdf
-    }
-
-    static void IncrementTotalHitBy()
-    {
-        //asdfasdf
+        FileLoader fl = FileLoader.GetSaveDataLoader("Bestiary", "bestiary_logging");
+        string json = fl.Read();
+        Dictionary<string, System.Object> enDict = (Dictionary<string, System.Object>)Json.Deserialize(json);
+        //increment the indicated stat
+        long stat = (long)enDict[statName];
+        stat += 1;
+        enDict[statName] = stat;
+        string newfiledata = Json.Serialize(enDict);
+        fl.Write(newfiledata);
     }
 }
