@@ -262,6 +262,9 @@ public class Diversion : Enemy{
 					}
 				}
 			}
+			EnemyIndexManager.LogEnemyDeath(srcFileName);
+		}else{
+			EnemyIndexManager.LogHitByEnemy(srcFileName);
 		}
 		//TODO:put yourself in the missedwave queue
 		foreach(DiversionMinion dm in followers){

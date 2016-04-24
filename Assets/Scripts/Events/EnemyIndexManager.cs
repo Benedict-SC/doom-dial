@@ -14,7 +14,7 @@ public class EnemyIndexManager : MonoBehaviour {
     //100 kills: ability to use it in level editor
     //After getting hit once by an enemy, reveal its damage stat in bestiary
     //accepts the following stats: timesHit, timesKilled, timesHitBy, timesKilledBy, timesSeen
-    static void IncrementEnemyLogStat(string enemyFile, string statName)
+    public static void IncrementEnemyLogStat(string enemyFile, string statName)
     {
         FileLoader fl = FileLoader.GetSaveDataLoader("Bestiary", "bestiary_logging");
         string json = fl.Read();
@@ -30,14 +30,15 @@ public class EnemyIndexManager : MonoBehaviour {
                 long stat = (long)edata[statName];
                 stat += 1;
                 edata[statName] = stat;
-                string newfiledata = Json.Serialize(edata);
-                fl.Write(newfiledata);
+
             }
         }
+		string newfiledata = Json.Serialize(enDict);
+        fl.Write(newfiledata);
     }
 
     //accepts the following stats: totalKills, totalDeaths, totalHits, totalHitBy
-    static void IncrementTotalsLogStat(string statName)
+    public static void IncrementTotalsLogStat(string statName)
     {
         FileLoader fl = FileLoader.GetSaveDataLoader("Bestiary", "bestiary_logging");
         string json = fl.Read();
@@ -48,5 +49,25 @@ public class EnemyIndexManager : MonoBehaviour {
         enDict[statName] = stat;
         string newfiledata = Json.Serialize(enDict);
         fl.Write(newfiledata);
+    }
+    public static void LogHitEnemy(string enemyfile){
+    	EnemyIndexManager.IncrementEnemyLogStat(enemyfile,"timesHit");
+    	EnemyIndexManager.IncrementTotalsLogStat("totalHits");
+    }
+    public static void LogHitByEnemy(string enemyfile){
+		EnemyIndexManager.IncrementEnemyLogStat(enemyfile,"timesHitBy");
+    	EnemyIndexManager.IncrementTotalsLogStat("totalHitBy");
+    }
+    public static void LogPlayerDeath(string enemyfile){
+		EnemyIndexManager.IncrementEnemyLogStat(enemyfile,"timesKilledBy");
+    	EnemyIndexManager.IncrementTotalsLogStat("totalDeaths");
+    }
+    public static void LogEnemyDeath(string enemyfile){
+		EnemyIndexManager.IncrementEnemyLogStat(enemyfile,"timesKilled");
+    	EnemyIndexManager.IncrementTotalsLogStat("totalKills");
+    }
+    public static void LogEnemyAppearance(string enemyfile){
+    	EnemyIndexManager.IncrementEnemyLogStat(enemyfile,"timesSeen");
+    	Debug.Log(enemyfile);
     }
 }

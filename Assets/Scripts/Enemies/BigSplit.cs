@@ -240,6 +240,9 @@ public class BigSplit : Enemy{
 					}
 				}
 			}
+			EnemyIndexManager.LogEnemyDeath(srcFileName);
+		}else{
+			EnemyIndexManager.LogHitByEnemy(srcFileName);
 		}
 		
 		foreach(BigSplit s in partners){

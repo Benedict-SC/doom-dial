@@ -201,6 +201,9 @@ public class TipOfTheSpear : Enemy{
 					}
 				}
 			}
+			EnemyIndexManager.LogEnemyDeath(srcFileName);
+		}else{
+			EnemyIndexManager.LogHitByEnemy(srcFileName);
 		}
 		//TODO:put yourself in the missedwave queue
 		foreach(TipOfTheSpear tots in partners){

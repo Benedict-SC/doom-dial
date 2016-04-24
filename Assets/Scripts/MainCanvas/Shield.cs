@@ -49,7 +49,7 @@ public class Shield : MonoBehaviour {
 	
 	public void UpdateHPMeter ()
 	{
-		Debug.Log ("Shield HP updated");
+		//Debug.Log ("Shield HP updated");
 		hpMeter.transform.localScale = new Vector3(hpMeter.transform.localScale.x, hp / maxHP + .1f, hpMeter.transform.localScale.z);
 	}
 	

@@ -246,6 +246,9 @@ public class Splitter : Enemy{
 					}
 				}
 			}
+			EnemyIndexManager.LogEnemyDeath(srcFileName);
+		}else{
+			EnemyIndexManager.LogHitByEnemy(srcFileName);
 		}
 		
 		foreach(Splitter s in partners){

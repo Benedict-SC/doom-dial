@@ -167,11 +167,15 @@ public class Chainer : Enemy{
 					}
 				}
 			}
+			EnemyIndexManager.LogEnemyDeath(srcFileName);
+		}else{
+			EnemyIndexManager.LogHitByEnemy(srcFileName);
 		}
 		foreach(Chainer c in followers){
 			if(c != this)
 				Destroy (c.gameObject);
 		}
+
 		Destroy (this.gameObject);
 	}
 	public override void OnTriggerEnter2D(Collider2D coll){

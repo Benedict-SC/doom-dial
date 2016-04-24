@@ -162,6 +162,9 @@ public class WallOfDoom : Enemy{
 					}
 				}
 			}
+			EnemyIndexManager.LogEnemyDeath(srcFileName);
+		}else{
+			EnemyIndexManager.LogHitByEnemy(srcFileName);
 		}
 		//TODO:put yourself in the missedwave queue
 		foreach(WallOfDoom wod in partners){

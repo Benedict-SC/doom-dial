@@ -34,6 +34,7 @@ public class Dial : MonoBehaviour,EventHandler {
 	
 	Dictionary<string,System.Object> bonusWaveDictionary;
 	int bonusCapacity = 30;
+	string mostRecentAttackerFilename = "testenemy";
 	
 	void Awake(){
 		GamePause.paused = false;
@@ -145,6 +146,7 @@ public class Dial : MonoBehaviour,EventHandler {
 								return;
 						}
 						Enemy enemy = eh.GetComponent<Enemy> ();
+						mostRecentAttackerFilename = enemy.GetSrcFileName();
 						enemy.AddToBonus ((List<System.Object>)bonusWaveDictionary ["enemies"]);
 						float rawDamage = enemy.GetDamage ();
 						int trackID = enemy.GetCurrentTrackID ();
@@ -206,6 +208,7 @@ public class Dial : MonoBehaviour,EventHandler {
 		}
 	}
 	public void Die(){
+		EnemyIndexManager.LogPlayerDeath(mostRecentAttackerFilename);
 		GameEvent death = new GameEvent("game_over");
 		EventManager.Instance().RaiseEvent(death);
 	}

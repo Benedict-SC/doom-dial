@@ -126,6 +126,9 @@ public class DiversionMinion : Enemy{
 					}
 				}
 			}
+			EnemyIndexManager.LogEnemyDeath(srcFileName);
+		}else{
+			EnemyIndexManager.LogHitByEnemy(srcFileName);
 		}
 		//TODO:put leader in the missedwave queue
 		foreach(DiversionMinion dm in followers){

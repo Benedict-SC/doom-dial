@@ -98,6 +98,7 @@ public class WaveManager2 : MonoBehaviour {
 					spawnedThisCycle.Add (enemy);
 					enemy.SetActive (true);
 					e.StartMoving ();
+					EnemyIndexManager.LogEnemyAppearance(e.GetSrcFileName());
 				}
 			}
 			foreach (GameObject spawned in spawnedThisCycle) {
@@ -180,6 +181,7 @@ public class WaveManager2 : MonoBehaviour {
 					spawnedThisCycle.Add (enemy);
 					enemy.SetActive (true);
 					e.StartMoving ();
+					EnemyIndexManager.LogEnemyAppearance(e.GetSrcFileName());
 					//handle junior
 					if(e is Junior){
 						int bonusWaveNumber = 1; //change this later when we have multiple bonus waves

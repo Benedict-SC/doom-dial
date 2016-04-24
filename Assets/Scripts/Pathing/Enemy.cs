@@ -537,6 +537,9 @@ public class Enemy : MonoBehaviour,EventHandler {
 					}
 				}
 			}
+			EnemyIndexManager.LogEnemyDeath(srcFileName);
+		}else{
+			EnemyIndexManager.LogHitByEnemy(srcFileName);
 		}
 		Destroy (this.gameObject);
 	}
