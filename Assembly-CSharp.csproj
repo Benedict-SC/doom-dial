@@ -52,6 +52,8 @@
      <Compile Include="Assets\Scripts\BulletController.cs" />
      <Compile Include="Assets\Scripts\ButtonController.cs" />
      <Compile Include="Assets\Scripts\CanvasAspectRatioDetector.cs" />
+     <Compile Include="Assets\Scripts\CanvasMenus\EnemyIndexMenu.cs" />
+     <Compile Include="Assets\Scripts\CanvasMenus\EnemyIndexOption.cs" />
      <Compile Include="Assets\Scripts\CanvasMenus\LevelMenuOption.cs" />
      <Compile Include="Assets\Scripts\CanvasMenus\LevelSelectMenu.cs" />
      <Compile Include="Assets\Scripts\CanvasMenus\LoadSceneMenuOption.cs" />
@@ -92,6 +94,7 @@
      <Compile Include="Assets\Scripts\Enemies\TipOfTheSpear.cs" />
      <Compile Include="Assets\Scripts\Enemies\WallOfDoom.cs" />
      <Compile Include="Assets\Scripts\EnemyController.cs" />
+     <Compile Include="Assets\Scripts\Events\EnemyIndexManager.cs" />
      <Compile Include="Assets\Scripts\Events\EventComponent.cs" />
      <Compile Include="Assets\Scripts\Events\EventHandler.cs" />
      <Compile Include="Assets\Scripts\Events\EventManager.cs" />
@@ -332,6 +335,7 @@
      <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_1.txt" />
      <None Include="Assets\Resources\JSONData\Paths\Strafing.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\speed_normal.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\enemyGuidelinesForThom.txt" />
      <None Include="Assets\Resources\JSONData\Campaign\WORLD_LIST.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\arc_super.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World1\Level2\wavedata.txt" />
@@ -347,6 +351,7 @@
      <None Include="Assets\Resources\JSONData\Bestiary\swarmminion.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\speed_super.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\TOWER_DEFAULTS.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\exampleEnemySave.txt" />
      <None Include="Assets\Resources\JSONData\Paths\Strafing_Mirror.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\junior.txt" />
      <None Include="Assets\Resources\JSONData\Campaign\Waves\testwave3.txt" />

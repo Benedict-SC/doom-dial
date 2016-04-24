@@ -2,18 +2,19 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MainCanvas\Drop.cs">
     <Files>
-      <File FileName="Assets\Scripts\MainCanvas\Drop.cs" Line="81" Column="3" />
+      <File FileName="Assets\Scripts\CanvasMenus\MenuDial.cs" Line="38" Column="3" />
+      <File FileName="Assets\Scripts\MainCanvas\Drop.cs" Line="90" Column="13" />
       <File FileName="Assets\Scripts\MainCanvas\WaveManager2.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\MainCanvas\GameWatcher.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\MainCanvas\Dial.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Events\EventManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Pathing\Enemy.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Pathing\Enemy.cs" Line="482" Column="3" />
       <File FileName="Assets\Scripts\WorldData.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\CanvasMenus\WorldMenuOption.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\CanvasMenus\LevelSelectMenu.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\CanvasMenus\LevelMenuOption.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Wave.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\PieceParser.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\FileLoader.cs" Line="29" Column="3" />
+      <File FileName="Assets\Scripts\TestDataLoader.cs" Line="74" Column="45" />
+      <File FileName="Assets\Scripts\WaveEditor\EnemyInvController.cs" Line="15" Column="3" />
+      <File FileName="Assets\Scripts\InputWatcher.cs" Line="6" Column="49" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
