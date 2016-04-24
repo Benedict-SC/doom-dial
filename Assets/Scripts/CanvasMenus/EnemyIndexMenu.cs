@@ -12,6 +12,7 @@ public class EnemyIndexMenu : MonoBehaviour {
     public void Awake()
     {
         md = GameObject.Find("MenuDial").gameObject.GetComponent<MenuDial>();
+        Debug.Log("dial null? : " + md == null);
     }
 
     public void Start()
@@ -37,26 +38,50 @@ public class EnemyIndexMenu : MonoBehaviour {
         Dictionary<string, System.Object> enemyData = (Dictionary<string, System.Object>)Json.Deserialize(json);
 
         List<System.Object> enemies = (List<System.Object>)enemyData["enemies"];
-
-        foreach (System.Object enemyobj in enemies)
+        List<string> enemyTypes = new List<string>();
+        foreach (System.Object s in enemies)
         {
-            Dictionary<string, System.Object> wdata = (Dictionary<string, System.Object>)enemyobj;
+            enemyTypes.Add((string)s);
+        }
 
-            //Debug.Log (iconlabel + " " + iconfile + " " + buttonlabel);
-
+        //for each enemy listing in ENEMY_LIST...
+        foreach (string enFilename in enemyTypes)
+        {
             GameObject optionobj = GameObject.Instantiate(Resources.Load("Prefabs/Menus/MenuOption")) as GameObject;
             GameObject.Destroy(optionobj.GetComponent<MenuOption>());
-            WorldMenuOption option = optionobj.AddComponent<WorldMenuOption>() as WorldMenuOption;
-            //option.worldFilename = enemyname;
+            EnemyIndexOption option = optionobj.AddComponent<EnemyIndexOption>() as EnemyIndexOption;
+            option.enemyFilename = enFilename;
+
+            //set the display name of the enemy.  Make sure the player's encountered him!
+            long enTimesSeen = 0;
+
+            //here, we get the enemy's specific file so we can access its display name.
+            FileLoader enemyfl = new FileLoader("JSONData" + Path.DirectorySeparatorChar + "Bestiary", enFilename);
+            string enemyjson = enemyfl.Read();
+            Dictionary<string, System.Object> enemyStats = (Dictionary<string, System.Object>)Json.Deserialize(enemyjson);
+
+            //load up stats from the enemy log save file
+            FileLoader logfl = FileLoader.GetSaveDataLoader("Bestiary", "bestiary_logging");
+            string logjson = logfl.Read();
+            Dictionary<string, System.Object> logDict = (Dictionary<string, System.Object>)Json.Deserialize(logjson);
+            foreach (System.Object enemy in logDict)
+            {
+                Dictionary<string, System.Object> edata = enemy as Dictionary<string, System.Object>;
+                string filename = edata["name"] as string;
+                if (filename.Equals(enFilename)) //find the correct enemy corresponding to enFilename
+                {
+                    enTimesSeen = (long)edata["timesSeen"]; //now we've finally got the timesSeen value :P
+                    break;
+                }
+            }
+
+            if (enTimesSeen > 0) //if not, the default for this is "???"
+            {
+                option.displayName = (string)enemyStats["name"];
+            }
+
             optionobj.transform.SetParent(md.transform, false);
             md.AddOption(option);
         }
-        GameObject cancelobj = GameObject.Instantiate(Resources.Load("Prefabs/Menus/MenuOption")) as GameObject;
-        GameObject.Destroy(cancelobj.GetComponent<MenuOption>());
-        LoadSceneMenuOption cancel = cancelobj.AddComponent<LoadSceneMenuOption>() as LoadSceneMenuOption;
-        cancel.sceneName = "MenuTest";
-        cancel.ConfigureOption("PieceSprites/Piece_Stun_R", "Back to Menu", "Return to the main menu.");
-        cancelobj.transform.SetParent(md.transform, false);
-        md.AddOption(cancel);
     }
 }

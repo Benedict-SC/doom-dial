@@ -4,6 +4,7 @@ using System.Collections;
 public class EnemyIndexOption : MenuOption {
 
     public string enemyFilename = "WARNING: ENEMY FILENAME NOT SET";
+    public string displayName = "???";
 
     //enemy stats
     public float enHealth;
