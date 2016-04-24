@@ -1,0 +1,37 @@
+the enemy index is a living document
+
+[1231] 
+it updates as you learn new things about enemies
+
+[1231] 
+the first time you SEE an enemy on screen, it's index is added to the poke-dex
+
+[1231] 
+just the image
+
+[1232] 
+the first time it hits you, you get it's Damage stat revealed
+
+[1232] 
+the first time you kill it, you get it's HP stat revealed
+
+[1236] 
+killing an enemy for the first time reveals his Shield amount stat too. (base shield stat)
+
+[1233] 
+after 10 kills of that enemy, you know it well and get the description of what it does if it has an ability.
+
+[1233] 
+after 50 you get it added to your ability to build enemy waves for other players.
+
+[1233] 
+wait. that should be 100
+
+[1233] 
+50 should be an emblem for your towers
+
+[1234] 
+so if you build a tower specifically to fight that enemy you can just slap that icon on there so you can match tower to enemy easily
+
+[1234] 
+and then we'll have other special abilitiesrewards taht are unlocked by killing X of each in a group of enemy types or something.

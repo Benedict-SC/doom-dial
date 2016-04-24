@@ -1,0 +1,21 @@
+{sorry the formatting's probably completely wrong.  this is
+just what info should go in each enemy's slot.}
+
+list {
+	"name":"Bigfella"
+		{
+			"timesSeen":0,
+			"timesHit":0,
+			"timesKilled":0,
+			"timesHitBy":0,
+			"timesKilledBy":0,
+		}
+
+	player stats:
+		{
+			"totalHits":0,
+			"totalHitBy":0,
+			"totalDeaths":0,
+			"totalKills":0
+		}
+	}
