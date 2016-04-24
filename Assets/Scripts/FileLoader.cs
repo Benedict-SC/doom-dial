@@ -23,6 +23,13 @@ public class FileLoader{
 		this.folder = folder;
 		this.path = path + Path.DirectorySeparatorChar + folder;
 	}
+
+	public static FileLoader GetSaveDataLoader(string folder, string filename){
+		return new FileLoader(Application.persistentDataPath,folder,filename);
+	}
+	public static FileLoader GetGameJSONDataLoader(string folder, string filename){
+		return new FileLoader("JSONData" + Path.DirectorySeparatorChar + folder,filename);
+	}
 	
 	public string Read()
 	{
