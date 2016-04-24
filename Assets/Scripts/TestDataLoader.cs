@@ -48,6 +48,31 @@ public class TestDataLoader : MonoBehaviour{
 				}
 			}
 		}
+		//load bestiary data and totals
+		FileLoader enemylist = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Bestiary","ENEMY_LIST");
+		FileLoader bestiarydata = new FileLoader(Application.persistentDataPath,"Bestiary","bestiary_logging");
+		Dictionary<string,System.Object> bdict = new Dictionary<string,System.Object>();
+		bdict.Add("totalHits",0);
+		bdict.Add("totalHitBy",0);
+		bdict.Add("totalDeaths",0);
+		bdict.Add("totalKills",0);
+		List<System.Object> enemies = new List<System.Object>();
+		Dictionary<string,System.Object> enemylistdict = Json.Deserialize(enemylist.Read()) as Dictionary<string,System.Object>;
+		List<System.Object> enemyfilenames = enemylistdict["enemies"] as List<System.Object>;
+		foreach (System.Object eobj in enemyfilenames){
+			string efilename = (string)eobj;
+			Dictionary<string,System.Object> subObject = new Dictionary<string,System.Object>();
+			subObject.Add("name",efilename);
+			subObject.Add("timesSeen",0);
+			subObject.Add("timesHit",0);
+			subObject.Add("timesKilled",0);
+			subObject.Add("timesHitBy",0);
+			subObject.Add("timesKilledBy",0);
+			enemies.Add(subObject);
+		}
+		bdict.Add("enemyLogs",enemies);
+		bestiarydata.Write(Json.Serialize(bdict));
+
 		
 		Debug.Log("Loaded");
 	}
