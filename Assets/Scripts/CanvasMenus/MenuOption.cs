@@ -39,6 +39,10 @@ public class MenuOption : MonoBehaviour{
 	}
     public void SetDialText(string dText)
     {
-        dialText = dText;
+        if (text == null)
+        {
+            text = transform.FindChild("Text").gameObject.GetComponent<Text>();
+        }
+        text.text = dText;
     }
 }

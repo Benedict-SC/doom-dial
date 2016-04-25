@@ -80,6 +80,11 @@ public class EnemyIndexMenu : MonoBehaviour {
             {
                 option.SetDialText((string)enemyStats["name"]);
             }
+            else
+            {
+                string dText = "???";
+                option.SetDialText(dText);
+            }
 
             optionobj.transform.SetParent(md.transform, false);
             md.AddOption(option);
