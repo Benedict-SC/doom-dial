@@ -9,6 +9,8 @@ public class MenuOption : MonoBehaviour{
 	string buttonText = "OPTION NOT CONFIGURED";
 	Image icon = null;
 	Text text = null;
+
+    public string enemyFilename; //for EnemyIndexOption use
 	
 	public void ConfigureOption(string iconfilename,string dialtext, string buttontext){
 		if(icon == null){
@@ -35,5 +37,8 @@ public class MenuOption : MonoBehaviour{
 	public virtual void WhenChosen(){
 		Debug.Log ("this menu option does nothing");
 	}
-
+    public void SetDialText(string dText)
+    {
+        dialText = dText;
+    }
 }

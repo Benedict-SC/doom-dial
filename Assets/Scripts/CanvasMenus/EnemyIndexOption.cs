@@ -6,10 +6,6 @@ public class EnemyIndexOption : MenuOption {
     public string enemyFilename = "WARNING: ENEMY FILENAME NOT SET";
     public string displayName = "???";
 
-    //enemy stats
-    public float enHealth;
-    public float enAttack;
-
     public override void WhenChosen()
     {
         /*
