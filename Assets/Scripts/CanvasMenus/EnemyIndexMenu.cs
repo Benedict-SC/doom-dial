@@ -50,6 +50,18 @@ public class EnemyIndexMenu : MonoBehaviour {
             GameObject optionobj = GameObject.Instantiate(Resources.Load("Prefabs/Menus/MenuOption")) as GameObject;
             MenuOption option = optionobj.GetComponent<MenuOption>();
             GameObject.Destroy(optionobj.transform.FindChild("Image").gameObject);
+            GameObject.Destroy(optionobj.transform.FindChild("Text").gameObject);
+            #region TextMaking (creating text from script is apparently pretty complicated actually)
+            GameObject newtextobj = new GameObject("EnemyName");
+            newtextobj.transform.SetParent(optionobj.transform,false);
+            Text newtext = newtextobj.AddComponent<Text>();
+            newtext.font = (Font)Resources.GetBuiltinResource(typeof(Font),"Arial.ttf");
+            newtext.fontSize = 20;
+            newtext.fontStyle = FontStyle.Bold;
+            newtext.color = new Color(1f,.906f,.153f);
+            newtext.alignment = TextAnchor.MiddleCenter;
+            #endregion
+
             option.enemyFilename = enFilename;
 
             //set the display name of the enemy.  Make sure the player's encountered him!
@@ -78,12 +90,11 @@ public class EnemyIndexMenu : MonoBehaviour {
 
             if (enTimesSeen > 0) //if not, the default for this is "???"
             {
-                option.SetDialText((string)enemyStats["name"]);
+                newtext.text = (string)enemyStats["name"];
             }
             else
             {
-                string dText = "???";
-                option.SetDialText(dText);
+                newtext.text = "???";
             }
 
             optionobj.transform.SetParent(md.transform, false);
