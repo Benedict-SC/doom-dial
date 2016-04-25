@@ -48,8 +48,8 @@ public class EnemyIndexMenu : MonoBehaviour {
         foreach (string enFilename in enemyTypes)
         {
             GameObject optionobj = GameObject.Instantiate(Resources.Load("Prefabs/Menus/MenuOption")) as GameObject;
-            GameObject.Destroy(optionobj.GetComponent<MenuOption>());
-            EnemyIndexOption option = optionobj.AddComponent<EnemyIndexOption>() as EnemyIndexOption;
+            MenuOption option = optionobj.GetComponent<MenuOption>();
+            GameObject.Destroy(optionobj.transform.FindChild("Image").gameObject);
             option.enemyFilename = enFilename;
 
             //set the display name of the enemy.  Make sure the player's encountered him!
@@ -64,7 +64,8 @@ public class EnemyIndexMenu : MonoBehaviour {
             FileLoader logfl = FileLoader.GetSaveDataLoader("Bestiary", "bestiary_logging");
             string logjson = logfl.Read();
             Dictionary<string, System.Object> logDict = (Dictionary<string, System.Object>)Json.Deserialize(logjson);
-            foreach (System.Object enemy in logDict)
+            List<System.Object> logList = logDict["enemyLogs"] as List<System.Object>;
+            foreach (System.Object enemy in logList)
             {
                 Dictionary<string, System.Object> edata = enemy as Dictionary<string, System.Object>;
                 string filename = edata["name"] as string;
@@ -77,7 +78,7 @@ public class EnemyIndexMenu : MonoBehaviour {
 
             if (enTimesSeen > 0) //if not, the default for this is "???"
             {
-                option.displayName = (string)enemyStats["name"];
+                option.SetDialText((string)enemyStats["name"]);
             }
 
             optionobj.transform.SetParent(md.transform, false);

@@ -21,8 +21,6 @@ public class MenuScaleEffectCanvas : MonoBehaviour {
 			img = imgchild.gameObject.GetComponent<Image>();
 		}
 		parent = transform.parent.gameObject;
-        Debug.Log("test123");
-        Debug.Log(parent.ToString());
 		hasStarted = true;
 		RefreshRotOffset();
 		
