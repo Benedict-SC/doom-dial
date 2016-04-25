@@ -10,13 +10,16 @@ public class MenuScaleEffectCanvas : MonoBehaviour {
 	public float secondaryOp = 0.0f;
 	public float rotationSet;
 	public float opAdjust = 2.0f;
-	Image img;
+	Image img = null;
 	Color transparency = new Color(1,1,1,1);
 	
 	bool hasStarted = false;
 	// Use this for initialization
 	void Start () {
-		img = transform.FindChild("Image").gameObject.GetComponent<Image>();
+		Transform imgchild = transform.FindChild("Image");
+		if(imgchild != null){
+			img = imgchild.gameObject.GetComponent<Image>();
+		}
 		parent = transform.parent.gameObject;
         Debug.Log("test123");
         Debug.Log(parent.ToString());
@@ -56,10 +59,12 @@ public class MenuScaleEffectCanvas : MonoBehaviour {
 		transform.localScale = new Vector3 (scaleFactor, scaleFactor, 0);
 		//Keeps all icons facing down
 		transform.localEulerAngles = new Vector3(0,0,(360 - parent.transform.eulerAngles.z));
-		transparency = img.color;
-		
-		transparency.a = opFactor - (secondaryOp *opAdjust);
-		img.color = transparency;
+
+		if(img != null){
+			transparency = img.color;
+			transparency.a = opFactor - (secondaryOp *opAdjust);
+			img.color = transparency;
+		}
 	}
 }
 
