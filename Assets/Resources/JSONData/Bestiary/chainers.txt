@@ -2,6 +2,7 @@
 	"name":"Chainers",
 	"imgfile":"Placeholder",
 	"pointValue":10,
+	"desc":"Placeholder description for Chainers",
 	
 	"enemyType":"Chainers",
 	"delay":1.6,

@@ -2,6 +2,7 @@
 	"name":"Minisplit",
 	"imgfile":"Placeholder",
 	"pointValue":15,
+	"desc":"Placeholder description for Minisplit",
 	
 	"enemyType":"Minisplit",
 

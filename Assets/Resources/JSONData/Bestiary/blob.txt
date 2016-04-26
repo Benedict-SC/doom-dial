@@ -2,6 +2,7 @@
 	"name":"Blob",
 	"imgfile":"Placeholder",
 	"pointValue":15,
+	"desc":"Placeholder description for Blob",
 	
 	"enemyType":"Blob",
 

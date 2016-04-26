@@ -3,6 +3,7 @@
 	"imgfile":"Placeholder",
 	"pointValue":15,
 	"columnName":"1/4split",
+	"desc":"Placeholder description for Quarter Splitter",
 	
 	"enemyType":"Splitter",
 

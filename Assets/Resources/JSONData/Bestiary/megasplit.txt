@@ -2,6 +2,7 @@
 	"name":"Megasplit",
 	"imgfile":"Placeholder",
 	"pointValue":15,
+	"desc":"Placeholder description for Megasplit",
 	
 	"enemyType":"Megasplit",
 

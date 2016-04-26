@@ -3,6 +3,7 @@
 	"imgfile":"Placeholder",
 	"pointValue":15,
 	"columnName":"Big Split",
+	"desc":"Placeholder description for Big Split",
 	
 	"enemyType":"BigSplit",
 

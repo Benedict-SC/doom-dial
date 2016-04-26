@@ -3,6 +3,7 @@
 	"imgfile":"Placeholder",
 	"pointValue":20,
 	"columnName":"W. of Doom",
+	"desc":"Placeholder description for Wall of Doom",
 	
 	"enemyType":"WallOfDoom",
 

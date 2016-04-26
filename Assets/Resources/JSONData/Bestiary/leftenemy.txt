@@ -3,6 +3,7 @@
 	"imgfile":"Placeholder",
 	"pointValue":5,
 	"columnName":"Lefty",
+	"desc":"Placeholder description for Left Enemy",
 
 	"enemyType":"Normal",
 	

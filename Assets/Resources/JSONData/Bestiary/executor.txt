@@ -3,6 +3,7 @@
 	"imgfile":"Placeholder",
 	"pointValue":30,
 	"columnName":"Executor",
+	"desc":"Placeholder description for Executor",
 	
 	"enemyType":"Executor",
 

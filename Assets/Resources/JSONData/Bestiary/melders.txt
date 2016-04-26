@@ -3,6 +3,7 @@
 	"imgfile":"Placeholder",
 	"pointValue":20,
 	"columnName":"Melders",
+	"desc":"Placeholder description for Melders",
 	
 	"enemyType":"Melder",
 

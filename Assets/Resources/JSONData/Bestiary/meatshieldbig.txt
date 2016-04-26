@@ -2,6 +2,7 @@
 	"name":"The Big One (payload)",
 	"imgfile":"Placeholder",
 	"pointValue":30,
+	"desc":"Placeholder description for The Big One",
 	
 	"enemyType":"MeatShield",
 	"delay":1.6,

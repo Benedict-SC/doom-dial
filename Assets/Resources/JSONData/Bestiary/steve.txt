@@ -4,6 +4,7 @@
 	"pointValue":10,
 	"listName":"He's Steve",
 	"columnName":"(steve.)",
+	"desc":"Placeholder description for Steve",
 	"fontSize":20,
 	
 	"enemyType":"Normal",

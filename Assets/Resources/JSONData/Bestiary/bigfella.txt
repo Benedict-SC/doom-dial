@@ -2,6 +2,7 @@
 	"name":"Bigfella",
 	"imgfile":"Placeholder",
 	"pointValue":20,
+	"desc":"Placeholder description for Bigfella",
 	
 	"enemyType":"Normal",
 

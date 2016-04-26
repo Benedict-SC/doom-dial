@@ -3,6 +3,7 @@
 	"imgfile":"Placeholder",
 	"pointValue":15,
 	"columnName":"Splitter",
+	"desc":"Placeholder description for Splitter",
 	
 	"enemyType":"Splitter",
 

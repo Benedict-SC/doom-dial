@@ -13,6 +13,7 @@ public class MenuDial : MonoBehaviour,EventHandler {
 	int slots = 0; //default
 	List<MenuOption> options = null;
 	MenuOption selected = null;
+    EnemyStatsPanel enemyStatsPanel = null;
 	
 	public string menuType = "world";
 	
@@ -31,7 +32,8 @@ public class MenuDial : MonoBehaviour,EventHandler {
 		anchorX = rt.anchoredPosition.x;
 		anchorY = rt.anchoredPosition.y;
 		transform.rotation = Quaternion.Euler (0, 0, headAngle);
-		
+        enemyStatsPanel = GameObject.Find("Stats Panel").GetComponent<EnemyStatsPanel>();
+        
 	}
 	public MenuOption GetSelectedOption(){
 		return selected;
@@ -49,7 +51,17 @@ public class MenuDial : MonoBehaviour,EventHandler {
 			index += options.Count;
 		}
 		selected = options[index];
+        RefreshEnemyStatsPanel();
 	}
+
+    public void RefreshEnemyStatsPanel()
+    {
+        if (enemyStatsPanel != null && selected.enemyFilename != null)
+        {
+            enemyStatsPanel.SetCurrentEnemy(selected.enemyFilename);
+        }
+    }
+
 	public void AddOption(MenuOption mo){ //will later have arguments
 		if(options == null){
 			options = new List<MenuOption>();

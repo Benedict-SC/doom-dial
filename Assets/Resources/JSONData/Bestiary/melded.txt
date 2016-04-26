@@ -3,6 +3,7 @@
 	"imgfile":"Placeholder",
 	"pointValue":20,
 	"columnName":"Melded",
+	"desc":"Placeholder description for Melded",
 	
 	"enemyType":"Melded",
 

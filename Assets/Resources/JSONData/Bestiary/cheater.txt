@@ -3,6 +3,7 @@
 	"imgfile":"Placeholder",
 	"pointValue":20,
 	"columnName":"Cheater",
+	"desc":"Placeholder description for Cheater",
 
 	"enemyType":"Cheater",
 	

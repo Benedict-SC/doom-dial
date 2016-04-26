@@ -3,6 +3,7 @@
 	"imgfile":"Placeholder",
 	"pointValue":5,
 	"columnName":"Comp.",
+	"desc":"Placeholder description for Compensator",
 
 	"enemyType":"Normal",
 	

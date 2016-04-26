@@ -3,6 +3,7 @@
 	"imgfile":"Placeholder",
 	"pointValue":30,
 	"columnName":"Big One",
+	"desc":"Placeholder description for The Big One (small)",
 	
 	"enemyType":"MeatShield",
 	"delay":1.7,
