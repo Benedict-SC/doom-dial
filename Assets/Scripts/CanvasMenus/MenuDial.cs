@@ -32,9 +32,13 @@ public class MenuDial : MonoBehaviour,EventHandler {
 		anchorX = rt.anchoredPosition.x;
 		anchorY = rt.anchoredPosition.y;
 		transform.rotation = Quaternion.Euler (0, 0, headAngle);
-        enemyStatsPanel = GameObject.Find("Stats Panel").GetComponent<EnemyStatsPanel>();
-        
-	}
+
+        //if there's an Enemy Stats Panel in the scene
+        if (GameObject.Find("Stats Panel"))
+        {
+            enemyStatsPanel = GameObject.Find("Stats Panel").GetComponent<EnemyStatsPanel>();
+        }
+    }
 	public MenuOption GetSelectedOption(){
 		return selected;
 	}
@@ -89,6 +93,7 @@ public class MenuDial : MonoBehaviour,EventHandler {
 			mo.gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(x,y);
 			mo.gameObject.GetComponent<MenuScaleEffectCanvas>().RefreshRotOffset();
 		}
+        RefreshSelectedOption();
 	}
 	
 	public void HandleEvent(GameEvent ge){
