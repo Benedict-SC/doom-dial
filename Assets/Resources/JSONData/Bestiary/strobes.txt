@@ -3,6 +3,7 @@
 	"imgfile":"Placeholder",
 	"pointValue":5,
 	"columnName":"Strobes",
+	"desc":"Placeholder description for Strobes",
 
 	"enemyType":"Normal",
 	

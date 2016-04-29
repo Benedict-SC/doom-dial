@@ -3,6 +3,7 @@
 	"imgfile":"Placeholder",
 	"pointValue":5,
 	"columnName":"Enemy",
+	"desc":"Placeholder description for test enemy",
 
 	"enemyType":"Normal",
 	

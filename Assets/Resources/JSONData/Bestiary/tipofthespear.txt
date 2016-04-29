@@ -4,6 +4,7 @@
 	"pointValue":15,
 	"fontSize":16,
 	"columnName":"T. of Spear",
+	"desc":"Placeholder description for Tip of the Spear",
 	
 	"enemyType":"TipOfTheSpear",
 	"delay":2.4,

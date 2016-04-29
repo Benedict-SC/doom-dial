@@ -3,6 +3,7 @@
 	"imgfile":"Placeholder",
 	"pointValue":15,
 	"columnName":"1/2split",
+	"desc":"Placeholder description for Half Splitter",
 	
 	"enemyType":"Splitter",
 

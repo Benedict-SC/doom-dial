@@ -13,6 +13,7 @@ public class MenuDial : MonoBehaviour,EventHandler {
 	int slots = 0; //default
 	List<MenuOption> options = null;
 	MenuOption selected = null;
+    EnemyStatsPanel enemyStatsPanel = null;
 	
 	public string menuType = "world";
 	
@@ -31,8 +32,13 @@ public class MenuDial : MonoBehaviour,EventHandler {
 		anchorX = rt.anchoredPosition.x;
 		anchorY = rt.anchoredPosition.y;
 		transform.rotation = Quaternion.Euler (0, 0, headAngle);
-		
-	}
+
+        //if there's an Enemy Stats Panel in the scene
+        if (GameObject.Find("Stats Panel"))
+        {
+            enemyStatsPanel = GameObject.Find("Stats Panel").GetComponent<EnemyStatsPanel>();
+        }
+    }
 	public MenuOption GetSelectedOption(){
 		return selected;
 	}
@@ -49,7 +55,17 @@ public class MenuDial : MonoBehaviour,EventHandler {
 			index += options.Count;
 		}
 		selected = options[index];
+        RefreshEnemyStatsPanel();
 	}
+
+    public void RefreshEnemyStatsPanel()
+    {
+        if (enemyStatsPanel != null && selected.enemyFilename != null)
+        {
+            enemyStatsPanel.SetCurrentEnemy(selected.enemyFilename);
+        }
+    }
+
 	public void AddOption(MenuOption mo){ //will later have arguments
 		if(options == null){
 			options = new List<MenuOption>();
@@ -77,6 +93,7 @@ public class MenuDial : MonoBehaviour,EventHandler {
 			mo.gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(x,y);
 			mo.gameObject.GetComponent<MenuScaleEffectCanvas>().RefreshRotOffset();
 		}
+        RefreshSelectedOption();
 	}
 	
 	public void HandleEvent(GameEvent ge){

@@ -3,6 +3,7 @@
 	"imgfile":"Placeholder",
 	"pointValue":25,
 	"columnName":"Spite",
+	"desc":"Placeholder description for Spite",
 	
 	"enemyType":"Spite",
 

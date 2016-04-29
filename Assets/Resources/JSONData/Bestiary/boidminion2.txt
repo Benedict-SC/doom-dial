@@ -3,6 +3,7 @@
 	"imgfile":"Placeholder",
 	"pointValue":0,
 	"columnName":"n/a",
+	"desc":"Placeholder description for Megaboid minion 2",
 	
 	"enemyType":"Normal",
 

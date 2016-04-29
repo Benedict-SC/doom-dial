@@ -2,6 +2,7 @@
 	"name":"The Diversion (minion)",
 	"imgfile":"Placeholder",
 	"pointValue":1,
+	"desc":"Placeholder description for Diversion minion",
 	
 	"enemyType":"DiversionMinion",
 	"delay":1.6,

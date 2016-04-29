@@ -3,6 +3,7 @@
 	"imgfile":"Placeholder",
 	"pointValue":30,
 	"columnName":"Saboteur",
+	"desc":"Placeholder description for Saboteur",
 	
 	"enemyType":"Saboteur",
 

@@ -3,6 +3,7 @@
 	"imgfile":"Placeholder",
 	"pointValue":15,
 	"columnName":"n/a",
+	"desc":"Placeholder description for Medium Split",
 	
 	"enemyType":"BigSplit",
 

@@ -3,6 +3,7 @@
 	"imgfile":"Placeholder",
 	"pointValue":5,
 	"columnName":"Shieldy",
+	"desc":"Placeholder description for ShieldTest",
 
 	"enemyType":"Normal",
 	

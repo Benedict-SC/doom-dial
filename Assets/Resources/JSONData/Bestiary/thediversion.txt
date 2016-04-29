@@ -3,6 +3,7 @@
 	"imgfile":"Placeholder",
 	"pointValue":30,
 	"columnName":"Diversion",
+	"desc":"Placeholder description for The Diversion",
 	
 	"enemyType":"TheDiversion",
 	"delay":4.4,

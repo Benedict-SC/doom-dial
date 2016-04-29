@@ -3,6 +3,7 @@
 	"imgfile":"Placeholder",
 	"pointValue":5,
 	"columnName":"Junior",
+	"desc":"Placeholder description for Junior",
 
 	"enemyType":"Junior",
 	

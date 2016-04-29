@@ -2,6 +2,7 @@
 	"name":"Swarmmaster Minion",
 	"imgfile":"Placeholder",
 	"pointValue":10,
+	"desc":"Placeholder description for Swarm-Master Minion",
 	
 	"enemyType":"Normal",
 

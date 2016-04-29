@@ -3,6 +3,7 @@
 	"imgfile":"Placeholder",
 	"pointValue":10,
 	"columnName":"Bl. Joe",
+	"desc":"Placeholder description for Bleedin' Joe",
 	
 	"enemyType":"Normal",
 

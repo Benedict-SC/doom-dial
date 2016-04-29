@@ -3,6 +3,7 @@
 	"imgfile":"Placeholder",
 	"pointValue":25,
 	"columnName":"Blur",
+	"desc":"Placeholder description for Blur",
 	
 	"enemyType":"Blur",
 

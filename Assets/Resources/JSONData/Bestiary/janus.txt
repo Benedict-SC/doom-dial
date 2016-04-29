@@ -3,6 +3,7 @@
 	"imgfile":"Placeholder",
 	"pointValue":5,
 	"columnName":"Janus",
+	"desc":"Placeholder description for Janus",
 
 	"enemyType":"Normal",
 	
