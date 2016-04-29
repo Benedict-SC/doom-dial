@@ -198,6 +198,7 @@
      <None Include="Assets\Resources\JSONData\Pieces\speed_rare.txt" />
      <None Include="Assets\Resources\JSONData\DialConfigs\devdial.txt" />
      <None Include="Assets\Resources\JSONData\Campaign\Worlds\W3.txt" />
+     <None Include="Assets\Resources\JSONData\Campaign\Levels\SingleTowerLevel.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\stun_rare.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\split_normal.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\spite.txt" />
@@ -217,6 +218,7 @@
      <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_5.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\cdr_super.txt" />
      <None Include="Assets\Resources\JSONData\Campaign\Waves\W1L2W3.txt" />
+     <None Include="Assets\Resources\JSONData\Campaign\Waves\STLw4.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\knockback_normal.txt" />
      <None Include="Assets\Resources\JSONData\Towers\devtest2.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\chainers.txt" />
@@ -228,6 +230,7 @@
      <None Include="Assets\Resources\JSONData\Paths\Sidestep_Mirror.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\homing_rare.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\shred_rare.txt" />
+     <None Include="Assets\Resources\JSONData\Campaign\Waves\STLw6.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\penetration_rare.txt" />
      <None Include="Assets\Resources\JSONData\Campaign\Levels\testlevel.txt" />
      <None Include="Assets\Misc\BulletEffectsLog.txt" />
@@ -263,16 +266,19 @@
      <None Include="Assets\Resources\JSONData\DialConfigs\onedial.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\splitter2.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\boidminion3.txt" />
+     <None Include="Assets\Resources\JSONData\Campaign\Waves\STLw2.txt" />
      <None Include="Assets\Resources\JSONData\Paths\Zigzag_Mirror.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\homing_normal.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\pusher.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\spread_normal.txt" />
+     <None Include="Assets\Resources\JSONData\Campaign\Waves\STLw3.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\homing_super.txt" />
      <None Include="Assets\Resources\JSONData\Paths\Linear_Right.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\damage_super.txt" />
      <None Include="Assets\Resources\JSONData\Campaign\Worlds\W5.txt" />
      <None Include="Assets\Resources\JSONData\Campaign\Worlds\W4.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\meatshieldbig.txt" />
+     <None Include="Assets\Resources\JSONData\Campaign\Waves\STLw1.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\boidminion2.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_3.txt" />
      <None Include="Assets\Resources\JSONData\Campaign\Waves\W1L2W4.txt" />
@@ -324,6 +330,7 @@
      <None Include="Assets\Resources\JSONData\Paths\Sine_Mirror.txt" />
      <None Include="Assets\Resources\JSONData\Towers\devtest4.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\stun_super.txt" />
+     <None Include="Assets\Resources\JSONData\Campaign\Waves\STLw5.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World1\Level1\wavedata.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World3\Level3\wavedata.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\range_super.txt" />

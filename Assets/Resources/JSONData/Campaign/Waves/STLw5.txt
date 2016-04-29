@@ -1,0 +1,1 @@
+{"levelID":1000,"waveID":1004,"maxMilliseconds":30000,"minimumInterval":1000,"enemies":[{"enemyID":"strobes","trackID":1,"trackpos":0},{"enemyID":"janus","trackID":2,"trackpos":0},{"enemyID":"strobes","trackID":3,"trackpos":0},{"enemyID":"janus","trackID":4,"trackpos":0},{"enemyID":"strobes","trackID":5,"trackpos":0},{"enemyID":"junior","trackID":6,"trackpos":0}]}

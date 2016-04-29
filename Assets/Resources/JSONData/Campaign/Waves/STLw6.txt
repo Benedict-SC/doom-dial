@@ -1,0 +1,1 @@
+{"levelID":1000,"waveID":1005,"maxMilliseconds":30000,"minimumInterval":1000,"enemies":[{"enemyID":"bigfella","trackID":1,"trackpos":0},{"enemyID":"testenemy","trackID":2,"trackpos":0},{"enemyID":"steve","trackID":3,"trackpos":0},{"enemyID":"testenemy","trackID":4,"trackpos":0},{"enemyID":"steve","trackID":5,"trackpos":0},{"enemyID":"testenemy","trackID":6,"trackpos":0}]}
