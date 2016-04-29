@@ -16,6 +16,7 @@ public class EnemyStatsPanel : MonoBehaviour {
     string defaultName = "???";
     string defaultStats = "[*WRITE DEFAULT STATS STRING*]";
     string defaultDesc = "Description not available.";
+    string defaultImage = "Placeholder";
     //and we need something for the default image shown
 
     FileLoader fl;
@@ -75,6 +76,15 @@ public class EnemyStatsPanel : MonoBehaviour {
 
         UpdateName((string)enemyStats["name"]);
         UpdateDesc((string)enemyStats["desc"]);
+        if (enTimesSeen > 0)
+        {
+            UpdateSprite((string)enemyStats["imgfile"]);
+        }
+        else
+        {
+            UpdateSprite(defaultImage);
+        }
+        UpdateStats(((float)(double)enemyStats["maxHP"]), ((float)(double)enemyStats["maxShields"]));
         //REMEMBER TO ADD THE REST OF THE UPDATE METHODS
         //ONCE I KNOW WHAT THESE STRINGS WILL BE
     }
@@ -100,14 +110,23 @@ public class EnemyStatsPanel : MonoBehaviour {
         }
     }
 
-    void UpdateStats(string stats)
+    void UpdateStats(float hpValue, float shieldValue)
     {
-        //look at conditions and write this later
+        string shieldStat = "Shield: ???";
+        string hpStat = "HP: ???";
+
+        if (enTimesKilled > 0)
+        {
+            shieldStat = "Shield: " + shieldValue;
+            hpStat = "HP: " + hpValue;
+        }
+
+        enStats.text = hpStat + "\n" + shieldStat;
     }
 
     void UpdateDesc(string desc)
     {
-        if (enTimesSeen > 0)
+        if (enTimesSeen >= 10)
         {
             enDesc.text = desc;
         }
@@ -119,13 +138,13 @@ public class EnemyStatsPanel : MonoBehaviour {
 
     void UpdateSprite(string sprFilename)
     {
-        if (enTimesSeen > 0)
-        {
-            //set image to enemy sprite
-        }
-        else
-        {
-            //set image to default ??? sprite
-        }
+        Texture2D decal = Resources.Load<Texture2D>("Sprites/EnemySprites/" + sprFilename);
+        if (decal == null)
+            Debug.Log("decal is null");
+        enSprite.sprite = UnityEngine.Sprite.Create(
+            decal,
+            new Rect(0, 0, decal.width, decal.height),
+            new Vector2(0.5f, 0.5f),
+            100f);
     }
 }
