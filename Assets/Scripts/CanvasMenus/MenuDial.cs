@@ -18,13 +18,17 @@ public class MenuDial : MonoBehaviour,EventHandler {
 	public string menuType = "world";
 	
 	Canvas canvas;
+	public Canvas overrideCanvas = null;
 	
 	bool spinning = false;
 	float startingMouseRot;
 	float startingDialRot;
 	
 	public void Start(){
-		canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+		if(overrideCanvas == null)
+			canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+		else
+			canvas = overrideCanvas;
 		RectTransform rt = (RectTransform)transform;
 		EventManager em = EventManager.Instance ();
 		em.RegisterForEventType ("mouse_release", this);
@@ -97,8 +101,8 @@ public class MenuDial : MonoBehaviour,EventHandler {
 	}
 	
 	public void HandleEvent(GameEvent ge){
-		if(Pause.paused)
-			return;
+		//if(Pause.paused)
+		//	return;
 		Vector3 mousepos = InputWatcher.GetCanvasInputPosition((RectTransform)canvas.transform);
 		if(ge.type.Equals("mouse_click")){
 			if(spinning)
@@ -126,8 +130,8 @@ public class MenuDial : MonoBehaviour,EventHandler {
 		return realAngle;
 	}
 	public void Update(){
-		if(Pause.paused)
-			return;
+		//if(Pause.paused)
+		//	return;
 		if(!spinning)
 			return;
 		Vector3 mousepos = InputWatcher.GetCanvasInputPosition((RectTransform)canvas.transform);
