@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿/*Devon, mostly*/
+
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 

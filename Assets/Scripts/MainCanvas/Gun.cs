@@ -1,3 +1,5 @@
+/*Some Thom, some Duncan*/
+
 using UnityEngine;
 using UnityEngine.UI;
 using MiniJSON;

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿/*Some Devon, some Duncan*/
+
+using UnityEngine;
 using System.Collections;
 /*
  * To add new scene options to a menu:

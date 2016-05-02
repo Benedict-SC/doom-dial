@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿/*Thom*/
+
+using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using MiniJSON;

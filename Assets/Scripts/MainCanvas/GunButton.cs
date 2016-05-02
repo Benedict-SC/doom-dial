@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+//this was before we realized canvas UI had a Button component already
 public class GunButton : MonoBehaviour{
 	public Gun gun;
 	bool decalSet = false;

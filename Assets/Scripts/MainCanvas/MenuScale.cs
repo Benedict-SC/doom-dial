@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿/*Devon*/
+
+using UnityEngine;
 using System.Collections;
 
 public class MenuScale : MonoBehaviour {

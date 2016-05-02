@@ -1,3 +1,5 @@
+/*Some Thom, some Duncan*/
+
 using UnityEngine;
 using System.Collections;
 using System;
