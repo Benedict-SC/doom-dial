@@ -86,7 +86,8 @@ public class EnemyStatsPanel : MonoBehaviour {
         {
             UpdateSprite(defaultImage);
         }
-        UpdateStats(((float)(double)enemyStats["maxHP"]), ((float)(double)enemyStats["maxShields"]));
+        UpdateStats(((float)(double)enemyStats["maxHP"]), ((float)(double)enemyStats["maxShields"]),
+                    ((float)(double)enemyStats["damage"]), (float)enTimesKilled);
         //REMEMBER TO ADD THE REST OF THE UPDATE METHODS
         //ONCE I KNOW WHAT THESE STRINGS WILL BE
     }
@@ -112,18 +113,37 @@ public class EnemyStatsPanel : MonoBehaviour {
         }
     }
 
-    void UpdateStats(float hpValue, float shieldValue)
+    void UpdateStats(float hpValue, float shieldValue,
+                     float dmgValue, float killsValue)
     {
         string shieldStat = "Shield: ???";
         string hpStat = "HP: ???";
+        string dmgStat = "Attack: ???";
+        string killCountStat = "No. Killed: ???";
+        string iconAchieved = "Tower Icon: No";
+        string makerAchieved = "In Editor: No";
 
         if (enTimesKilled > 0)
         {
             shieldStat = "Shield: " + shieldValue;
             hpStat = "HP: " + hpValue;
+            killCountStat = "No. Killed: " + killsValue;
+        }
+        if (enTimesKilled >= 10)
+        {
+            dmgStat = "Attack: " + dmgValue;
+        }
+        if (enTimesKilled >= 50)
+        {
+            iconAchieved = "Tower Icon: Yes!";
+        }
+        if (enTimesKilled >= 100)
+        {
+            makerAchieved = "In Editor: Yes!";
         }
 
-        enStats.text = hpStat + "\n" + shieldStat;
+        enStats.text = hpStat + "\n" + shieldStat + "\n" + dmgStat + "\n" + killCountStat
+                       + "\n" + iconAchieved + "\n" + makerAchieved;
     }
 
     void UpdateDesc(string desc)
