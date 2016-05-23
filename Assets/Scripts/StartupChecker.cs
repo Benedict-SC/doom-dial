@@ -20,6 +20,7 @@ public class StartupChecker : MonoBehaviour {
         else
         {
             Debug.Log("This is not the newest version of the game!");
+            TestDataLoader.StaticLoadGameData();
             //idk do other non-newest version stuff
         }
     }
