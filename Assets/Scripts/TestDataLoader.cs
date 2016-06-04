@@ -83,6 +83,9 @@ public class TestDataLoader : MonoBehaviour{
 		WorldData.dialSelected = dial;
 	}
 	public void StartGame(){
-		Application.LoadLevel("WaveEditor");
+		Application.LoadLevel("WaveEditorAdmin");
 	}
+    public void StartSingleTowerGame() {
+        Application.LoadLevel("MenuTest");
+    }
 }

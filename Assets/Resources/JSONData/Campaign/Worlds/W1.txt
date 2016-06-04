@@ -2,8 +2,8 @@
 	"levels":[
 		{"filename":"testlevel","iconLabel":"Level 1","icon":"Tower1","button":"Level 1: Doom 101"},
 		{"filename":"W1L2","iconLabel":"Level 2","icon":"Tower2","button":"Level 2: GOOD LUCK"},
+		{"filename":"swarmworld1","iconLabel":"World A","icon":"EnemyBase","button":"This is from 6/4/16"},
 		{"filename":"SingleTowerLevel","iconLabel":"Just One Tower","icon":"BulletIconTemp","button":"Testing level"},
-		{"filename":"W1L2","iconLabel":"Level 2","icon":"Tower4","button":"Level 2: GOOD LUCK"},
 		{"filename":"W1L2","iconLabel":"Level 2","icon":"Tower5","button":"Level 2: GOOD LUCK"},
 		{"filename":"W1L2","iconLabel":"Level 2","icon":"Tower6","button":"Level 2: GOOD LUCK"}
 	]

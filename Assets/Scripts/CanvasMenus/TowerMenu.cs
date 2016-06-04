@@ -49,6 +49,7 @@ public class TowerMenu : MonoBehaviour,EventHandler{
 		for(int i = 0; i < 6; i++) {
 			Dictionary<string,System.Object> entry = entries[i] as Dictionary<string,System.Object>;
 			string towerfile = entry["filename"] as string;
+            bool active = (bool)entry["active"];
 			towerFiles[i] = towerfile;
 			Debug.Log (towerfile);
 			
@@ -68,6 +69,9 @@ public class TowerMenu : MonoBehaviour,EventHandler{
 				new Rect(0,0,decal.width,decal.height),
 				new Vector2(0.5f,0.5f),
 				img.sprite.rect.width/img.sprite.bounds.size.x);
+            if (!active) {
+                img.color = Color.gray;
+            }
 		}
 	}
 	public void HandleEvent(GameEvent ge){

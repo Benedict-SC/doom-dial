@@ -103,4 +103,8 @@ public class EnemyIndexMenu : MonoBehaviour {
             md.AddOption(option);
         }
     }
+    public void BackToMainMenu()
+    {
+        Application.LoadLevel("MenuTest");
+    }
 }

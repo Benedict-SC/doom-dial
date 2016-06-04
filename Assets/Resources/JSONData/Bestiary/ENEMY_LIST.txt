@@ -5,6 +5,7 @@
 		"shieldtest",
 		"steve",
 		"bleedin' joe",
+		"drone1",
 		"chainers",
 		"tipofthespear",
 		"wallofdoom",

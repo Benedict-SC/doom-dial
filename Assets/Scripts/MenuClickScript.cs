@@ -41,6 +41,6 @@ public class MenuClickScript : MonoBehaviour, EventHandler {
 	}
 	// Update is called once per frame
 	void Update () {
-		menuPosition = (int)(gameObject.transform.eulerAngles.z /72)%5;
+		menuPosition = (int)((gameObject.transform.eulerAngles.z+0.5f) /72)%5;
 	}
 }

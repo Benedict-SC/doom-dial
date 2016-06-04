@@ -1,0 +1,1 @@
+{"levelID":1000,"waveID":1005,"maxMilliseconds":30000,"minimumInterval":1000,"enemies":[{"enemyID":"chainers","trackID":2,"trackpos":0},{"enemyID":"drone1","trackID":3,"trackpos":0},{"enemyID":"drone1","trackID":5,"trackpos":0},{"enemyID":"tipofthespear","trackID":6,"trackpos":0}]}
