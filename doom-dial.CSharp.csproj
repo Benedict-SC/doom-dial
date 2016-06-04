@@ -81,6 +81,7 @@
     <Compile Include="Assets\Scripts\CanvasMenus\MenuOption.cs" />
     <Compile Include="Assets\Scripts\CanvasMenus\MenuScaleEffectCanvas.cs" />
     <Compile Include="Assets\Scripts\CanvasMenus\ReturnToGameOption.cs" />
+    <Compile Include="Assets\Scripts\CanvasMenus\SplashLogo.cs" />
     <Compile Include="Assets\Scripts\CanvasMenus\TowerMenu.cs" />
     <Compile Include="Assets\Scripts\CanvasMenus\WarnBeforeChangingSceneMenuOption.cs" />
     <Compile Include="Assets\Scripts\CanvasMenus\WorldMenuOption.cs" />
@@ -184,6 +185,7 @@
     <Compile Include="Assets\Scripts\Seeker.cs" />
     <Compile Include="Assets\Scripts\ShieldController.cs" />
     <Compile Include="Assets\Scripts\SpinScript.cs" />
+    <Compile Include="Assets\Scripts\StartupChecker.cs" />
     <Compile Include="Assets\Scripts\TempReturn.cs" />
     <Compile Include="Assets\Scripts\TestComponent.cs" />
     <Compile Include="Assets\Scripts\TestDataLoader.cs" />
