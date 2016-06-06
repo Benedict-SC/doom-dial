@@ -1,8 +1,8 @@
 {
 	"imgfile":"Piece_CDR_SR",
 	
-	"cooldownFactor":-0.75,
-	"dmg":-10.0,
+	"cooldownFactor":-2.5,
+	"dmg":-5.0,
 	"speed":0.0,
 	"range":0.0,
 	"knockback":0.0,

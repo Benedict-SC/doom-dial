@@ -1,7 +1,7 @@
 {
 	"imgfile":"Piece_Slow_SR",
 
-	"cooldownFactor":0.1,
+	"cooldownFactor":0.0,
 	"dmg":0.0,
 	"speed":0.0,
 	"range":0.0,
