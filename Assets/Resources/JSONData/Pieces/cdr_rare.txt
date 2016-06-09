@@ -1,7 +1,7 @@
 {
 	"imgfile":"Piece_CDR_R",
 	
-	"cooldownFactor":-0.35,
+	"cooldownFactor":-1.8,
 	"dmg":0.0,
 	"speed":0.0,
 	"range":0.0,

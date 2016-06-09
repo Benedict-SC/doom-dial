@@ -1,7 +1,7 @@
 {
 	"imgfile":"Piece_Arc_SR",
 
-	"cooldownFactor":0.5,
+	"cooldownFactor":0.0,
 	"dmg":0.0,
 	"speed":0.0,
 	"range":0.0,

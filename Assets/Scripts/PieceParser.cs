@@ -3,6 +3,7 @@
 using MiniJSON;
 using System.IO;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ public class PieceParser{
 	static float DAMAGE_DEFAULT = 2.0f;
 	public static float SPEED_DEFAULT = 1.0f;
 	static float RANGE_DEFAULT = 0.5f;
-	static float COOLDOWN_DEFAULT = 2.0f;
+	static float COOLDOWN_DEFAULT = 0.1f;
 	static float KNOCKBACK_DEFAULT = 0f;
 	static float DRAIN_DEFAULT = 0f;
 	static float POISON_DEFAULT = 0f;
@@ -30,6 +31,7 @@ public class PieceParser{
 	static float MAXIMUM_SLOWDOWN = .8f;
 	static float PERCENT_AOE_RANGE_PER_PAIR = .25f;
 	static float PERCENT_SHIELD_REGEN_SLOW_PER_PAIR = .25f;
+    static float COOLDOWN_PER_SQUARE = .1f;
 
 	public static Dictionary<string,float> GetStatsFromGrid(List<string> files){
 		Dictionary<string,float> result = new Dictionary<string, float>();
@@ -109,8 +111,28 @@ public class PieceParser{
 			//cooldown - as number of seconds
 			float pcool = (float)(double)pdata["cooldownFactor"];
 			cooldown += pcool;
-			if(cooldown < 0.25f)
-				cooldown = 0.25f;
+
+            //add in cooldown time for each grid square taken by the piece
+            List<System.Object> superList = (List<System.Object>)pdata["blockMap"];
+            foreach(System.Object listObj in superList)
+            {
+                List<System.Object> pieceParts = (List<System.Object>)listObj;
+                foreach(System.Object part in pieceParts)
+                {
+                    int partSpace = (int)(long)part;
+                    if (partSpace == 1) //full squares
+                    {
+                        cooldown += 0.1f;
+                    }
+                    else if (partSpace >= 2) //triangles
+                    {
+                        cooldown += 0.05f;
+                    }
+                }
+            }
+
+			if(cooldown < 0.1f)
+				cooldown = 0.1f;
 			if(pcool < 0.0f)
 				cdrCount++;
 			//poison - percent of health to remove every 0.5 seconds over the course of 3 seconds
@@ -375,8 +397,28 @@ public class PieceParser{
 			//cooldown - as number of seconds
 			float pcool = (float)(double)pdata["cooldownFactor"];
 			cooldown += pcool;
-			if(cooldown < 0.25f)
-				cooldown = 0.25f;
+
+            //add in cooldown time for each grid square taken by the piece
+            List<System.Object> superList = (List<System.Object>)pdata["blockMap"];
+            foreach (System.Object listObj in superList)
+            {
+                List<System.Object> pieceParts = (List<System.Object>)listObj;
+                foreach (System.Object part in pieceParts)
+                {
+                    int partSpace = (int)(long)part;
+                    if (partSpace == 1) //full squares
+                    {
+                        cooldown += 0.1f;
+                    }
+                    else if (partSpace >= 2) //triangles
+                    {
+                        cooldown += 0.05f;
+                    }
+                }
+            }
+
+            if (cooldown < 0.1f)
+				cooldown = 0.1f;
 			if(pcool < 0.0f)
 				cdrCount++;
 			//poison - percent of health to remove every 0.5 seconds over the course of 3 seconds

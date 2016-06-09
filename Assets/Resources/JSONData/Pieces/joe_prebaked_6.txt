@@ -1,5 +1,5 @@
 {
-	"cooldownFactor":1.0,
+	"cooldownFactor":0.0,
 	"dmg":4.0,
 	"speed":1.0,
 	"range":0.0,
