@@ -53,11 +53,10 @@ public class Gun : MonoBehaviour,EventHandler{
 	/* Another tower attribute
 	 * But not passed to bullets
 	 */
-	float cooldownFactor = 1.0f; //percentage of max cooldown time.  By default 1.0
-	float DEF_COOLDOWN = 2.0f;
 	
 	float cooldown = 0.0f;
 	float maxcool;
+    Timer cooltimer;
 	
 	bool shootingV = true; //for use by spread 3 -- are we shooting in a v this turn or not?
 	bool isPaused = false;
@@ -76,6 +75,7 @@ public class Gun : MonoBehaviour,EventHandler{
 		cooldownImg.fillMethod = Image.FillMethod.Radial360;
 		cooldownImg.fillClockwise = false;
 		cooldownImg.fillAmount = 0f;
+        cooltimer = new Timer();
 		
 		//defaults
 		/*towerType = "Shield";
@@ -93,15 +93,16 @@ public class Gun : MonoBehaviour,EventHandler{
 	
 	// Update is called once per frame
 	void Update () {
-		isPaused = Pause.paused;
-		if (!isPaused) {
-			if (cooldown > 0) {
-				cooldown -= 0.05f; //tweak this for a one-second cooldown from 1.0f
-				if (cooldown < 0)
-					cooldown = 0;
-				cooldownImg.fillAmount = GetCooldownRatio();
-			}
+        
+		if (cooldown > 0) {
+            float cooltime = cooltimer.TimeElapsedSecs();
+            cooldown = maxcool - cooltime;
+            if (cooldown < 0) {
+                cooldown = 0;
+            }
+			cooldownImg.fillAmount = GetCooldownRatio();
 		}
+		
 	}
 	#region Firing (make the gun shoot a thing)
 	public void Fire(){
@@ -129,7 +130,8 @@ public class Gun : MonoBehaviour,EventHandler{
 			Debug.Log ("we're not active");
 			return;
 		}
-		
+
+        cooltimer.Restart();
 		cooldown = maxcool; //start cooldown
 		
 		//Decide what to do based on tower type ("Bullet", "Trap", or "Shield")

@@ -38,7 +38,8 @@ public class Enemy : MonoBehaviour,EventHandler {
 	protected string srcFileName;
 	
 	public bool spawnedByBoss = false;
-	
+
+    public bool spawned = false;
 	public bool moving = false;
 	protected float moverLaneOverride = 0f;
 	protected string moverType = "Linear";
@@ -163,7 +164,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 		}*/
 		//some scaling- could maybe be done through transform.scale, but I don't trust Unity to handle the collider
 		ScaleEnemy();
-		
+        spawned = true;
 		moving = true;
 		
 		//float angle = Mathf.Atan2(rt.anchoredPosition.y , rt.anchoredPosition.x);

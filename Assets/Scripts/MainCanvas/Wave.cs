@@ -15,7 +15,7 @@ public class Wave{
 	int interval;
 	List<GameObject> enemies;
 
-	public Wave (Dictionary<string,System.Object> json){
+	public Wave (Dictionary<string,System.Object> json){ 
 		canvas = GameObject.Find ("Canvas").transform;
 		System.Random rand = new System.Random();
 	
@@ -48,6 +48,16 @@ public class Wave{
 			timeslots[i] = timeslots[j];
 			timeslots[j] = temp;
 		}
+        //make sure one enemy spawns immediately
+        if (!timeslots[0]) {
+            for(int i = 1; i < slots; i++){
+                if (timeslots[i]) {
+                    timeslots[0] = true;
+                    timeslots[i] = false;
+                    break;
+                }
+            }
+        }
 			//create corresponding array of random-ish long bonuses to positions
 		List<long> timeChaos = new List<long>();
 		for(int i = 0; i < timeslots.Count; i++){

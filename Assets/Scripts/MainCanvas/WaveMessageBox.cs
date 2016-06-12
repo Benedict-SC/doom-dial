@@ -57,8 +57,10 @@ public class WaveMessageBox : MonoBehaviour,EventHandler{
 		}
 		int number = (int)(flashTime - flashTimer.TimeElapsedSecs());
 		string message = "Incoming! The enemy's last-ditch attack!";
-		if(upcomingWaveNumber != -1) //if it's not the bonus wave, have a countdown
+		if(upcomingWaveNumber > -1) //if it's not the bonus wave, have a countdown
 			message = "Wave " + upcomingWaveNumber + " in " + (number+1) + " seconds!";
+        if (upcomingWaveNumber < -1)//if it's another bonus wave, complain
+            message = "They're still not done for! Get ready!";
 		box.text = message;
 	}
 	public void HandleEvent(GameEvent ge){

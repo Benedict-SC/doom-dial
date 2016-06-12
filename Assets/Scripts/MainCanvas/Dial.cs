@@ -33,6 +33,7 @@ public class Dial : MonoBehaviour,EventHandler {
 	static Dial thisDial;
 	
 	Dictionary<string,System.Object> bonusWaveDictionary;
+    public int escapedEnemyCount = 0;
 	int bonusCapacity = 30;
 	string mostRecentAttackerFilename = "testenemy";
 	
@@ -148,6 +149,7 @@ public class Dial : MonoBehaviour,EventHandler {
 						Enemy enemy = eh.GetComponent<Enemy> ();
 						mostRecentAttackerFilename = enemy.GetSrcFileName();
 						enemy.AddToBonus ((List<System.Object>)bonusWaveDictionary ["enemies"]);
+                        escapedEnemyCount++;
 						float rawDamage = enemy.GetDamage ();
 						int trackID = enemy.GetCurrentTrackID ();
 						if (shields [trackID - 1] != null) { //if this enemy's lane is shielded
@@ -234,6 +236,13 @@ public class Dial : MonoBehaviour,EventHandler {
 		}
 	}
 	public Dictionary<string,System.Object> GetBonusJSON(){
+        List<System.Object> bonusList = bonusWaveDictionary["enemies"] as List<System.Object>;
+        int overflow = bonusList.Count - 30;
+        if(overflow > 0) {
+            for(int i = 0; i < overflow; i++) {
+                bonusList.RemoveAt(0);
+            }
+        }
 		return bonusWaveDictionary;
 	}
 	public void ClearBonusJSON(){
@@ -243,6 +252,7 @@ public class Dial : MonoBehaviour,EventHandler {
 		bonusWaveDictionary.Add("maxMilliseconds",(long)(bonusCapacity * 1000));
 		bonusWaveDictionary.Add("minimumInterval",1000L);
 		bonusWaveDictionary.Add("enemies",new List<System.Object>());
+        escapedEnemyCount = 0;
 	}
 	public void TractorBeam(){
 		

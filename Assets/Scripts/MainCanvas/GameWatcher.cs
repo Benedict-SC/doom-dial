@@ -18,6 +18,7 @@ public class GameWatcher : MonoBehaviour, EventHandler{
 			EventManager.Instance().RegisterForEventType("boss_hit",self);
 			EventManager.Instance().RegisterForEventType("piece_obtained",self);
 			EventManager.Instance().RegisterForEventType("game_over",self);
+            EventManager.Instance().RegisterForEventType("you_won", self);
 			enemyDamages = new Dictionary<string,float>();
 			pieceCounts = new Dictionary<string,int>();
 			winPanel = GameObject.Find("WinPanel");
@@ -52,7 +53,9 @@ public class GameWatcher : MonoBehaviour, EventHandler{
 			}
 		}else if(ge.type.Equals("game_over")){
 			GameOver();
-		}
+		}else if (ge.type.Equals("you_won")) {
+            YouWon();
+        }
 	}
 
 	void GameOver(){

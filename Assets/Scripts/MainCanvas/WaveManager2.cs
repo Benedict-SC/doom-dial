@@ -12,14 +12,14 @@ public class WaveManager2 : MonoBehaviour {
 	
 	List<Wave> waves;
 	Wave activeWave;
-	int activeWaveIndex;
+	public int activeWaveIndex;
 	
 	public static readonly int BREATHER_SECONDS = 6;
 	bool onBreather = true;
 	
 	int bosscode = 0;
 	
-	bool bonusWaveIsHappening = false;
+	static bool bonusWaveIsHappening = false;
 	
 	public void Start(){
 		dial = GameObject.Find("Dial").GetComponent<Dial>();
@@ -76,16 +76,17 @@ public class WaveManager2 : MonoBehaviour {
 	public void Update(){
 		if(Pause.paused)
 			return;
-			
+        
 		if(bonusWaveIsHappening){
 			BonusWaveUpdate();
 			return;
 		}
-		
-		if(!onBreather){
+        if (!onBreather){
 			//Debug.Log("not on breather");
-			List<GameObject> spawnedThisCycle = new List<GameObject> ();
+			//List<GameObject> spawnedThisCycle = new List<GameObject> ();
 			foreach (GameObject enemy in activeWave.GetEnemies()) {
+                if (enemy == null)
+                    continue;
 				Enemy e = enemy.GetComponent<Enemy> ();
 				if (e.GetSpawnTime () - ZoneWarning.HEAD_START*1000 < waveProgress.TimeElapsedMillis()
 				    && !e.HasWarned ()) {
@@ -94,28 +95,31 @@ public class WaveManager2 : MonoBehaviour {
 					warning.addArgument (e);
 					EventManager.Instance ().RaiseEvent (warning);
 				}
-				if (e.GetSpawnTime () < waveProgress.TimeElapsedMillis()) {
-					spawnedThisCycle.Add (enemy);
+				if (e.GetSpawnTime () < waveProgress.TimeElapsedMillis() && !e.spawned) {
+					//spawnedThisCycle.Add (enemy);
 					enemy.SetActive (true);
 					e.StartMoving ();
 					EnemyIndexManager.LogEnemyAppearance(e.GetSrcFileName());
 				}
 			}
-			foreach (GameObject spawned in spawnedThisCycle) {
-				activeWave.RemoveEnemy (spawned);
-			}
+			//foreach (GameObject spawned in spawnedThisCycle) {
+			//	activeWave.RemoveEnemy (spawned);
+			//}
 			if (activeWave.IsEverythingDead ()) {
+                Debug.Log("why are we still in here");
 				waveProgress.Restart ();
 				onBreather = true;
 				if(activeWaveIndex + 2 <= waves.Count)
 					WaveMessageBox.StandardWarning(activeWaveIndex + 2);
-			}
+            }else {
+                Debug.Log("not everything is dead yet");
+            }
 		}else{
 			//Debug.Log("on breather");
 			if(waveProgress.TimeElapsedSecs() > BREATHER_SECONDS){
 				onBreather = false;
 				activeWaveIndex++;
-				
+                Debug.Log("breather finished!");
 				if (activeWaveIndex < waves.Count) {
 					activeWave = waves [activeWaveIndex];
 				}else{
@@ -134,7 +138,9 @@ public class WaveManager2 : MonoBehaviour {
 						boss.transform.SetParent(Dial.unmaskedLayer,false);
 					}
 				}
-			}
+            }else {
+                Debug.Log("breathing");
+            }
 			return;
 		}
 		
@@ -151,14 +157,23 @@ public class WaveManager2 : MonoBehaviour {
 	Timer bonusTimer;
 	bool bonusGoing = false;
 	Timer delayTimer;
+    int bonusWaveCode = -1;
 	void BonusWaveStart(){
+        if(dial.escapedEnemyCount == 0) {
+            GameEvent winevent = new GameEvent("you_won");
+            EventManager.Instance().RaiseEvent(winevent);
+            return;
+        }
 		Dictionary<string,System.Object> json = dial.GetBonusJSON();
 		bonusWave = new Wave(json);
 		dial.ClearBonusJSON();
 		bonusTimer = new Timer();
 		delayTimer = new Timer();
 		bonusWaveIsHappening = true;
-		WaveMessageBox.StandardWarning(-1);
+        bonusGoing = false;
+        delayTimer.Restart();
+		WaveMessageBox.StandardWarning(bonusWaveCode);
+        bonusWaveCode--;
 	}
 	void BonusWaveUpdate(){
 		if(!bonusGoing){
@@ -167,9 +182,10 @@ public class WaveManager2 : MonoBehaviour {
 				bonusTimer.Restart();
 			}
 		}else{
-			List<GameObject> spawnedThisCycle = new List<GameObject> ();
 			foreach (GameObject enemy in bonusWave.GetEnemies()) {
-				Enemy e = enemy.GetComponent<Enemy> ();
+                if (enemy == null)
+                    continue;
+                Enemy e = enemy.GetComponent<Enemy> ();
 				if (e.GetSpawnTime () - ZoneWarning.HEAD_START*1000 < bonusTimer.TimeElapsedMillis()
 				    && !e.HasWarned ()) {
 					e.Warn();
@@ -177,8 +193,7 @@ public class WaveManager2 : MonoBehaviour {
 					warning.addArgument (e);
 					EventManager.Instance ().RaiseEvent (warning);
 				}
-				if (e.GetSpawnTime () < bonusTimer.TimeElapsedMillis()) {
-					spawnedThisCycle.Add (enemy);
+				if (e.GetSpawnTime () < bonusTimer.TimeElapsedMillis() && !e.spawned) {
 					enemy.SetActive (true);
 					e.StartMoving ();
 					EnemyIndexManager.LogEnemyAppearance(e.GetSrcFileName());
@@ -190,9 +205,12 @@ public class WaveManager2 : MonoBehaviour {
 					}
 				}
 			}
-			foreach (GameObject spawned in spawnedThisCycle) {
-				bonusWave.RemoveEnemy (spawned);
-			}
-		}
+            //check if the wave's over
+            if (bonusWave.IsEverythingDead()) {
+                waveProgress.Restart();
+                onBreather = true;
+                BonusWaveStart();
+            }
+        }
 	}
 }
