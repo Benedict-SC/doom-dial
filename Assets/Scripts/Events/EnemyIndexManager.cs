@@ -14,6 +14,10 @@ public class EnemyIndexManager : MonoBehaviour {
     //100 kills: ability to use it in level editor
     //After getting hit once by an enemy, reveal its damage stat in bestiary
     //accepts the following stats: timesHit, timesKilled, timesHitBy, timesKilledBy, timesSeen
+    static WaveManager2 interestedWaveManager;
+    void Start() {
+        interestedWaveManager = GetComponent<WaveManager2>();
+    }
     public static void IncrementEnemyLogStat(string enemyFile, string statName)
     {
         FileLoader fl = FileLoader.GetSaveDataLoader("Bestiary", "bestiary_logging");
@@ -63,6 +67,7 @@ public class EnemyIndexManager : MonoBehaviour {
     	EnemyIndexManager.IncrementTotalsLogStat("totalDeaths");
     }
     public static void LogEnemyDeath(string enemyfile){
+        interestedWaveManager.guysKilled++;
 		EnemyIndexManager.IncrementEnemyLogStat(enemyfile,"timesKilled");
     	EnemyIndexManager.IncrementTotalsLogStat("totalKills");
     }

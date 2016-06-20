@@ -12,12 +12,15 @@ public class WaveManager2 : MonoBehaviour {
 	
 	List<Wave> waves;
 	Wave activeWave;
-	public int activeWaveIndex;
+	int activeWaveIndex;
 	
 	public static readonly int BREATHER_SECONDS = 6;
 	bool onBreather = true;
 	
 	int bosscode = 0;
+
+    public int enemycount = 0;
+    public int guysKilled = 0;
 	
 	static bool bonusWaveIsHappening = false;
 	
@@ -55,6 +58,9 @@ public class WaveManager2 : MonoBehaviour {
 			
 			waves.Add(new Wave(raw));
 		}
+        foreach(Wave w in waves) {
+            enemycount += w.GetEnemies().Count;
+        }
 		
 		if (waves.Count <= 0) { //check to make sure reading worked
 			Debug.Log("JSON parsing failed!");
@@ -63,6 +69,7 @@ public class WaveManager2 : MonoBehaviour {
 		
 		activeWaveIndex = -1;
 		WaveMessageBox.StandardWarning(1);
+        KillCountBox.KillDisplay(guysKilled, enemycount, true);
 		
 		
 		if(bosscode == 2){
@@ -106,24 +113,21 @@ public class WaveManager2 : MonoBehaviour {
 			//	activeWave.RemoveEnemy (spawned);
 			//}
 			if (activeWave.IsEverythingDead ()) {
-                Debug.Log("why are we still in here");
 				waveProgress.Restart ();
-				onBreather = true;
+                KillCountBox.KillDisplay(guysKilled, enemycount, false);
+                onBreather = true;
 				if(activeWaveIndex + 2 <= waves.Count)
 					WaveMessageBox.StandardWarning(activeWaveIndex + 2);
-            }else {
-                Debug.Log("not everything is dead yet");
             }
 		}else{
 			//Debug.Log("on breather");
 			if(waveProgress.TimeElapsedSecs() > BREATHER_SECONDS){
 				onBreather = false;
 				activeWaveIndex++;
-                Debug.Log("breather finished!");
 				if (activeWaveIndex < waves.Count) {
 					activeWave = waves [activeWaveIndex];
 				}else{
-					Debug.Log(activeWaveIndex + " >= " + waves.Count);
+					//Debug.Log(activeWaveIndex + " >= " + waves.Count);
 					BonusWaveStart();
 				}
 				waveProgress.Restart();
@@ -138,8 +142,6 @@ public class WaveManager2 : MonoBehaviour {
 						boss.transform.SetParent(Dial.unmaskedLayer,false);
 					}
 				}
-            }else {
-                Debug.Log("breathing");
             }
 			return;
 		}

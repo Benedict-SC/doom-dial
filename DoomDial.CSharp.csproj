@@ -148,6 +148,7 @@
     <Compile Include="Assets\Scripts\MainCanvas\GameWatcher.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\Gun.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\GunButton.cs" />
+    <Compile Include="Assets\Scripts\MainCanvas\KillCountBox.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\MenuScale.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\MenuScript.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\MenuSpinner.cs" />
