@@ -148,7 +148,9 @@
     <Compile Include="Assets\Scripts\MainCanvas\ShieldFragment.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\TractorBeam.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\Trap.cs" />
+    <Compile Include="Assets\Scripts\MainCanvas\Wave.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\WaveManager2.cs" />
+    <Compile Include="Assets\Scripts\MainCanvas\WaveMaster.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\WaveMessageBox.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\ZoneWarning.cs" />
     <Compile Include="Assets\Scripts\MenuButton.cs" />
@@ -202,7 +204,6 @@
     <Compile Include="Assets\Scripts\TrackController.cs" />
     <Compile Include="Assets\Scripts\TrapController.cs" />
     <Compile Include="Assets\Scripts\UIRectTranslator.cs" />
-    <Compile Include="Assets\Scripts\Wave.cs" />
     <Compile Include="Assets\Scripts\WaveEditor\BossTabController.cs" />
     <Compile Include="Assets\Scripts\WaveEditor\EnemyDraggableController.cs" />
     <Compile Include="Assets\Scripts\WaveEditor\EnemyInvController.cs" />
@@ -233,6 +234,7 @@
     <None Include="Assets\Resources\JSONData\Bestiary\cheater.txt" />
     <None Include="Assets\Resources\JSONData\Bestiary\compensator.txt" />
     <None Include="Assets\Resources\JSONData\Bestiary\diversionminion.txt" />
+    <None Include="Assets\Resources\JSONData\Bestiary\drone1.txt" />
     <None Include="Assets\Resources\JSONData\Bestiary\enemyGuidelinesForThom.txt" />
     <None Include="Assets\Resources\JSONData\Bestiary\exampleEnemySave.txt" />
     <None Include="Assets\Resources\JSONData\Bestiary\executor.txt" />
@@ -261,6 +263,7 @@
     <None Include="Assets\Resources\JSONData\Bestiary\wallofdoom.txt" />
     <None Include="Assets\Resources\JSONData\Campaign\Levels\SingleTowerLevel.txt" />
     <None Include="Assets\Resources\JSONData\Campaign\Levels\W1L2.txt" />
+    <None Include="Assets\Resources\JSONData\Campaign\Levels\swarmworld1.txt" />
     <None Include="Assets\Resources\JSONData\Campaign\Levels\testlevel.txt" />
     <None Include="Assets\Resources\JSONData\Campaign\WORLD_LIST.txt" />
     <None Include="Assets\Resources\JSONData\Campaign\Waves\STLw1.txt" />
@@ -275,6 +278,12 @@
     <None Include="Assets\Resources\JSONData\Campaign\Waves\W1L2W4.txt" />
     <None Include="Assets\Resources\JSONData\Campaign\Waves\W1L2W5.txt" />
     <None Include="Assets\Resources\JSONData\Campaign\Waves\W1L2W6.txt" />
+    <None Include="Assets\Resources\JSONData\Campaign\Waves\W1L3W1.txt" />
+    <None Include="Assets\Resources\JSONData\Campaign\Waves\W1L3W2.txt" />
+    <None Include="Assets\Resources\JSONData\Campaign\Waves\W1L3W3.txt" />
+    <None Include="Assets\Resources\JSONData\Campaign\Waves\W1L3W4.txt" />
+    <None Include="Assets\Resources\JSONData\Campaign\Waves\W1L3W5.txt" />
+    <None Include="Assets\Resources\JSONData\Campaign\Waves\W1L3W6.txt" />
     <None Include="Assets\Resources\JSONData\Campaign\Waves\testwave.txt" />
     <None Include="Assets\Resources\JSONData\Campaign\Waves\testwave2.txt" />
     <None Include="Assets\Resources\JSONData\Campaign\Waves\testwave3.txt" />

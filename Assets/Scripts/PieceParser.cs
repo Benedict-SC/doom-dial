@@ -33,6 +33,44 @@ public class PieceParser{
 	static float PERCENT_SHIELD_REGEN_SLOW_PER_PAIR = .25f;
     static float COOLDOWN_PER_SQUARE = .1f;
 
+    static float SHIELD_HP_DEFAULT = 20.0f;
+    static float SHIELD_SPEED_DEFAULT = 0f;
+    static float SHIELD_RANGE_DEFAULT = 0f;
+    static float SHIELD_COOLDOWN_DEFAULT = 2f;
+    static float SHIELD_KNOCKBACK_DEFAULT = 0f;
+    static float SHIELD_DRAIN_DEFAULT = 0f;
+    static float SHIELD_POISON_DEFAULT = 0f;
+    static float SHIELD_SPLASH_EFFECT_PERCENT_DEFAULT = 0f;
+    static float SHIELD_SPLASH_DEFAULT = 0f;
+    static float SHIELD_STUN_DEFAULT = 0f;
+    static float SHIELD_SLOWDOWN_MIN_DEFAULT = 0f;
+    static float SHIELD_SLOWDOWN_MAX_DEFAULT = 0f;
+    static float SHIELD_PENETRATION_DEFAULT = 0f;
+    static float SHIELD_SHRED_DEFAULT = 0f;
+    static int SHIELD_SPREAD_DEFAULT = 1;
+    static int SHIELD_SPLIT_DEFAULT = 0;
+    static float SHIELD_HOMING_DEFAULT = 0f;
+    static float SHIELD_ARC_DEFAULT = 0f;
+
+    static float TRAP_DMG_DEFAULT = 5f;
+    static float TRAP_SPEED_DEFAULT = 2f;
+    static float TRAP_RANGE_DEFAULT = 2f;
+    static float TRAP_COOLDOWN_DEFAULT = 2f;
+    static float TRAP_KNOCKBACK_DEFAULT = 0f;
+    static float TRAP_DRAIN_DEFAULT = 0f;
+    static float TRAP_POISON_DEFAULT = 0f;
+    static float TRAP_SPLASH_EFFECT_PERCENT_DEFAULT = 0f;
+    static float TRAP_SPLASH_DEFAULT = 0f;
+    static float TRAP_STUN_DEFAULT = 0f;
+    static float TRAP_SLOWDOWN_MIN_DEFAULT = 0f;
+    static float TRAP_SLOWDOWN_MAX_DEFAULT = 0f;
+    static float TRAP_PENETRATION_DEFAULT = 0f;
+    static float TRAP_SHRED_DEFAULT = 0f;
+    static int TRAP_SPREAD_DEFAULT = 1;
+    static int TRAP_SPLIT_DEFAULT = 0;
+    static float TRAP_HOMING_DEFAULT = 0f;
+    static float TRAP_ARC_DEFAULT = 0f;
+
 	public static Dictionary<string,float> GetStatsFromGrid(List<string> files){
 		Dictionary<string,float> result = new Dictionary<string, float>();
 		float damage = DAMAGE_DEFAULT;
@@ -53,6 +91,44 @@ public class PieceParser{
 		int splitType = SPLIT_TYPE_DEFAULT;
 		float homingStrength = HOMING_STRENGTH_DEFAULT;
 		float arcBoost = ARC_BOOST_DEFAULT;
+
+        float shieldHP = SHIELD_HP_DEFAULT;
+        float shieldSpeed = SHIELD_SPEED_DEFAULT;
+        float shieldRange = SHIELD_RANGE_DEFAULT;
+        float shieldCooldown = SHIELD_COOLDOWN_DEFAULT;
+        float shieldKnockback = SHIELD_KNOCKBACK_DEFAULT;
+        float shieldLifeDrain = SHIELD_DRAIN_DEFAULT;
+        float shieldPoison = SHIELD_POISON_DEFAULT;
+        float shieldSplashEffectPercent = SHIELD_SPLASH_EFFECT_PERCENT_DEFAULT;
+        float shieldSplash = SHIELD_SPLASH_DEFAULT;
+        float shieldStun = SHIELD_STUN_DEFAULT;
+        float shieldSlowdownMin = SHIELD_SLOWDOWN_MIN_DEFAULT;
+        float shieldSlowdownMax = SHIELD_SLOWDOWN_MAX_DEFAULT;
+        float shieldPenetration = SHIELD_PENETRATION_DEFAULT;
+        float shieldShieldShred = SHIELD_SHRED_DEFAULT;
+        int shieldSpread = SHIELD_SPREAD_DEFAULT;
+        float shieldHoming = SHIELD_HOMING_DEFAULT;
+        float shieldArc = SHIELD_ARC_DEFAULT;
+        int shieldSplit = SHIELD_SPLIT_DEFAULT;
+
+        float trapDmg = TRAP_DMG_DEFAULT;
+        float trapSpeed = TRAP_SPEED_DEFAULT;
+        float trapRange = TRAP_RANGE_DEFAULT;
+        float trapCooldown = TRAP_COOLDOWN_DEFAULT;
+        float trapKnockback = TRAP_KNOCKBACK_DEFAULT;
+        float trapLifeDrain = TRAP_DRAIN_DEFAULT;
+        float trapPoison = TRAP_POISON_DEFAULT;
+        float trapSplashEffectPercent = TRAP_SPLASH_EFFECT_PERCENT_DEFAULT;
+        float trapSplash = TRAP_SPLASH_DEFAULT;
+        float trapStun = TRAP_STUN_DEFAULT;
+        float trapSlowdownMin = TRAP_SLOWDOWN_MIN_DEFAULT;
+        float trapSlowdownMax = TRAP_SLOWDOWN_MAX_DEFAULT;
+        float trapPenetration = TRAP_PENETRATION_DEFAULT;
+        float trapShieldShred = TRAP_SHRED_DEFAULT;
+        int trapSpread = TRAP_SPREAD_DEFAULT;
+        int trapSplit = TRAP_SPLIT_DEFAULT;
+        float trapHoming = TRAP_HOMING_DEFAULT;
+        float trapArc = TRAP_ARC_DEFAULT;
 		
 		int splashBonusCount = 0;
 		int penetrationBonusCount = 0;
@@ -278,8 +354,9 @@ public class PieceParser{
 		
 		return result;
 	}
+
 	public static float SPEED_CONSTANT = 5f;
-	//DUPLICATE METHOD USING GUN INSTEAD OF GUNCONTROLLER
+
 	public static void FillController(Gun gc, string filename){
 		//FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Towers",filename);
 		FileLoader fl = new FileLoader (Application.persistentDataPath,"Towers",filename);
@@ -315,9 +392,47 @@ public class PieceParser{
 		int spread = SPREAD_DEFAULT;
 		int splitType = SPLIT_TYPE_DEFAULT;
 		float homingStrength = HOMING_STRENGTH_DEFAULT;
-		float arcBoost = ARC_BOOST_DEFAULT;		
-		
-		int splashBonusCount = 0;
+		float arcBoost = ARC_BOOST_DEFAULT;
+
+        float shieldHP = SHIELD_HP_DEFAULT;
+        float shieldSpeed = SHIELD_SPEED_DEFAULT;
+        float shieldRange = SHIELD_RANGE_DEFAULT;
+        float shieldCooldown = SHIELD_COOLDOWN_DEFAULT;
+        float shieldKnockback = SHIELD_KNOCKBACK_DEFAULT;
+        float shieldLifeDrain = SHIELD_DRAIN_DEFAULT;
+        float shieldPoison = SHIELD_POISON_DEFAULT;
+        float shieldSplashEffectPercent = SHIELD_SPLASH_EFFECT_PERCENT_DEFAULT;
+        float shieldSplash = SHIELD_SPLASH_DEFAULT;
+        float shieldStun = SHIELD_STUN_DEFAULT;
+        float shieldSlowdownMin = SHIELD_SLOWDOWN_MIN_DEFAULT;
+        float shieldSlowdownMax = SHIELD_SLOWDOWN_MAX_DEFAULT;
+        float shieldPenetration = SHIELD_PENETRATION_DEFAULT;
+        float shieldShieldShred = SHIELD_SHRED_DEFAULT;
+        int shieldSpread = SHIELD_SPREAD_DEFAULT;
+        float shieldHoming = SHIELD_HOMING_DEFAULT;
+        float shieldArc = SHIELD_ARC_DEFAULT;
+        int shieldSplit = SHIELD_SPLIT_DEFAULT;
+
+        float trapDmg = TRAP_DMG_DEFAULT;
+        float trapSpeed = TRAP_SPEED_DEFAULT; //using this for Arm Time
+        float trapRange = TRAP_RANGE_DEFAULT;
+        float trapCooldown = TRAP_COOLDOWN_DEFAULT;
+        float trapKnockback = TRAP_KNOCKBACK_DEFAULT;
+        float trapLifeDrain = TRAP_DRAIN_DEFAULT;
+        float trapPoison = TRAP_POISON_DEFAULT;
+        float trapSplashEffectPercent = TRAP_SPLASH_EFFECT_PERCENT_DEFAULT;
+        float trapSplash = TRAP_SPLASH_DEFAULT;
+        float trapStun = TRAP_STUN_DEFAULT;
+        float trapSlowdownMin = TRAP_SLOWDOWN_MIN_DEFAULT;
+        float trapSlowdownMax = TRAP_SLOWDOWN_MAX_DEFAULT;
+        float trapPenetration = TRAP_PENETRATION_DEFAULT;
+        float trapShieldShred = TRAP_SHRED_DEFAULT;
+        int trapSplit = TRAP_SPLIT_DEFAULT;
+        int trapSpread = TRAP_SPREAD_DEFAULT;
+        float trapHoming = TRAP_HOMING_DEFAULT;
+        float trapArc = TRAP_ARC_DEFAULT;
+
+        int splashBonusCount = 0;
 		int penetrationBonusCount = 0;
 		int regenBonusCount = 0;
 		bool chainStunBonus = false;
@@ -505,7 +620,227 @@ public class PieceParser{
 				arcBoost = parc;
 			if(parc > 0.0f)
 				arcCount++;
-		} 
+
+            //***Same thing, but for SHIELD stats
+            //read values
+            //damage - straightforward
+            float pShieldHP = (float)(double)pdata["shieldMaxHP"];
+            if (pShieldHP > 0.0f)
+                damageCount++;
+            shieldHP += pShieldHP;
+            if (shieldHP < 0)
+                shieldHP = 0f;
+            //range - in percent of track
+            float pShieldRange = (float)(double)pdata["shieldRange"];
+            shieldRange += pShieldRange;
+            if (shieldRange > 1.0f)
+                shieldRange = 1.0f;
+            if (shieldRange < 0.0f)
+                shieldRange = 0.0f;
+            if (pShieldRange > 0.0f)
+                rangeCount++;
+            //speed - in terms of seconds it takes to reach the end of the track. will need to be converted to actual game velocity
+            float pShieldSpeed = (float)(double)pdata["shieldSpeed"];
+            shieldSpeed += pShieldSpeed;
+            if (shieldSpeed < 0.1f)
+                shieldSpeed = 0.1f;
+            if (pShieldSpeed < 0.0f)
+                speedCount++;
+            //poison - percent of health to remove every 0.5 seconds over the course of 3 seconds
+            float pShieldPoison = (float)(double)pdata["shieldPoison"];
+            shieldPoison += pShieldPoison;
+            if (pShieldPoison > 0.0f)
+                poisonCount++;
+            //slow - in percent of enemy speed - set enemy speed to this percent
+            float pShieldMinslow = (float)(double)pdata["shieldSlowdownMin"];
+            if (pShieldMinslow > 0)
+                shieldSlowdownMin += 1f - pShieldMinslow;
+            float pShieldMaxslow = (float)(double)pdata["shieldSlowdownMax"];
+            if (pShieldMaxslow > 0)
+                shieldSlowdownMax += 1f - pShieldMaxslow;
+            if (shieldSlowdownMin > MAXIMUM_SLOWDOWN)
+                shieldSlowdownMin = MAXIMUM_SLOWDOWN;
+            if (shieldSlowdownMax > MAXIMUM_SLOWDOWN)
+                shieldSlowdownMax = MAXIMUM_SLOWDOWN; //cap slowdowns so they don't become knockbacks
+            if (pmaxslow > 0.0f)
+                slowCount++;
+            //knockback - in terms of percent progress to roll back. value needs to be converted to an actual speed somehow. will take some fiddling with
+            float pShieldKnockback = (float)(double)pdata["shieldKnockback"];
+            shieldKnockback += pShieldKnockback;
+            if (shieldKnockback > 0.5f)
+                shieldKnockback = 0.5f;
+            if (pShieldKnockback > 0.0f)
+                knockbackCount++;
+            //life drain - in percent of damage dealt to drain to dial
+            float pShieldDrain = (float)(double)pdata["shieldLifeDrain"];
+            shieldLifeDrain += pShieldDrain;
+            if (shieldLifeDrain > 1.0f)
+                shieldLifeDrain = 1.0f;
+            if (pShieldDrain > 0.0f)
+                drainCount++;
+            //splash - not in radius, but in percent of its effects to apply to enemies in AOE
+            float pShieldSplash = (float)(double)pdata["shieldSplashDmg"];
+            shieldSplash += pShieldSplash;
+            if (pShieldSplash > shieldSplashEffectPercent)
+                shieldSplashEffectPercent = pShieldSplash; //only strongest piece is counted
+            if (pShieldSplash > 0.0f)
+                splashCount++;
+            //stun - in seconds
+            float pShieldStun = (float)(double)pdata["shieldStun"];
+            shieldStun += pShieldStun;
+            if (shieldStun > 5.0f)
+                shieldStun = 5.0f;
+            if (pShieldStun > 0.0f)
+                stunCount++;
+            //penetration - in... percentage of whatever penetration does
+            float pShieldPene = (float)(double)pdata["shieldPen"];
+            shieldPenetration += pShieldPene;
+            if (shieldPenetration > 1.0f)
+                shieldPenetration = 1.0f;
+            if (pShieldPene > 0.0f)
+                peneCount++;
+            //shieldShred - in percentage
+            float pShieldShred = (float)(double)pdata["shieldShieldShred"];
+            shieldShieldShred += pShieldShred;
+            if (shieldShieldShred > 1.0f)
+                shieldShieldShred = 1.0f;
+            if (pShieldShred > 0.0f)
+                shredCount++;
+            //spread - spread has different patterns - 1 is normal fire, 2 is side fire, 3 is alternating normal and side fire, and 4 is 3-way fire
+            float pShieldSpread = (float)(double)pdata["shieldSpread"];
+            if (pShieldSpread > shieldSpread)
+                shieldSpread = (int)pShieldSpread;
+            if (pShieldSpread > 1)
+                spreadCount++;
+            //split - again pattern-based. 0 is no split, 1-3 are the normal through rare effects described in the Tower Pieces spreadsheet
+            float pShieldSplit = (float)(double)pdata["shieldSplit"];
+            if (pShieldSplit > shieldSplit)
+                shieldSplit = (int)pShieldSplit;
+            if (pShieldSplit > 0)
+                splitCount++;
+            //homing - above 0.0 and it will home, the number describes the strength of the pull
+            float pShieldHome = (float)(double)pdata["shieldHoming"];
+            if (pShieldHome > shieldHoming)
+                shieldHoming = pShieldHome;
+            if (pShieldHome > 0.0f)
+                homeCount++;
+            //arc - above 0.0 and it'll arc, the number describes the damage bonus
+            float pShieldArc = (float)(double)pdata["shieldArc"];
+            if (pShieldArc > shieldArc)
+                shieldArc = pShieldArc;
+            if (pShieldArc > 0.0f)
+                arcCount++;
+
+            //Same thing, but for Trap stats
+            //read values
+            //damage - straightforward
+            float pTrapDamage = (float)(double)pdata["trapDmg"];
+            if (pTrapDamage > 0.0f)
+                damageCount++;
+            trapDmg += pTrapDamage;
+            if (trapDmg < 0)
+                trapDmg = 0f;
+            //range - in percent of track
+            float pTrapRange = (float)(double)pdata["trapRange"];
+            trapRange += pTrapRange;
+            if (trapRange > 1.0f)
+                trapRange = 1.0f;
+            if (trapRange < 0.0f)
+                trapRange = 0.0f;
+            if (pTrapRange > 0.0f)
+                rangeCount++;
+            //speed - in terms of seconds it takes to reach the end of the track. will need to be converted to actual game velocity
+            float pTrapSpeed = (float)(double)pdata["trapMaxArmTime"];
+            trapSpeed += pTrapSpeed;
+            if (trapSpeed < 0.1f)
+                trapSpeed = 0.1f;
+            if (pTrapSpeed < 0.0f)
+                speedCount++;
+            //poison - percent of health to remove every 0.5 seconds over the course of 3 seconds
+            float pTrapPoison = (float)(double)pdata["trapPoison"];
+            trapPoison += pTrapPoison;
+            if (pTrapPoison > 0.0f)
+                poisonCount++;
+            //slow - in percent of enemy speed - set enemy speed to this percent
+            float pTrapMinslow = (float)(double)pdata["trapSlowdownMin"];
+            if (pTrapMinslow > 0)
+                trapSlowdownMin += 1f - pTrapMinslow;
+            float pTrapMaxslow = (float)(double)pdata["trapSlowdownMax"];
+            if (pTrapMaxslow > 0)
+                trapSlowdownMax += 1f - pTrapMaxslow;
+            if (trapSlowdownMin > MAXIMUM_SLOWDOWN)
+                trapSlowdownMin = MAXIMUM_SLOWDOWN;
+            if (trapSlowdownMax > MAXIMUM_SLOWDOWN)
+                trapSlowdownMax = MAXIMUM_SLOWDOWN; //cap slowdowns so they don't become knockbacks
+            if (pTrapMaxslow > 0.0f)
+                slowCount++;
+            //knockback - in terms of percent progress to roll back. value needs to be converted to an actual speed somehow. will take some fiddling with
+            float pTrapKnockback = (float)(double)pdata["trapKnockback"];
+            trapKnockback += pTrapKnockback;
+            if (trapKnockback > 0.5f)
+                trapKnockback = 0.5f;
+            if (pTrapKnockback > 0.0f)
+                knockbackCount++;
+            //life drain - in percent of damage dealt to drain to dial
+            float pTrapDrain = (float)(double)pdata["trapLifeDrain"];
+            lifeDrain += pdrain;
+            if (trapLifeDrain > 1.0f)
+                trapLifeDrain = 1.0f;
+            if (pTrapDrain > 0.0f)
+                drainCount++;
+            //splash - not in radius, but in percent of its effects to apply to enemies in AOE
+            float pTrapSplash = (float)(double)pdata["trapSplashDmg"];
+            trapSplash += pTrapSplash;
+            if (pTrapSplash > trapSplashEffectPercent)
+                trapSplashEffectPercent = pTrapSplash; //only strongest piece is counted
+            if (pTrapSplash > 0.0f)
+                splashCount++;
+            //stun - in seconds
+            float pTrapStun = (float)(double)pdata["trapStun"];
+            trapStun += pTrapStun;
+            if (trapStun > 5.0f)
+                trapStun = 5.0f;
+            if (pTrapStun > 0.0f)
+                stunCount++;
+            //penetration - in... percentage of whatever penetration does
+            float pTrapPene = (float)(double)pdata["trapPenetration"];
+            trapPenetration += pTrapPene;
+            if (trapPenetration > 1.0f)
+                trapPenetration = 1.0f;
+            if (pTrapPene > 0.0f)
+                peneCount++;
+            //shieldShred - in percentage
+            float pTrapShred = (float)(double)pdata["trapShieldShred"];
+            trapShieldShred += pTrapShred;
+            if (trapShieldShred > 1.0f)
+                trapShieldShred = 1.0f;
+            if (pTrapShred > 0.0f)
+                shredCount++;
+            //spread - spread has different patterns - 1 is normal fire, 2 is side fire, 3 is alternating normal and side fire, and 4 is 3-way fire
+            float pTrapSpread = (float)(double)pdata["trapSpread"];
+            if (pTrapSpread > trapSpread)
+                trapSpread = (int)pTrapSpread;
+            if (pTrapSpread > 1)
+                spreadCount++;
+            //split - again pattern-based. 0 is no split, 1-3 are the normal through rare effects described in the Tower Pieces spreadsheet
+            float pTrapSplit = (float)(double)pdata["trapSplit"];
+            if (pTrapSplit > trapSplit)
+                trapSplit = (int)pTrapSplit;
+            if (pTrapSplit > 0)
+                splitCount++;
+            //homing - above 0.0 and it will home, the number describes the strength of the pull
+            float pTrapHome = (float)(double)pdata["trapHoming"];
+            if (pTrapHome > trapHoming)
+                trapHoming = pTrapHome;
+            if (pTrapHome > 0.0f)
+                homeCount++;
+            //arc - above 0.0 and it'll arc, the number describes the damage bonus
+            float pTrapArc = (float)(double)pdata["trapArc"];
+            if (pTrapArc > trapArc)
+                trapArc = pTrapArc;
+            if (pTrapArc > 0.0f)
+                arcCount++;
+        } 
 		
 		penetrationBonusCount = Math.Min(speedCount,peneCount);
 		splashBonusCount = Math.Min(splashCount,rangeCount);
@@ -568,49 +903,88 @@ public class PieceParser{
             //***GET TRAP SCALARS FROM JOE***
             //Debug.Log("speed is " + ((1f / speed) * SPEED_CONSTANT));
             //Damage
-            gc.SetDmg(damage);
+            gc.SetDmg(trapDmg);
             //Range
-            gc.SetRange(range);
+            gc.SetRange(trapRange);
             //Speed
-            gc.SetSpeed(speed * SPEED_CONSTANT);
+            gc.SetSpeed(trapSpeed);
             //Cooldown
-            gc.SetCooldown(cooldown);
+            gc.SetCooldown(trapCooldown);
             //Poison
-            gc.SetPoison(poison);
+            gc.SetPoison(trapPoison);
             //Debug.Log(gc.buttonID + " poison value is set to " + poison);
             gc.SetPoisonDur(3f);
 			gc.SetChainPoison(chainPoisonBonus);
 			gc.SetLeeches(hijackRegenBonus);
             //Slowdown
-            gc.SetSlowdown(slowdownMax); //for now.  eventually add in that scaling system for slow/fast enemies?
+            gc.SetSlowdown(trapSlowdownMax); //for now.  eventually add in that scaling system for slow/fast enemies?
             gc.SetSlowDur(0.75f);
             //Knockback
-            gc.SetKnockback(knockback);
+            gc.SetKnockback(trapKnockback);
             //Lifedrain
-            gc.SetLifeDrain(lifeDrain);
+            gc.SetLifeDrain(trapLifeDrain);
             //Splash
-            gc.SetSplash(splash);
+            gc.SetSplash(trapSplash);
 			gc.SetSplashRadiusBonus(splashBonusCount * PERCENT_AOE_RANGE_PER_PAIR);
             //Stun
-            gc.SetStun(stun);
+            gc.SetStun(trapStun);
             //Penetration
-            gc.SetPenetration(penetration);
+            gc.SetPenetration(trapPenetration);
 			gc.SetPiercing(penetrationBonusCount);
             //Shieldshred
-            gc.SetShieldShred(shieldShred);
+            gc.SetShieldShred(trapShieldShred);
 			gc.SetShieldSlow(regenBonusCount*PERCENT_SHIELD_REGEN_SLOW_PER_PAIR);
             //Spread
-            gc.SetSpread(spread);
+            gc.SetSpread(trapSpread);
             //SplitCount
-            gc.SetSplit(splitType);
+            gc.SetSplit(trapSplit);
             //Homing
-            gc.SetIsHoming(homingStrength);
+            gc.SetIsHoming(trapHoming);
             //ArcStrength
-            gc.SetDoesArc(arcBoost);
+            gc.SetDoesArc(trapArc);
 
         }
         else if(gc.GetTowerType().Equals ("Shield")){
-			
-		}
+            //HP
+            gc.SetShieldHP(shieldHP);
+            //Range
+            gc.SetRange(shieldRange);
+            //Speed
+            gc.SetSpeed(shieldSpeed);
+            //Cooldown
+            gc.SetCooldown(shieldCooldown);
+            //Poison
+            gc.SetPoison(shieldPoison);
+            //Debug.Log(gc.buttonID + " poison value is set to " + poison);
+            gc.SetPoisonDur(3f);
+            gc.SetChainPoison(chainPoisonBonus);
+            gc.SetLeeches(hijackRegenBonus);
+            //Slowdown
+            gc.SetSlowdown(shieldSlowdownMax); //for now.  eventually add in that scaling system for slow/fast enemies?
+            gc.SetSlowDur(0.75f);
+            //Knockback
+            gc.SetKnockback(shieldKnockback);
+            //Lifedrain
+            gc.SetLifeDrain(shieldLifeDrain);
+            //Splash
+            gc.SetSplash(shieldSplash);
+            gc.SetSplashRadiusBonus(splashBonusCount * PERCENT_AOE_RANGE_PER_PAIR);
+            //Stun
+            gc.SetStun(shieldStun);
+            //Penetration
+            gc.SetPenetration(shieldPenetration);
+            gc.SetPiercing(penetrationBonusCount);
+            //Shieldshred
+            gc.SetShieldShred(shieldShieldShred);
+            gc.SetShieldSlow(regenBonusCount * PERCENT_SHIELD_REGEN_SLOW_PER_PAIR);
+            //Spread
+            gc.SetSpread(shieldSpread);
+            //SplitCount
+            gc.SetSplit(shieldSplit);
+            //Homing
+            gc.SetIsHoming(shieldHoming);
+            //ArcStrength
+            gc.SetDoesArc(shieldArc);
+        }
 	}
 }
