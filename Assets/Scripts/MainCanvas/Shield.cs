@@ -11,11 +11,11 @@ public class Shield : MonoBehaviour {
     public float speedBoost; //TODO speed boost given to bullets shot through This shield
     public float rangeBoost; //TODO speed boost given to bullets shot through This shield
     public float penProtect; //TODO percent protection from enemy bullets' Penetration values
-    public float shieldShred; //TODO percent of enemy shield to steal on hit
+    public float shieldShred; //percent of enemy shield to steal on hit, expressed as a decimal
     public float knockback; //TODO Reversion -- ask joe what this means??
     public bool stun; //TODO whether stun wave is sent out
     public bool slowdown; //TODO gravity well to center of track
-    public float lifeDrain; //TODO converts life taken past its' HP to yours (??? ask joe)
+    public bool lifeDrain; //converts life taken past its' HP to yours (??? ask joe)
     public float poison; //TODO puff out poison shotgun bursts - amt of damage per second
     public float poisonDur; //TODO length of poison effect in second
     public float spread; //TODO bullet shot through gets arc lightning to X enemies at Y distance
@@ -31,6 +31,9 @@ public class Shield : MonoBehaviour {
 	
 	GameObject hpMeter;
 	RectTransform rt;
+
+    GameObject dialObj;
+    Dial dial;
 	
 	float regenBase; //to measure regen time
 	
@@ -38,7 +41,6 @@ public class Shield : MonoBehaviour {
 	void Start () {
 		
 		//defaults for testing
-		maxHP = 30.0f;
 		regenRate = 1.0f; //regens once every X seconds
 		regenAmt = 1.0f; //amount to regen every regenRate seconds
 		
@@ -49,6 +51,9 @@ public class Shield : MonoBehaviour {
 		UpdateHPMeter();
 		
 		regenBase = 0.0f;
+
+        dialObj = GameObject.FindGameObjectWithTag("Dial");
+        dial = dialObj.GetComponent<Dial>();
 	}
 	
 	// Update is called once per frame
@@ -69,10 +74,36 @@ public class Shield : MonoBehaviour {
 		//Debug.Log ("Shield HP updated");
 		hpMeter.transform.localScale = new Vector3(hpMeter.transform.localScale.x, hp / maxHP + .1f, hpMeter.transform.localScale.z);
 	}
+
+    //handles on-death effects - Blast, Life Drain, and Stun Wave
+    //dialDmg is any extra damage given to dial that Shield couldn't block
+    public void OnDestroyEffects(float dialDmg)
+    {
+        //lifedrain effect
+        if (lifeDrain)
+        {
+            dial.ChangeHealth(dialDmg);
+        }
+        //stun wave
+        if (stun)
+        {
+
+        }
+        //blast wave
+        if (splash)
+        {
+
+        }
+    }
 	
 	public void PrintHP ()
 	{
 		Debug.Log ("shield HP: " + hp);
 	}
+
+    public void PrintSpeedBoost()
+    {
+        Debug.Log("shield speedboost = " + speedBoost);
+    }
 }
 

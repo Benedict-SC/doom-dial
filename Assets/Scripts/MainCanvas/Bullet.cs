@@ -19,7 +19,7 @@ public class Bullet : MonoBehaviour {
 	//IMPLEMENTED
 	public float dmg; //damage dealt out
 	public float range; //range -- expressed in percent of the length of the lane
-	public float speed; //speed of the bullet -- used for split bullets
+	public float speed; //speed of the bullet -- (also) used for split bullets
 	public float poison; //poison damage on enemy
 	public float poisonDur; //how long poison lasts, in seconds
 	public float knockback; //knockback -- positive value for distance knocked back
@@ -352,6 +352,30 @@ public class Bullet : MonoBehaviour {
 				}
 			}
 		}
+        else if (coll.gameObject.tag == "Shield")
+        {
+            Shield sc = coll.gameObject.GetComponent<Shield>();
+            float sSpeedBoost = sc.speedBoost;
+            float sRangeBoost = sc.rangeBoost;
+            float sSpread = sc.spread;
+            float sSpreadRadius = sc.spreadRadius;
+
+            //modify This bullet's values based on shield boosts
+            //modify speed
+            float ownangle = this.transform.eulerAngles.z;
+            float angle = (ownangle + 90) % 360;
+            angle *= (float)Math.PI / 180;
+            //do we want this line?.. vvv
+            //angle = (angle - (float)Math.PI / 6f) + ((((float)Math.PI / 3f) / (2))); //handles spread effect
+            vx = (speed + sSpeedBoost) * (float)Math.Cos(angle);
+            vy = (speed + sSpeedBoost) * (float)Math.Sin(angle);
+            range += sRangeBoost;
+            if (range > 1f)
+            {
+                range = 1f;
+            }
+            //spread does the lightning arc thing -- do this later
+        }
 	}
 	
 	//returns the nearest enemy in this bullet's zone
@@ -390,7 +414,7 @@ public class Bullet : MonoBehaviour {
 	//returns the current zone ID of This bullet
 	public int GetCurrentTrackID(){
 		float degrees = ((360-Mathf.Atan2(transform.position.y,transform.position.x) * Mathf.Rad2Deg)+90 + 360)%360;
-		Debug.Log(degrees);
+		//Debug.Log(degrees);
 		if(degrees >= 30.0 && degrees < 90.0){
 			return 2;
 		}else if(degrees >= 90.0 && degrees < 150.0){

@@ -12,6 +12,7 @@ public class Dial : MonoBehaviour,EventHandler {
 	
 	public float maxHealth = 100.0f;
 	public float health = 100.0f;
+    GameObject healthBar;
 	
 	public static float inner_radius = 80f; //inexact - set this value from function for changing ring sizes
 	public static float middle_radius = 126f; //inexact
@@ -43,11 +44,13 @@ public class Dial : MonoBehaviour,EventHandler {
 		spawnLayer = GameObject.Find("SpawnOverDialLayer").GetComponent<RectTransform>();
 		underLayer = GameObject.Find("SpawnUnderDialLayer").GetComponent<RectTransform>();
 		unmaskedLayer = GameObject.Find ("UnmaskedSpawns").GetComponent<RectTransform>();
-		thisDial = this;
+        healthBar = transform.FindChild("Health").gameObject;
+        thisDial = this;
 	}
 	void Start () {
-		
-		EventManager.Instance ().RegisterForEventType ("enemy_arrived", this);
+        healthBar = transform.FindChild("Health").gameObject;
+
+        EventManager.Instance ().RegisterForEventType ("enemy_arrived", this);
 		EventManager.Instance ().RegisterForEventType ("dial_damaged", this);
 		EventManager.Instance ().RegisterForEventType ("health_leeched",this);
 		LoadDialConfigFromJSON (WorldData.dialSelected);
@@ -82,8 +85,7 @@ public class Dial : MonoBehaviour,EventHandler {
 			Debug.Log ("health is negative@");
 			Die();
 		}
-		GameObject healthbar = transform.FindChild ("Health").gameObject;
-		healthbar.transform.localScale = new Vector3 (health / maxHealth, health / maxHealth, 1);
+		healthBar.transform.localScale = new Vector3 (health / maxHealth, health / maxHealth, 1);
 	}
 	
 	public void IncreaseSuperPercent(){
@@ -172,11 +174,25 @@ public class Dial : MonoBehaviour,EventHandler {
                                 else
                                 {
                                     sc.hp -= rawDamage;
+
+                                    //shield shred effect
+                                    EnemyShield es = enemy.GetShield();
+                                    if (es != null)
+                                    {
+                                        sc.hp += (es.power * sc.shieldShred);
+                                        es.TakeDamage(es.power * sc.shieldShred);
+                                    }
+                                    else
+                                    {
+                                        Debug.Log("no enemy shield");
+                                    }
+
                                     sc.UpdateHPMeter();
                                     sc.PrintHP(); //debug
                                     if (sc.hp <= 0.0f)
                                     { //if the shield's now dead
                                         float dialDamage = (oldHP - rawDamage); //this should be a negative value or 0
+                                        sc.OnDestroyEffects(dialDamage); //shield's on-destroy effects like Blast, Life Drain, and Stun Wave
                                         health += dialDamage; //dial takes damage (adds the negative value)
 	                                        GameEvent hitlog = new GameEvent("enemy_finished");
 	                                        hitlog.addArgument(enemy.GetSrcFileName());

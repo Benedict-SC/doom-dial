@@ -464,13 +464,14 @@ public class Gun : MonoBehaviour,EventHandler{
         sc.regenRate = shieldRegen;
         sc.regenAmt = shieldRegenAmt;
         sc.speedBoost = speed;
+        sc.PrintSpeedBoost();
         sc.rangeBoost = range;
         sc.penProtect = penetration;
         sc.shieldShred = shieldShred;
         sc.knockback = knockback;
         sc.stun = stun > 0;
         sc.slowdown = slowdown > 0;
-        sc.lifeDrain = lifeDrain;
+        sc.lifeDrain = lifeDrain > 0;
         sc.poison = poison;
         sc.poisonDur = poisonDur;
         sc.spread = spread;

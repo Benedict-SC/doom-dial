@@ -33,7 +33,7 @@ public class PieceParser{
 	static float PERCENT_SHIELD_REGEN_SLOW_PER_PAIR = .25f;
     static float COOLDOWN_PER_SQUARE = .1f;
 
-    static float SHIELD_HP_DEFAULT = 20.0f;
+    static float SHIELD_HP_DEFAULT = 10.0f;
     static float SHIELD_SPEED_DEFAULT = 0f;
     static float SHIELD_RANGE_DEFAULT = 0f;
     static float SHIELD_COOLDOWN_DEFAULT = 2f;
@@ -524,10 +524,14 @@ public class PieceParser{
                     if (partSpace == 1) //full squares
                     {
                         cooldown += 0.1f;
+                        shieldCooldown += 0.1f;
+                        trapCooldown += 0.1f;
                     }
                     else if (partSpace >= 2) //triangles
                     {
                         cooldown += 0.05f;
+                        shieldCooldown += 0.05f;
+                        trapCooldown += 0.05f;
                     }
                 }
             }
@@ -642,10 +646,15 @@ public class PieceParser{
             //speed - in terms of seconds it takes to reach the end of the track. will need to be converted to actual game velocity
             float pShieldSpeed = (float)(double)pdata["shieldSpeed"];
             shieldSpeed += pShieldSpeed;
-            if (shieldSpeed < 0.1f)
-                shieldSpeed = 0.1f;
             if (pShieldSpeed < 0.0f)
                 speedCount++;
+            //cooldown for the tower
+            float pShieldCooldown = (float)(double)pdata["shieldCooldown"];
+            shieldCooldown += pShieldCooldown;
+            if (shieldCooldown < 0.1f)
+                shieldCooldown = 0.1f;
+            if (pShieldCooldown < 0.0f)
+                cdrCount++;
             //poison - percent of health to remove every 0.5 seconds over the course of 3 seconds
             float pShieldPoison = (float)(double)pdata["shieldPoison"];
             shieldPoison += pShieldPoison;
@@ -756,6 +765,13 @@ public class PieceParser{
                 trapSpeed = 0.1f;
             if (pTrapSpeed < 0.0f)
                 speedCount++;
+            //cooldown for the tower
+            float pTrapCooldown = (float)(double)pdata["trapCooldown"];
+            trapCooldown += pTrapCooldown;
+            if (trapCooldown < 0.1f)
+                trapCooldown = 0.1f;
+            if (pTrapCooldown < 0.0f)
+                cdrCount++;
             //poison - percent of health to remove every 0.5 seconds over the course of 3 seconds
             float pTrapPoison = (float)(double)pdata["trapPoison"];
             trapPoison += pTrapPoison;
