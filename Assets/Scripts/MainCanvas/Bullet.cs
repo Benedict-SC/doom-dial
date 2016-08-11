@@ -302,6 +302,7 @@ public class Bullet : MonoBehaviour {
 						//Determine lane ID and spawn aoe in appropriate lane
 						if (timerElapsed) //just to make sure they don't destroy each other on spawn
 						{
+                            //this entire section may have to be reworked
 							GameObject zoneCone = null;
 							
 							Debug.Log ("current track is " + GetCurrentTrackID());
@@ -333,8 +334,8 @@ public class Bullet : MonoBehaviour {
 							
 							if (zoneCone != null)
 							{
-								ZoneConeController zcc = zoneCone.GetComponent<ZoneConeController>();
-								zcc.StartCoroutine("Detonate");
+								//ZoneConeController zcc = zoneCone.GetComponent<ZoneConeController>();
+								//zcc.StartCoroutine("Detonate");
 							}
 							else{
 								Debug.Log ("zoneCone is null for some reason?");

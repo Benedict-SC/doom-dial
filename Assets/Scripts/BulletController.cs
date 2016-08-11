@@ -277,8 +277,8 @@ public class BulletController : MonoBehaviour {
 
 							if (zoneCone != null)
 							{
-								ZoneConeController zcc = zoneCone.GetComponent<ZoneConeController>();
-								zcc.StartCoroutine("Detonate");
+								//ZoneConeController zcc = zoneCone.GetComponent<ZoneConeController>();
+								//zcc.StartCoroutine("Detonate");
 							}
 							else{
 								Debug.Log ("zoneCone is null for some reason?");

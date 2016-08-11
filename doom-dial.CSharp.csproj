@@ -137,6 +137,7 @@
     <Compile Include="Assets\Scripts\MainCanvas\Dial.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\Drop.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\EnemyShield.cs" />
+    <Compile Include="Assets\Scripts\MainCanvas\FullZoneBlast.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\GameWatcher.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\Gun.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\GunButton.cs" />
@@ -216,7 +217,6 @@
     <Compile Include="Assets\Scripts\WaveManager.cs" />
     <Compile Include="Assets\Scripts\WorldData.cs" />
     <Compile Include="Assets\Scripts\WorldSelect.cs" />
-    <Compile Include="Assets\Scripts\ZoneConeController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Misc\BulletEffectsLog.txt" />
