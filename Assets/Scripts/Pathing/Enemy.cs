@@ -442,7 +442,9 @@ public class Enemy : MonoBehaviour,EventHandler {
 		}
 		else if (coll.gameObject.tag == "Shield") //if it's a shield
 		{
-			//shield actions are handled in DialController
+            GameObject shieldHit = coll.gameObject;
+            Shield sh = shieldHit.GetComponent<Shield>();
+            ShieldInflictedStatus(sh);
 		}
 		else if (coll.gameObject.tag == "AoE")
 		{
@@ -796,6 +798,13 @@ public class Enemy : MonoBehaviour,EventHandler {
 			}
 		}
 	}
+
+    //inflict status effects from a dial shield
+    public void ShieldInflictedStatus(Shield sc)
+    {
+        //this needs things to live
+    }
+
 	bool chainPoisonSource = false;
 	public void AddChainPoisonRadius(float strength,float duration){
 		if(chainPoisonSource){

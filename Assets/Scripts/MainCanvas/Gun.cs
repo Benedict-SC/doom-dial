@@ -23,7 +23,7 @@ public class Gun : MonoBehaviour,EventHandler{
 	public float range; //range -- expressed in percent of the length of the lane
 	float knockback; //knockback -- positive value for distance knocked back
 	float lifeDrain; //lifedrain on enemy
-	float poison; //poison damage on enemy
+	float poison; //poison damage per second on enemy
 	float poisonDur; //how long poison lasts, in seconds
 	float splash; //percent (0.0f - .75f) of effects to carry to enemies hit by splash
 	float splashRad = 4.0f; //radius of splash damage (default for now)
@@ -47,6 +47,7 @@ public class Gun : MonoBehaviour,EventHandler{
 	
 	float shieldHP; //shield max HP
 	float shieldRegen; //shield regen rate
+    float shieldRegenAmt; //amt per tick of regen
 	float shieldRange = 55f; //just so it's not hardcoded
 	//***Skill values end here***
 	
@@ -455,9 +456,31 @@ public class Gun : MonoBehaviour,EventHandler{
 	//Assigns skill values to shields
 	private void ConfigureShield(Shield sc)
 	{
+        //***This may have to adapt some values to fit shield functionality***
 		if (shieldHP == 0)
-			print ("Check your shield HP value!  might be 0!");
+			print ("Check your shield HP value!  It shoudln't be 0 by default!");
 		sc.maxHP = shieldHP;
+        sc.hp = shieldHP;
+        sc.regenRate = shieldRegen;
+        sc.regenAmt = shieldRegenAmt;
+        sc.speedBoost = speed;
+        sc.PrintSpeedBoost();
+        sc.rangeBoost = range;
+        sc.penProtect = penetration;
+        sc.shieldShred = shieldShred;
+        sc.knockback = knockback;
+        sc.stun = stun > 0;
+        sc.slowdown = slowdown > 0;
+        sc.lifeDrain = lifeDrain > 0;
+        sc.poison = poison;
+        sc.poisonDur = poisonDur;
+        sc.spread = spread;
+        //set spread radius based on piece strength
+        sc.split = splitCount;
+        sc.homing = homingStrength > 0;
+        sc.arc = arcDmg > 0;
+        sc.splash = splash > 0;
+        sc.splashDmg = splash;
 		//bc.regenRate = shieldRegen; //commented out since regen rate doesn't vary, according to joe
 	}
 	#endregion
