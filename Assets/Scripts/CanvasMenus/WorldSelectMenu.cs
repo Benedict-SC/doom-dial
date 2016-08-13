@@ -52,7 +52,7 @@ public class WorldSelectMenu : MonoBehaviour{
 		GameObject cancelobj = GameObject.Instantiate (Resources.Load ("Prefabs/Menus/MenuOption")) as GameObject;
 		GameObject.Destroy(cancelobj.GetComponent<MenuOption>());
 		LoadSceneMenuOption cancel = cancelobj.AddComponent<LoadSceneMenuOption>() as LoadSceneMenuOption;
-		cancel.sceneName = "MenuTest";
+		cancel.sceneName = "MainMenu";
 		cancel.ConfigureOption("PieceSprites/Piece_Stun_R","Back to Menu","Return to the main menu.");
 		cancelobj.transform.SetParent(md.transform,false);
 		md.AddOption(cancel);

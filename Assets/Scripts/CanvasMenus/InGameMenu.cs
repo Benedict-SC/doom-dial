@@ -44,7 +44,7 @@ public class InGameMenu : MonoBehaviour{
 						GameObject.Destroy (mainmenu.GetComponent<MenuOption> ());
 						WarnBeforeChangingSceneMenuOption mainmenuwbcsmo = mainmenu.AddComponent<WarnBeforeChangingSceneMenuOption> () as WarnBeforeChangingSceneMenuOption;
 						mainmenuwbcsmo.SetWarningController (this);
-						mainmenuwbcsmo.sceneName = "MenuTest";
+						mainmenuwbcsmo.sceneName = "MainMenu";
 						mainmenuwbcsmo.ConfigureOption ("Dial", "Main Menu", "Quit your current game and go back to the main menu.");
 						mainmenu.transform.SetParent (md.transform, false);
 						md.AddOption (mainmenuwbcsmo);

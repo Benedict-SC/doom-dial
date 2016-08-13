@@ -105,6 +105,6 @@ public class EnemyIndexMenu : MonoBehaviour {
     }
     public void BackToMainMenu()
     {
-        Application.LoadLevel("MenuTest");
+        Application.LoadLevel("MainMenu");
     }
 }

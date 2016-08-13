@@ -45,4 +45,12 @@ public class MenuOption : MonoBehaviour{
         }
         text.text = dText;
     }
+    public void SizeImage(float height)
+    {
+        Texture2D decal = Resources.Load<Texture2D>("Sprites/" + iconFilename);
+        RectTransform rt = transform.FindChild("Image").GetComponent<RectTransform>();
+        float widthPercentOfHeight = (float)decal.width / (float)decal.height;
+        rt.sizeDelta = new Vector2(widthPercentOfHeight * height, height);
+        Debug.Log(iconFilename + ": " + rt.sizeDelta.ToString());
+    }
 }

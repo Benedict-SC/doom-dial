@@ -211,6 +211,6 @@ public class WaveEditorController : MonoBehaviour,EventHandler{
 		Application.LoadLevel("MainGameCanvas");
 	}
 	public void Return(){
-		Application.LoadLevel ("MenuTest");
+		Application.LoadLevel ("MainMenu");
 	}
 }

@@ -42,6 +42,8 @@ public class MenuDial : MonoBehaviour,EventHandler {
         {
             enemyStatsPanel = GameObject.Find("Stats Panel").GetComponent<EnemyStatsPanel>();
         }
+        if (slots >= 1)
+            RefreshSelectedOption();
     }
 	public MenuOption GetSelectedOption(){
 		return selected;
@@ -53,11 +55,16 @@ public class MenuDial : MonoBehaviour,EventHandler {
 	}
 	public void RefreshSelectedOption(){
 		int index = (int)((options.Count)-(Mathf.Round((transform.rotation.eulerAngles.z-headAngle)/(360f/slots) )));
-		if(index >= options.Count){
+        //Debug.Log("initial index: " + index);
+		while(index >= options.Count){
 			index -= options.Count;
-		}else if(index < 0){
+            //Debug.Log("index too big, clipped to " + index);
+		}
+        while (index < 0){
+            //Debug.Log("index too small, increased to " + index);
 			index += options.Count;
 		}
+        //Debug.Log("final index: " + index);
 		selected = options[index];
         RefreshEnemyStatsPanel();
 	}
@@ -142,5 +149,8 @@ public class MenuDial : MonoBehaviour,EventHandler {
 	public bool IsSpinning(){
 		return spinning;
 	}
-	
+	public List<MenuOption> GetOptions()
+    {
+        return options;
+    }
 }

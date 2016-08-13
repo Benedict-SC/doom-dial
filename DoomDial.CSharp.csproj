@@ -85,6 +85,7 @@
     <Compile Include="Assets\Scripts\CanvasMenus\LevelMenuOption.cs" />
     <Compile Include="Assets\Scripts\CanvasMenus\LevelSelectMenu.cs" />
     <Compile Include="Assets\Scripts\CanvasMenus\LoadSceneMenuOption.cs" />
+    <Compile Include="Assets\Scripts\CanvasMenus\MainMenu.cs" />
     <Compile Include="Assets\Scripts\CanvasMenus\MenuDial.cs" />
     <Compile Include="Assets\Scripts\CanvasMenus\MenuOption.cs" />
     <Compile Include="Assets\Scripts\CanvasMenus\MenuScaleEffectCanvas.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Assets\Scripts\GameReturn.cs" />
     <Compile Include="Assets\Scripts\GunController.cs" />
     <Compile Include="Assets\Scripts\InputWatcher.cs" />
+    <Compile Include="Assets\Scripts\LevelLoadWidget.cs" />
     <Compile Include="Assets\Scripts\LevelSelect.cs" />
     <Compile Include="Assets\Scripts\Lifespan.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\AoE.cs" />

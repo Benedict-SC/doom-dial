@@ -111,7 +111,7 @@ public class TowerMenu : MonoBehaviour,EventHandler{
 		Application.LoadLevel("TowerEditor");
 	}
 	public void ReturnToMenu(){
-		Application.LoadLevel("MenuTest");
+		Application.LoadLevel("MainMenu");
 	}
 	public void Update(){
 		if(Pause.paused)
