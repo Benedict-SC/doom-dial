@@ -302,44 +302,7 @@ public class Bullet : MonoBehaviour {
 						//Determine lane ID and spawn aoe in appropriate lane
 						if (timerElapsed) //just to make sure they don't destroy each other on spawn
 						{
-                            //this entire section may have to be reworked
-							GameObject zoneCone = null;
-							
-							Debug.Log ("current track is " + GetCurrentTrackID());
-							
-							switch (GetCurrentTrackID())
-							{
-							case 1:
-								zoneCone = GameObject.Find ("ZoneCone1");
-								break;
-							case 2:
-								zoneCone = GameObject.Find ("ZoneCone2");
-								break;
-							case 3:
-								zoneCone = GameObject.Find ("ZoneCone3");
-								break;
-							case 4:
-								zoneCone = GameObject.Find ("ZoneCone4");
-								break;
-							case 5:
-								zoneCone = GameObject.Find ("ZoneCone5");
-								break;
-							case 6:
-								zoneCone = GameObject.Find ("ZoneCone6");
-								break;
-							default:
-								Debug.Log("Couldn't find ZoneCone of this ID...not 1-6?");
-								break;
-							}
-							
-							if (zoneCone != null)
-							{
-								//ZoneConeController zcc = zoneCone.GetComponent<ZoneConeController>();
-								//zcc.StartCoroutine("Detonate");
-							}
-							else{
-								Debug.Log ("zoneCone is null for some reason?");
-							}
+                            //spawn a FullZoneBlast to destroy all enemies in This zone
 							
 							bc.Collide ();
 							Collide ();

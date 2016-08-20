@@ -64,11 +64,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Misc\TouchTester.cs" />
-    <Compile Include="Assets\Scripts\AoEController.cs" />
     <Compile Include="Assets\Scripts\AspectRatioDetector.cs" />
     <Compile Include="Assets\Scripts\BuildDebugConsole.cs" />
-    <Compile Include="Assets\Scripts\BulletController.cs" />
-    <Compile Include="Assets\Scripts\ButtonController.cs" />
     <Compile Include="Assets\Scripts\CanvasAspectRatioDetector.cs" />
     <Compile Include="Assets\Scripts\CanvasMenus\EnemyIndexMenu.cs" />
     <Compile Include="Assets\Scripts\CanvasMenus\EnemyStatsPanel.cs" />
@@ -77,6 +74,7 @@
     <Compile Include="Assets\Scripts\CanvasMenus\LevelMenuOption.cs" />
     <Compile Include="Assets\Scripts\CanvasMenus\LevelSelectMenu.cs" />
     <Compile Include="Assets\Scripts\CanvasMenus\LoadSceneMenuOption.cs" />
+    <Compile Include="Assets\Scripts\CanvasMenus\MainMenu.cs" />
     <Compile Include="Assets\Scripts\CanvasMenus\MenuDial.cs" />
     <Compile Include="Assets\Scripts\CanvasMenus\MenuOption.cs" />
     <Compile Include="Assets\Scripts\CanvasMenus\MenuScaleEffectCanvas.cs" />
@@ -86,8 +84,6 @@
     <Compile Include="Assets\Scripts\CanvasMenus\WarnBeforeChangingSceneMenuOption.cs" />
     <Compile Include="Assets\Scripts\CanvasMenus\WorldMenuOption.cs" />
     <Compile Include="Assets\Scripts\CanvasMenus\WorldSelectMenu.cs" />
-    <Compile Include="Assets\Scripts\DialController.cs" />
-    <Compile Include="Assets\Scripts\DropController.cs" />
     <Compile Include="Assets\Scripts\EditorReturn.cs" />
     <Compile Include="Assets\Scripts\Enemies\BigBulk.cs" />
     <Compile Include="Assets\Scripts\Enemies\BigBulkCollisionPasser.cs" />
@@ -116,7 +112,6 @@
     <Compile Include="Assets\Scripts\Enemies\SwarmMaster.cs" />
     <Compile Include="Assets\Scripts\Enemies\TipOfTheSpear.cs" />
     <Compile Include="Assets\Scripts\Enemies\WallOfDoom.cs" />
-    <Compile Include="Assets\Scripts\EnemyController.cs" />
     <Compile Include="Assets\Scripts\Events\EnemyIndexManager.cs" />
     <Compile Include="Assets\Scripts\Events\EventComponent.cs" />
     <Compile Include="Assets\Scripts\Events\EventHandler.cs" />
@@ -125,9 +120,8 @@
     <Compile Include="Assets\Scripts\FileLoader.cs" />
     <Compile Include="Assets\Scripts\GamePause.cs" />
     <Compile Include="Assets\Scripts\GameReturn.cs" />
-    <Compile Include="Assets\Scripts\GunController.cs" />
     <Compile Include="Assets\Scripts\InputWatcher.cs" />
-    <Compile Include="Assets\Scripts\LevelSelect.cs" />
+    <Compile Include="Assets\Scripts\LevelLoadWidget.cs" />
     <Compile Include="Assets\Scripts\Lifespan.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\AoE.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\Bullet.cs" />
@@ -141,6 +135,7 @@
     <Compile Include="Assets\Scripts\MainCanvas\GameWatcher.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\Gun.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\GunButton.cs" />
+    <Compile Include="Assets\Scripts\MainCanvas\KillCountBox.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\MenuScale.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\MenuScript.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\MenuSpinner.cs" />
@@ -154,12 +149,6 @@
     <Compile Include="Assets\Scripts\MainCanvas\WaveMaster.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\WaveMessageBox.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\ZoneWarning.cs" />
-    <Compile Include="Assets\Scripts\MenuButton.cs" />
-    <Compile Include="Assets\Scripts\MenuClickScript.cs" />
-    <Compile Include="Assets\Scripts\MenuInGame.cs" />
-    <Compile Include="Assets\Scripts\MenuReturn.cs" />
-    <Compile Include="Assets\Scripts\MenuScaleEffect.cs" />
-    <Compile Include="Assets\Scripts\MenuSelect.cs" />
     <Compile Include="Assets\Scripts\MenuSelectScaleEffect.cs" />
     <Compile Include="Assets\Scripts\MenuSpinScript.cs" />
     <Compile Include="Assets\Scripts\MiniJSON.cs" />
@@ -186,11 +175,7 @@
     <Compile Include="Assets\Scripts\Rotations.cs" />
     <Compile Include="Assets\Scripts\RunOnceOnGameStartup.cs" />
     <Compile Include="Assets\Scripts\Seeker.cs" />
-    <Compile Include="Assets\Scripts\ShieldController.cs" />
-    <Compile Include="Assets\Scripts\SpinScript.cs" />
     <Compile Include="Assets\Scripts\StartupChecker.cs" />
-    <Compile Include="Assets\Scripts\TempReturn.cs" />
-    <Compile Include="Assets\Scripts\TestComponent.cs" />
     <Compile Include="Assets\Scripts\TestDataLoader.cs" />
     <Compile Include="Assets\Scripts\Timer.cs" />
     <Compile Include="Assets\Scripts\TowerEditor\EditorController.cs" />
@@ -202,8 +187,6 @@
     <Compile Include="Assets\Scripts\TowerEditor\StatReadout.cs" />
     <Compile Include="Assets\Scripts\TowerLoad.cs" />
     <Compile Include="Assets\Scripts\TowerSelect.cs" />
-    <Compile Include="Assets\Scripts\TrackController.cs" />
-    <Compile Include="Assets\Scripts\TrapController.cs" />
     <Compile Include="Assets\Scripts\UIRectTranslator.cs" />
     <Compile Include="Assets\Scripts\WaveEditor\BossTabController.cs" />
     <Compile Include="Assets\Scripts\WaveEditor\EnemyDraggableController.cs" />
@@ -214,9 +197,29 @@
     <Compile Include="Assets\Scripts\WaveEditor\WaveEditorController.cs" />
     <Compile Include="Assets\Scripts\WaveEditor\WaveFrameController.cs" />
     <Compile Include="Assets\Scripts\WaveEditor\ZonePanelController.cs" />
-    <Compile Include="Assets\Scripts\WaveManager.cs" />
     <Compile Include="Assets\Scripts\WorldData.cs" />
-    <Compile Include="Assets\Scripts\WorldSelect.cs" />
+    <Compile Include="Assets\Trash\AoEController.cs" />
+    <Compile Include="Assets\Trash\BulletController.cs" />
+    <Compile Include="Assets\Trash\ButtonController.cs" />
+    <Compile Include="Assets\Trash\DialController.cs" />
+    <Compile Include="Assets\Trash\DropController.cs" />
+    <Compile Include="Assets\Trash\EnemyController.cs" />
+    <Compile Include="Assets\Trash\GunController.cs" />
+    <Compile Include="Assets\Trash\LevelSelect.cs" />
+    <Compile Include="Assets\Trash\MenuButton.cs" />
+    <Compile Include="Assets\Trash\MenuClickScript.cs" />
+    <Compile Include="Assets\Trash\MenuInGame.cs" />
+    <Compile Include="Assets\Trash\MenuReturn.cs" />
+    <Compile Include="Assets\Trash\MenuScaleEffect.cs" />
+    <Compile Include="Assets\Trash\MenuSelect.cs" />
+    <Compile Include="Assets\Trash\ShieldController.cs" />
+    <Compile Include="Assets\Trash\SpinScript.cs" />
+    <Compile Include="Assets\Trash\TempReturn.cs" />
+    <Compile Include="Assets\Trash\TestComponent.cs" />
+    <Compile Include="Assets\Trash\TrackController.cs" />
+    <Compile Include="Assets\Trash\TrapController.cs" />
+    <Compile Include="Assets\Trash\WaveManager.cs" />
+    <Compile Include="Assets\Trash\WorldSelect.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Misc\BulletEffectsLog.txt" />
