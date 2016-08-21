@@ -34,6 +34,8 @@ public class Shield : MonoBehaviour {
 
     GameObject dialObj;
     Dial dial;
+
+    int currentLaneID;
 	
 	float regenBase; //to measure regen time
 	
@@ -54,6 +56,8 @@ public class Shield : MonoBehaviour {
 
         dialObj = GameObject.FindGameObjectWithTag("Dial");
         dial = dialObj.GetComponent<Dial>();
+
+        currentLaneID = GetCurrentLaneID();
 	}
 	
 	// Update is called once per frame
@@ -79,6 +83,7 @@ public class Shield : MonoBehaviour {
     //dialDmg is any extra damage given to dial that Shield couldn't block
     public void OnDestroyEffects(float dialDmg)
     {
+        Debug.Log("onDestroyEffects called");
         //lifedrain effect
         if (lifeDrain)
         {
@@ -92,11 +97,38 @@ public class Shield : MonoBehaviour {
         //blast wave
         if (splash)
         {
-
+            Debug.Log("shield splash dmg started");
+            GameObject zoneBlast = Instantiate(Resources.Load("Prefabs/MainCanvas/FullZoneBlast")) as GameObject;
+            currentLaneID = GetCurrentLaneID();
+            FullZoneBlast fzb = zoneBlast.GetComponent<FullZoneBlast>();
+            fzb.SetZoneID(currentLaneID);
+            fzb.SetParentShield(this);
+            fzb.SetDamage(splashDmg);
         }
     }
-	
-	public void PrintHP ()
+
+    int GetCurrentLaneID()
+    {
+        float angle = transform.eulerAngles.z;
+        if (angle > -2.0 && angle < 2.0)
+            return 1;
+        else if (angle > 58.0 && angle < 62.0)
+            return 6;
+        else if (angle > 118.0 && angle < 122.0)
+            return 5;
+        else if (angle > 178.0 && angle < 182.0)
+            return 4;
+        else if (angle > 238.0 && angle < 242.0)
+            return 3;
+        else if (angle > 298.0 && angle < 302.0)
+            return 2;
+        else {
+            Debug.Log("somehow a gun has a very very wrong angle");
+            return -1;
+        }
+    }
+
+    public void PrintHP ()
 	{
 		Debug.Log ("shield HP: " + hp);
 	}

@@ -40,7 +40,7 @@
 	"shieldSplit":0.0,
 	"shieldHoming":0.0,
 	"shieldArc":0.0,
-	"shieldSplashDmg":0.0,
+	"shieldSplashDmg":30.0,
 
 	"trapDmg":0.0,
 	"trapRange":0.0,

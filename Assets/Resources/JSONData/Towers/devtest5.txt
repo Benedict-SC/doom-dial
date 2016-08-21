@@ -4,6 +4,6 @@
 	"towerType":"Shield",
 
 	"pieces":[
-		{"anchorX":0, "anchorY":0, "rotation":0, "pieceFilename":"speed_super"}
+		{"anchorX":0, "anchorY":0, "rotation":0, "pieceFilename":"splash_super"}
 	]
 }

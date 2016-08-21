@@ -314,10 +314,9 @@ public class Enemy : MonoBehaviour,EventHandler {
 		
 	}
 	
-	
 	#region AssaultAndBattery (things that happen if the enemy gets hit or dies)
 	public void TakeDamage(float damage){
-		if(damage >= hp){
+        if (damage >= hp){
 			hp = 0;
 			Die ();
 		}else{
