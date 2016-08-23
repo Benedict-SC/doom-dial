@@ -804,6 +804,12 @@ public class Enemy : MonoBehaviour,EventHandler {
         //this needs things to live
     }
 
+    //inflict status from a full-zone wave (from a shield)
+    public void ZoneWaveInflictedStatus(FullZoneWave fzw)
+    {
+        //also should infict damage
+    }
+
 	bool chainPoisonSource = false;
 	public void AddChainPoisonRadius(float strength,float duration){
 		if(chainPoisonSource){

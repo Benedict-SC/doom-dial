@@ -132,6 +132,7 @@
     <Compile Include="Assets\Scripts\MainCanvas\Drop.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\EnemyShield.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\FullZoneBlast.cs" />
+    <Compile Include="Assets\Scripts\MainCanvas\FullZoneWave.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\GameWatcher.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\Gun.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\GunButton.cs" />

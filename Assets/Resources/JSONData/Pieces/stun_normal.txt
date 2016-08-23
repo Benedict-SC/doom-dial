@@ -28,7 +28,7 @@
 	"shieldPen":0.0,
 	"shieldShieldShred":0.0,
 	"shieldKnockback":0.0,
-	"shieldStun":0.0,
+	"shieldStun":1.0,
 	"shieldSlowdownMin":0.0,
 	"shieldSlowdownMax":0.0,
 	"shieldSlowDur":0.0,

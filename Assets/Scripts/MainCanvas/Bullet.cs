@@ -303,8 +303,15 @@ public class Bullet : MonoBehaviour {
 						if (timerElapsed) //just to make sure they don't destroy each other on spawn
 						{
                             //spawn a FullZoneBlast to destroy all enemies in This zone
-							
-							bc.Collide ();
+                            Debug.Log("bullet-collision splash dmg started");
+                            GameObject zoneBlast = Instantiate(Resources.Load("Prefabs/MainCanvas/FullZoneBlast")) as GameObject;
+                            int currentLaneID = GetCurrentLaneID();
+                            FullZoneBlast fzb = zoneBlast.GetComponent<FullZoneBlast>();
+                            fzb.SetZoneID(currentLaneID);
+                            fzb.SetDamage(dmg * 2); //dmg value for now, idk
+
+                            //destroy selves
+                            bc.Collide ();
 							Collide ();
 						}
 					}
@@ -606,4 +613,25 @@ public class Bullet : MonoBehaviour {
 		//place the new bullet in the right place
 		ownRect.anchoredPosition = new Vector2(Mathf.Cos(splitStartingAngle*Mathf.Deg2Rad)*splitDistance,Mathf.Sin (splitStartingAngle*Mathf.Deg2Rad)*splitDistance);
 	}
+
+    int GetCurrentLaneID()
+    {
+        float angle = transform.eulerAngles.z;
+        if (angle > -2.0 && angle < 2.0)
+            return 1;
+        else if (angle > 58.0 && angle < 62.0)
+            return 6;
+        else if (angle > 118.0 && angle < 122.0)
+            return 5;
+        else if (angle > 178.0 && angle < 182.0)
+            return 4;
+        else if (angle > 238.0 && angle < 242.0)
+            return 3;
+        else if (angle > 298.0 && angle < 302.0)
+            return 2;
+        else {
+            Debug.Log("somehow a gun has a very very wrong angle");
+            return -1;
+        }
+    }
 }

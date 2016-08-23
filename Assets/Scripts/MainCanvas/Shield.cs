@@ -92,7 +92,19 @@ public class Shield : MonoBehaviour {
         //stun wave
         if (stun)
         {
+            //remove all effects except Stun to be applied to the Wave
+            shieldShred = 0;
+            knockback = 0;
+            slowdown = false;
+            lifeDrain = false;
+            poison = 0;
 
+            //spawn a wave
+            Debug.Log("shield stun wave started");
+            GameObject zoneWave = Instantiate(Resources.Load("Prefabs/MainCanvas/FullZoneWave")) as GameObject;
+            FullZoneWave fzw = zoneWave.GetComponent<FullZoneWave>();
+            fzw.SetParentShield(this);
+            fzw.ConfigureHolderFromParent(this);
         }
         //blast wave
         if (splash)
