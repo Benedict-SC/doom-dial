@@ -389,27 +389,12 @@ public class Enemy : MonoBehaviour,EventHandler {
 			if (bc != null) {
 				if (bc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
 				{
-					Debug.Log ("bullet was active");
-					if (bc.isSplitBullet && bc.timerElapsed || !bc.isSplitBullet)
-					{
-						Debug.Log ("all the split stuff went through");
-						bc.enemyHit = this.gameObject;
-						GetStatused(bc);
-						//StartCoroutine (StatusEffectsBullet (bc));
-						hp -= bc.dmg + bc.arcDmg;
-						timesShot++;
-					}
-					if (!bc.isSplitBullet)
-					{
-						bc.Collide();
-					}
-					else if (bc.isSplitBullet)
-					{
-						//if (bc.timerElapsed)
-						//{
-						bc.Collide ();
-						//}
-					}
+                    bc.enemyHit = this.gameObject;
+                    GetStatused(bc);
+                    //StartCoroutine (StatusEffectsBullet (bc));
+                    hp -= bc.dmg;
+                    timesShot++;
+                    bc.Collide();
 					
 					if(hp <= 0){
 						hp = 0;
@@ -717,14 +702,14 @@ public class Enemy : MonoBehaviour,EventHandler {
 	protected bool slowInProgress = false;
 	public void GetStatused(Bullet bc){
 		//life drain
-		if(bc.lifeDrain != 0){
+		/*if(bc.lifeDrain != 0){
 			float healthDrained = bc.lifeDrain * bc.dmg; //adjust for enemy shields somehow later
 			dialCon.health += healthDrained;
 			if(dialCon.health > dialCon.maxHealth)
 				dialCon.health = dialCon.maxHealth;
-		}
+		}*/
 		//poison
-		if(bc.poison != 0){
+		/*if(bc.poison != 0){
 			Debug.Log ("tried to poison");
 			if(poisoned){
 				if(poisonPerTick < bc.poison)
@@ -738,15 +723,15 @@ public class Enemy : MonoBehaviour,EventHandler {
 			}
 			poisonTimer.Restart();
 			poisoned = true;
-		}
+		}*/
 		//leeching
-		if(bc.leeches){
+		/*if(bc.leeches){
 			if(shield != null){
 				shield.leeched = true;
 			}
-		}
+		}*/
 		//knockback
-		if(bc.knockback != 0){
+		/*if(bc.knockback != 0){
 			knockbackInProgress = true;
 			knockbackPower = bc.knockback;
 			knockbackTimer.Restart();
@@ -760,9 +745,9 @@ public class Enemy : MonoBehaviour,EventHandler {
 				knockChained = true;
 			}
 			steering.Knockback(bc.knockback);
-		}
+		}*/
 		//stun
-		if(bc.stun != 0){
+		/*if(bc.stun != 0){
 			if(knockbackInProgress){
 				stunInProgress = false;
 				stunWaiting = true;
@@ -775,9 +760,9 @@ public class Enemy : MonoBehaviour,EventHandler {
 				steering.Stun ();
 			}
 			stunDuration = bc.stun;
-		}
+		}*/
 		//slow
-		if(bc.slowdown != 0){
+		/*if(bc.slowdown != 0){
 			if(knockbackInProgress || stunInProgress){
 				slowWaiting = true;
 				slowInProgress = false;
@@ -795,7 +780,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 				savedSlowDuration = slowDuration;
 				savedSlowSpeed = slowedSpeed;
 			}
-		}
+		}*/
 	}
 
     //inflict status effects from a dial shield

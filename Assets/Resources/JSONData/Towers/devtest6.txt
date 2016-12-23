@@ -4,8 +4,6 @@
 	"towerType":"Bullet",
 
 	"pieces":[
-		{"anchorX":1, "anchorY":0, "rotation":0, "pieceFilename":"drain_super"},
-		{"anchorX":2, "anchorY":4, "rotation":0, "pieceFilename":"drain_rare"},
-		{"anchorX":3, "anchorY":2, "rotation":0, "pieceFilename":"poison_super"}
+		
 	]
 }

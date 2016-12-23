@@ -5,30 +5,9 @@ using System.Collections;
 using System;
 using UnityEngine.UI;
 
-public class Trap : MonoBehaviour {
+public class Trap : Weapon {
 	
 	float TRACK_LENGTH = 3.1f; //hard coded to avoid querying track size all the time
-	
-	//***Skill values begin here***
-	
-	//IMPLEMENTED
-	public float dmg; //damage dealt out (direct value)
-	public float range; //range -- expressed in percent of the length of the lane
-	public float knockback; //knockback
-	public float poison; //poison damage on enemy
-	public float poisonDur; //how long poison lasts, in seconds
-	public float stun; //amount (time?) of enemy stun
-	public float lifeDrain; //lifedrain on enemy
-	public float slowdown; //enemy slowdown -- scale of 1 to 10, can't go over 8
-	public float slowDur; //how long slowdown lasts
-	public float splash; //percent of effects to transfer to enemy affected
-	public float splashRad; //radius of splash dmg
-	
-	//NOT YET IMPLEMENTED
-	
-	public float penetration; //ignores this amount of enemy shield
-	public float shieldShred; //lowers enemy shield's max value by this
-	//***Skill values end here***
 	
 	private bool isActive; //whether it's armed
 	public float maxArmingTime; //max time needed to arm, in seconds
@@ -106,28 +85,19 @@ public class Trap : MonoBehaviour {
 	public void Collide(){
 		//Add other destruction stuff here
 		//gameObject.SetActive (false);
-		if (splash != 0)
+		if (aoe > 0)
 		{
             Debug.Log("trap's aoe exists");
-			if (poison != 0)
-			{
-				//POISON CLOUD HERE
-			}
-			else {
-				//AoE DAMAGE HERE
-				Debug.Log ("got to splash");
-				knockback = 0f; //to avoid stacking knockback
-				stun = 0f; //to avoid stacking stun effect
-				penetration = 0f;
-				GameObject splashCircle = Instantiate (Resources.Load ("Prefabs/MainCanvas/SplashCircle")) as GameObject;
-				splashCircle.transform.position = this.transform.position;
-                splashCircle.transform.SetParent(Dial.spawnLayer.transform, true);
-				AoE ac = splashCircle.GetComponent<AoE>();
-				ac.scale = splashRad;
-				ac.parent = "Trap";
-				ac.aoeTrapCon = this;
-				ac.ScaleProps (splash);
-			}
+            //AoE DAMAGE HERE
+            penetration = 0f;
+            GameObject splashCircle = Instantiate(Resources.Load("Prefabs/MainCanvas/SplashCircle")) as GameObject;
+            splashCircle.transform.position = this.transform.position;
+            splashCircle.transform.SetParent(Dial.spawnLayer.transform, true);
+            AoE ac = splashCircle.GetComponent<AoE>();
+            ac.scale = aoe;
+            ac.parent = "Trap";
+            ac.aoeTrapCon = this;
+            ac.ScaleProps(aoe);
 		}
         Debug.Log("successfully destroyed trap");
 		Destroy (this.gameObject);

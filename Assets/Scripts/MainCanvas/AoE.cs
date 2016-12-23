@@ -51,22 +51,18 @@ public class AoE : MonoBehaviour {
 		if (aoeBulletCon != null)
 		{
 			Bullet bc = aoeBulletCon;
-			Debug.Log ("old slowdown: " + bc.slowdown);
+			//Debug.Log ("old slowdown: " + bc.slowdown);
 			bc.dmg *= pcent;
-			bc.poison *= pcent;
+			/*bc.poison *= pcent;
 			bc.lifeDrain *= pcent;
 			bc.slowdown *= pcent;
-			bc.shieldShred *= pcent;
-			Debug.Log ("new slowdown: " + bc.slowdown);
+			bc.shieldShred *= pcent;*/
+			//Debug.Log ("new slowdown: " + bc.slowdown);
 		}
 		else if (aoeTrapCon != null)
 		{
 			Trap tc = aoeTrapCon;
 			tc.dmg *= pcent;
-			tc.poison *= pcent;
-			tc.lifeDrain *= pcent;
-			tc.slowdown *= pcent;
-			tc.shieldShred *= pcent;
 		}
 	}
 	

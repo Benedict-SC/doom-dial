@@ -427,27 +427,14 @@ public class OldEnemy : MonoBehaviour,EventHandler {
 			if (bc != null) {
 				if (bc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
 				{
-					//dude, the timer on split bullets is to keep it from colliding with itself, not enemies
-					
-					if (bc.isSplitBullet && bc.timerElapsed || !bc.isSplitBullet)
-					{
-						bc.enemyHit = this.gameObject;
-						GetStatused(bc);
-						//StartCoroutine (StatusEffectsBullet (bc));
-						hp -= bc.dmg + bc.arcDmg;
-						timesShot++;
-					}
-					if (!bc.isSplitBullet)
-					{
-						bc.Collide();
-					}
-					else if (bc.isSplitBullet)
-					{
-						//if (bc.timerElapsed)
-						//{
-						bc.Collide ();
-						//}
-					}
+                    //dude, the timer on split bullets is to keep it from colliding with itself, not enemies
+
+                    bc.enemyHit = this.gameObject;
+                    GetStatused(bc);
+                    //StartCoroutine (StatusEffectsBullet (bc));
+                    hp -= bc.dmg;
+                    timesShot++;
+                    bc.Collide();
 					
 					if(hp <= 0){
 						hp = 0;
@@ -724,6 +711,7 @@ public class OldEnemy : MonoBehaviour,EventHandler {
 	float savedSlowSpeed = 1f;
 	protected bool slowInProgress = false;
 	public void GetStatused(Bullet bc){
+        /*
 		//life drain
 		if(bc.lifeDrain != 0){
 			float healthDrained = bc.lifeDrain * bc.dmg; //adjust for enemy shields somehow later
@@ -795,7 +783,7 @@ public class OldEnemy : MonoBehaviour,EventHandler {
 				savedSlowDuration = slowDuration;
 				savedSlowSpeed = slowedSpeed;
 			}
-		}
+		}*/
 	}
 	bool chainPoisonSource = false;
 	public void AddChainPoisonRadius(float strength,float duration){

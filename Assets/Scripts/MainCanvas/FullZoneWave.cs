@@ -101,6 +101,7 @@ public class FullZoneWave : MonoBehaviour {
         speed = spd;
     }
 
+    /*
     //sets holderShield's values from a given shield
     public void ConfigureHolderFromParent(Shield sc)
     {
@@ -112,4 +113,5 @@ public class FullZoneWave : MonoBehaviour {
         poison = sc.poison;
         poisonDur = sc.poisonDur;
     }
+    */
 }

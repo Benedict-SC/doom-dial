@@ -27,7 +27,7 @@
     <IntermediateOutputPath>Temp\UnityVS_obj\Debug\</IntermediateOutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_3_4;UNITY_5_3;UNITY_5;ENABLE_NEW_BUGREPORTER;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_SPRITE_POLYGON;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;INCLUDE_DIRECTX12;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_LOCALIZATION;ENABLE_ANDROID_ATLAS_ETC1_COMPRESSION;ENABLE_EDITOR_TESTS_RUNNER;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_TEXTUREID_MAP;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_LOG_MIXED_STACKTRACE;ENABLE_UNITYWEBREQUEST;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_3_4;UNITY_5_3;UNITY_5;ENABLE_NEW_BUGREPORTER;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_SPRITE_POLYGON;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;INCLUDE_DIRECTX12;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_LOCALIZATION;ENABLE_ANDROID_ATLAS_ETC1_COMPRESSION;ENABLE_EDITOR_TESTS_RUNNER;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_TEXTUREID_MAP;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_LOG_MIXED_STACKTRACE;ENABLE_UNITYWEBREQUEST;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;UNITY_TEAM_LICENSE</DefineConstants>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -37,7 +37,7 @@
     <IntermediateOutputPath>Temp\UnityVS_obj\Release\</IntermediateOutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DefineConstants>TRACE;UNITY_5_3_OR_NEWER;UNITY_5_3_4;UNITY_5_3;UNITY_5;ENABLE_NEW_BUGREPORTER;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_SPRITE_POLYGON;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;INCLUDE_DIRECTX12;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_LOCALIZATION;ENABLE_ANDROID_ATLAS_ETC1_COMPRESSION;ENABLE_EDITOR_TESTS_RUNNER;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_TEXTUREID_MAP;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_LOG_MIXED_STACKTRACE;ENABLE_UNITYWEBREQUEST;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN</DefineConstants>
+    <DefineConstants>TRACE;UNITY_5_3_OR_NEWER;UNITY_5_3_4;UNITY_5_3;UNITY_5;ENABLE_NEW_BUGREPORTER;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_SPRITE_POLYGON;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;INCLUDE_DIRECTX12;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_LOCALIZATION;ENABLE_ANDROID_ATLAS_ETC1_COMPRESSION;ENABLE_EDITOR_TESTS_RUNNER;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_TEXTUREID_MAP;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_LOG_MIXED_STACKTRACE;ENABLE_UNITYWEBREQUEST;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;UNITY_TEAM_LICENSE</DefineConstants>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
@@ -149,6 +149,7 @@
     <Compile Include="Assets\Scripts\MainCanvas\WaveManager2.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\WaveMaster.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\WaveMessageBox.cs" />
+    <Compile Include="Assets\Scripts\MainCanvas\Weapon.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\ZoneWarning.cs" />
     <Compile Include="Assets\Scripts\MenuSelectScaleEffect.cs" />
     <Compile Include="Assets\Scripts\MenuSpinScript.cs" />
@@ -329,60 +330,60 @@
     <None Include="Assets\Resources\JSONData\Paths\Zigzag.txt" />
     <None Include="Assets\Resources\JSONData\Paths\Zigzag_Mirror.txt" />
     <None Include="Assets\Resources\JSONData\Pieces\TOWER_DEFAULTS.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\arc_normal.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\arc_rare.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\arc_super.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\cdr_normal.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\cdr_rare.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\cdr_super.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\damage_normal.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\damage_rare.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\damage_super.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\drain_normal.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\drain_rare.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\drain_super.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\homing_normal.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\homing_rare.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\homing_super.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_1.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_2.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_3.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_4.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_5.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\joe_prebaked_6.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\knockback_normal.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\knockback_rare.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\knockback_super.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\absorb_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\absorb_rare.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\absorb_super.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\aoe_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\aoe_rare.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\aoe_super.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\attraction_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\attraction_rare.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\attraction_super.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\charge_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\charge_rare.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\charge_super.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\comboKey_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\comboKey_rare.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\comboKey_super.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\continuous_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\continuous_rare.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\continuous_super.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\cooldown_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\cooldown_rare.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\cooldown_super.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\dmg_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\dmg_rare.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\dmg_super.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\duplicate_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\duplicate_rare.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\duplicate_super.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\energyGain_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\energyGain_rare.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\energyGain_super.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\field_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\field_rare.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\field_super.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\frequency_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\frequency_rare.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\frequency_super.txt" />
     <None Include="Assets\Resources\JSONData\Pieces\penetration_normal.txt" />
     <None Include="Assets\Resources\JSONData\Pieces\penetration_rare.txt" />
     <None Include="Assets\Resources\JSONData\Pieces\penetration_super.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\poison_normal.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\poison_rare.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\poison_super.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\range_normal.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\range_rare.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\range_super.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\shred_normal.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\shred_rare.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\shred_super.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\slow_normal.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\slow_rare.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\slow_super.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\speed_normal.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\speed_rare.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\speed_super.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\splash_normal.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\splash_rare.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\splash_super.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\reflect_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\reflect_rare.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\reflect_super.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\shieldDurability_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\shieldDurability_rare.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\shieldDurability_super.txt" />
     <None Include="Assets\Resources\JSONData\Pieces\split_normal.txt" />
     <None Include="Assets\Resources\JSONData\Pieces\split_rare.txt" />
     <None Include="Assets\Resources\JSONData\Pieces\split_super.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\spread_normal.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\spread_rare.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\spread_super.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\stun_normal.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\stun_rare.txt" />
-    <None Include="Assets\Resources\JSONData\Pieces\stun_super.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\tempDisplace_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\tempDisplace_rare.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\tempDisplace_super.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\trapUses_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\trapUses_rare.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\trapUses_super.txt" />
     <None Include="Assets\Resources\JSONData\Towers\devtest1.txt" />
     <None Include="Assets\Resources\JSONData\Towers\devtest2.txt" />
     <None Include="Assets\Resources\JSONData\Towers\devtest3.txt" />

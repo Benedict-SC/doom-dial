@@ -155,7 +155,7 @@ public class EnemyShield : MonoBehaviour{
 				float penDamage = b.penetration*b.dmg;
 				parent.TakeDamage(penDamage);
 			}
-			if(b.shieldShred > 0){
+			/*if(b.shieldShred > 0){
 				float shredDamage = b.shieldShred*b.dmg;
 				capacity -= shredDamage;
 				if(power > capacity){
@@ -164,7 +164,7 @@ public class EnemyShield : MonoBehaviour{
 			}
 			if(b.slowsShields != 0){
 				SlowRegen(b.slowsShields);
-			}
+			}*/
 		}else if(collider.gameObject.tag == "AoE"){
 		
 		}else if(collider.gameObject.tag == "Trap"){

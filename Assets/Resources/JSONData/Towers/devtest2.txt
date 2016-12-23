@@ -4,9 +4,6 @@
 	"towerType":"Bullet",
 
 	"pieces":[
-		{"anchorX":0, "anchorY":3, "rotation":0, "pieceFilename":"slow_super"},
-		{"anchorX":3, "anchorY":1, "rotation":0, "pieceFilename":"knockback_rare"},
-		{"anchorX":3, "anchorY":2, "rotation":180, "pieceFilename":"knockback_rare"},
-		{"anchorX":1, "anchorY":4, "rotation":0, "pieceFilename":"splash_rare"}
+		
 	]
 }

@@ -102,22 +102,9 @@ public class Boss : MonoBehaviour{
 			if (bc != null) {
 				if (bc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
 				{
-					if (bc.isSplitBullet && bc.timerElapsed || !bc.isSplitBullet)
-					{
-						bc.enemyHit = this.gameObject;
-						TakeDamage(bc.dmg + bc.arcDmg);
-					}
-					if (!bc.isSplitBullet)
-					{
-						bc.Collide();
-					}
-					else if (bc.isSplitBullet)
-					{
-						if (bc.timerElapsed)
-						{
-							bc.Collide ();
-						}
-					}
+                    bc.enemyHit = this.gameObject;
+                    TakeDamage(bc.dmg);
+                    bc.Collide();
 				}
 			}
 		}

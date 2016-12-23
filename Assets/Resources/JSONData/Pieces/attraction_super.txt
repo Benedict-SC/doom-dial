@@ -1,0 +1,31 @@
+{
+	"imgfile":"Piece_Attraction_SR",
+
+	"cooldown":0.0,
+	"energyGain":0.0,
+	"comboKey":0.0,
+	"dmg":0.0,
+	"trapUses":0.0,
+	"shieldDurability":0.0,
+	"charge":0.0,
+	"split":0,
+	"penetration":0.0,
+	"continuousStrength":0.0,
+	"reflect":0.0,
+	"frequency":0.0,
+	"tempDisplace":0.0,
+	"absorb":0.0,
+	"aoe":0.0,
+	"attraction":0.0,
+	"duplicate":0.0,
+	"field":0.0,
+	
+	"width":4,
+	"height":2,
+	"blockMap": [
+		[0,4,5,0],
+		[4,0,0,5]
+	],
+	
+	"bulletText":"[PIECE EFFECT DESCRIPTION]"
+}

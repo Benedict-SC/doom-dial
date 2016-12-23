@@ -12,31 +12,52 @@ public class Gun : MonoBehaviour,EventHandler{
 	public bool decalSet = false;
 
 	public readonly float TRACK_LENGTH = 110.8f; //hard coded to avoid querying track size all the time
+    public readonly float TRAP_RANGE = 0.5f; //default trap range for now.  halfway down the lane
 	// ^^^ RELATIVE TO CENTER
 	
-	//Tower type: "Bullet", "Trap", or "Shield"
+	//Tower type: "Bullet", "Trap", "Shield", "BulletTrap", "BulletShield", "TrapShield"
 	string towerType;
-	
-	//***Skill values begin here***
-	float dmg; //damage dealt out (direct value)
-	float speed; //speed of the bullet
-	public float range; //range -- expressed in percent of the length of the lane
-	float knockback; //knockback -- positive value for distance knocked back
-	float lifeDrain; //lifedrain on enemy
-	float poison; //poison damage per second on enemy
-	float poisonDur; //how long poison lasts, in seconds
-	float splash; //percent (0.0f - .75f) of effects to carry to enemies hit by splash
-	float splashRad = 4.0f; //radius of splash damage (default for now)
-	float stun; //amount (time?) of enemy stun
-	float slowdown; //enemy slowdown -- scale of 1 to 10, can't go over 8
-	float slowDur; //how long slowdown lasts
-	float penetration; //ignores this amount of enemy shield
-	float shieldShred; //lowers enemy shield's max value by this
-	float trapArmTime; //time in seconds to arm a trap
-	float splitCount; //number of pieces it splits into
-	float homingStrength; //strength of homing :P
-	float arcDmg; //dmg bonus of arc -- if above 0, it will arc
-	int spread; //1 is normal, 2 is V, 3 is alternating V and I, 4 is three shots
+
+    //Tech Abilities
+
+    //Generic tower
+    float cooldown; //weapon cooldown
+    float energyGain; //each successful use gives additional energy
+    float comboKey; //chance for a base weapon type combo to occur (?)
+
+    //Bullet only
+    float dmg; //Damage dealt per shot
+
+    //Trap only
+    float trapUses; //No. of uses a trap has
+
+    //Shield only
+    float shieldDurability; //Health of the shield
+
+    //Bullet and BulletTrap
+    float charge; //Size of on-hit explosion
+    int split; //Bullets, no. of split bullets.  BT, no. of radial bullets on hit
+
+    //Bullet and BulletShield
+    float penetration; //Bullet, penetration.  BS, shield shred.
+    float continuousStrength; //Bullet, laser firing time.  BS, pulse duration.
+
+    //Shield and BulletShield
+    float reflect; //reflection (?)
+    float frequency; //Shield, regen rate.  BS, slow (?)
+
+    //Shield and TrapShield
+    float tempDisplace; //Shield, teleport distance.  TS, cooldown.
+    float absorb; //Shield, durability.  TS, lifedrain.
+
+    //Trap and BulletTrap
+    float AoE; //Trap, AoE size.  PT, range.
+    float attraction; //Trap, pull.  PT, homing.
+
+    //Trap and TrapShield
+    float duplicate; //Trap, triggers. (?)  TS, zone range.
+    float field; //field time (?)
+
 	
 	bool chainsPoison;
 	float slowsShields;
@@ -55,7 +76,6 @@ public class Gun : MonoBehaviour,EventHandler{
 	 * But not passed to bullets
 	 */
 	
-	float cooldown = 0.0f;
 	float maxcool;
     Timer cooltimer;
 	
@@ -86,10 +106,11 @@ public class Gun : MonoBehaviour,EventHandler{
 		range = defaultBulletRange;
 		shieldHP = 100;*/
 		
-		if (spread > 4)
-			spread = 4;
-		if (spread < 1)
-			spread = 1;
+        //split bullet limits
+		if (split > 4)
+			split = 4;
+		if (split < 1)
+			split = 1;
 	}
 	
 	// Update is called once per frame
@@ -134,12 +155,12 @@ public class Gun : MonoBehaviour,EventHandler{
 
         cooltimer.Restart();
 		cooldown = maxcool; //start cooldown
-		
-		//Decide what to do based on tower type ("Bullet", "Trap", or "Shield")
-		switch (towerType)
+
+        //Decide what to do based on tower type ("Bullet", "Trap", "Shield", "BulletTrap", "BulletShield", "TrapShield")
+        switch (towerType)
 		{
 		case "Bullet":
-			switch (spread)
+			switch (split)
 			{
 			case 1:
 				SpawnBulletI ();
@@ -169,10 +190,10 @@ public class Gun : MonoBehaviour,EventHandler{
 			}
 			break;
 		case "Trap":
-			for (int i = 1; i <= spread; i++)
+			for (int i = 1; i <= split; i++)
 			{
 				//Debug.Log ("range is " + range);
-				float spawnRadius = Dial.TRACK_LENGTH * range;
+				float spawnRadius = Dial.TRACK_LENGTH * TRAP_RANGE;
 				GameObject trap = Instantiate (Resources.Load ("Prefabs/MainCanvas/Trap")) as GameObject; //make a bullet
 				trap.transform.SetParent(Dial.spawnLayer,false);
 				RectTransform bulletRect = (RectTransform)trap.transform;
@@ -221,11 +242,20 @@ public class Gun : MonoBehaviour,EventHandler{
 			shieldRt.rotation = this.gameObject.transform.rotation;
 			dialCon.PlaceShield (GetCurrentLaneID() - 1, shield); //mark current lane as shielded (placed in array)
 			break;
-		default:
-			print ("Uh oh, I didn't receive a valid towerType string value!");
-			Debug.Log("value is: " + towerType);
-			break;
-		}
+        case "BulletTrap":
+            //BulletTrap behavior
+            break;
+        case "BulletShield":
+            //BulletShield behavior
+            break;
+        case "TrapShield":
+            //TrapShield behavior
+            break;
+        default:
+            print("Uh oh, I didn't receive a valid towerType string value!");
+            Debug.Log("value is: " + towerType);
+            break;
+        }
 		
 	}
 	
@@ -258,8 +288,8 @@ public class Gun : MonoBehaviour,EventHandler{
 			bc.transform.rotation = transform.rotation;
 			bc.vx = bc.speed * (float)Math.Cos(angle);
 			bc.vy = bc.speed * (float)Math.Sin(angle);
-			if(spread == 4){
-				bc.splitCount = 0; //don't split if you're the middle split on a 3-way thing
+			if(split == 4){
+				bc.split = 0; //don't split if you're the middle split on a 3-way thing
 			}
 		}
 		
@@ -295,9 +325,9 @@ public class Gun : MonoBehaviour,EventHandler{
 			bc.vx = bc.speed * (float)Math.Cos(angle);
 			bc.vy = bc.speed * (float)Math.Sin(angle);
 			if(i == 1){
-				bc.spreadCode = -1;
+				bc.splitCode = -1;
 			}else{
-				bc.spreadCode = 1;
+				bc.splitCode = 1;
 			}
 		}
 		
@@ -338,9 +368,9 @@ public class Gun : MonoBehaviour,EventHandler{
 			bc.vx = bc.speed * (float)Math.Cos(angle);
 			bc.vy = bc.speed * (float)Math.Sin(angle);
 			if(i == 1){
-				bc.spreadCode = -1;
+				bc.splitCode = -1;
 			}else{
-				bc.spreadCode = 1;
+				bc.splitCode = 1;
 			}
 		}
 	}
@@ -402,86 +432,31 @@ public class Gun : MonoBehaviour,EventHandler{
 	//Assigns skill values to bullets
 	private void ConfigureBullet(Bullet bc)
 	{
-		if (speed == 0 || range == 0 || dmg == 0)
-			Debug.Log("Check your speed, range, and/or dmg!  One might be 0!");
-		bc.dmg = dmg;
-		bc.speed = speed;
-		bc.range = range;
-		bc.knockback = knockback;
-		bc.lifeDrain = lifeDrain;
-		bc.poison = poison;
-		bc.poisonDur = poisonDur;
-		bc.chainsPoison = chainsPoison;
-		bc.leeches = leeches;
-		bc.splash = splash;
-		bc.splashRad = splashRad * aoeRadiusBonus;
-		bc.stun = stun;
-		bc.slowdown = slowdown;
-		bc.slowDur = slowDur;
-		bc.penetration = penetration;
-		bc.shieldShred = shieldShred;
-		bc.slowsShields = slowsShields;
-		bc.splitCount = splitCount;
-		bc.multiSplits = multiSplits;
-		bc.homingStrength = homingStrength;
-		bc.arcDmg = arcDmg;
-		bc.isSplitBullet = false;
-		bc.piercesLeft = pierces;
-		if(pierces > 0)
-			bc.pierces = true;
-		//Debug.Log ("bullet slowDur is " + bc.slowDur);
+        bc.dmg = dmg;
+        bc.charge = charge;
+        bc.split = split;
+        bc.penetration = penetration;
+        bc.continuousStrength = continuousStrength;
 	}
 	
 	//Assigns skill values to traps
-	private void ConfigureTrap(Trap bc)
+	private void ConfigureTrap(Trap tc)
 	{
-		if (range == 0 || dmg == 0)
-			print ("Check your range and/or dmg!  One might be 0!");
-		bc.dmg = dmg;
-		bc.range = range;
-		bc.knockback = knockback;
-		bc.lifeDrain = lifeDrain;
-		bc.poison = poison;
-		bc.poisonDur = poisonDur;
-		bc.splash = splash;
-		bc.splashRad = splashRad * aoeRadiusBonus;
-		bc.stun = stun;
-		bc.slowdown = slowdown;
-		bc.slowDur = slowDur;
-		bc.penetration = penetration;
-		bc.shieldShred = shieldShred;
-		bc.maxArmingTime = trapArmTime;
+        tc.trapUses = (int)trapUses;
+        tc.aoe = AoE;
+        tc.attraction = attraction;
+        tc.duplicate = duplicate;
+        tc.field = field;
 	}
 	
 	//Assigns skill values to shields
 	private void ConfigureShield(Shield sc)
 	{
-        //***This may have to adapt some values to fit shield functionality***
-		if (shieldHP == 0)
-			print ("Check your shield HP value!  It shoudln't be 0 by default!");
-		sc.maxHP = shieldHP;
-        sc.hp = shieldHP;
-        sc.regenRate = shieldRegen;
-        sc.regenAmt = shieldRegenAmt;
-        sc.speedBoost = speed;
-        sc.PrintSpeedBoost();
-        sc.rangeBoost = range;
-        sc.penProtect = penetration;
-        sc.shieldShred = shieldShred;
-        sc.knockback = knockback;
-        sc.stun = stun > 0;
-        sc.slowdown = slowdown > 0;
-        sc.lifeDrain = lifeDrain > 0;
-        sc.poison = poison;
-        sc.poisonDur = poisonDur;
-        sc.spread = spread;
-        //set spread radius based on piece strength
-        sc.split = splitCount;
-        sc.homing = homingStrength > 0;
-        sc.arc = arcDmg > 0;
-        sc.splash = splash > 0;
-        sc.splashDmg = splash;
-		//bc.regenRate = shieldRegen; //commented out since regen rate doesn't vary, according to joe
+        sc.shieldDurability = shieldDurability;
+        sc.reflect = reflect;
+        sc.frequency = frequency;
+        sc.tempDisplace = tempDisplace;
+        sc.absorb = absorb;
 	}
 	#endregion
 	
@@ -517,112 +492,78 @@ public class Gun : MonoBehaviour,EventHandler{
 	}
 	//put getters/setters here?
 	
-	public void SetDmg(float pdmg)
-	{
-		dmg = pdmg;
-		//Debug.Log ("Set tower damage to " + dmg);
-	}
-	public void SetSpeed(float pspeed)
-	{
-		speed = pspeed;
-	}
-	public void SetRange(float prange)
-	{
-		range = prange;
-	}
-	public void SetKnockback(float pknockback)
-	{
-		knockback = pknockback;
-	}
-	public void SetLifeDrain(float pLifeDrain)
-	{
-		lifeDrain = pLifeDrain;
-	}
-	public void SetPoison(float pPoison)
-	{
-		poison = pPoison;
-	}
-	public void SetPoisonDur(float pPoisonDur)
-	{
-		poisonDur = pPoisonDur;
-	}
-	public void SetChainPoison(bool chainPois){
-		chainsPoison = chainPois;
-	}
-	public void SetLeeches(bool leech){
-		leeches = leech;
-	}
-	public void SetSplash(float pSplash)
-	{
-		splash = pSplash;
-	}
-	public void SetSplashRadiusBonus(float percentBonus){
-		aoeRadiusBonus = 1f + percentBonus;
-	}
-	public void SetStun(float pStun)
-	{
-		stun = pStun;
-	}
-	public void SetSlowdown(float pSlowdown)
-	{
-		slowdown = pSlowdown;
-	}
-	public void SetSlowDur(float pSlowDur)
-	{
-		slowDur = pSlowDur;
-	}
-	public void SetPenetration(float pPenetration)
-	{
-		penetration = pPenetration;
-	}
-	public void SetPiercing(int pierceCount){
-		pierces = pierceCount;
-	}
-	public void SetShieldShred(float pShieldShred)
-	{
-		shieldShred = pShieldShred;
-	}
-	public void SetShieldSlow(float pShieldSlow){
-		slowsShields = pShieldSlow;
-	}
-	public void SetTrapArmTime(float pTrapArmTime)
-	{
-		trapArmTime = pTrapArmTime;
-	}
-	public void SetSpread(int pSpread)
-	{
-		spread = pSpread;
-	}
-	public void SetSplit(int pDoesSplit)
-	{
-		splitCount = pDoesSplit;
-	}
-	public void SetMultiSplit(bool pMultiSplits){
-		multiSplits = pMultiSplits;
-	}
-	public void SetIsHoming(float pIsHoming)
-	{
-		homingStrength = pIsHoming;
-	}
-	public void SetDoesArc(float pDoesArc)
-	{
-		arcDmg = pDoesArc;
-	}
-	public void SetShieldHP(float pShieldHP)
-	{
-		shieldHP = pShieldHP;
-	}
-	public void SetShieldRegen(float pShieldRegen)
-	{
-		shieldRegen = pShieldRegen;
-	}
-	public void SetShieldRange(float pShieldRange)
-	{
-		shieldRange = pShieldRange;
-	}
 	public void SetCooldown(float pCooldown)
 	{
 		maxcool = pCooldown;
 	}
-	#endregion
+    public void SetEnergyGain(float pEnergyGain)
+    {
+        energyGain = pEnergyGain;
+    }
+    public void SetComboKey(float pComboKey)
+    {
+        comboKey = pComboKey;
+    }
+    public void SetDmg(float pdmg)
+    {
+        dmg = pdmg;
+        //Debug.Log ("Set tower damage to " + dmg);
+    }
+    public void SetTrapUses(float ptrapUses)
+    {
+        trapUses = ptrapUses;
+    }
+    public void SetShieldDurability(float pShieldDur)
+    {
+        shieldDurability = pShieldDur;
+    }
+    public void SetCharge(float pcharge)
+    {
+        charge = pcharge;
+    }
+    public void SetSplit(float psplit)
+    {
+        split = (int)psplit;
+    }
+    public void SetPenetration(float ppenetration)
+    {
+        penetration = ppenetration;
+    }
+    public void SetContinuousStrength(float pcontinuous)
+    {
+        continuousStrength = pcontinuous;
+    }
+    public void SetReflect(float preflect)
+    {
+        reflect = preflect;
+    }
+    public void SetFrequency(float pfrequency)
+    {
+        frequency = pfrequency;
+    }
+    public void SetTempDisplace(float ptemp)
+    {
+        tempDisplace = ptemp;
+    }
+    public void SetAbsorb(float pabsorb)
+    {
+        absorb = pabsorb;
+    }
+    public void SetAoE(float paoe)
+    {
+        AoE = paoe;
+    }
+    public void SetAttraction(float pattraction)
+    {
+        attraction = pattraction;
+    }
+    public void SetDuplicate(float pduplicate)
+    {
+        duplicate = pduplicate;
+    }
+    public void SetField(float pfield)
+    {
+        field = pfield;
+    }
+    #endregion
 }

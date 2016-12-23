@@ -381,7 +381,7 @@ public class BigBulk : Boss{
 		return hp;
 	}
 	public void ShieldAgainstBullet(Bullet b){
-		float amount = b.dmg + b.arcDmg;
+		float amount = b.dmg;
 		power -= amount;
 		RefreshShieldColors();
 		if(power <= 0){
@@ -394,7 +394,8 @@ public class BigBulk : Boss{
 			float penDamage = b.penetration*b.dmg;
 			TakeDamage(penDamage);
 		}
-		if(b.shieldShred > 0){
+        //leftovers from old weapon system
+		/*if(b.shieldShred > 0){
 			float shredDamage = b.shieldShred*b.dmg;
 			capacity -= shredDamage;
 			if(power > capacity){
@@ -403,7 +404,7 @@ public class BigBulk : Boss{
 		}
 		if(b.slowsShields != 0){
 			SlowRegen(b.slowsShields);
-		}
+		}*/
 	}
 	public void ShieldAgainstTrap(Trap t){
 		float amount = t.dmg;
@@ -467,15 +468,9 @@ public class BigBulk : Boss{
 			Bullet bc = coll.gameObject.GetComponent<Bullet> ();
 			if (bc != null) {
 				if (bc.CheckActive()){ //if we get a Yes, this bullet/trap/shield is active
-					if (bc.isSplitBullet && bc.timerElapsed || !bc.isSplitBullet){
-						bc.enemyHit = this.gameObject;
-						ShieldAgainstBullet(bc);
-					}
-					if (!bc.isSplitBullet)
-						bc.Collide();
-					else if (bc.isSplitBullet)
-						if (bc.timerElapsed)
-							bc.Collide ();
+                    bc.enemyHit = this.gameObject;
+                    ShieldAgainstBullet(bc);
+                    bc.Collide();
 				}
 			}
 		}
