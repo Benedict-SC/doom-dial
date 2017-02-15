@@ -176,7 +176,7 @@ public class Dial : MonoBehaviour,EventHandler {
                                     sc.hp -= rawDamage;
 
                                     //shield shred effect
-                                    EnemyShield es = enemy.GetShield();
+                                    /*EnemyShield es = enemy.GetShield();
                                     if (es != null)
                                     {
                                         sc.hp += (es.power * sc.shieldShred);
@@ -185,7 +185,7 @@ public class Dial : MonoBehaviour,EventHandler {
                                     else
                                     {
                                         Debug.Log("no enemy shield");
-                                    }
+                                    }*/
 
                                     sc.UpdateHPMeter();
                                     sc.PrintHP(); //debug
