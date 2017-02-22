@@ -179,8 +179,8 @@ public class Dial : MonoBehaviour,EventHandler {
                                     /*EnemyShield es = enemy.GetShield();
                                     if (es != null)
                                     {
-                                        sc.hp += (es.power * sc.shieldShred);
-                                        es.TakeDamage(es.power * sc.shieldShred);
+                                        sc.hp += (es.power * sc.penetration);
+                                        es.TakeDamage(es.power * sc.penetration);
                                     }
                                     else
                                     {

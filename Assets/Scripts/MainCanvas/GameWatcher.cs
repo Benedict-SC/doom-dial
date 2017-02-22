@@ -68,7 +68,7 @@ public class GameWatcher : MonoBehaviour, EventHandler{
 		Application.LoadLevel("TowerSelect");
 	}
 	public void MainMenu(){
-		Application.LoadLevel("MenuTest");
+		Application.LoadLevel("MainMenu");
 	}
 	public void ReplayLevel(){
 		Application.LoadLevel("MainGameCanvas");

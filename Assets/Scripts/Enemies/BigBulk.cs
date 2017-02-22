@@ -419,13 +419,15 @@ public class BigBulk : Boss{
 			float penDamage = t.penetration*t.dmg;
 			TakeDamage(penDamage);
 		}
-		/*if(t.shieldShred > 0){
+        /*
+		if(t.shieldShred > 0){
 			float shredDamage = t.shieldShred*t.dmg;
 			capacity -= shredDamage;
 			if(power > capacity){
 				power = capacity;
 			}
-		}*/
+		}
+        */
 		/*if(t.slowsShields != 0){
 			SlowRegen(t.slowsShields);
 		}*/
