@@ -229,7 +229,7 @@ public class Wave{
 			ec.SetTrackLane(trackpos);
 			
 			//calculate and set position
-			float degrees = (track-1)*60; //clockwise of y-axis
+			float degrees = (track-1)*60 + 30; //clockwise of y-axis
 			degrees += 15*trackpos; //negative trackpos is left side, positive is right side, 0 is middle
 			degrees = ((360-degrees) + 90)%360; //convert to counterclockwise of x axis
 			degrees *= Mathf.Deg2Rad;

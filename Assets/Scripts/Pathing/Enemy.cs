@@ -612,19 +612,19 @@ public class Enemy : MonoBehaviour,EventHandler {
 	}
 	public float GetStartingTrackAngle(){
 		if(trackID == 1){
-			return 0f;
+			return 330f;
 		}else if(trackID == 2){
-			return 300f;
+			return 270f;
 		}else if(trackID == 3){
-			return 240f;
+			return 210f;
 		}else if(trackID == 4){
-			return 180f;
+			return 150f;
 		}else if(trackID == 5){
-			return 120f;
+			return 90f;
 		}else if(trackID == 6){
-			return 60f;
+			return 30f;
 		}else
-			return 0f;
+			return 330f;
 	}
 	public void SetTrackLane(int lane){
 		trackLane = lane;

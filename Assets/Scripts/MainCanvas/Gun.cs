@@ -469,17 +469,17 @@ public class Gun : MonoBehaviour,EventHandler{
 	}
 	public int GetCurrentLaneID(){
 		float angle = transform.eulerAngles.z;
-		if (angle > -2.0 && angle < 2.0)
+		if (angle > 28.0 && angle < 32.0)
 			return 1;
-		else if (angle > 58.0 && angle < 62.0)
+		else if (angle > 88.0 && angle < 92.0)
 			return 6;
-		else if (angle > 118.0 && angle < 122.0)
+		else if (angle > 148.0 && angle < 152.0)
 			return 5;
-		else if (angle > 178.0 && angle < 182.0)
+		else if (angle > 208.0 && angle < 212.0)
 			return 4;
-		else if (angle > 238.0 && angle < 242.0)
+		else if (angle > 268.0 && angle < 272.0)
 			return 3;
-		else if (angle > 298.0 && angle < 302.0)
+		else if (angle > 328.0 && angle < 332.0)
 			return 2;
 		else{
 			Debug.Log ("somehow a gun has a very very wrong angle");
