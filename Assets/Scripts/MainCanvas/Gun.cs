@@ -81,8 +81,7 @@ public class Gun : MonoBehaviour,EventHandler{
 	
 	bool shootingV = true; //for use by spread 3 -- are we shooting in a v this turn or not?
 	bool isPaused = false;
-	public int buttonID; //assign in the Unity Editor to match the corresponding button
-	//in the future, we'll assign this value in scripts to deal with changing gun placements
+	public int gunID; 
 	
 	Image cooldownImg;
 	
@@ -131,14 +130,14 @@ public class Gun : MonoBehaviour,EventHandler{
 		if(GamePause.paused)
 			return;
 		GameEvent nge = new GameEvent ("shot_fired");
-		nge.addArgument (buttonID);
+		nge.addArgument (gunID);
 		EventManager.Instance ().RaiseEvent (nge);
 	}
 	public void HandleEvent(GameEvent ge){
 		
 		//various conditions under which bullet shouldn't fire
-		if ((int)ge.args [0] != buttonID)
-			//Debug.Log ("not tower " + buttonID);
+		if ((int)ge.args [0] != gunID)
+			//Debug.Log ("not tower " + gunID);
 			return;
 		if (cooldown > 0) {
 			//Debug.Log ("cooldown > 0");

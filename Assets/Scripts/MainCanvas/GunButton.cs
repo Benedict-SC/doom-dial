@@ -47,6 +47,13 @@ public class GunButton : MonoBehaviour{
 		//Debug.Log ("distance is " + distance);
 		return distance <= radius;
 	}
+    public void SetGun(Gun g) {
+        gun = g;
+        SetDecalFromTower(g);
+    }
+    public void FireAssociatedGun() {
+        gun.Fire();
+    }
 	public void SetDecalFromTower(Gun gc){
 		if(!gc.gameObject.activeSelf){
 			Image sr = img.GetComponent<Image>();

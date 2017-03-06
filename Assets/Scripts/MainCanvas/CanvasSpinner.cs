@@ -52,6 +52,10 @@ public class CanvasSpinner : MonoBehaviour,EventHandler{
 			float rotation = transform.eulerAngles.z;
 			float lockRot = Mathf.Round (rotation / 60) * 60;
 			transform.rotation = Quaternion.Euler (0, 0, lockRot);
+            GameEvent lockEvent = new GameEvent("dial_locked");
+            lockEvent.addArgument(lockRot);
+            EventManager.Instance().RaiseEvent(lockEvent);
+            Debug.Log("lockRot: " + lockRot);
 		}
 	}
 	public void Update(){
