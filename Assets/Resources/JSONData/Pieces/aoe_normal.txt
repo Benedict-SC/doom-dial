@@ -9,22 +9,22 @@
 	"shieldDurability":0.0,
 	"charge":0.0,
 	"split":0,
-	"penetration":0.0,
+	"penetration":0,
 	"continuousStrength":0.0,
 	"reflect":0.0,
 	"frequency":0.0,
 	"tempDisplace":0.0,
 	"absorb":0.0,
-	"aoe":0.0,
+	"aoe":1.0,
 	"attraction":0.0,
 	"duplicate":0.0,
 	"field":0.0,
 	
-	"width":4,
+	"width":3,
 	"height":2,
 	"blockMap": [
-		[0,4,5,0],
-		[4,0,0,5]
+		[0,1,0],
+		[1,0,1]
 	],
 	
 	"bulletText":"[PIECE EFFECT DESCRIPTION]"

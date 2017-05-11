@@ -10,7 +10,7 @@ public class AoE : MonoBehaviour {
 	public float scale;
 	bool isPaused;
 	public string parent;
-	public Bullet aoeBulletCon;
+	public float aoeBulletDamage;
 	public Trap aoeTrapCon;
 	
 	Collider collide;
@@ -47,19 +47,7 @@ public class AoE : MonoBehaviour {
 	
 	public void ScaleProps(float pcent)
 	{
-		Debug.Log ("called ScaleProps");
-		if (aoeBulletCon != null)
-		{
-			Bullet bc = aoeBulletCon;
-			//Debug.Log ("old slowdown: " + bc.slowdown);
-			bc.dmg *= pcent;
-			/*bc.poison *= pcent;
-			bc.lifeDrain *= pcent;
-			bc.slowdown *= pcent;
-			bc.shieldShred *= pcent;*/
-			//Debug.Log ("new slowdown: " + bc.slowdown);
-		}
-		else if (aoeTrapCon != null)
+		if (aoeTrapCon != null)
 		{
 			Trap tc = aoeTrapCon;
 			tc.dmg *= pcent;

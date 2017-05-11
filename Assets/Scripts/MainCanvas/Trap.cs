@@ -89,7 +89,7 @@ public class Trap : Weapon {
 		{
             Debug.Log("trap's aoe exists");
             //AoE DAMAGE HERE
-            penetration = 0f;
+            penetration = 0;
             GameObject splashCircle = Instantiate(Resources.Load("Prefabs/MainCanvas/SplashCircle")) as GameObject;
             splashCircle.transform.position = this.transform.position;
             splashCircle.transform.SetParent(Dial.spawnLayer.transform, true);

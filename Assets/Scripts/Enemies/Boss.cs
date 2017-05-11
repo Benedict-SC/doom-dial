@@ -134,14 +134,11 @@ public class Boss : MonoBehaviour{
 			AoE ac = obj.GetComponent<AoE>();
 			if (ac.parent == "Bullet")
 			{
-				if (ac.aoeBulletCon.enemyHit != this.gameObject) //if this isn't the enemy originally hit
-				{
-					//Debug.Log ("parent is bullet@");
-					Bullet bc = ac.aoeBulletCon;
-					hp -= bc.dmg;
-					if(hp <= 0){
-						Die ();
-					}
+				//StartCoroutine (StatusEffectsBullet (bc));
+				hp -= ac.aoeBulletDamage;
+				//timesShot++;
+				if(hp <= 0){
+					Die ();
 				}
 			}
 			else if (ac.parent == "Trap")

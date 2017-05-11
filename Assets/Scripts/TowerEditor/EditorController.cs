@@ -30,6 +30,9 @@ public class EditorController : MonoBehaviour,EventHandler{
 	
 	public static RectTransform piecesLayer;
 	public static RectTransform overlaysLayer;
+
+	RectTransform rotClockwise;
+	RectTransform rotCounterclockwise;
 	
 	void Awake(){
 		grid = GameObject.Find("Grid").GetComponent<GridController>();
@@ -39,6 +42,8 @@ public class EditorController : MonoBehaviour,EventHandler{
 		canvas = GameObject.Find ("Canvas").GetComponent<Canvas>();
 		overlaysLayer = GameObject.Find("Overlays").GetComponent<RectTransform>();
 		piecesLayer = GameObject.Find("Pieces").GetComponent<RectTransform>();
+		rotClockwise = GameObject.Find("TurnClockwise").GetComponent<RectTransform>();
+		rotCounterclockwise = GameObject.Find("TurnCounterClockwise").GetComponent<RectTransform>();
 	}
 	
 	public void Start(){
@@ -197,8 +202,15 @@ public class EditorController : MonoBehaviour,EventHandler{
 			if(!finger1down){
 				return;
 			}
-				
+
 			Vector3 altClickPos = (Vector3)ge.args[0];
+			//check if the second click is on one of the rotate buttons
+			float ymax = rotCounterclockwise.rect.y + (rotCounterclockwise.rect.height/2f);
+			float xmax = rotCounterclockwise.rect.x + (rotCounterclockwise.rect.width/2f);
+			if(altClickPos.x < xmax && altClickPos.y < ymax){ //then you're on the buttons
+				return;
+			}
+
 			Vector3 firstClickPos = InputWatcher.GetInputPosition();
 			Vector3 direction = altClickPos-firstClickPos;
 			twoFingerAngle = Mathf.Atan2 (direction.y,direction.x) *Mathf.Rad2Deg;
@@ -209,6 +221,8 @@ public class EditorController : MonoBehaviour,EventHandler{
 		}else if(ge.type.Equals("alt_release")){
 			Debug.Log ("alt release happened");
 			if(floatingPiece == null)
+				return;
+			if(!finger2down)
 				return;
 			
 			if(waitingForOtherFingerToReset){

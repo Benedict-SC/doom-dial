@@ -24,7 +24,7 @@ public class Weapon : MonoBehaviour {
     public int split; //Bullets, no. of split bullets.  BT, no. of radial bullets on hit
 
     //Bullet and BulletShield
-    public float penetration; //Bullet, penetration.  BS, shield shred.
+    public int penetration; //Bullet, penetration.  BS, shield shred.
     public float continuousStrength; //Bullet, laser firing time.  BS, pulse duration.
 
     //Shield and BulletShield

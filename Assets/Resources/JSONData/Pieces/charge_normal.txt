@@ -7,9 +7,9 @@
 	"dmg":0.0,
 	"trapUses":0.0,
 	"shieldDurability":0.0,
-	"charge":0.0,
+	"charge":1.0,
 	"split":0,
-	"penetration":0.0,
+	"penetration":0,
 	"continuousStrength":0.0,
 	"reflect":0.0,
 	"frequency":0.0,
@@ -20,11 +20,12 @@
 	"duplicate":0.0,
 	"field":0.0,
 	
-	"width":4,
-	"height":2,
+	"width":1,
+	"height":3,
 	"blockMap": [
-		[0,4,5,0],
-		[4,0,0,5]
+		[1],
+		[1],
+		[1]
 	],
 	
 	"bulletText":"[PIECE EFFECT DESCRIPTION]"

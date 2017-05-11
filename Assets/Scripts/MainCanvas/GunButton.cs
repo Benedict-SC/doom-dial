@@ -4,6 +4,8 @@ using UnityEngine.UI;
 //this was before we realized canvas UI had a Button component already
 public class GunButton : MonoBehaviour{
 	public Gun gun;
+	Gun heldGun;
+	Timer holdTime;
 	bool decalSet = false;
 	RectTransform rt;
 	float radius;
@@ -20,6 +22,7 @@ public class GunButton : MonoBehaviour{
 		SetDecalFromTower(gun);
 		RectTransform imageRect = (RectTransform)img.transform;
 		imageRect.sizeDelta = new Vector2(50f,50f);
+		holdTime = new Timer();
 	}
 	public void Update(){
 		if(!decalSet){
@@ -47,12 +50,16 @@ public class GunButton : MonoBehaviour{
 		//Debug.Log ("distance is " + distance);
 		return distance <= radius;
 	}
+	public void StartHold(){
+		holdTime.Restart();
+		heldGun = gun;
+	}
     public void SetGun(Gun g) {
         gun = g;
         SetDecalFromTower(g);
     }
     public void FireAssociatedGun() {
-        gun.Fire();
+        heldGun.Fire(holdTime.TimeElapsedSecs());
     }
 	public void SetDecalFromTower(Gun gc){
 		if(!gc.gameObject.activeSelf){

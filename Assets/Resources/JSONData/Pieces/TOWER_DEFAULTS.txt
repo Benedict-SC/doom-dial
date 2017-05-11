@@ -7,7 +7,7 @@
 	"shieldDurability":0.0,
 	"charge":0.0,
 	"split":0,
-	"penetration":0.0,
+	"penetration":0,
 	"continuousStrength":0.0,
 	"reflect":0.0,
 	"frequency":0.0,

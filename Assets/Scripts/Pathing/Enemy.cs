@@ -437,18 +437,12 @@ public class Enemy : MonoBehaviour,EventHandler {
 			AoE ac = obj.GetComponent<AoE>();
 			if (ac.parent == "Bullet")
 			{
-				if (ac.aoeBulletCon.enemyHit != this.gameObject) //if this isn't the enemy originally hit
-				{
-					//Debug.Log ("parent is bullet@");
-					Bullet bc = ac.aoeBulletCon;
-					GetStatused(bc);
-					//StartCoroutine (StatusEffectsBullet (bc));
-					hp -= bc.dmg;
-					Debug.Log ("damage taken: " + bc.dmg);
-					//timesShot++;
-					if(hp <= 0){
-						Die ();
-					}
+				//StartCoroutine (StatusEffectsBullet (bc));
+				hp -= ac.aoeBulletDamage;
+				Debug.Log ("damage taken: " + ac.aoeBulletDamage);
+				//timesShot++;
+				if(hp <= 0){
+					Die ();
 				}
 			}
 			else if (ac.parent == "Trap")

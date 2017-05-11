@@ -19,7 +19,7 @@ public class PieceParser{
     static float SHIELDDURABILITY_DEFAULT = 10.0f;
     static float CHARGE_DEFAULT = 0.0f;
     static int SPLIT_DEFAULT = 1;
-    static float PENETRATION_DEFAULT = 0.0f;
+    static int PENETRATION_DEFAULT = 0;
     static float CONTINUOUS_DEFAULT = 0.0f;
     static float REFLECT_DEFAULT = 0.0f;
     static float FREQUENCY_DEFAULT = 0.0f;
@@ -53,7 +53,7 @@ public class PieceParser{
         int split = SPLIT_DEFAULT; //Bullets, no. of split bullets.  BT, no. of radial bullets on hit
 
         //Bullet and BulletShield
-        float penetration = PENETRATION_DEFAULT; //Bullet, penetration.  BS, shield shred.
+        int penetration = PENETRATION_DEFAULT; //Bullet, penetration.  BS, shield shred.
         float continuousStrength = CONTINUOUS_DEFAULT; //Bullet, laser firing time.  BS, pulse duration.
 
         //Shield and BulletShield
@@ -98,9 +98,6 @@ public class PieceParser{
 			Dictionary<string,System.Object> pdata = (Dictionary<string,System.Object>)Json.Deserialize (json);
 			
 			//read values
-			//cooldown - as number of seconds
-			float pcool = (float)(double)pdata["cooldownFactor"];
-			cooldown += pcool;
 
             //add in cooldown time for each grid square taken by the piece
             List<System.Object> superList = (List<System.Object>)pdata["blockMap"];
@@ -123,8 +120,6 @@ public class PieceParser{
 
 			if(cooldown < 0.1f)
 				cooldown = 0.1f;
-			if(pcool < 0.0f)
-				cooldownCount++;
             //energyGain - amount of energy given
             float penergyGain = (float)(double)pdata["energyGain"];
             if (penergyGain > 0.0f)
@@ -157,16 +152,13 @@ public class PieceParser{
             charge += pcharge;
             //split - 1 is no split, i.e. 1 bullet
             int psplit = (int)(long)pdata["split"];
-            if (psplit > split)
-                split = psplit; //use only the highest split piece
+            split += psplit;
             if (psplit > 0)
                 splitCount++;
-            //penetration - in... percentage of whatever penetration does
-            float ppene = (float)(double)pdata["penetration"];
+            //penetration - in number of enemies penetrated
+            int ppene = (int)(long)pdata["penetration"];
 			penetration += ppene;
-			if(penetration > 1.0f)
-				penetration = 1.0f; //cap penetration at 1.0f
-			if(ppene > 0.0f)
+			if(ppene > 0)
 				penetrationCount++;
             //continuousStrength, in seconds for laser/pulse time
             float pcontinuous = (float)(double)pdata["continuousStrength"];
@@ -308,7 +300,7 @@ public class PieceParser{
         int split = SPLIT_DEFAULT; //Bullets, no. of split bullets.  BT, no. of radial bullets on hit
 
         //Bullet and BulletShield
-        float penetration = PENETRATION_DEFAULT; //Bullet, penetration.  BS, shield shred.
+        int penetration = PENETRATION_DEFAULT; //Bullet, penetration.  BS, shield shred.
         float continuousStrength = CONTINUOUS_DEFAULT; //Bullet, laser firing time.  BS, pulse duration.
 
         //Shield and BulletShield
@@ -373,9 +365,6 @@ public class PieceParser{
 			Dictionary<string,System.Object> pdata = (Dictionary<string,System.Object>)Json.Deserialize(pieceJson);
 
             //read values
-            //cooldown - as number of seconds
-            float pcool = (float)(double)pdata["cooldownFactor"];
-            cooldown += pcool;
 
             //add in cooldown time for each grid square taken by the piece
             List<System.Object> superList = (List<System.Object>)pdata["blockMap"];
@@ -398,8 +387,6 @@ public class PieceParser{
 
             if (cooldown < 0.1f)
                 cooldown = 0.1f;
-            if (pcool < 0.0f)
-                cooldownCount++;
             //energyGain - amount of energy given
             float penergyGain = (float)(double)pdata["energyGain"];
             if (penergyGain > 0.0f)
@@ -437,11 +424,9 @@ public class PieceParser{
             if (psplit > 0)
                 splitCount++;
             //penetration - in... percentage of whatever penetration does
-            float ppene = (float)(double)pdata["penetration"];
+            int ppene = (int)(long)pdata["penetration"];
             penetration += ppene;
-            if (penetration > 1.0f)
-                penetration = 1.0f; //cap penetration at 1.0f
-            if (ppene > 0.0f)
+            if (ppene > 0)
                 penetrationCount++;
             //continuousStrength, in seconds for laser/pulse time
             float pcontinuous = (float)(double)pdata["continuousStrength"];

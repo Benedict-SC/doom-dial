@@ -13,6 +13,8 @@ public class Gun : MonoBehaviour,EventHandler{
 
 	public readonly float TRACK_LENGTH = 110.8f; //hard coded to avoid querying track size all the time
     public readonly float TRAP_RANGE = 0.5f; //default trap range for now.  halfway down the lane
+	public readonly float MAX_CHARGE_RADIUS = 6f;
+	public readonly float MAX_CHARGE_TIME = 5f;
 	// ^^^ RELATIVE TO CENTER
 	
 	//Tower type: "Bullet", "Trap", "Shield", "BulletTrap", "BulletShield", "TrapShield"
@@ -36,10 +38,11 @@ public class Gun : MonoBehaviour,EventHandler{
 
     //Bullet and BulletTrap
     float charge; //Size of on-hit explosion
+		float mostRecentChargeTime = 0f;
     int split; //Bullets, no. of split bullets.  BT, no. of radial bullets on hit
 
     //Bullet and BulletShield
-    float penetration; //Bullet, penetration.  BS, shield shred.
+    int penetration; //Bullet, penetration.  BS, shield shred.
     float continuousStrength; //Bullet, laser firing time.  BS, pulse duration.
 
     //Shield and BulletShield
@@ -126,11 +129,12 @@ public class Gun : MonoBehaviour,EventHandler{
 		
 	}
 	#region Firing (make the gun shoot a thing)
-	public void Fire(){
+	public void Fire(float heldTime){
 		if(GamePause.paused)
 			return;
 		GameEvent nge = new GameEvent ("shot_fired");
-		nge.addArgument (gunID);
+		nge.addArgument(gunID);
+		nge.addArgument(heldTime);
 		EventManager.Instance ().RaiseEvent (nge);
 	}
 	public void HandleEvent(GameEvent ge){
@@ -152,6 +156,7 @@ public class Gun : MonoBehaviour,EventHandler{
 			return;
 		}
 
+		mostRecentChargeTime = (float)ge.args[1];
         cooltimer.Restart();
 		cooldown = maxcool; //start cooldown
 
@@ -164,27 +169,8 @@ public class Gun : MonoBehaviour,EventHandler{
 			case 1:
 				SpawnBulletI ();
 				break;
-			case 2:
-				SpawnBulletWideV ();
-				break;
-			case 3:
-				if (shootingV)
-				{
-					SpawnBulletWideV ();
-					shootingV = false;
-				}
-				else if (!shootingV)
-				{
-					SpawnBulletI ();
-					shootingV = true;
-				}
-				break;
-			case 4:
-				SpawnBulletI ();
-				SpawnBulletWideV ();
-				break;
 			default:
-				Debug.Log ("Spread error in Gun Bullet firing");
+				SpawnSplitFirer(split);
 				break;
 			}
 			break;
@@ -266,7 +252,7 @@ public class Gun : MonoBehaviour,EventHandler{
 			GameObject bullet = Instantiate (Resources.Load ("Prefabs/MainCanvas/Bullet")) as GameObject; //make a bullet
 			bullet.transform.SetParent(Dial.spawnLayer,false);
 			RectTransform bulletRect = (RectTransform)bullet.transform;
-			RectTransform rt = (RectTransform)transform;
+			RectTransform rt = GetComponent<RectTransform>();
 			Bullet bc = bullet.GetComponent<Bullet>();
 			//make it the type of bullet this thing fires
 			ConfigureBullet (bc);
@@ -287,92 +273,25 @@ public class Gun : MonoBehaviour,EventHandler{
 			bc.transform.rotation = transform.rotation;
 			bc.vx = bc.speed * (float)Math.Cos(angle);
 			bc.vy = bc.speed * (float)Math.Sin(angle);
-			if(split == 4){
-				bc.split = 0; //don't split if you're the middle split on a 3-way thing
-			}
 		}
-		
+	}
+	void SpawnSplitFirer(int times){
+		GameObject firer = Instantiate (Resources.Load ("Prefabs/RectTransform")) as GameObject;
+		firer.transform.SetParent(Dial.spawnLayer,false);
+		SplitFirer sf = firer.AddComponent<SplitFirer>();
+		Vector2 pos = GetComponent<RectTransform>().anchoredPosition;
+		firer.GetComponent<RectTransform>().anchoredPosition = pos;
+
+		//create bullet template
+		GameObject bullet = Instantiate (Resources.Load ("Prefabs/MainCanvas/Bullet")) as GameObject; //make a bullet
+		Bullet bc = bullet.GetComponent<Bullet>();
+		ConfigureBullet (bc);
+		bullet.SetActive(false);
+
+		sf.transform.rotation = transform.rotation;
+		sf.Configure(bc,split,this.transform.eulerAngles.z);
 	}
 	
-	void SpawnBulletV()
-	{
-		for (int i = 1; i <= 2; i++)
-		{
-			//Debug.Log ("called instantiate bullet");
-			GameObject bullet = Instantiate (Resources.Load ("Prefabs/MainCanvas/Bullet")) as GameObject; //make a bullet
-			bullet.transform.SetParent(Dial.spawnLayer,false);
-			Bullet bc = bullet.GetComponent<Bullet>();
-			RectTransform bulletRect = (RectTransform)bullet.transform;
-			RectTransform rt = (RectTransform)transform;
-			//make it the type of bullet this thing fires
-			ConfigureBullet (bc);
-			//find your angle
-			float ownangle = this.transform.eulerAngles.z;
-			float angle = (ownangle +  90) % 360 ;
-			angle *= (float)Math.PI / 180;
-			//Debug.Log ("original angle: " + angle);
-			angle = (angle - (float)Math.PI / 6f) + ((((float)Math.PI / 3f) / (3)) * i); //handles spread effect
-			//find where to spawn the bullet
-			float gunDistFromCenter = (float)Math.Sqrt (rt.anchoredPosition.x*rt.anchoredPosition.x + rt.anchoredPosition.y*rt.anchoredPosition.y);
-			gunDistFromCenter += 0.47f;
-			bc.spawnx = gunDistFromCenter * (float)Math.Cos (angle);
-			bc.spawny = gunDistFromCenter * (float)Math.Sin (angle);
-			bc.UpdateSpawnDist();
-			//Debug.Log (bc.speed);
-			bulletRect.anchoredPosition = new Vector2(bc.spawnx,bc.spawny);
-			bc.transform.rotation = transform.rotation;
-			bc.vx = bc.speed * (float)Math.Cos(angle);
-			bc.vy = bc.speed * (float)Math.Sin(angle);
-			if(i == 1){
-				bc.splitCode = -1;
-			}else{
-				bc.splitCode = 1;
-			}
-		}
-		
-	}
-	
-	void SpawnBulletWideV()
-	{
-		for (int i = 1; i <= 2; i++)
-		{
-			//Debug.Log ("called instantiate bullet");
-			GameObject bullet = Instantiate (Resources.Load ("Prefabs/MainCanvas/Bullet")) as GameObject; //make a bullet
-			bullet.transform.SetParent(Dial.spawnLayer,false);
-			Bullet bc = bullet.GetComponent<Bullet>();
-			RectTransform bulletRect = (RectTransform)bullet.transform;
-			RectTransform rt = (RectTransform)transform;
-			//make it the type of bullet this thing fires
-			ConfigureBullet (bc);
-			//find your angle
-			float ownangle = this.transform.eulerAngles.z;
-			float angle = (ownangle +  90) % 360 ;
-			angle *= (float)Math.PI / 180;
-			//Debug.Log ("original angle: " + angle);
-			float mult = 1f;
-			if (i == 2)
-			{
-				mult = 1.5f; //so it skips the middle and spawns the second one at the 3/4 angle
-			}
-			angle = (angle - (float)Math.PI / 6f) + ((((float)Math.PI / 3f) / (4 /*wideness const*/)) * (i * mult)); //handles spread effect
-			//find where to spawn the bullet
-			float gunDistFromCenter = (float)Math.Sqrt (rt.anchoredPosition.x*rt.anchoredPosition.x + rt.anchoredPosition.y*rt.anchoredPosition.y);
-			gunDistFromCenter += 0.47f;
-			bc.spawnx = gunDistFromCenter * (float)Math.Cos (angle);
-			bc.spawny = gunDistFromCenter * (float)Math.Sin (angle);
-			bc.UpdateSpawnDist();
-			//Debug.Log (bc.speed);
-			bulletRect.anchoredPosition = new Vector2(bc.spawnx,bc.spawny);
-			bc.transform.rotation = transform.rotation;
-			bc.vx = bc.speed * (float)Math.Cos(angle);
-			bc.vy = bc.speed * (float)Math.Sin(angle);
-			if(i == 1){
-				bc.splitCode = -1;
-			}else{
-				bc.splitCode = 1;
-			}
-		}
-	}
 	#endregion
 	
 	#region Setup (get the gun ready to do stuff)
@@ -432,9 +351,22 @@ public class Gun : MonoBehaviour,EventHandler{
 	private void ConfigureBullet(Bullet bc)
 	{
         bc.dmg = dmg;
+		bc.dmg /= (split + 1);
         bc.charge = charge;
+		bc.chargeDamage = bc.dmg;
+		if(bc.charge != 0){
+			bc.dmg = 0;
+		}
+		float maxChargeTime = (MAX_CHARGE_TIME/MAX_CHARGE_RADIUS) * charge;
+		if(maxChargeTime == 0)
+			maxChargeTime = 0.001f;
+		float chargePercent = mostRecentChargeTime / maxChargeTime;
+		if(chargePercent > 1f)
+			chargePercent = 1f;
+		bc.chargePercent = chargePercent;
         bc.split = split;
         bc.penetration = penetration;
+		bc.penetrationsLeft = penetration;
         bc.continuousStrength = continuousStrength;
 	}
 	
@@ -524,7 +456,7 @@ public class Gun : MonoBehaviour,EventHandler{
     {
         split = (int)psplit;
     }
-    public void SetPenetration(float ppenetration)
+    public void SetPenetration(int ppenetration)
     {
         penetration = ppenetration;
     }

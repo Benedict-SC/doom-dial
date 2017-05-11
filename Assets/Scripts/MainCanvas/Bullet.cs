@@ -24,6 +24,10 @@ public class Bullet : Weapon {
 
     Image bulletImg;
 
+    public float chargePercent;
+    public float chargeDamage;
+    public int penetrationsLeft;
+
     // Use this for initialization
     void Start () {
         bulletImg = GetComponent<Image>();
@@ -58,6 +62,23 @@ public class Bullet : Weapon {
     //actions for this bullet to take upon hitting something
     public void Collide()
     {
+        if(charge > 0){
+            GameObject splashCircle = Instantiate(Resources.Load("Prefabs/MainCanvas/SplashCircle")) as GameObject;
+            splashCircle.transform.position = this.transform.position;
+            splashCircle.transform.SetParent(Dial.spawnLayer.transform, true);
+            AoE ac = splashCircle.GetComponent<AoE>();
+            float chargeSize = charge * chargePercent;
+            if(chargeSize < 1.2f)
+                chargeSize = 1.2f;
+            ac.scale = chargeSize;
+            Debug.Log(chargeSize);
+            ac.parent = "Bullet";
+            ac.aoeBulletDamage = this.chargeDamage;
+        }
+        if(penetrationsLeft > 0){
+            penetrationsLeft--;
+            return;
+        }
         GameObject.Destroy(gameObject);
     }
 

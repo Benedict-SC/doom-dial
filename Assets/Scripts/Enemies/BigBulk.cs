@@ -406,6 +406,9 @@ public class BigBulk : Boss{
 			SlowRegen(b.slowsShields);
 		}*/
 	}
+	public void ShieldAgainstAoE(float bdmg){
+
+	}
 	public void ShieldAgainstTrap(Trap t){
 		float amount = t.dmg;
 		power -= amount;
@@ -497,12 +500,8 @@ public class BigBulk : Boss{
 			AoE ac = obj.GetComponent<AoE>();
 			if (ac.parent == "Bullet")
 			{
-				if (ac.aoeBulletCon.enemyHit != this.gameObject) //if this isn't the enemy originally hit
-				{
-					//Debug.Log ("parent is bullet@");
-					Bullet bc = ac.aoeBulletCon;
-					ShieldAgainstBullet(bc);
-				}
+				//Debug.Log ("parent is bullet@");
+				ShieldAgainstAoE(ac.aoeBulletDamage);
 			}
 			else if (ac.parent == "Trap")
 			{
