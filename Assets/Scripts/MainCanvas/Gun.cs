@@ -13,7 +13,7 @@ public class Gun : MonoBehaviour,EventHandler{
 	public bool held = false;
 
 	public readonly float TRACK_LENGTH = 110.8f; //hard coded to avoid querying track size all the time
-    public readonly float TRAP_RANGE = 0.5f; //default trap range for now.  halfway down the lane
+    public readonly float TRAP_RANGE = 0.6f; //default trap range for now.  halfway down the lane
 	public readonly float MAX_CHARGE_RADIUS = 6f;
 	public readonly float MAX_CHARGE_TIME = 5f;
 	// ^^^ RELATIVE TO CENTER
@@ -209,32 +209,7 @@ public class Gun : MonoBehaviour,EventHandler{
 			}
 			break;
 		case "Trap":
-			for (int i = 1; i <= split; i++)
-			{
-				//Debug.Log ("range is " + range);
-				float spawnRadius = Dial.TRACK_LENGTH * TRAP_RANGE;
-				GameObject trap = Instantiate (Resources.Load ("Prefabs/MainCanvas/Trap")) as GameObject; //make a bullet
-				trap.transform.SetParent(Dial.spawnLayer,false);
-				RectTransform bulletRect = (RectTransform)trap.transform;
-				RectTransform rt = (RectTransform)transform;
-				Trap tc = trap.GetComponent<Trap>();
-				//make it the type of bullet this thing fires
-				ConfigureTrap (tc);
-				//find your angle
-				float ownangle = this.transform.eulerAngles.z;
-				float angle = (ownangle +  90) % 360 ;
-				angle *= (float)Math.PI / 180;
-				//Debug.Log ("original angle: " + angle);
-				angle = (angle - (float)Math.PI / 6f) + ((((float)Math.PI / 3f) / (2)) * i); //handles spread effect
-				//find where to spawn the bullet
-				float gunDistFromCenter = Dial.DIAL_RADIUS;
-                Debug.Log("spawnRadius is " + spawnRadius);
-				tc.spawnx = (gunDistFromCenter + spawnRadius) * (float)Math.Cos (angle);
-				tc.spawny = (gunDistFromCenter + spawnRadius) * (float)Math.Sin (angle);
-				//Debug.Log (bc.speed);
-				bulletRect.anchoredPosition = new Vector2(tc.spawnx,tc.spawny);
-				tc.transform.rotation = transform.rotation;
-			}
+			SpawnTrap();
 			break;
 		case "Shield":
 			Dial dialCon = GameObject.Find ("Dial").gameObject.GetComponent<Dial>();
@@ -344,6 +319,72 @@ public class Gun : MonoBehaviour,EventHandler{
 		allLasersBase.transform.rotation = transform.rotation;
 
 		return allLasersBase;
+	}
+	void SpawnTrap(){
+		//Debug.Log ("range is " + range);
+		float spawnRadius = Dial.TRACK_LENGTH * TRAP_RANGE;
+		float longRadius = Dial.TRACK_LENGTH * (TRAP_RANGE + 0.2f);
+		float shortRadius = Dial.TRACK_LENGTH * (TRAP_RANGE - 0.2f);
+		//find your angle
+		float ownangle = this.transform.eulerAngles.z;
+		float angle = (ownangle +  90) % 360 ;
+		
+		float leftAngle = angle + 15f;
+		float rightAngle = angle - 15f;
+		angle *= Mathf.Deg2Rad;
+		leftAngle *= Mathf.Deg2Rad;
+		rightAngle *= Mathf.Deg2Rad;
+		
+		GameObject trap = Instantiate (Resources.Load ("Prefabs/MainCanvas/Trap")) as GameObject;
+		trap.transform.SetParent(Dial.spawnLayer,false);
+		RectTransform trapRect = (RectTransform)trap.transform;
+		RectTransform rt = (RectTransform)transform;
+		Trap tc = trap.GetComponent<Trap>();
+		//make it the type of trap this thing fires
+		ConfigureTrap (tc);
+
+		//find where to spawn the trap
+		Vector2[] spawnPoints = new Vector2[5]; //set up potential trap locations
+		float gunDistFromCenter = Dial.DIAL_RADIUS;
+		spawnPoints[0] = new Vector2((gunDistFromCenter + spawnRadius) * (float)Math.Cos (angle),(gunDistFromCenter + spawnRadius) * (float)Math.Sin (angle));
+		spawnPoints[1] = new Vector2((gunDistFromCenter + shortRadius) * (float)Math.Cos (leftAngle),(gunDistFromCenter + shortRadius) * (float)Math.Sin (leftAngle));
+		spawnPoints[2] = new Vector2((gunDistFromCenter + shortRadius) * (float)Math.Cos (rightAngle),(gunDistFromCenter + shortRadius) * (float)Math.Sin (rightAngle));
+		spawnPoints[3] = new Vector2((gunDistFromCenter + longRadius) * (float)Math.Cos (leftAngle),(gunDistFromCenter + longRadius) * (float)Math.Sin (leftAngle));
+		spawnPoints[4] = new Vector2((gunDistFromCenter + longRadius) * (float)Math.Cos (rightAngle),(gunDistFromCenter + longRadius) * (float)Math.Sin (rightAngle));
+
+		//create a collision checker
+		GameObject spawnScanner = Instantiate (Resources.Load ("Prefabs/RectTransform")) as GameObject;
+		spawnScanner.transform.SetParent(Dial.spawnLayer,false);
+		CircleCollider2D focus = spawnScanner.AddComponent<CircleCollider2D>() as CircleCollider2D;
+		RectTransform scanRect = spawnScanner.GetComponent<RectTransform>();
+		focus.radius = 3f;
+		//move it around and see if there's traps in place
+		int spot = 0;
+		for(int i = 0; i < 5; i++){
+			Vector2 loc = spawnPoints[i];
+			scanRect.anchoredPosition = loc;
+			//check if there's an opening there			
+			Collider2D[] stuffHit = new Collider2D[10];
+            ContactFilter2D filter = new ContactFilter2D();
+            filter.NoFilter();
+            focus.OverlapCollider(filter,stuffHit); //fill array with all colliders intersecting scanner
+            List<Collider2D> fieldHit = new List<Collider2D>();
+            for(int j = 0; j < stuffHit.Length; j++){ //filter out anything that doesn't get damaged by the field
+                Collider2D coll = stuffHit[j];
+                if(coll != null && (coll.gameObject.tag == "Trap" ) ){
+                    fieldHit.Add(coll);
+                }
+            }
+			if(fieldHit.Count <= 0){
+				spot = i;
+				break;
+			}
+		}
+		Destroy(spawnScanner);
+
+		trapRect.anchoredPosition = spawnPoints[spot];
+		tc.transform.rotation = transform.rotation;
+			
 	}
 	
 	#endregion

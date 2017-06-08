@@ -8,8 +8,10 @@ using UnityEngine.UI;
 
 public class Trap : Weapon {
 	
+	float TEMP_MAX_ATTRACTION = 10f;
+
 	float TRACK_LENGTH = 3.1f; //hard coded to avoid querying track size all the time
-	public float baseDamage = 10f;
+	public float baseDamage = 8f;
 	private bool isActive; //whether it's armed
 	public float maxArmingTime; //max time needed to arm, in seconds
 	private float armTime; //current countdown time for arming
@@ -89,10 +91,15 @@ public class Trap : Weapon {
 		if(attraction != 0.0f){
 			List<Enemy> inRange = Dial.GetAllEnemiesInZone(zone);
 			foreach(Enemy e in inRange){
-				Vector2 attractionDirection = rt.anchoredPosition - e.GetComponent<RectTransform>().anchoredPosition;
-				float distFromTrap = attractionDirection.magnitude;
-				Vector2 adjusted = attractionDirection/(distFromTrap*distFromTrap +100f);
-				e.GetComponent<Steering>().ExternalForceUpdate(this,adjusted);
+				Vector2 attractionVector = rt.anchoredPosition - e.GetComponent<RectTransform>().anchoredPosition;
+				Vector2 direction = attractionVector.normalized;
+				float distFromTrap = attractionVector.magnitude;
+				Steering s = e.GetComponent<Steering>();
+				float strength = s.maxAccel * 0.99f; //baseline maximum
+				float percentOfMax = attraction/TEMP_MAX_ATTRACTION; //use attraction number to get how close to the max attraction you're at
+				strength *=  percentOfMax; //multiply to get acceleration
+				Vector2 adjusted = direction * strength; //then apply that to the direction vector
+				s.ExternalForceUpdate(this,adjusted); //and tell the AI to be pulled that way
 			}
 		}
 	}
