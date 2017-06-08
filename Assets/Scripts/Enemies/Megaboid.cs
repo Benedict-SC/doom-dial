@@ -43,7 +43,7 @@ public class Megaboid : Boss{
 		thetas = new Vector3(mergepoints[5]+0.05f,0f,0f);
 		mergeTimer = new Timer();
 		directiontimer = new Timer();
-		overlay = transform.FindChild("Health").gameObject;
+		overlay = transform.Find("Health").gameObject;
 		bosses.Add(this);
 	}
 	public bool isClone = false;
@@ -55,7 +55,7 @@ public class Megaboid : Boss{
 		radii = new Vector3(Dial.FULL_LENGTH,0f,0f);
 		mergeTimer = new Timer();
 		directiontimer = new Timer();
-		overlay = transform.FindChild("Health").gameObject;
+		overlay = transform.Find("Health").gameObject;
 		bosses.Add(this);
 	}
 	

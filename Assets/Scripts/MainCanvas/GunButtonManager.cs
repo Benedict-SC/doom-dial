@@ -3,16 +3,17 @@ using UnityEngine.UI;
 
 public class GunButtonManager : MonoBehaviour, EventHandler
 {
-    public static bool STATIC_GUNS = false;
+    bool STATIC_GUNS = false;
     GunButton[] gbuttons = new GunButton[6];
     Gun[] baseGuns = new Gun[6];
     public void Start() {
+        STATIC_GUNS = PlayerPrefs.GetInt("static_guns",0) == 1;
         EventManager em = EventManager.Instance();
         em.RegisterForEventType("dial_locked", this);
 
         GameObject buttonHolder = GameObject.Find("GunButtons");
         for(int i = 1; i <= 6; i++) {
-            GunButton gb = buttonHolder.transform.FindChild("Button" + i).GetComponent<GunButton>();
+            GunButton gb = buttonHolder.transform.Find("Button" + i).GetComponent<GunButton>();
             gbuttons[i - 1] = gb;
             baseGuns[i - 1] = gb.gun;
         }

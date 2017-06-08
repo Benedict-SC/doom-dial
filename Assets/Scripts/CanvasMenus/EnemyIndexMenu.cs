@@ -51,8 +51,8 @@ public class EnemyIndexMenu : MonoBehaviour {
         {
             GameObject optionobj = GameObject.Instantiate(Resources.Load("Prefabs/Menus/MenuOption")) as GameObject;
             MenuOption option = optionobj.GetComponent<MenuOption>();
-            GameObject.Destroy(optionobj.transform.FindChild("Image").gameObject);
-            GameObject.Destroy(optionobj.transform.FindChild("Text").gameObject);
+            GameObject.Destroy(optionobj.transform.Find("Image").gameObject);
+            GameObject.Destroy(optionobj.transform.Find("Text").gameObject);
             #region TextMaking (creating text from script is apparently pretty complicated actually)
             GameObject newtextobj = new GameObject("EnemyName");
             newtextobj.transform.SetParent(optionobj.transform,false);

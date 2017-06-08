@@ -14,8 +14,8 @@ public class ZonePanelController : MonoBehaviour{
 	List<EnemyListEntryController> enemies;
 	
 	public void Start(){
-		glow = transform.FindChild("Glow").gameObject;
-		scroll = transform.FindChild("ScrollField").FindChild("ScrollContent").gameObject;
+		glow = transform.Find("Glow").gameObject;
+		scroll = transform.Find("ScrollField").Find("ScrollContent").gameObject;
 		glow.SetActive(glowIsOn);
 	}
 	public void Update(){

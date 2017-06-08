@@ -5,19 +5,19 @@
 	"energyGain":0.0,
 	"comboKey":0.0,
 	"dmg":0.0,
-	"trapUses":0.0,
+	"trapUses":0,
 	"shieldDurability":0.0,
 	"charge":0.0,
 	"split":0,
 	"penetration":0,
-	"continuousStrength":0.0,
+	"continuousStrength":2.0,
 	"reflect":0.0,
 	"frequency":0.0,
 	"tempDisplace":0.0,
 	"absorb":0.0,
 	"aoe":0.0,
 	"attraction":0.0,
-	"duplicate":0.0,
+	"duplicate":0,
 	"field":0.0,
 	
 	"width":3,
@@ -28,5 +28,5 @@
 		[0,3,0]
 	],
 	
-	"bulletText":"[PIECE EFFECT DESCRIPTION]"
+	"bulletText":"Turns the gun into a zappy laser (+2s)"
 }

@@ -10,6 +10,7 @@ public class Gun : MonoBehaviour,EventHandler{
 
 	Canvas canvas;
 	public bool decalSet = false;
+	public bool held = false;
 
 	public readonly float TRACK_LENGTH = 110.8f; //hard coded to avoid querying track size all the time
     public readonly float TRAP_RANGE = 0.5f; //default trap range for now.  halfway down the lane
@@ -38,7 +39,7 @@ public class Gun : MonoBehaviour,EventHandler{
 
     //Bullet and BulletTrap
     float charge; //Size of on-hit explosion
-		float mostRecentChargeTime = 0f;
+	public float mostRecentChargeTime = 0f;
     int split; //Bullets, no. of split bullets.  BT, no. of radial bullets on hit
 
     //Bullet and BulletShield
@@ -58,7 +59,7 @@ public class Gun : MonoBehaviour,EventHandler{
     float attraction; //Trap, pull.  PT, homing.
 
     //Trap and TrapShield
-    float duplicate; //Trap, triggers. (?)  TS, zone range.
+    int duplicate; //Trap, triggers. (?)  TS, zone range.
     float field; //field time (?)
 
 	
@@ -79,6 +80,7 @@ public class Gun : MonoBehaviour,EventHandler{
 	 * But not passed to bullets
 	 */
 	
+	float baseMaxcool;
 	float maxcool;
     Timer cooltimer;
 	
@@ -87,6 +89,7 @@ public class Gun : MonoBehaviour,EventHandler{
 	public int gunID; 
 	
 	Image cooldownImg;
+	Image chargeImg;
 	
 	// Use this for initialization
 	void Start () {
@@ -99,6 +102,12 @@ public class Gun : MonoBehaviour,EventHandler{
 		cooldownImg.fillClockwise = false;
 		cooldownImg.fillAmount = 0f;
         cooltimer = new Timer();
+
+		GameObject chargeObject = transform.Find("ChargeLayer").gameObject;
+		chargeImg = chargeObject.GetComponent<Image>();
+		chargeImg.type = Image.Type.Filled;
+		chargeImg.fillMethod = Image.FillMethod.Vertical;
+		chargeImg.fillAmount = 0f;
 		
 		//defaults
 		/*towerType = "Shield";
@@ -117,7 +126,6 @@ public class Gun : MonoBehaviour,EventHandler{
 	
 	// Update is called once per frame
 	void Update () {
-        
 		if (cooldown > 0) {
             float cooltime = cooltimer.TimeElapsedSecs();
             cooldown = maxcool - cooltime;
@@ -126,7 +134,15 @@ public class Gun : MonoBehaviour,EventHandler{
             }
 			cooldownImg.fillAmount = GetCooldownRatio();
 		}
-		
+		if((charge > 0) && held){
+			float maxChargeTime = (MAX_CHARGE_TIME/MAX_CHARGE_RADIUS) * charge;
+			float chargePercent = mostRecentChargeTime / maxChargeTime;
+			if(chargePercent > 1f){
+				chargePercent = 1f;
+			}
+			chargeImg.fillAmount = chargePercent;
+			chargeImg.color = new Color(1f,1f-chargePercent,1f-chargePercent);
+		}
 	}
 	#region Firing (make the gun shoot a thing)
 	public void Fire(float heldTime){
@@ -136,6 +152,25 @@ public class Gun : MonoBehaviour,EventHandler{
 		nge.addArgument(gunID);
 		nge.addArgument(heldTime);
 		EventManager.Instance ().RaiseEvent (nge);
+	}
+	public void StartCooldown(float heldTime){
+        cooltimer.Restart();
+		cooldown = maxcool; //start cooldown
+		if(continuousStrength > 0){
+			cooldown = baseMaxcool + heldTime;
+			maxcool = baseMaxcool + heldTime;
+		}
+	}
+	public void Hold(){
+		held = true;
+	}
+	public void Unhold(float time){
+		held = false;
+		if(continuousStrength > 0 && cooldown <= 0){
+			StartCooldown(time);
+			chargeImg.fillAmount = 0f;
+			chargeImg.color = new Color(1f,1f,1f);
+		}
 	}
 	public void HandleEvent(GameEvent ge){
 		
@@ -156,22 +191,21 @@ public class Gun : MonoBehaviour,EventHandler{
 			return;
 		}
 
-		mostRecentChargeTime = (float)ge.args[1];
         cooltimer.Restart();
 		cooldown = maxcool; //start cooldown
+		chargeImg.fillAmount = 0f;
+		chargeImg.color = new Color(1f,1f,1f);
 
         //Decide what to do based on tower type ("Bullet", "Trap", "Shield", "BulletTrap", "BulletShield", "TrapShield")
         switch (towerType)
 		{
 		case "Bullet":
-			switch (split)
-			{
-			case 1:
-				SpawnBulletI ();
-				break;
-			default:
-				SpawnSplitFirer(split);
-				break;
+			if(continuousStrength <= 0){
+				if(split == 1){
+					SpawnBulletI();
+				}else{
+					SpawnSplitFirer(split);
+				}
 			}
 			break;
 		case "Trap":
@@ -291,6 +325,26 @@ public class Gun : MonoBehaviour,EventHandler{
 		sf.transform.rotation = transform.rotation;
 		sf.Configure(bc,split,this.transform.eulerAngles.z);
 	}
+	public GameObject SpawnLasers(){
+		GameObject allLasersBase = new GameObject();
+		allLasersBase.transform.SetParent(Dial.spawnLayer,false);
+
+		//do once for each split laser
+		for(int i = 0; i < split; i++){
+			float increment = 60f/(split+1);
+			float angle = -30f + (increment*(i+1));
+			GameObject laserBase = Instantiate (Resources.Load ("Prefabs/MainCanvas/Laser")) as GameObject;
+			GameObject laser = laserBase.transform.Find("Laser").gameObject;
+			Laser l = laser.GetComponent<Laser>();
+			ConfigureLaser(l);
+			laserBase.transform.SetParent(allLasersBase.transform,false);
+			laserBase.transform.eulerAngles = new Vector3(0f,0f,angle);
+		}
+
+		allLasersBase.transform.rotation = transform.rotation;
+
+		return allLasersBase;
+	}
 	
 	#endregion
 	
@@ -302,7 +356,7 @@ public class Gun : MonoBehaviour,EventHandler{
 		Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
 		
 		string imgfilename = data ["decalFilename"] as string;
-		Image img = transform.FindChild("Label").gameObject.GetComponent<Image> ();
+		Image img = transform.Find("Label").gameObject.GetComponent<Image> ();
 		//Debug.Log ("Sprites" + Path.DirectorySeparatorChar + imgfilename);
 		Texture2D decal = Resources.Load<Texture2D> ("Sprites/" + imgfilename);
 		if (decal == null) {
@@ -351,7 +405,7 @@ public class Gun : MonoBehaviour,EventHandler{
 	private void ConfigureBullet(Bullet bc)
 	{
         bc.dmg = dmg;
-		bc.dmg /= (split + 1);
+		bc.dmg /= split;
         bc.charge = charge;
 		bc.chargeDamage = bc.dmg;
 		if(bc.charge != 0){
@@ -369,15 +423,34 @@ public class Gun : MonoBehaviour,EventHandler{
 		bc.penetrationsLeft = penetration;
         bc.continuousStrength = continuousStrength;
 	}
-	
+	//Assigns skill values to continuous fire Towers
+	private void ConfigureLaser(Laser bc){
+		bc.dmg = dmg;
+		bc.dmg /= split;
+        bc.charge = charge;
+		float maxChargeTime = (MAX_CHARGE_TIME/MAX_CHARGE_RADIUS) * charge;
+		if(maxChargeTime == 0)
+			maxChargeTime = 0.001f;
+		float chargePercent = mostRecentChargeTime / maxChargeTime;
+		if(chargePercent > 1f)
+			chargePercent = 1f;
+		bc.chargePercent = chargePercent;
+        bc.split = split;
+        bc.penetration = penetration;
+		bc.penetrationsLeft = penetration;
+        bc.continuousStrength = continuousStrength;
+	}
 	//Assigns skill values to traps
 	private void ConfigureTrap(Trap tc)
 	{
+		tc.dmg = tc.baseDamage;
         tc.trapUses = (int)trapUses;
+		tc.usesLeft = (int)trapUses;
         tc.aoe = AoE;
         tc.attraction = attraction;
         tc.duplicate = duplicate;
         tc.field = field;
+		tc.zone = GetCurrentLaneID();
 	}
 	
 	//Assigns skill values to shields
@@ -400,18 +473,19 @@ public class Gun : MonoBehaviour,EventHandler{
 	}
 	public int GetCurrentLaneID(){
 		float angle = transform.eulerAngles.z;
+		angle = (360f-angle)%360f;
 		if (angle > 28.0 && angle < 32.0)
 			return 1;
 		else if (angle > 88.0 && angle < 92.0)
-			return 6;
+			return 2;
 		else if (angle > 148.0 && angle < 152.0)
-			return 5;
+			return 3;
 		else if (angle > 208.0 && angle < 212.0)
 			return 4;
 		else if (angle > 268.0 && angle < 272.0)
-			return 3;
+			return 5;
 		else if (angle > 328.0 && angle < 332.0)
-			return 2;
+			return 6;
 		else{
 			Debug.Log ("somehow a gun has a very very wrong angle");
 			return -1;
@@ -425,6 +499,7 @@ public class Gun : MonoBehaviour,EventHandler{
 	
 	public void SetCooldown(float pCooldown)
 	{
+		baseMaxcool = pCooldown;
 		maxcool = pCooldown;
 	}
     public void SetEnergyGain(float pEnergyGain)
@@ -488,7 +563,7 @@ public class Gun : MonoBehaviour,EventHandler{
     {
         attraction = pattraction;
     }
-    public void SetDuplicate(float pduplicate)
+    public void SetDuplicate(int pduplicate)
     {
         duplicate = pduplicate;
     }
@@ -496,5 +571,8 @@ public class Gun : MonoBehaviour,EventHandler{
     {
         field = pfield;
     }
+	public float GetContinuousStrength(){
+		return continuousStrength;
+	}
     #endregion
 }

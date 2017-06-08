@@ -16,7 +16,7 @@ public class MenuScaleEffectCanvas : MonoBehaviour {
 	bool hasStarted = false;
 	// Use this for initialization
 	void Start () {
-		Transform imgchild = transform.FindChild("Image");
+		Transform imgchild = transform.Find("Image");
 		if(imgchild != null){
 			img = imgchild.gameObject.GetComponent<Image>();
 		}

@@ -24,12 +24,12 @@ public class TrackController : MonoBehaviour, EventHandler {
 	// Use this for initialization
 	void Start () {
 		//get tracks
-		tracks [0] = transform.FindChild ("WarningN").gameObject.GetComponent<SpriteRenderer>();
-		tracks [1] = transform.FindChild ("WarningNE").gameObject.GetComponent<SpriteRenderer>();
-		tracks [2] = transform.FindChild ("WarningSE").gameObject.GetComponent<SpriteRenderer>();
-		tracks [3] = transform.FindChild ("WarningS").gameObject.GetComponent<SpriteRenderer>();
-		tracks [4] = transform.FindChild ("WarningSW").gameObject.GetComponent<SpriteRenderer>();
-		tracks [5] = transform.FindChild ("WarningNW").gameObject.GetComponent<SpriteRenderer>();
+		tracks [0] = transform.Find ("WarningN").gameObject.GetComponent<SpriteRenderer>();
+		tracks [1] = transform.Find ("WarningNE").gameObject.GetComponent<SpriteRenderer>();
+		tracks [2] = transform.Find ("WarningSE").gameObject.GetComponent<SpriteRenderer>();
+		tracks [3] = transform.Find ("WarningS").gameObject.GetComponent<SpriteRenderer>();
+		tracks [4] = transform.Find ("WarningSW").gameObject.GetComponent<SpriteRenderer>();
+		tracks [5] = transform.Find ("WarningNW").gameObject.GetComponent<SpriteRenderer>();
 		for (int i = 0; i < 6; i++) {
 			//set defaults
 			intensityCeilings[i] = DEF_INTENSITY_CEILING;

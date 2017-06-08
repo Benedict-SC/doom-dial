@@ -115,7 +115,9 @@ public class Boss : MonoBehaviour{
 				if (tc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
 				{
 					tc.enemyHit = this.gameObject;
-					hp -= tc.dmg;
+					if(tc.aoe == 0f){
+						hp -= tc.dmg;
+					}
 					tc.Collide();
 					if(hp <= 0){
 						Die ();
@@ -135,7 +137,7 @@ public class Boss : MonoBehaviour{
 			if (ac.parent == "Bullet")
 			{
 				//StartCoroutine (StatusEffectsBullet (bc));
-				hp -= ac.aoeBulletDamage;
+				hp -= ac.aoeDamage;
 				//timesShot++;
 				if(hp <= 0){
 					Die ();
@@ -143,14 +145,11 @@ public class Boss : MonoBehaviour{
 			}
 			else if (ac.parent == "Trap")
 			{
-				if (ac.aoeTrapCon.enemyHit != this.gameObject) //if this isn't the enemy originally hit
-				{
-					Trap tc = ac.aoeTrapCon;
-					hp -= tc.dmg;
+					hp -= ac.aoeDamage;
 					if(hp <= 0){
 						Die ();
 					}
-				}
+				
 			}
 			
 		}

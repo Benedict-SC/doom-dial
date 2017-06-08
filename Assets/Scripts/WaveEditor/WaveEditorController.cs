@@ -27,8 +27,8 @@ public class WaveEditorController : MonoBehaviour,EventHandler{
 		canvas = GameObject.Find("Canvas");
 		sr = GameObject.Find("EnemyScroll").GetComponent<ScrollRect>();
 		btc = GameObject.Find ("BossButton").GetComponent<BossTabController>();
-		pointText = GameObject.Find ("Points").transform.FindChild("Text").GetComponent<Text>();
-		wavenumber = GameObject.Find ("WaveNumber").transform.FindChild("Text").GetComponent<Text>();
+		pointText = GameObject.Find ("Points").transform.Find("Text").GetComponent<Text>();
+		wavenumber = GameObject.Find ("WaveNumber").transform.Find("Text").GetComponent<Text>();
 		wavenumber.text = ""+1;
 		EventManager.Instance().RegisterForEventType("mouse_release",this);
 		EventManager.Instance().RegisterForEventType("wave_editor_changed",this);

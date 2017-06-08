@@ -50,8 +50,8 @@ public class BigBulkShieldEater : MonoBehaviour{
 	
 	public void Start(){
 		rt = (RectTransform)transform;
-		head = transform.FindChild("ShieldEaterHead").gameObject;
-		beam = transform.FindChild("ShieldEaterBeam").gameObject;
+		head = transform.Find("ShieldEaterHead").gameObject;
+		beam = transform.Find("ShieldEaterBeam").gameObject;
 		headImg = head.GetComponent<Image>();
 		beamImg = beam.GetComponent<Image>();
 		grabTimer = new Timer();

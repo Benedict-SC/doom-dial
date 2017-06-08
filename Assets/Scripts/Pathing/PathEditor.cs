@@ -29,7 +29,7 @@ public class PathEditor : MonoBehaviour{
 		previewParent = GameObject.Find("PreviewPoints");
 		center = GameObject.Find("CenterAnchor");
 		savepanel = GameObject.Find ("SavePanel");
-		saveText = savepanel.transform.FindChild("InputField").GetComponent<InputField>();
+		saveText = savepanel.transform.Find("InputField").GetComponent<InputField>();
 		error = savepanel.transform.Find("Invalid").gameObject;
 		error.SetActive(false);
 		

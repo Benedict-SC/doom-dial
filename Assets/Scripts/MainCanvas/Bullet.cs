@@ -64,8 +64,8 @@ public class Bullet : Weapon {
     {
         if(charge > 0){
             GameObject splashCircle = Instantiate(Resources.Load("Prefabs/MainCanvas/SplashCircle")) as GameObject;
-            splashCircle.transform.position = this.transform.position;
-            splashCircle.transform.SetParent(Dial.spawnLayer.transform, true);
+            splashCircle.GetComponent<RectTransform>().anchoredPosition = rt.anchoredPosition;
+            splashCircle.transform.SetParent(Dial.spawnLayer.transform, false);
             AoE ac = splashCircle.GetComponent<AoE>();
             float chargeSize = charge * chargePercent;
             if(chargeSize < 1.2f)
@@ -73,7 +73,7 @@ public class Bullet : Weapon {
             ac.scale = chargeSize;
             Debug.Log(chargeSize);
             ac.parent = "Bullet";
-            ac.aoeBulletDamage = this.chargeDamage;
+            ac.aoeDamage = this.chargeDamage;
         }
         if(penetrationsLeft > 0){
             penetrationsLeft--;

@@ -1,7 +1,7 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2008
-
-Project("{76EB41D5-D7DF-6D66-8CDF-35724DD41D48}") = "DoomDial", "Assembly-CSharp.csproj", "{89606478-C558-6A3D-D083-9B0F24FF4E9D}"
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoomDial", "Assembly-CSharp.csproj", "{89606478-C558-6A3D-D083-9B0F24FF4E9D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

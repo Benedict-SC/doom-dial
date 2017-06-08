@@ -59,8 +59,8 @@ public class BigBulk : Boss{
 		thingDoingTimer = new Timer();
 		eaterTimer = new Timer();
 		directiontimer = new Timer();
-		overlay = transform.FindChild("Health").gameObject;
-		shieldImage = transform.FindChild("ShieldImage").GetComponent<Image>();
+		overlay = transform.Find("Health").gameObject;
+		shieldImage = transform.Find("ShieldImage").GetComponent<Image>();
 	}
 	public override void HandleModeStuff(){
 		float healthRatio = power/referenceCapacity;
@@ -409,31 +409,13 @@ public class BigBulk : Boss{
 	public void ShieldAgainstAoE(float bdmg){
 
 	}
-	public void ShieldAgainstTrap(Trap t){
-		float amount = t.dmg;
+	public void ShieldAgainstTrap(float amount){
 		power -= amount;
 		RefreshShieldColors();
 		if(power <= 0){
 			GetBroken ();
 		}
 		
-		GetStatused(t);
-		if(t.penetration > 0){
-			float penDamage = t.penetration*t.dmg;
-			TakeDamage(penDamage);
-		}
-        /*
-		if(t.shieldShred > 0){
-			float shredDamage = t.shieldShred*t.dmg;
-			capacity -= shredDamage;
-			if(power > capacity){
-				power = capacity;
-			}
-		}
-        */
-		/*if(t.slowsShields != 0){
-			SlowRegen(t.slowsShields);
-		}*/
 	}
 	public void Regenerate(){
 		
@@ -486,7 +468,9 @@ public class BigBulk : Boss{
 				if (tc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
 				{
 					tc.enemyHit = this.gameObject;
-					ShieldAgainstTrap(tc);
+					if(tc.aoe == 0){
+						ShieldAgainstTrap(tc.dmg);
+					}
 					tc.Collide();
 				}
 			}
@@ -501,15 +485,11 @@ public class BigBulk : Boss{
 			if (ac.parent == "Bullet")
 			{
 				//Debug.Log ("parent is bullet@");
-				ShieldAgainstAoE(ac.aoeBulletDamage);
+				ShieldAgainstAoE(ac.aoeDamage);
 			}
 			else if (ac.parent == "Trap")
 			{
-				if (ac.aoeTrapCon.enemyHit != this.gameObject) //if this isn't the enemy originally hit
-				{
-					Trap tc = ac.aoeTrapCon;
-					ShieldAgainstTrap (tc);
-				}
+				ShieldAgainstTrap (ac.aoeDamage);
 			}
 			
 		}

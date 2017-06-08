@@ -19,13 +19,13 @@ public class ButtonController : MonoBehaviour, EventHandler {
 			gc = gun.GetComponent<GunController> ();
 			SetDecalFromTower (gc);
 		}else {
-			SpriteRenderer sr = transform.FindChild("Label").gameObject.GetComponent<SpriteRenderer>();
+			SpriteRenderer sr = transform.Find("Label").gameObject.GetComponent<SpriteRenderer>();
 			sr.sprite = null;
 		}
 	}
 	public void SetDecalFromTower(GunController gc){
-		Sprite s = gc.transform.FindChild("Label").gameObject.GetComponent<SpriteRenderer>().sprite;
-		SpriteRenderer sr = transform.FindChild("Label").gameObject.GetComponent<SpriteRenderer>();
+		Sprite s = gc.transform.Find("Label").gameObject.GetComponent<SpriteRenderer>().sprite;
+		SpriteRenderer sr = transform.Find("Label").gameObject.GetComponent<SpriteRenderer>();
 		sr.sprite = s;
 
 	}

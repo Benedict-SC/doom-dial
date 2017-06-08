@@ -27,7 +27,7 @@ public class WaveFrameController : MonoBehaviour, EventHandler{
 		zonelists = new List<EnemyListEntryController>[6];
 		for(int i = 0; i < 6; i++){ //associate lists and panels with this frame
 			string id = "ZonePanel" + i;
-			zonepanels[i] = transform.FindChild(id).gameObject.GetComponent<ZonePanelController>();
+			zonepanels[i] = transform.Find(id).gameObject.GetComponent<ZonePanelController>();
 			zonelists[i] = new List<EnemyListEntryController>();
 			zonepanels[i].SetList(zonelists[i]);
 		}

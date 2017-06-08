@@ -27,7 +27,7 @@ public class PieceParser{
     static float ABSORB_DEFAULT = 0.0f;
     static float AOE_DEFAULT = 0.0f;
     static float ATTRACTION_DEFAULT = 0.0f;
-    static float DUPLICATE_DEFAULT = 0.0f;
+    static int DUPLICATE_DEFAULT = 0;
     static float FIELD_DEFAULT = 0.0f;
 
 	public static Dictionary<string,float> GetStatsFromGrid(List<string> files){
@@ -69,7 +69,7 @@ public class PieceParser{
         float attraction = ATTRACTION_DEFAULT; //Trap, pull.  PT, homing.
 
         //Trap and TrapShield
-        float duplicate = DUPLICATE_DEFAULT; //Trap, triggers. (?)  TS, zone range.
+        int duplicate = DUPLICATE_DEFAULT; //Trap, triggers. (?)  TS, zone range.
         float field = FIELD_DEFAULT; //field time (?)
 
         //count pieces for bonus purposes
@@ -117,6 +117,8 @@ public class PieceParser{
                     }
                 }
             }
+            float pcooldown = (float)(double)pdata["cooldown"];
+            cooldown += pcooldown;
 
 			if(cooldown < 0.1f)
 				cooldown = 0.1f;
@@ -136,7 +138,7 @@ public class PieceParser{
                 dmgCount++;
             dmg += pdamage;
             //trapUses - no. of times a trap will detonate
-            int ptrapUses = (int)(double)pdata["trapUses"];
+            int ptrapUses = (int)(long)pdata["trapUses"];
             if (ptrapUses > 0)
                 trapUsesCount++;
             trapUses += ptrapUses;
@@ -196,8 +198,8 @@ public class PieceParser{
                 attractionCount++;
             attraction += pattraction;
             //duplicate
-            float pduplicate = (float)(double)pdata["duplicate"];
-            if (pduplicate > 0.0f)
+            int pduplicate = (int)(long)pdata["duplicate"];
+            if (pduplicate > 0)
                 duplicateCount++;
             duplicate += pduplicate;
             //field
@@ -213,7 +215,7 @@ public class PieceParser{
         result.Add("energyGain", energyGain);
         result.Add("comboKey", comboKey);
         result.Add("dmg",dmg);
-		result.Add("trapUses",(float)trapUses);
+		result.Add("trapUses",trapUses);
 		result.Add("shieldDurability",shieldDurability);
 		result.Add("charge",charge);
 		result.Add("split",(float)split);
@@ -316,7 +318,7 @@ public class PieceParser{
         float attraction = ATTRACTION_DEFAULT; //Trap, pull.  PT, homing.
 
         //Trap and TrapShield
-        float duplicate = DUPLICATE_DEFAULT; //Trap, triggers. (?)  TS, zone range.
+        int duplicate = DUPLICATE_DEFAULT; //Trap, triggers. (?)  TS, zone range.
         float field = FIELD_DEFAULT; //field time (?)
 
         //count pieces for bonus purposes
@@ -384,6 +386,8 @@ public class PieceParser{
                     }
                 }
             }
+            float pcooldown = (float)(double)pdata["cooldown"];
+            cooldown += pcooldown;
 
             if (cooldown < 0.1f)
                 cooldown = 0.1f;
@@ -403,7 +407,7 @@ public class PieceParser{
                 dmgCount++;
             dmg += pdamage;
             //trapUses - no. of times a trap will detonate
-            int ptrapUses = (int)(double)pdata["trapUses"];
+            int ptrapUses = (int)(long)pdata["trapUses"];
             if (ptrapUses > 0)
                 trapUsesCount++;
             trapUses += ptrapUses;
@@ -464,8 +468,8 @@ public class PieceParser{
                 attractionCount++;
             attraction += pattraction;
             //duplicate
-            float pduplicate = (float)(double)pdata["duplicate"];
-            if (pduplicate > 0.0f)
+            int pduplicate = (int)(long)pdata["duplicate"];
+            if (pduplicate > 0)
                 duplicateCount++;
             duplicate += pduplicate;
             //field

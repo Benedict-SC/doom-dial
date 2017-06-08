@@ -1,6 +1,7 @@
 ﻿/*Thom*/
 
 using UnityEngine;
+using System.Collections.Generic;
 using System.Collections;
 using System;
 using UnityEngine.UI;
@@ -8,10 +9,16 @@ using UnityEngine.UI;
 public class Trap : Weapon {
 	
 	float TRACK_LENGTH = 3.1f; //hard coded to avoid querying track size all the time
-	
+	public float baseDamage = 10f;
 	private bool isActive; //whether it's armed
 	public float maxArmingTime; //max time needed to arm, in seconds
 	private float armTime; //current countdown time for arming
+	public int usesLeft; //remaining uses
+
+	public int duplicatedTimes = 0;
+	Timer duplicateTimer;
+	float duplicateDelay = 0.3f;
+	bool firingDupes = false;
 	
 	public float spawnx;
 	public float spawny;
@@ -25,8 +32,7 @@ public class Trap : Weapon {
 	// Use this for initialization
 	void Start () {
 		age = 0.0f;
-        Debug.Log("x transform is " + transform.position.x + " y transform is " + transform.position.y);
-		dmg = 34; //test value
+        Debug.Log("x transform is " + transform.position.x + " y transform is " + transform.position.y + " dmg is " + dmg);
 		armTime = maxArmingTime;
 		isActive = false;
 		rt = GetComponent<RectTransform>();
@@ -60,9 +66,34 @@ public class Trap : Weapon {
 				Debug.Log ("trap armed!");
 			}
 		}
-		if (isActive)
-		{
-			//check for enemy collisions
+		if(firingDupes){
+			if(duplicateTimer.TimeElapsedSecs() > duplicateDelay){
+				if(duplicatedTimes < duplicate){
+					FireEffect();
+					duplicateTimer.Restart();
+					duplicatedTimes++;
+					if(duplicatedTimes >= duplicate){
+						usesLeft--;
+						if(usesLeft <= 0){
+							Debug.Log("dupe trap expended");
+							Destroy (this.gameObject);
+						}
+						firingDupes = false;
+						duplicatedTimes = 0;
+					}
+				}else{
+					Debug.Log("trap duplicate power shouldn't reach here");
+				}
+			}
+		}
+		if(attraction != 0.0f){
+			List<Enemy> inRange = Dial.GetAllEnemiesInZone(zone);
+			foreach(Enemy e in inRange){
+				Vector2 attractionDirection = rt.anchoredPosition - e.GetComponent<RectTransform>().anchoredPosition;
+				float distFromTrap = attractionDirection.magnitude;
+				Vector2 adjusted = attractionDirection/(distFromTrap*distFromTrap +100f);
+				e.GetComponent<Steering>().ExternalForceUpdate(this,adjusted);
+			}
 		}
 	}
 	
@@ -85,22 +116,48 @@ public class Trap : Weapon {
 	public void Collide(){
 		//Add other destruction stuff here
 		//gameObject.SetActive (false);
-		if (aoe > 0)
-		{
-            Debug.Log("trap's aoe exists");
-            //AoE DAMAGE HERE
-            penetration = 0;
+		if(firingDupes){
+			//ignore further collisions
+			return;
+		}
+		if(duplicate > 0){
+			firingDupes = true;
+			duplicateTimer = new Timer();
+			FireEffect();
+			duplicatedTimes = 0;
+		}else{
+           	FireEffect();
+			usesLeft--;
+			if(usesLeft <= 0){
+				Debug.Log("successfully destroyed trap");
+				Destroy (this.gameObject);
+			}
+		}
+		
+		
+	}
+	void FireEffect(){
+		if(aoe > 0f){
             GameObject splashCircle = Instantiate(Resources.Load("Prefabs/MainCanvas/SplashCircle")) as GameObject;
-            splashCircle.transform.position = this.transform.position;
-            splashCircle.transform.SetParent(Dial.spawnLayer.transform, true);
+            splashCircle.GetComponent<RectTransform>().anchoredPosition = rt.anchoredPosition;
+            splashCircle.transform.SetParent(Dial.spawnLayer.transform, false);
             AoE ac = splashCircle.GetComponent<AoE>();
             ac.scale = aoe;
+			ac.aoeDamage = dmg;
             ac.parent = "Trap";
-            ac.aoeTrapCon = this;
-            ac.ScaleProps(aoe);
 		}
-        Debug.Log("successfully destroyed trap");
-		Destroy (this.gameObject);
+		if(field > 0f){
+            GameObject damageField = Instantiate(Resources.Load("Prefabs/MainCanvas/DamageField")) as GameObject;
+            damageField.GetComponent<RectTransform>().anchoredPosition = rt.anchoredPosition;
+            damageField.transform.SetParent(Dial.spawnLayer.transform, false);
+			DamageField df = damageField.GetComponent<DamageField>();
+			if(aoe > 0f)
+				df.aoeSize = aoe;
+			else
+				df.aoeSize = 1f;
+			df.damagePerTick = dmg * 0.1f;
+			df.maxTime = field;
+		}
 	}
 	
 	public float GetAge(){

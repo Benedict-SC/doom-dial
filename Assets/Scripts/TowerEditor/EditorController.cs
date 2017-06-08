@@ -48,9 +48,9 @@ public class EditorController : MonoBehaviour,EventHandler{
 	
 	public void Start(){
 		
-		nameEntry = canvas.gameObject.transform.FindChild("NameEntry").GetComponent<InputField>();
-		decalButtonImg = canvas.gameObject.transform.FindChild("DecalButton").FindChild("Decal").GetComponent<Image>();
-		typeButtonImg = canvas.gameObject.transform.FindChild("TypeButton").FindChild("TypeIcon").GetComponent<Image>();
+		nameEntry = canvas.gameObject.transform.Find("NameEntry").GetComponent<InputField>();
+		decalButtonImg = canvas.gameObject.transform.Find("DecalButton").Find("Decal").GetComponent<Image>();
+		typeButtonImg = canvas.gameObject.transform.Find("TypeButton").Find("TypeIcon").GetComponent<Image>();
 		//grid.editor = this;
 		
 		EventManager em = EventManager.Instance();

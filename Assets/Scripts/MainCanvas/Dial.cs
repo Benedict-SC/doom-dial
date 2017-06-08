@@ -40,15 +40,16 @@ public class Dial : MonoBehaviour,EventHandler {
 	
 	void Awake(){
 		GamePause.paused = false;
+		Pause.paused = false;
 		canvasTransform = GameObject.Find("Canvas").GetComponent<RectTransform>();
 		spawnLayer = GameObject.Find("SpawnOverDialLayer").GetComponent<RectTransform>();
 		underLayer = GameObject.Find("SpawnUnderDialLayer").GetComponent<RectTransform>();
 		unmaskedLayer = GameObject.Find ("UnmaskedSpawns").GetComponent<RectTransform>();
-        healthBar = transform.FindChild("Health").gameObject;
+        healthBar = transform.Find("Health").gameObject;
         thisDial = this;
 	}
 	void Start () {
-        healthBar = transform.FindChild("Health").gameObject;
+        healthBar = transform.Find("Health").gameObject;
 
         EventManager.Instance ().RegisterForEventType ("enemy_arrived", this);
 		EventManager.Instance ().RegisterForEventType ("dial_damaged", this);
@@ -63,9 +64,9 @@ public class Dial : MonoBehaviour,EventHandler {
 		bonusWaveDictionary.Add("enemies",new List<System.Object>());
 		
 		zoneLines = GameObject.Find("ZoneLines").gameObject;
-		superBars[0] = zoneLines.transform.FindChild("Super1").gameObject;
-		superBars[1] = zoneLines.transform.FindChild("Super2").gameObject;
-		superBars[2] = zoneLines.transform.FindChild("Super3").gameObject;
+		superBars[0] = zoneLines.transform.Find("Super1").gameObject;
+		superBars[1] = zoneLines.transform.Find("Super2").gameObject;
+		superBars[2] = zoneLines.transform.Find("Super3").gameObject;
 		for(int i = 0; i < 3; i++){
 			Transform bar = superBars[i].transform;
 			bar.localScale = new Vector3(0.0f, bar.localScale.y,bar.localScale.z);

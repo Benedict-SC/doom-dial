@@ -4,8 +4,12 @@ using UnityEngine.UI;
 //this was before we realized canvas UI had a Button component already
 public class GunButton : MonoBehaviour{
 	public Gun gun;
+	
 	Gun heldGun;
 	Timer holdTime;
+	bool heldOnCool = false;
+	GameObject laserHandle;
+
 	bool decalSet = false;
 	RectTransform rt;
 	float radius;
@@ -13,7 +17,7 @@ public class GunButton : MonoBehaviour{
 	Image cooldown;
 	public void Start(){
 		rt = (RectTransform)transform;
-		img = transform.FindChild("Image").gameObject;
+		img = transform.Find("Image").gameObject;
 		cooldown = transform.Find("CooldownOverlay").gameObject.GetComponent<Image>();
 		cooldown.type = Image.Type.Filled;
 		cooldown.fillMethod = Image.FillMethod.Radial360;
@@ -39,6 +43,13 @@ public class GunButton : MonoBehaviour{
 		}else{
 			//Debug.Log ("cooldown < 0");
 			cooldown.fillAmount = 0f;
+			if(heldOnCool){ //if the button started being held down before it was done being cooled down
+				heldOnCool = false;
+				StartHold();
+			}
+		}
+		if(gun.held){
+			gun.mostRecentChargeTime = holdTime.TimeElapsedSecs();
 		}
 	}
 	
@@ -51,15 +62,33 @@ public class GunButton : MonoBehaviour{
 		return distance <= radius;
 	}
 	public void StartHold(){
-		holdTime.Restart();
-		heldGun = gun;
+		if(gun.GetCooldown() <= 0){
+			gun.Hold();
+			holdTime.Restart();
+			heldGun = gun;
+			if(gun.GetTowerType() == "Bullet"  && gun.GetContinuousStrength() > 0){
+				laserHandle = gun.SpawnLasers();
+			}
+		}else{
+			heldOnCool = true;
+		}
+	}
+	public void EndHold(){
+		gun.Unhold(holdTime.TimeElapsedSecs());
+		heldOnCool = false;
+		if(laserHandle != null){
+			Destroy(laserHandle);
+		}
 	}
     public void SetGun(Gun g) {
         gun = g;
         SetDecalFromTower(g);
     }
-    public void FireAssociatedGun() {
-        heldGun.Fire(holdTime.TimeElapsedSecs());
+    public void FireAssociatedGun() { //on button up
+		heldOnCool = false;
+		if(heldGun != null && heldGun.GetContinuousStrength() <= 0){ //if it's a normal gun
+        	heldGun.Fire(holdTime.TimeElapsedSecs());
+		}
     }
 	public void SetDecalFromTower(Gun gc){
 		if(!gc.gameObject.activeSelf){
@@ -67,7 +96,7 @@ public class GunButton : MonoBehaviour{
 			sr.color = new Color(sr.color.r,sr.color.g,sr.color.b,0f);
 			return;
 		}
-		Sprite s = gc.transform.FindChild("Label").gameObject.GetComponent<Image>().sprite;
+		Sprite s = gc.transform.Find("Label").gameObject.GetComponent<Image>().sprite;
 		Image decal = img.GetComponent<Image>();
 		decal.sprite = s;
 	}

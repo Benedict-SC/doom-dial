@@ -199,7 +199,7 @@ public class Splitter : Enemy{
 	public void PlayDead(){
 		playingDead = true;
 		gameObject.GetComponent<Image>().enabled = false;
-		transform.FindChild("Health").GetComponent<Image>().enabled = false;
+		transform.Find("Health").GetComponent<Image>().enabled = false;
 		Destroy (GetComponent<Collider2D>());
 	}
 	public void RealDie(){

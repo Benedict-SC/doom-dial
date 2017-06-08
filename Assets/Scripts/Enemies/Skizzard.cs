@@ -30,7 +30,7 @@ public class Skizzard : Boss{
 		maxHP = 150;
 		hp = 100;
 		thetas = new Vector3(startingTheta,startingSpeed,0f);
-		overlay = transform.FindChild("Health").gameObject;
+		overlay = transform.Find("Health").gameObject;
 	}
 	public override void Update(){
 		base.Update ();

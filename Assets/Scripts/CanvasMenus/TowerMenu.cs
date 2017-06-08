@@ -45,7 +45,7 @@ public class TowerMenu : MonoBehaviour,EventHandler{
 		Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
 		
 		List<System.Object> entries = data ["towers"] as List<System.Object>;
-		Transform towers = transform.FindChild("Towers");
+		Transform towers = transform.Find("Towers");
 		for(int i = 0; i < 6; i++) {
 			Dictionary<string,System.Object> entry = entries[i] as Dictionary<string,System.Object>;
 			string towerfile = entry["filename"] as string;
@@ -58,7 +58,7 @@ public class TowerMenu : MonoBehaviour,EventHandler{
 			Dictionary<string,System.Object> tdata = (Dictionary<string,System.Object>)Json.Deserialize (tjson);
 			
 			string imgfilename = tdata ["decalFilename"] as string;
-			Image img = towers.FindChild ("T" + (i+1)).FindChild("Decal").gameObject.GetComponent<Image> ();
+			Image img = towers.Find ("T" + (i+1)).Find("Decal").gameObject.GetComponent<Image> ();
 			//Debug.Log ("Sprites" + Path.DirectorySeparatorChar + imgfilename);
 			Texture2D decal = Resources.Load<Texture2D> ("Sprites/" + imgfilename);
 			if (decal == null) {

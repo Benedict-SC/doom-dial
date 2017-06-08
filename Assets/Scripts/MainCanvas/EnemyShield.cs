@@ -151,20 +151,6 @@ public class EnemyShield : MonoBehaviour{
 			if(power <= 0){
 				GetBroken();
 			}
-			if(b.penetration > 0){
-				float penDamage = b.penetration*b.dmg;
-				parent.TakeDamage(penDamage);
-			}
-			/*if(b.shieldShred > 0){
-				float shredDamage = b.shieldShred*b.dmg;
-				capacity -= shredDamage;
-				if(power > capacity){
-					power = capacity;
-				}
-			}
-			if(b.slowsShields != 0){
-				SlowRegen(b.slowsShields);
-			}*/
 		}else if(collider.gameObject.tag == "AoE"){
 		
 		}else if(collider.gameObject.tag == "Trap"){
@@ -172,12 +158,14 @@ public class EnemyShield : MonoBehaviour{
 		}
 		RefreshShieldColors();
 	}
-	public void TakeDamage(float hp){
+	public bool TakeDamage(float hp){ //returns whether it was killed
 		power -= hp;
 		if(power <= 0){
 			power = 0f;
 			GetBroken();
+			return true;
 		}
+		return false;
 	}
 	public void GetBroken(){
 		charged = false;

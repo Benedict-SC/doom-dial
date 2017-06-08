@@ -345,7 +345,7 @@ public class OldEnemy : MonoBehaviour,EventHandler {
 		
 		DoTheMoving();
 		
-		GameObject healthCircle = transform.FindChild("Health").gameObject;
+		GameObject healthCircle = transform.Find("Health").gameObject;
 		healthCircle.transform.localScale = new Vector3 (hp / maxhp, hp / maxhp, 1);
 	}
 	public void DoTheMoving(){
@@ -491,15 +491,15 @@ public class OldEnemy : MonoBehaviour,EventHandler {
 			}
 			else if (ac.parent == "Trap")
 			{
-				if (ac.aoeTrapCon.enemyHit != this.gameObject) //if this isn't the enemy originally hit
-				{
-					Trap tc = ac.aoeTrapCon;
-					//StartCoroutine (StatusEffectsTrap (tc));
-					hp -= tc.dmg;
-					if(hp <= 0){
-						Die ();
-					}
-				}
+				// if (ac.aoeTrapCon.enemyHit != this.gameObject) //if this isn't the enemy originally hit
+				// {
+				// 	Trap tc = ac.aoeTrapCon;
+				// 	//StartCoroutine (StatusEffectsTrap (tc));
+				// 	hp -= tc.dmg;
+				// 	if(hp <= 0){
+				// 		Die ();
+				// 	}
+				// }
 			}
 			
 		}
@@ -802,7 +802,7 @@ public class OldEnemy : MonoBehaviour,EventHandler {
 	public void EndChainPoisonRadius(){
 		if(chainPoisonSource){
 			chainPoisonSource = false;
-			Destroy(transform.FindChild("ChainPoisonRadius").gameObject);
+			Destroy(transform.Find("ChainPoisonRadius").gameObject);
 		}		
 	}
 	public void GetChainPoisoned(float pstrength, float pduration){

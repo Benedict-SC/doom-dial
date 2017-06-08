@@ -85,7 +85,7 @@ public class EnemyTemplateController : MonoBehaviour,EventHandler{
 			100f);
 		//set point value	
 		pointValue = (int)(long)data["pointValue"];
-		Transform pTransform = transform.FindChild("PointValue");
+		Transform pTransform = transform.Find("PointValue");
 		Text pointText = pTransform.gameObject.GetComponent<Text>();
 		pointText.text = "" + pointValue;
 		//set name
@@ -105,7 +105,7 @@ public class EnemyTemplateController : MonoBehaviour,EventHandler{
 		if(data.ContainsKey("fontSize")){
 			fontsize = (int)(long)data["fontSize"];
 		}
-		Transform nTransform = transform.FindChild("EnemyName");
+		Transform nTransform = transform.Find("EnemyName");
 		Text nameText = nTransform.gameObject.GetComponent<Text>();
 		nameText.fontSize = fontsize;
 		nameText.text = listname;

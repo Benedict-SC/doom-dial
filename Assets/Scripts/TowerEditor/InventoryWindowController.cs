@@ -78,7 +78,7 @@ public class InventoryWindowController : MonoBehaviour{
 				UpdateCountText (count);
 		}
 		public void UpdateCountText(int count){
-			Transform cTransform = frame.transform.FindChild("CountText");
+			Transform cTransform = frame.transform.Find("CountText");
 			Text countText = cTransform.gameObject.GetComponent<Text>();
 			countText.text = "" + count;
 		}
@@ -89,7 +89,7 @@ public class InventoryWindowController : MonoBehaviour{
 				Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
 				
 				string bulletText = (string)data["bulletText"];
-				Text text = frame.transform.FindChild("StatsText").gameObject.GetComponent<Text>();
+				Text text = frame.transform.Find("StatsText").gameObject.GetComponent<Text>();
 				text.text = bulletText;				
 			}else{
 				Debug.Log ("it ain't bullet");
@@ -98,7 +98,7 @@ public class InventoryWindowController : MonoBehaviour{
 				Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
 				
 				string bulletText = (string)data["bulletText"];
-				Text text = frame.transform.FindChild("StatsText").gameObject.GetComponent<Text>();
+				Text text = frame.transform.Find("StatsText").gameObject.GetComponent<Text>();
 				text.text = bulletText;		
 				Debug.Log ("but we're doing all this anyway for now since we don't have the rest of it");
 			}

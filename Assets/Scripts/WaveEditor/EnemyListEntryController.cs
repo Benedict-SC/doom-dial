@@ -70,7 +70,7 @@ public class EnemyListEntryController : MonoBehaviour,EventHandler{
 		this.etc = etc;
 		label = etc.GetEditorColumnName() + " (" + etc.GetPointValue() +")";
 		//set name
-		Transform nTransform = transform.FindChild("Text");
+		Transform nTransform = transform.Find("Text");
 		Text nameText = nTransform.gameObject.GetComponent<Text>();
 		nameText.text = label;
 	}

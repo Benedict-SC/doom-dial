@@ -14,8 +14,8 @@ public class KillCountBox : MonoBehaviour, EventHandler {
 
     public void Start() {
         box = gameObject.GetComponent<Text>();
-        button = transform.FindChild("Button").GetComponent<Button>();
-        buttonText = button.transform.FindChild("Text").GetComponent<Text>();
+        button = transform.Find("Button").GetComponent<Button>();
+        buttonText = button.transform.Find("Text").GetComponent<Text>();
         EventManager.Instance().RegisterForEventType("kill_display", this);
         runTimer = new Timer();
     }

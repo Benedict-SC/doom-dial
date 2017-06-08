@@ -5,7 +5,7 @@
 	"energyGain":0.0,
 	"comboKey":0.0,
 	"dmg":0.0,
-	"trapUses":0.0,
+	"trapUses":0,
 	"shieldDurability":0.0,
 	"charge":0.0,
 	"split":3,
@@ -17,7 +17,7 @@
 	"absorb":0.0,
 	"aoe":0.0,
 	"attraction":0.0,
-	"duplicate":0.0,
+	"duplicate":0,
 	"field":0.0,
 	
 	"width":5,
@@ -30,5 +30,5 @@
 		[0,0,1,0,0]
 	],
 	
-	"bulletText":"[PIECE EFFECT DESCRIPTION]"
+	"bulletText":"+3 split"
 }

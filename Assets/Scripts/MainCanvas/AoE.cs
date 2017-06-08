@@ -5,53 +5,43 @@ using System.Collections;
 
 public class AoE : MonoBehaviour {
 	
-	float LERPDUR = 400; //number of frames the splash effect lasts
-	float lerpTime = 0; //amt of time it takes to expand to max size
 	public float scale;
-	bool isPaused;
+    float canvasUnitsPerAoePoint = 10f;
 	public string parent;
-	public float aoeBulletDamage;
-	public Trap aoeTrapCon;
+	public float aoeDamage;
+	//public Trap aoeTrapCon;
 	
-	Collider collide;
-	float colRad;
-	float orRad;
+	CircleCollider2D collide;
+    RectTransform rt;
 	
-	float currentLerpTime = 0f;
-	
-	Vector3 originalScale;
+    public float maxTime;
+    Timer time;
+
+    public float growTime = 0.7f;
 	
 	// Use this for initialization
 	void Start () {
-		Debug.Log ("started AoEController");
-		originalScale = transform.localScale;
-		collide = GetComponent<Collider>();
-		colRad = gameObject.transform.localScale.x / 2;
-		orRad = colRad; //original radius
+        rt = GetComponent<RectTransform>();
+        rt.sizeDelta = new Vector2(0.0001f,0.0001f);
+		collide = GetComponent<CircleCollider2D>();
+		time = new Timer();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		//keeps track on if the game pauses
-		isPaused = Pause.paused;
-		if (!isPaused) {
-			transform.localScale = Vector3.Lerp (transform.localScale, transform.localScale * scale, lerpTime);
-			colRad = Mathf.Lerp (transform.localScale.x + 0.5f, transform.localScale.x * scale, lerpTime);
-			//Debug.Log ("colRad: " + colRad);
-			if (transform.localScale.x >= originalScale.x * scale) {
-				Destroy (gameObject);
+			bool grown = false;
+            float growPercent = time.TimeElapsedSecs()/growTime;
+                if(growPercent > 1f){
+                    growPercent = 1f;
+                    grown = true;
+                }
+            float circleSize = growPercent * (scale * canvasUnitsPerAoePoint);
+            rt.sizeDelta = new Vector2(circleSize,circleSize);
+            collide.radius = circleSize/2.05f; //slightly smaller than image;
+			if(grown){
+				Destroy(gameObject);
 			}
-			lerpTime += 1f / LERPDUR;
-		}
 	}
 	
-	public void ScaleProps(float pcent)
-	{
-		if (aoeTrapCon != null)
-		{
-			Trap tc = aoeTrapCon;
-			tc.dmg *= pcent;
-		}
-	}
 	
 }

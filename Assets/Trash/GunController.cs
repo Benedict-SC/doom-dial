@@ -357,7 +357,7 @@ public class GunController : MonoBehaviour, EventHandler {
 		Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
 		
 		string imgfilename = data ["decalFilename"] as string;
-		SpriteRenderer img = transform.FindChild("Label").gameObject.GetComponent<SpriteRenderer> ();
+		SpriteRenderer img = transform.Find("Label").gameObject.GetComponent<SpriteRenderer> ();
 		//Debug.Log ("Sprites" + Path.DirectorySeparatorChar + imgfilename);
 		Texture2D decal = Resources.Load<Texture2D> ("Sprites/" + imgfilename);
 		if (decal == null) {

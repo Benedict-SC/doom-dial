@@ -303,7 +303,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 		}
 		
 		
-		GameObject healthCircle = transform.FindChild("Health").gameObject;
+		GameObject healthCircle = transform.Find("Health").gameObject;
 		healthCircle.transform.localScale = new Vector3 (hp / maxhp, hp / maxhp, 1);
 		
 		if (hp <= 0.0f)
@@ -315,13 +315,15 @@ public class Enemy : MonoBehaviour,EventHandler {
 	}
 	
 	#region AssaultAndBattery (things that happen if the enemy gets hit or dies)
-	public void TakeDamage(float damage){
+	public bool TakeDamage(float damage){ //returns whether it died
         if (damage >= hp){
 			hp = 0;
 			Die ();
+			return true;
 		}else{
 			hp -= damage;
 		}
+		return false;
 	}
 	public void HandleEvent(GameEvent ge){}
 	public void CheckShieldCollisions(){
@@ -413,8 +415,9 @@ public class Enemy : MonoBehaviour,EventHandler {
 					if (tc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
 					{
 						tc.enemyHit = this.gameObject;
-						//StartCoroutine (StatusEffectsTrap (tc));
-						hp -= tc.dmg;
+						if(tc.aoe == 0f){
+							hp -= tc.dmg;
+						}
 						tc.Collide();
 						if (hp <= 0)
 						{
@@ -438,8 +441,8 @@ public class Enemy : MonoBehaviour,EventHandler {
 			if (ac.parent == "Bullet")
 			{
 				//StartCoroutine (StatusEffectsBullet (bc));
-				hp -= ac.aoeBulletDamage;
-				Debug.Log ("damage taken: " + ac.aoeBulletDamage);
+				hp -= ac.aoeDamage;
+				Debug.Log ("damage taken: " + ac.aoeDamage);
 				//timesShot++;
 				if(hp <= 0){
 					Die ();
@@ -447,15 +450,11 @@ public class Enemy : MonoBehaviour,EventHandler {
 			}
 			else if (ac.parent == "Trap")
 			{
-				if (ac.aoeTrapCon.enemyHit != this.gameObject) //if this isn't the enemy originally hit
-				{
-					Trap tc = ac.aoeTrapCon;
-					//StartCoroutine (StatusEffectsTrap (tc));
-					hp -= tc.dmg;
+					hp -= ac.aoeDamage;
 					if(hp <= 0){
 						Die ();
 					}
-				}
+				
 			}
 			
 		}
@@ -586,17 +585,17 @@ public class Enemy : MonoBehaviour,EventHandler {
 		RectTransform rt_a = (RectTransform)transform;
 		float degrees = ((360-Mathf.Atan2(rt_a.anchoredPosition.y,rt_a.anchoredPosition.x) * Mathf.Rad2Deg)+90 + 360)%360;
 		//Debug.Log(degrees);
-		if(degrees >= 30.0 && degrees < 90.0){
+		if(degrees >= 60.0 && degrees < 120.0){
 			return 2;
-		}else if(degrees >= 90.0 && degrees < 150.0){
+		}else if(degrees >= 120.0 && degrees < 180.0){
 			return 3;
-		}else if(degrees >= 150.0 && degrees < 210.0){
+		}else if(degrees >= 180.0 && degrees < 240.0){
 			return 4;
-		}else if(degrees >= 210.0 && degrees < 270.0){
+		}else if(degrees >= 240.0 && degrees < 300.0){
 			return 5;
-		}else if(degrees >= 270.0 && degrees < 330.0){
+		}else if(degrees >= 300.0 && degrees < 360.0){
 			return 6;
-		}else if(degrees >= 330.0 || degrees < 30.0){
+		}else if(degrees >= 360.0 || degrees < 60.0){
 			return 1;
 		}else{
 			//what the heck, this shouldn't happen
@@ -806,7 +805,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 	public void EndChainPoisonRadius(){
 		if(chainPoisonSource){
 			chainPoisonSource = false;
-			Destroy(transform.FindChild("ChainPoisonRadius").gameObject);
+			Destroy(transform.Find("ChainPoisonRadius").gameObject);
 		}		
 	}
 	#endregion

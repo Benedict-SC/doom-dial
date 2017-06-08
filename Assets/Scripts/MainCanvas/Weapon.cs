@@ -40,8 +40,10 @@ public class Weapon : MonoBehaviour {
     public float attraction; //Trap, pull.  PT, homing.
 
     //Trap and TrapShield
-    public float duplicate; //Trap, triggers. (?)  TS, zone range.
+    public int duplicate; //Trap, triggers. (?)  TS, zone range.
     public float field; //field time (?)
+
+    public int zone;
 
     // Use this for initialization
     void Start () {

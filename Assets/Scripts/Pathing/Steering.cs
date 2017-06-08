@@ -20,7 +20,7 @@ public class Steering : MonoBehaviour{
 	public float maxSpeed = 3f;
 	public float referenceMaxSpeed = 3f;
 	public float maxAccel = 0.5f;
-	public float referenceMaxAccel = .5f;
+	public float referenceMaxAccel = 0.5f;
 	public int lookAhead = 1;	
 	
 	public float speedMult = 1f;
@@ -28,6 +28,8 @@ public class Steering : MonoBehaviour{
 	Timer boostTimer;
 
 	public Vector2 pftarget;
+
+	Dictionary<System.Object,Vector2> externalForces = new Dictionary<System.Object,Vector2>();
 	
 	void Update(){
 		if(enemy == null){return;}
@@ -54,7 +56,14 @@ public class Steering : MonoBehaviour{
 			FollowPath(enemyPath);
 		}
 		
-		vel += acc;
+		//external forces
+		Vector2 adjustedAcceleration = acc;
+		foreach(KeyValuePair<System.Object,Vector2> entry in externalForces)
+		{
+			adjustedAcceleration += entry.Value;
+		}
+
+		vel += adjustedAcceleration;
 		
 		if(vel.magnitude > maxSpeed && clipVelocity){
 			vel.Normalize();
@@ -111,7 +120,13 @@ public class Steering : MonoBehaviour{
 		clipVelocity = true;
 		RevertSpeed();
 	}
-	
+	public void ExternalForceUpdate(System.Object caller,Vector2 force){
+		if(externalForces.ContainsKey(caller)){
+			externalForces[caller] = force;
+		}else{
+			externalForces.Add(caller,force);
+		}
+	}
 	public void SpeedBoost(float multiplier, float seconds){
 		speedMult *= multiplier; //allow for stacking
 		boostDuration = seconds;

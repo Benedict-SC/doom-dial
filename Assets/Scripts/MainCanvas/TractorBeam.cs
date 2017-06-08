@@ -36,8 +36,8 @@ public class TractorBeam : MonoBehaviour{
 	readonly float SLOW_LEG = 0.1f;
 
 	public void Start(){
-		head = transform.FindChild("TractorBeamHead").gameObject;
-		beam = transform.FindChild("TractorBeamBeam").gameObject;
+		head = transform.Find("TractorBeamHead").gameObject;
+		beam = transform.Find("TractorBeamBeam").gameObject;
 		grabTimer = new Timer();
 	}
 	public void Update(){

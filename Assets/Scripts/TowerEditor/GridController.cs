@@ -71,7 +71,7 @@ public class GridController : MonoBehaviour{
 		RectTransform rt = (RectTransform)transform;
 		UIRectTranslator translate = transform.gameObject.GetComponent<UIRectTranslator>();
 		canvas = GameObject.Find ("Canvas").GetComponent<Canvas>();
-		nameEntry = canvas.gameObject.transform.FindChild("NameEntry").GetComponent<InputField>();
+		nameEntry = canvas.gameObject.transform.Find("NameEntry").GetComponent<InputField>();
 		//SpriteRenderer gridSprite = transform.gameObject.GetComponent<SpriteRenderer>();
 		Vector3[] corners = new Vector3[4];
 		rt.GetWorldCorners(corners);

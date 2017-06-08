@@ -30,10 +30,10 @@ public class EnemyStatsPanel : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        GameObject nameObj = transform.FindChild("Name").gameObject;
-        GameObject statsObj = transform.FindChild("Stats").gameObject;
-        GameObject descObj = transform.FindChild("Description").gameObject;
-        GameObject imageObj = transform.FindChild("Image").gameObject;
+        GameObject nameObj = transform.Find("Name").gameObject;
+        GameObject statsObj = transform.Find("Stats").gameObject;
+        GameObject descObj = transform.Find("Description").gameObject;
+        GameObject imageObj = transform.Find("Image").gameObject;
 
         enName = nameObj.GetComponent<Text>();
         enStats = statsObj.GetComponent<Text>();

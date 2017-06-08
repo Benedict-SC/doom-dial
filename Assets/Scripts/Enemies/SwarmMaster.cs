@@ -38,7 +38,7 @@ public class SwarmMaster : Boss{
 		spawntimer = new Timer();
 		directiontimer = new Timer();
 		pooptimer = new Timer();
-		overlay = transform.FindChild("Health").gameObject;
+		overlay = transform.Find("Health").gameObject;
 	}
 	public override void Update(){
 		base.Update();

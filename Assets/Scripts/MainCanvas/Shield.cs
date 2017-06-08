@@ -27,7 +27,7 @@ public class Shield : Weapon {
 		
 		hp = shieldDurability;
 		rt = GetComponent<RectTransform>();
-		hpMeter = transform.FindChild("ShieldHP").gameObject;
+		hpMeter = transform.Find("ShieldHP").gameObject;
 		
 		UpdateHPMeter();
 		
