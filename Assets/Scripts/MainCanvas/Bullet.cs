@@ -13,9 +13,9 @@ public class Bullet : Weapon {
     public float vx;
     public float vy;
     float spawnDistFromCenter = 0f;
-    RectTransform rt;
+    protected RectTransform rt;
     bool isActive = true;
-    float distance; //used in Update
+    protected float distance; //used in Update
     public int splitCode = 0; //used in Gun.cs
 
     public GameObject enemyHit; //for use by AoE
@@ -29,7 +29,7 @@ public class Bullet : Weapon {
     public int penetrationsLeft;
 
     // Use this for initialization
-    void Start () {
+    protected void Start () {
         bulletImg = GetComponent<Image>();
 
         //set up collider to correct size

@@ -238,6 +238,7 @@ public class Gun : MonoBehaviour,EventHandler{
 			break;
         case "BulletTrap":
             //BulletTrap behavior
+            SpawnProjectileTrap();
             break;
         case "BulletShield":
             //BulletShield behavior
@@ -371,7 +372,7 @@ public class Gun : MonoBehaviour,EventHandler{
             List<Collider2D> fieldHit = new List<Collider2D>();
             for(int j = 0; j < stuffHit.Length; j++){ //filter out anything that doesn't get damaged by the field
                 Collider2D coll = stuffHit[j];
-                if(coll != null && (coll.gameObject.tag == "Trap" ) ){
+                if(coll != null && ((coll.gameObject.tag == "Trap" ) || (coll.gameObject.tag == "ProjectileTrap"))){
                     fieldHit.Add(coll);
                 }
             }
@@ -386,6 +387,81 @@ public class Gun : MonoBehaviour,EventHandler{
 		tc.transform.rotation = transform.rotation;
 			
 	}
+
+    //TODO - modify this so it does a PTrap not a normal one
+    void SpawnProjectileTrap()
+    {
+        //Debug.Log ("range is " + range);
+        float spawnRadius = Dial.TRACK_LENGTH * TRAP_RANGE;
+        float longRadius = Dial.TRACK_LENGTH * (TRAP_RANGE + 0.2f);
+        float shortRadius = Dial.TRACK_LENGTH * (TRAP_RANGE - 0.2f);
+        //find your angle
+        float ownangle = this.transform.eulerAngles.z;
+        float angle = (ownangle + 90) % 360;
+
+        float leftAngle = angle + 15f;
+        float rightAngle = angle - 15f;
+        angle *= Mathf.Deg2Rad;
+        leftAngle *= Mathf.Deg2Rad;
+        rightAngle *= Mathf.Deg2Rad;
+
+        GameObject trap = Instantiate(Resources.Load("Prefabs/MainCanvas/ProjectileTrap")) as GameObject;
+        trap.transform.SetParent(Dial.spawnLayer, false);
+        RectTransform trapRect = (RectTransform)trap.transform;
+        RectTransform rt = (RectTransform)transform;
+        ProjectileTrap tc = trap.GetComponent<ProjectileTrap>();
+        //make it the type of trap this thing fires
+        ConfigureProjectileTrap(tc);
+
+        //find where to spawn the trap
+        Vector2[] spawnPoints = new Vector2[5]; //set up potential trap locations
+        float gunDistFromCenter = Dial.DIAL_RADIUS;
+        spawnPoints[0] = new Vector2((gunDistFromCenter + spawnRadius) * (float)Math.Cos(angle), (gunDistFromCenter + spawnRadius) * (float)Math.Sin(angle));
+        spawnPoints[1] = new Vector2((gunDistFromCenter + shortRadius) * (float)Math.Cos(leftAngle), (gunDistFromCenter + shortRadius) * (float)Math.Sin(leftAngle));
+        spawnPoints[2] = new Vector2((gunDistFromCenter + shortRadius) * (float)Math.Cos(rightAngle), (gunDistFromCenter + shortRadius) * (float)Math.Sin(rightAngle));
+        spawnPoints[3] = new Vector2((gunDistFromCenter + longRadius) * (float)Math.Cos(leftAngle), (gunDistFromCenter + longRadius) * (float)Math.Sin(leftAngle));
+        spawnPoints[4] = new Vector2((gunDistFromCenter + longRadius) * (float)Math.Cos(rightAngle), (gunDistFromCenter + longRadius) * (float)Math.Sin(rightAngle));
+
+        //rotate PTrap to match the gun/zone's rotation
+        trapRect.rotation = rt.rotation;
+
+        //create a collision checker
+        GameObject spawnScanner = Instantiate(Resources.Load("Prefabs/RectTransform")) as GameObject;
+        spawnScanner.transform.SetParent(Dial.spawnLayer, false);
+        CircleCollider2D focus = spawnScanner.AddComponent<CircleCollider2D>() as CircleCollider2D;
+        RectTransform scanRect = spawnScanner.GetComponent<RectTransform>();
+        focus.radius = 3f;
+        //move it around and see if there's traps in place
+        int spot = 0;
+        for (int i = 0; i < 5; i++)
+        {
+            Vector2 loc = spawnPoints[i];
+            scanRect.anchoredPosition = loc;
+            //check if there's an opening there			
+            Collider2D[] stuffHit = new Collider2D[10];
+            ContactFilter2D filter = new ContactFilter2D();
+            filter.NoFilter();
+            focus.OverlapCollider(filter, stuffHit); //fill array with all colliders intersecting scanner
+            List<Collider2D> fieldHit = new List<Collider2D>();
+            for (int j = 0; j < stuffHit.Length; j++)
+            { //filter out anything that doesn't get damaged by the field
+                Collider2D coll = stuffHit[j];
+                if (coll != null && ((coll.gameObject.tag == "Trap") || (coll.gameObject.tag == "ProjectileTrap")))
+                {
+                    fieldHit.Add(coll);
+                }
+            }
+            if (fieldHit.Count <= 0)
+            {
+                spot = i;
+                break;
+            }
+        }
+        Destroy(spawnScanner);
+
+        trapRect.anchoredPosition = spawnPoints[spot];
+        tc.transform.rotation = transform.rotation;
+    }
 	
 	#endregion
 	
@@ -493,6 +569,19 @@ public class Gun : MonoBehaviour,EventHandler{
         tc.field = field;
 		tc.zone = GetCurrentLaneID();
 	}
+
+    //Assigns skill values to projectile traps
+    private void ConfigureProjectileTrap(ProjectileTrap tc)
+    {
+        tc.dmg = tc.baseDamage;
+        tc.trapUses = (int)trapUses;
+        tc.usesLeft = (int)trapUses;
+        tc.aoe = AoE;
+        tc.attraction = attraction;
+        tc.charge = charge;
+        tc.split = split;
+        tc.zone = GetCurrentLaneID();
+    }
 	
 	//Assigns skill values to shields
 	private void ConfigureShield(Shield sc)

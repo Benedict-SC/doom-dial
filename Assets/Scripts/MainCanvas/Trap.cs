@@ -143,7 +143,7 @@ public class Trap : Weapon {
 		
 		
 	}
-	void FireEffect(){
+	protected virtual void FireEffect(){
 		if(aoe > 0f){
             GameObject splashCircle = Instantiate(Resources.Load("Prefabs/MainCanvas/SplashCircle")) as GameObject;
             splashCircle.GetComponent<RectTransform>().anchoredPosition = rt.anchoredPosition;

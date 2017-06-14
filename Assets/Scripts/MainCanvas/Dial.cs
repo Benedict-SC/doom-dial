@@ -142,6 +142,11 @@ public class Dial : MonoBehaviour,EventHandler {
 				skizz.HitDial();
 			}
 		}
+        else if (coll.gameObject.tag == "BulletRadial")
+        {
+            BulletRadial bc = coll.gameObject.GetComponent<BulletRadial>();
+            bc.Collide();
+        }
 	}
 	public void HandleEvent(GameEvent ge){
 		if (ge.type.Equals("enemy_arrived")) {

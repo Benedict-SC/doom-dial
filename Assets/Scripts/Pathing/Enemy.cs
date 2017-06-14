@@ -347,64 +347,92 @@ public class Enemy : MonoBehaviour,EventHandler {
 	public bool collidedThisFrame = false;
 	public bool secondaryCollisionTicket = false;
 	public Collider2D heldCollision = null;
-	public virtual void OnTriggerEnter2D(Collider2D coll){
-		if(frozen)
-			return; //invincible while boss is moving it
-		if(coll.gameObject.tag == "Enemy"){ //handled before anything that cares about shields
-			if(knockChained){
-				Debug.Log ("we hit something with knockchain");
-				float timeEstimate = 1.3f; //how long stuff presumably gets knocked back for
-				//it's an estimate since we can't see it directly (without writing a script to measure it)
-				float duration = knockbackTimer.TimeElapsedSecs();
-				float remainingTime = timeEstimate-duration;
-				if(remainingTime > 0){
-					float power = (remainingTime/timeEstimate) * knockbackPower;
-					coll.GetComponent<Enemy>().SelfKnockback(power);
-					coll.GetComponent<Enemy>().SelfStun(stunDuration);
-					Debug.Log ("we're calling selfknockback on something");
-				}
-			}
-		}
-		if(shield != null){
-			if(shield.hitThisFrame)//the shield handled collision for us this time
-				return;
-			else{//the shield was either missed or hasn't been handled by collision yet
-				if(secondaryCollisionTicket){
-					//let execution through to actually handle the collision- we're calling this function manually
-					secondaryCollisionTicket = false; //punch the ticket
-				}else{//skip colliding- wait until update to check if the shield got it for us
-					collidedThisFrame = true;
-					heldCollision = coll; //store the collision so we can handle it if/when we call this manually
-					return;
-				}
-			}
-		}
-		if(coll == null){
-			Debug.Log ("bullet's gone");
-			return;
-		}
-		//Debug.Log ("!!! we made it through to our own collision");
-		if (coll.gameObject.tag == "Bullet") //if it's a bullet
-		{
-			Debug.Log ("we got hit by a bullet");
-			Bullet bc = coll.gameObject.GetComponent<Bullet> ();
-			if (bc != null) {
-				if (bc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
-				{
+    public virtual void OnTriggerEnter2D(Collider2D coll) {
+        if (frozen)
+            return; //invincible while boss is moving it
+        if (coll.gameObject.tag == "Enemy") { //handled before anything that cares about shields
+            if (knockChained) {
+                Debug.Log("we hit something with knockchain");
+                float timeEstimate = 1.3f; //how long stuff presumably gets knocked back for
+                                           //it's an estimate since we can't see it directly (without writing a script to measure it)
+                float duration = knockbackTimer.TimeElapsedSecs();
+                float remainingTime = timeEstimate - duration;
+                if (remainingTime > 0) {
+                    float power = (remainingTime / timeEstimate) * knockbackPower;
+                    coll.GetComponent<Enemy>().SelfKnockback(power);
+                    coll.GetComponent<Enemy>().SelfStun(stunDuration);
+                    Debug.Log("we're calling selfknockback on something");
+                }
+            }
+        }
+        if (shield != null) {
+            if (shield.hitThisFrame)//the shield handled collision for us this time
+                return;
+            else {//the shield was either missed or hasn't been handled by collision yet
+                if (secondaryCollisionTicket) {
+                    //let execution through to actually handle the collision- we're calling this function manually
+                    secondaryCollisionTicket = false; //punch the ticket
+                } else {//skip colliding- wait until update to check if the shield got it for us
+                    collidedThisFrame = true;
+                    heldCollision = coll; //store the collision so we can handle it if/when we call this manually
+                    return;
+                }
+            }
+        }
+        if (coll == null) {
+            Debug.Log("bullet's gone");
+            return;
+        }
+        //Debug.Log ("!!! we made it through to our own collision");
+        if (coll.gameObject.tag == "Bullet") //if it's a bullet
+        {
+            Debug.Log("we got hit by a bullet");
+            Bullet bc = coll.gameObject.GetComponent<Bullet>();
+            if (bc != null) {
+                if (bc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
+                {
                     bc.enemyHit = this.gameObject;
                     GetStatused(bc);
                     //StartCoroutine (StatusEffectsBullet (bc));
                     hp -= bc.dmg;
                     timesShot++;
                     bc.Collide();
-					
-					if(hp <= 0){
-						hp = 0;
-						Die ();
-					}
-				}
-			}
-		}
+
+                    if (hp <= 0) {
+                        hp = 0;
+                        Die();
+                    }
+                }
+            }
+        }
+        else if (coll.gameObject.tag == "BulletRadial") //if it's a radial bullet from a BulletTrap
+        {
+            Debug.Log("we got hit by a radialBullet");
+            BulletRadial bc = coll.gameObject.GetComponent<BulletRadial>();
+            if (bc != null)
+            {
+                if (bc.CheckActive())
+                {
+                    Debug.Log("this bulletRadial that hit an enemy IS active");
+                    //bulletRadials ignore the enemy that tripped the PTrap to begin with
+                    if (this.gameObject != bc.ignoredEnemy)
+                    {
+                        bc.enemyHit = this.gameObject;
+                        GetStatused(bc);
+                        //StartCoroutine (StatusEffectsBullet (bc));
+                        hp -= bc.dmg;
+                        timesShot++;
+                        bc.Collide();
+
+                        if (hp <= 0)
+                        {
+                            hp = 0;
+                            Die();
+                        }
+                    }
+                }
+            }
+        }
 		else if (coll.gameObject.tag == "Trap") //if it's a trap
 		{
 			if (tripsTraps)
@@ -427,6 +455,30 @@ public class Enemy : MonoBehaviour,EventHandler {
 				}
 			}
 		}
+        else if (coll.gameObject.tag == "ProjectileTrap") //if it's a projectiletrap
+        {
+            //Debug.Log("enemy collided with projectiletrap");
+            if (tripsTraps)
+            {
+                //Debug.Log("enemy which collided with PTrap DOES trip traps");
+                ProjectileTrap tc = coll.gameObject.GetComponent<ProjectileTrap>();
+                if (tc != null)
+                {
+                    //Debug.Log("PTrap isn't null");
+                    if (tc.CheckActive())
+                    {
+                        tc.enemyHit = this.gameObject;
+                        hp -= tc.dmg;
+                        //Debug.Log("calling Collide() on projectiletrap");
+                        tc.Collide();
+                        if (hp <= 0)
+                        {
+                            Die();
+                        }
+                    }
+                }
+            }
+        }
 		else if (coll.gameObject.tag == "Shield") //if it's a shield
 		{
             GameObject shieldHit = coll.gameObject;
