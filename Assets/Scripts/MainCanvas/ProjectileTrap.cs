@@ -23,10 +23,17 @@ public class ProjectileTrap : Trap {
         //split adds # of bullets
         //ie if split is 1, it'll spawn 1 bullet, and so on
         bulletCount = split;
-        //charge adds size of explosion
+        //charge adds size of explosion, both for trap and for radial bullets
         if (charge > 0f)
         {
             bulletCharge = charge;
+            GameObject splashCircle = Instantiate(Resources.Load("Prefabs/MainCanvas/SplashCircle")) as GameObject;
+            splashCircle.GetComponent<RectTransform>().anchoredPosition = rt.anchoredPosition;
+            splashCircle.transform.SetParent(Dial.spawnLayer.transform, false);
+            AoE ac = splashCircle.GetComponent<AoE>();
+            ac.scale = charge;
+            ac.aoeDamage = dmg;
+            ac.parent = "Trap";
         }
         //attraction adds homing on bullets
         if (attraction > 0f)

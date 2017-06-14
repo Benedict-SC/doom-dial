@@ -388,7 +388,7 @@ public class Gun : MonoBehaviour,EventHandler{
 			
 	}
 
-    //TODO - modify this so it does a PTrap not a normal one
+    //spawns a single projectiletrap in the center of the lane
     void SpawnProjectileTrap()
     {
         //Debug.Log ("range is " + range);
@@ -414,16 +414,9 @@ public class Gun : MonoBehaviour,EventHandler{
         ConfigureProjectileTrap(tc);
 
         //find where to spawn the trap
-        Vector2[] spawnPoints = new Vector2[5]; //set up potential trap locations
+        Vector2[] spawnPoints = new Vector2[1]; //set up potential trap locations
         float gunDistFromCenter = Dial.DIAL_RADIUS;
         spawnPoints[0] = new Vector2((gunDistFromCenter + spawnRadius) * (float)Math.Cos(angle), (gunDistFromCenter + spawnRadius) * (float)Math.Sin(angle));
-        spawnPoints[1] = new Vector2((gunDistFromCenter + shortRadius) * (float)Math.Cos(leftAngle), (gunDistFromCenter + shortRadius) * (float)Math.Sin(leftAngle));
-        spawnPoints[2] = new Vector2((gunDistFromCenter + shortRadius) * (float)Math.Cos(rightAngle), (gunDistFromCenter + shortRadius) * (float)Math.Sin(rightAngle));
-        spawnPoints[3] = new Vector2((gunDistFromCenter + longRadius) * (float)Math.Cos(leftAngle), (gunDistFromCenter + longRadius) * (float)Math.Sin(leftAngle));
-        spawnPoints[4] = new Vector2((gunDistFromCenter + longRadius) * (float)Math.Cos(rightAngle), (gunDistFromCenter + longRadius) * (float)Math.Sin(rightAngle));
-
-        //rotate PTrap to match the gun/zone's rotation
-        trapRect.rotation = rt.rotation;
 
         //create a collision checker
         GameObject spawnScanner = Instantiate(Resources.Load("Prefabs/RectTransform")) as GameObject;
@@ -433,7 +426,7 @@ public class Gun : MonoBehaviour,EventHandler{
         focus.radius = 3f;
         //move it around and see if there's traps in place
         int spot = 0;
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 1; i++)
         {
             Vector2 loc = spawnPoints[i];
             scanRect.anchoredPosition = loc;

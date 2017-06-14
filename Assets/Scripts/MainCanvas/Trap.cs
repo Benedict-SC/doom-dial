@@ -29,7 +29,7 @@ public class Trap : Weapon {
 	
 	private float age; //age of the trap -- used to determine which of two overlaid traps to destroy
 
-	private RectTransform rt;
+	protected RectTransform rt;
 	
 	// Use this for initialization
 	void Start () {
@@ -107,14 +107,13 @@ public class Trap : Weapon {
 	void OnTriggerEnter2D(Collider2D coll) { 
 		// The following destroys This trap if a newer one is laid on top
 		Debug.Log ("entered trigger - TRAP");
-		if (coll.gameObject.tag == "Trap") //if a trap is laid over this one
+		if (coll.gameObject.tag == "Trap" || coll.gameObject.tag == "ProjectileTrap") //if a trap is laid over this one
 		{
 			//Debug.Log ("this trigger is a trap!");
 			Trap tc = coll.gameObject.GetComponent <Trap>();
-			if (age >= tc.GetAge ()) //if this is the trap laid down first
+			if (age <= tc.GetAge ()) //if this is the trap laid down second - prioritize the original
 			{
-				Debug.Log ("destroyed old trap!");
-				Collide ();
+                Destroy(this.gameObject);
 			}
 		}
 	}
