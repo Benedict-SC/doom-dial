@@ -28,9 +28,9 @@ public class BulletRadial : Bullet {
         distance = (float)Math.Sqrt((rt.anchoredPosition.x - spawnx) * (rt.anchoredPosition.x - spawnx)
                                 + (rt.anchoredPosition.y - spawny) * (rt.anchoredPosition.y - spawny));
         Debug.Log("BulletRadial distance is " + distance);
-        //die at range or at zone borders
+        //die at range or (not apparently) at zone borders
         //dying when hitting the dial is handled in Dial.cs's OnTriggerEnter2D()
-        if (distance > range || initialLane != GetCurrentLaneID())
+        if (distance > range/* || initialLane != GetCurrentLaneID()*/)
         {
             Debug.Log("calling Collide() on BulletRadial");
             Collide();
