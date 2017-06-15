@@ -49,6 +49,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 	
 	protected float impactTime; //"speed"
 	protected float impactDamage;
+	protected float baseImpactDamage;
 	protected float radius;
 	protected float maxShields;
 	protected float shields;
@@ -187,6 +188,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 		maxhp = (float)(double)data ["maxHP"];
 		hp = (float)(double)data ["HP"];
 		impactDamage = (float)(double)data ["damage"];
+		baseImpactDamage = impactDamage;
 		impactTime = (float)(double)data ["impactTime"];
 		radius = (float)(double)data ["size"];
 		maxShields = (float)(double)data ["maxShields"];
@@ -677,6 +679,9 @@ public class Enemy : MonoBehaviour,EventHandler {
 	}
 	public float GetDamage(){
 		return impactDamage;
+	}
+	public float GetBaseDamage(){
+		return baseImpactDamage;
 	}
 	public void ReduceDamage(float amt){
 		impactDamage -= amt;

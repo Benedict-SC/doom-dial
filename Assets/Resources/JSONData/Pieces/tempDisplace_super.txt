@@ -13,7 +13,7 @@
 	"continuousStrength":0.0,
 	"reflect":0.0,
 	"frequency":0.0,
-	"tempDisplace":0.0,
+	"tempDisplace":0.3,
 	"absorb":0.0,
 	"aoe":0.0,
 	"attraction":0.0,
@@ -30,5 +30,6 @@
 		[0,3,0,0,0]
 	],
 	
-	"bulletText":"[PIECE EFFECT DESCRIPTION]"
+	"bulletText":"Teleports enemies back +30% of the track",
+	"shieldText":"Teleports enemies back +30% of the track"
 }

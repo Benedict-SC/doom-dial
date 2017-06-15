@@ -12,7 +12,7 @@
 	"penetration":0,
 	"continuousStrength":0.0,
 	"reflect":0.0,
-	"frequency":0.0,
+	"frequency":3.0,
 	"tempDisplace":0.0,
 	"absorb":0.0,
 	"aoe":0.0,
@@ -29,5 +29,5 @@
 		[1,0,0,0]
 	],
 	
-	"bulletText":"[PIECE EFFECT DESCRIPTION]"
+	"bulletText":"+3 shield HP per second"
 }
