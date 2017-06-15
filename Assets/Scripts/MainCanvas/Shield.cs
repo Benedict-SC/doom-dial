@@ -64,6 +64,7 @@ public class Shield : Weapon {
             float initialDamage = e.GetDamage();
             e.ReduceDamage(hp); //reduce enemy damage
             hp -= initialDamage; //get hit
+            OnHit(e);
             float overkill = 0f;
             if(hp <= 0){
                 overkill = -hp;
@@ -87,6 +88,10 @@ public class Shield : Weapon {
     public void OnDeath(float overkill)
     {
         Destroy(gameObject);
+    }
+
+    public void OnHit(Enemy e){
+        
     }
 
     public int GetCurrentLaneID(){ 
