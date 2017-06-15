@@ -109,6 +109,7 @@
      <Compile Include="Assets\Scripts\Lifespan.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\AoE.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\Bullet.cs" />
+     <Compile Include="Assets\Scripts\MainCanvas\BulletRadial.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\CameraToggle.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\CanvasSpinner.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\ChainPoisonRadius.cs" />
@@ -127,7 +128,9 @@
      <Compile Include="Assets\Scripts\MainCanvas\MenuScale.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\MenuScript.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\MenuSpinner.cs" />
+     <Compile Include="Assets\Scripts\MainCanvas\OldShield.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\Pause.cs" />
+     <Compile Include="Assets\Scripts\MainCanvas\ProjectileTrap.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\Shield.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\ShieldFragment.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\SplitFirer.cs" />

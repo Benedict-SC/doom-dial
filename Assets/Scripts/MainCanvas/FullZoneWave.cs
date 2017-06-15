@@ -8,7 +8,7 @@ public class FullZoneWave : MonoBehaviour {
     Vector3 originalScale;
     float TRACK_LENGTH = 110.8f + 5; //copied from Bullet
     float speed = 1.5f; //speed of wave
-    Shield parentShield = null; //if a shield created This, set this value
+    OldShield parentShield = null; //if a shield created This, set this value
 
     float vx;
     float vy;
@@ -86,7 +86,7 @@ public class FullZoneWave : MonoBehaviour {
 
     }
 
-    public void SetParentShield(Shield sc)
+    public void SetParentShield(OldShield sc)
     {
         parentShield = sc;
     }

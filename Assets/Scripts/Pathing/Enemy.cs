@@ -481,9 +481,7 @@ public class Enemy : MonoBehaviour,EventHandler {
         }
 		else if (coll.gameObject.tag == "Shield") //if it's a shield
 		{
-            GameObject shieldHit = coll.gameObject;
-            Shield sh = shieldHit.GetComponent<Shield>();
-            ShieldInflictedStatus(sh);
+            //all handled by the shield collision now
 		}
 		else if (coll.gameObject.tag == "AoE")
 		{
@@ -680,6 +678,12 @@ public class Enemy : MonoBehaviour,EventHandler {
 	public float GetDamage(){
 		return impactDamage;
 	}
+	public void ReduceDamage(float amt){
+		impactDamage -= amt;
+		if(impactDamage <= 0){
+			impactDamage = 0.01f;
+		}
+	}
 	public bool HasWarned(){
 		return warnedFor;
 	}
@@ -829,7 +833,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 	}
 
     //inflict status effects from a dial shield
-    public void ShieldInflictedStatus(Shield sc)
+    public void ShieldInflictedStatus(OldShield sc)
     {
         //this needs things to live
     }

@@ -4,131 +4,116 @@ using System.Collections.Generic;
 
 public class Shield : Weapon {
 
-    public float spawnx;
-	public float spawny;
     public float hp; //current hp
+
+    public float maxHealthSize;
+    public float minHealthSize = 23f;
 
 	GameObject hpMeter;
 	RectTransform rt;
+    RectTransform hprt;
 
     GameObject dialObj;
     Dial dial;
-
-    int currentLaneID;
 	
-	float regenBase; //to measure regen time
-    float regenAmt;
+    Timer regenTimer;
 	
 	// Use this for initialization
 	void Start () {
 		
 		//default
-		regenAmt = 1.0f; //amount to regen every regenRate seconds
+        regenTimer = new Timer();
 		
 		hp = shieldDurability;
 		rt = GetComponent<RectTransform>();
 		hpMeter = transform.Find("ShieldHP").gameObject;
-		
+		hprt = hpMeter.GetComponent<RectTransform>();
+        maxHealthSize = hprt.sizeDelta.y;
+
 		UpdateHPMeter();
-		
-		regenBase = 0.0f;
-
-        dialObj = GameObject.FindGameObjectWithTag("Dial");
-        dial = dialObj.GetComponent<Dial>();
-
-        currentLaneID = GetCurrentLaneID();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
-		if (Time.time - regenBase >= frequency) //regen stuff here
-		{
-			hp += regenAmt;
-			if (hp > shieldDurability)
-				hp = shieldDurability;
-			regenBase = Time.time;
-			UpdateHPMeter ();
-		}
+		if(hp < shieldDurability){//regen
+            float moreHealth = regenTimer.TimeElapsedSecs() * frequency;
+            hp += moreHealth;
+            if(hp > shieldDurability){
+                hp = shieldDurability;
+            }
+            UpdateHPMeter();
+            regenTimer.Restart();
+        }
 	}
+    public virtual void OnTriggerEnter2D(Collider2D coll) {
+        if (coll.gameObject.tag == "Enemy") {
+            Enemy e = coll.gameObject.GetComponent<Enemy>();
+
+            if (e.GetComponentInChildren<Saboteur>() != null) //if this enemy is a Saboteur
+            {
+                hp = 0;
+                Debug.Log("shield destroyed by saboteur");
+                e.ReduceDamage(-hp); //increase its damage
+                OnDeath(e.GetDamage());
+                return;
+            }
+
+            if(hp >= shieldDurability){
+                regenTimer.Restart();
+            }
+            float initialDamage = e.GetDamage();
+            e.ReduceDamage(hp); //reduce enemy damage
+            hp -= initialDamage; //get hit
+            float overkill = 0f;
+            if(hp <= 0){
+                overkill = -hp;
+                hp = 0f;
+            }
+            UpdateHPMeter();
+            if(hp == 0f){
+                OnDeath(overkill);
+            }
+        }
+    }
 	
 	public void UpdateHPMeter ()
 	{
-		//Debug.Log ("Shield HP updated");
-		hpMeter.transform.localScale = new Vector3(hpMeter.transform.localScale.x, hp / shieldDurability + .1f, hpMeter.transform.localScale.z);
+		float percentHP = hp/shieldDurability;
+        float differential = maxHealthSize - minHealthSize;
+        hprt.sizeDelta = new Vector2(hprt.sizeDelta.x,minHealthSize + (percentHP*differential));
 	}
 
-    //handles on-death effects - Blast, Life Drain, and Stun Wave
     //dialDmg is any extra damage given to dial that Shield couldn't block
-    public void OnDestroyEffects(float dialDmg)
+    public void OnDeath(float overkill)
     {
-        /*
-        Debug.Log("onDestroyEffects called");
-        //lifedrain effect
-        if (lifeDrain)
-        {
-            dial.ChangeHealth(dialDmg);
-        }
-        //stun wave
-        if (stun)
-        {
-            //remove all effects except Stun to be applied to the Wave
-            shieldShred = 0;
-            knockback = 0;
-            slowdown = false;
-            lifeDrain = false;
-            poison = 0;
-
-            //spawn a wave
-            Debug.Log("shield stun wave started");
-            GameObject zoneWave = Instantiate(Resources.Load("Prefabs/MainCanvas/FullZoneWave")) as GameObject;
-            FullZoneWave fzw = zoneWave.GetComponent<FullZoneWave>();
-            fzw.SetParentShield(this);
-            fzw.ConfigureHolderFromParent(this);
-        }
-        //blast wave
-        if (splash)
-        {
-            Debug.Log("shield splash dmg started");
-            GameObject zoneBlast = Instantiate(Resources.Load("Prefabs/MainCanvas/FullZoneBlast")) as GameObject;
-            currentLaneID = GetCurrentLaneID();
-            FullZoneBlast fzb = zoneBlast.GetComponent<FullZoneBlast>();
-            fzb.SetZoneID(currentLaneID);
-            fzb.SetParentShield(this);
-            fzb.SetDamage(splashDmg);
-        }
-        */
+        Destroy(gameObject);
     }
 
-    int GetCurrentLaneID()
-    {
-        float angle = transform.eulerAngles.z;
-        if (angle > -2.0 && angle < 2.0)
-            return 1;
-        else if (angle > 58.0 && angle < 62.0)
-            return 6;
-        else if (angle > 118.0 && angle < 122.0)
-            return 5;
-        else if (angle > 178.0 && angle < 182.0)
-            return 4;
-        else if (angle > 238.0 && angle < 242.0)
-            return 3;
-        else if (angle > 298.0 && angle < 302.0)
-            return 2;
-        else {
-            Debug.Log("somehow a gun has a very very wrong angle");
-            return -1;
-        }
-    }
+    public int GetCurrentLaneID(){ 
+		float degrees = ((360-Mathf.Atan2(rt.anchoredPosition.y,rt.anchoredPosition.x) * Mathf.Rad2Deg)+90 + 360)%360;
+		//Debug.Log(degrees);
+		if(degrees >= 60.0 && degrees < 120.0){
+			return 2;
+		}else if(degrees >= 120.0 && degrees < 180.0){
+			return 3;
+		}else if(degrees >= 180.0 && degrees < 240.0){
+			return 4;
+		}else if(degrees >= 240.0 && degrees < 300.0){
+			return 5;
+		}else if(degrees >= 300.0 && degrees < 360.0){
+			return 6;
+		}else if(degrees >= 360.0 || degrees < 60.0){
+			return 1;
+		}else{
+			//what the heck, this shouldn't happen
+			Debug.Log ("What the heck, this shouldn't happen");
+			return 0;
+		}
+	}
 
     public void PrintHP ()
 	{
-		Debug.Log ("shield HP: " + hp);
+		Debug.Log ("shield HP: " + hp + "/" + shieldDurability);
 	}
-
-    /*public void PrintSpeedBoost()
-    {
-        Debug.Log("shield speedboost = " + speedBoost);
-    }*/
 }
 

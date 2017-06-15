@@ -159,7 +159,7 @@ public class Boss : MonoBehaviour{
 	public void GetStatused(Bullet b){
 	
 	}
-	public void GetStatused(Shield s){
+	public void GetStatused(OldShield s){
 		
 	}
 	public void GetStatused(AoE aoe){

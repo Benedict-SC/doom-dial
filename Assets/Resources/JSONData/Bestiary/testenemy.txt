@@ -10,7 +10,7 @@
 	"movementType":"Linear",
 	"maxHP":20.0,
 	"HP":20.0,
-	"damage":10.0,
+	"damage":9.0,
 	"impactTime":28.0,
 	"size":0.3,
 	"maxShields":0.0,

@@ -6,7 +6,7 @@ public class FullZoneBlast : MonoBehaviour {
 
     float damage; //damage dealt to each enemy
     int zoneID; //zone ID of This blast, creator should call SetZoneID()
-    Shield parentShield = null; //if a shield created This, assign it
+    OldShield parentShield = null; //if a shield created This, assign it
 
 	// Use this for initialization
 	void Start () {
@@ -44,7 +44,7 @@ public class FullZoneBlast : MonoBehaviour {
         zoneID = zi;
     }
 
-    public void SetParentShield(Shield sc)
+    public void SetParentShield(OldShield sc)
     {
         parentShield = sc;
     }

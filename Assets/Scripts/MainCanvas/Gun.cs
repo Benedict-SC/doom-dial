@@ -73,7 +73,7 @@ public class Gun : MonoBehaviour,EventHandler{
 	float shieldHP; //shield max HP
 	float shieldRegen; //shield regen rate
     float shieldRegenAmt; //amt per tick of regen
-	float shieldRange = 55f; //just so it's not hardcoded
+	float shieldRange = 42f; //just so it's not hardcoded
 	//***Skill values end here***
 	
 	/* Another tower attribute
@@ -165,11 +165,13 @@ public class Gun : MonoBehaviour,EventHandler{
 		held = true;
 	}
 	public void Unhold(float time){
-		held = false;
-		if(continuousStrength > 0 && cooldown <= 0){
-			StartCooldown(time);
-			chargeImg.fillAmount = 0f;
-			chargeImg.color = new Color(1f,1f,1f);
+		if(held){ //bandaid on weird pointer event issue
+			held = false;
+			if(continuousStrength > 0 && cooldown <= 0){
+				StartCooldown(time);
+				chargeImg.fillAmount = 0f;
+				chargeImg.color = new Color(1f,1f,1f);
+			}
 		}
 	}
 	public void HandleEvent(GameEvent ge){
@@ -212,29 +214,7 @@ public class Gun : MonoBehaviour,EventHandler{
 			SpawnTrap();
 			break;
 		case "Shield":
-			Dial dialCon = GameObject.Find ("Dial").gameObject.GetComponent<Dial>();
-			if (dialCon.IsShielded (GetCurrentLaneID() - 1)) //if there's already a shield there
-			{
-				dialCon.DestroyShield(GetCurrentLaneID() - 1); //destroy that shield
-				Debug.Log ("destroyed previous shield");
-			}
-			GameObject shield = Instantiate (Resources.Load ("Prefabs/MainCanvas/Shield")) as GameObject; //make a shield
-            shield.transform.SetParent(Dial.underLayer, false);
-			Shield sc = shield.GetComponent<Shield>();
-			//make it the type of shield this thing deploys
-			ConfigureShield (sc);
-			//find your angle
-			float shieldOwnangle = this.transform.eulerAngles.z;
-			float shieldAngle = (shieldOwnangle +  90) % 360 ;
-			shieldAngle *= (float)Math.PI / 180;
-			//find where to spawn the shield
-			float shieldSpawnRange = shieldRange;
-			shieldSpawnRange += 0.5f;
-            RectTransform shieldRt = sc.GetComponent<RectTransform>();
-            shieldRt.anchoredPosition = new Vector2(shieldSpawnRange*Mathf.Cos(shieldAngle),shieldSpawnRange*Mathf.Sin (shieldAngle));
-            Debug.Log("shield y should be " + shieldSpawnRange * Mathf.Sin(shieldAngle));
-			shieldRt.rotation = this.gameObject.transform.rotation;
-			dialCon.PlaceShield (GetCurrentLaneID() - 1, shield); //mark current lane as shielded (placed in array)
+			SpawnShield();
 			break;
         case "BulletTrap":
             //BulletTrap behavior
@@ -455,6 +435,29 @@ public class Gun : MonoBehaviour,EventHandler{
         trapRect.anchoredPosition = spawnPoints[spot];
         tc.transform.rotation = transform.rotation;
     }
+	public void SpawnShield(){
+		Dial dialCon = GameObject.Find ("Dial").gameObject.GetComponent<Dial>();
+		if (dialCon.IsShielded (GetCurrentLaneID() - 1)) //if there's already a shield there
+		{
+			dialCon.DestroyShield(GetCurrentLaneID() - 1); //destroy that shield
+			Debug.Log ("destroyed previous shield");
+		}
+		GameObject shield = Instantiate (Resources.Load ("Prefabs/MainCanvas/Shield")) as GameObject; //make a shield
+        shield.transform.SetParent(Dial.underLayer, false);
+		Shield sc = shield.GetComponent<Shield>();
+		//make it the type of shield this thing deploys
+		ConfigureShield (sc);
+		//find your angle
+		float shieldOwnangle = this.transform.eulerAngles.z;
+		float shieldAngle = (shieldOwnangle +  90) % 360 ;
+		shieldAngle *= (float)Math.PI / 180;
+		//find where to spawn the shield
+        RectTransform shieldRt = sc.GetComponent<RectTransform>();
+        shieldRt.anchoredPosition = new Vector2(shieldRange*Mathf.Cos(shieldAngle),shieldRange*Mathf.Sin (shieldAngle));
+        //Debug.Log("shield y should be " + shieldRange * Mathf.Sin(shieldAngle));
+		shieldRt.rotation = this.gameObject.transform.rotation;
+		dialCon.PlaceShield (GetCurrentLaneID() - 1, shield); //mark current lane as shielded (placed in array)
+	}
 	
 	#endregion
 	

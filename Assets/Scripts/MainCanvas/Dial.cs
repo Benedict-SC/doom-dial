@@ -158,65 +158,14 @@ public class Dial : MonoBehaviour,EventHandler {
 						mostRecentAttackerFilename = enemy.GetSrcFileName();
 						enemy.AddToBonus ((List<System.Object>)bonusWaveDictionary ["enemies"]);
                         escapedEnemyCount++;
-						float rawDamage = enemy.GetDamage ();
-						int trackID = enemy.GetCurrentTrackID ();
-						if (shields [trackID - 1] != null) { //if this enemy's lane is shielded
-								int arrayInd = trackID - 1; //index of shield array to reference
-								GameObject shield = shields [trackID - 1];
-								Shield sc = shield.GetComponent<Shield> ();
-								float oldHP = sc.hp; //the shield's hp pre-absorbing damage
-								Debug.Log ("old shield HP = " + oldHP);
-                                if (enemy.GetComponentInChildren<Saboteur>() != null) //if this enemy is a Saboteur
-                                {
-                                    Saboteur sb = enemy.GetComponentInChildren<Saboteur>();
-                                    Destroy(shields[arrayInd]); //destroy the shield
-                                    Debug.Log("shield destroyed by saboteur");
-                                    health -= oldHP; //lose amount equal to shield HP
-										GameEvent hitlog = new GameEvent("enemy_finished");
-	                                    hitlog.addArgument(enemy.GetSrcFileName());
-	                                    hitlog.addArgument(oldHP);
-	                                    EventManager.Instance().RaiseEvent(hitlog);
-                                }
-                                else
-                                {
-                                    sc.hp -= rawDamage;
-
-                                    //shield shred effect
-                                    /*EnemyShield es = enemy.GetShield();
-                                    if (es != null)
-                                    {
-                                        sc.hp += (es.power * sc.penetration);
-                                        es.TakeDamage(es.power * sc.penetration);
-                                    }
-                                    else
-                                    {
-                                        Debug.Log("no enemy shield");
-                                    }*/
-
-                                    sc.UpdateHPMeter();
-                                    sc.PrintHP(); //debug
-                                    if (sc.hp <= 0.0f)
-                                    { //if the shield's now dead
-                                        float dialDamage = (oldHP - rawDamage); //this should be a negative value or 0
-                                        sc.OnDestroyEffects(dialDamage); //shield's on-destroy effects like Blast, Life Drain, and Stun Wave
-                                        health += dialDamage; //dial takes damage (adds the negative value)
-	                                        GameEvent hitlog = new GameEvent("enemy_finished");
-	                                        hitlog.addArgument(enemy.GetSrcFileName());
-	                                        hitlog.addArgument(-dialDamage);
-	                                        EventManager.Instance().RaiseEvent(hitlog);
-                                        Destroy(shields[arrayInd]); //destroy the shield
-                                        Debug.Log("shield destroyed");
-                                    }
-                                }
-								
-						} else { //if there's no shield
-								health -= rawDamage;
-									GameEvent hitlog = new GameEvent("enemy_finished");
-                                    hitlog.addArgument(enemy.GetSrcFileName());
-                                    hitlog.addArgument(rawDamage);
-                                    EventManager.Instance().RaiseEvent(hitlog);
-								//Debug.Log ("damage taken, new health is " + health);
-						}
+							float edamage = enemy.GetDamage();
+							health -= edamage;
+							GameEvent hitlog = new GameEvent("enemy_finished");
+                            hitlog.addArgument(enemy.GetSrcFileName());
+                            hitlog.addArgument(edamage);
+                            EventManager.Instance().RaiseEvent(hitlog);
+							//Debug.Log ("damage taken, new health is " + health);
+						
 						enemy.Die ();
 		}else if(ge.type.Equals("dial_damaged")){
 			GameObject damageSource = (GameObject)ge.args[0];
