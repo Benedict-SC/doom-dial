@@ -14,7 +14,7 @@
 	"reflect":0.0,
 	"frequency":0.0,
 	"tempDisplace":0.0,
-	"absorb":0.0,
+	"absorb":4.0,
 	"aoe":0.0,
 	"attraction":0.0,
 	"duplicate":0,
@@ -28,5 +28,6 @@
 		[0,0,1,0,0]
 	],
 	
-	"bulletText":"[PIECE EFFECT DESCRIPTION]"
+	"bulletText":"+4 shield max HP every time an enemy hits",
+	"shieldText":"+4 shield max HP every time an enemy hits"
 }

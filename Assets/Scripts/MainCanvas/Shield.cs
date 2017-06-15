@@ -102,6 +102,11 @@ public class Shield : Weapon {
             dir *= ((Dial.TRACK_LENGTH - 15f) * tempDisplace); //15 is because it shouldn't knock back the whole exact track length
             ert.anchoredPosition -= dir;
         }
+        if(absorb > 0f){
+            Debug.Log("max hp: " + shieldDurability + " -> " + (shieldDurability + absorb));
+            shieldDurability += absorb;
+            UpdateHPMeter();
+        }
     }
 
     public int GetCurrentLaneID(){ 
