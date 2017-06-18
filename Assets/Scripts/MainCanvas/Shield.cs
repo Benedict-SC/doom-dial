@@ -9,12 +9,12 @@ public class Shield : Weapon {
     public float maxHealthSize;
     public float minHealthSize = 23f;
 
-	GameObject hpMeter;
-	RectTransform rt;
-    RectTransform hprt;
+	protected GameObject hpMeter;
+	protected RectTransform rt;
+    protected RectTransform hprt;
 
-    GameObject dialObj;
-    Dial dial;
+    protected GameObject dialObj;
+    protected Dial dial;
 	
     Timer regenTimer;
 	
@@ -53,7 +53,7 @@ public class Shield : Weapon {
             {
                 hp = 0;
                 Debug.Log("shield destroyed by saboteur");
-                e.ReduceDamage(-hp); //increase its damage
+                e.ReduceDamage(-hp); //increase the saboteur's damage
                 OnDeath(e.GetDamage());
                 return;
             }
@@ -90,7 +90,7 @@ public class Shield : Weapon {
         Destroy(gameObject);
     }
 
-    public void OnHit(Enemy e){
+    public virtual void OnHit(Enemy e){
         
     }
 

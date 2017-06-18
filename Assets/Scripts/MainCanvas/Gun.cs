@@ -16,7 +16,9 @@ public class Gun : MonoBehaviour,EventHandler{
     public readonly float TRAP_RANGE = 0.6f; //default trap range for now.  halfway down the lane
 	public readonly float MAX_CHARGE_RADIUS = 6f;
 	public readonly float MAX_CHARGE_TIME = 5f;
-	// ^^^ RELATIVE TO CENTER
+    // ^^^ RELATIVE TO CENTER
+
+    LinkedLaneList laneList; //a linked list representing the 6 lanes, used for ShieldTrap spawning
 	
 	//Tower type: "Bullet", "Trap", "Shield", "BulletTrap", "BulletShield", "TrapShield"
 	string towerType;
@@ -59,7 +61,7 @@ public class Gun : MonoBehaviour,EventHandler{
     float attraction; //Trap, pull.  PT, homing.
 
     //Trap and TrapShield
-    int duplicate; //Trap, triggers. (?)  TS, zone range.
+    public int duplicate; //Trap, triggers. (?)  TS, zone range.
     float field; //field time (?)
 
 	
@@ -108,7 +110,10 @@ public class Gun : MonoBehaviour,EventHandler{
 		chargeImg.type = Image.Type.Filled;
 		chargeImg.fillMethod = Image.FillMethod.Vertical;
 		chargeImg.fillAmount = 0f;
-		
+
+        laneList = new LinkedLaneList();
+        laneList.SetUpList();
+
 		//defaults
 		/*towerType = "Shield";
 		shieldRange = 1f;
@@ -225,6 +230,7 @@ public class Gun : MonoBehaviour,EventHandler{
             break;
         case "TrapShield":
             //TrapShield behavior
+            SpawnAllShieldTraps();
             break;
         default:
             print("Uh oh, I didn't receive a valid towerType string value!");
@@ -458,6 +464,211 @@ public class Gun : MonoBehaviour,EventHandler{
 		shieldRt.rotation = this.gameObject.transform.rotation;
 		dialCon.PlaceShield (GetCurrentLaneID() - 1, shield); //mark current lane as shielded (placed in array)
 	}
+
+    public void SpawnAllShieldTraps()
+    {
+        //this works differently from regular shield spawning
+        //using 0-5 for lane IDS to be compatible with Dial
+        Dial dialCon = GameObject.Find("Dial").gameObject.GetComponent<Dial>();
+        GameObject holderObj = Instantiate(Resources.Load("Prefabs/MainCanvas/ShieldTrapHolder")) as GameObject;
+        ShieldTrapHolder holder = holderObj.GetComponent<ShieldTrapHolder>();
+        int currentLane = GetCurrentLaneID() - 1;
+        List<int> spawnLanes = new List<int>();
+        //use lane looping linked list
+        //always will spawn in current lane if possible
+        if (duplicate > 5) duplicate = 5;
+        if (!dialCon.IsShielded(currentLane))
+        {
+            spawnLanes.Add(currentLane);
+            int r;
+            int left = laneList.GetRelativeLane(currentLane, -1);
+            int right = laneList.GetRelativeLane(currentLane, 1);
+            int left2 = laneList.GetRelativeLane(currentLane, -2);
+            int right2 = laneList.GetRelativeLane(currentLane, 2);
+            int opposite = laneList.GetRelativeLane(currentLane, 3);
+            switch (duplicate)
+            {
+                case 0:
+                    break;
+                //random left or right adjacent lane
+                case 1:
+                    //if only left is available
+                    if (dialCon.IsShielded(right) && !dialCon.IsShielded(left))
+                    {
+                        spawnLanes.Add(left);
+                    }
+                    //if only right is available
+                    else if (dialCon.IsShielded(left) && !dialCon.IsShielded(right))
+                    {
+                        spawnLanes.Add(right);
+                    }
+                    //if both lanes are available, add one of them
+                    else if (!dialCon.IsShielded(left) && !dialCon.IsShielded(right))
+                    {
+                        r = UnityEngine.Random.Range(0, 2);
+                        if (r == 0)
+                        {
+                            spawnLanes.Add(left);
+                        }
+                        else
+                        {
+                            spawnLanes.Add(right);
+                        }
+                    }
+                    break;
+                //add to both adjacent lanes if available
+                case 2:
+                    if (!dialCon.IsShielded(left))
+                    {
+                        spawnLanes.Add(left);
+                    }
+                    if (!dialCon.IsShielded(right))
+                    {
+                        spawnLanes.Add(right);
+                    }
+                    break;
+                //add to both adjacent plus a random 2-away lane
+                case 3:
+                    r = UnityEngine.Random.Range(0, 2);
+                    //if only left is available
+                    if (!dialCon.IsShielded(left) && dialCon.IsShielded(right))
+                    {
+                        spawnLanes.Add(right);
+                        if (!dialCon.IsShielded(left2))
+                        {
+                            spawnLanes.Add(left2);
+                        }
+                    }
+                    //if only right is available
+                    else if (!dialCon.IsShielded(right) && dialCon.IsShielded(left))
+                    {
+                        spawnLanes.Add(right);
+                        if (!dialCon.IsShielded(right2))
+                        {
+                            spawnLanes.Add(right2);
+                        }
+                    }
+                    //if both left and right are available
+                    else if (!dialCon.IsShielded(right) && !dialCon.IsShielded(left))
+                    {
+                        spawnLanes.Add(left);
+                        spawnLanes.Add(right);
+                        //if only left2 is available
+                        if (!dialCon.IsShielded(left2) && dialCon.IsShielded(right2))
+                        {
+                            spawnLanes.Add(left2);
+                        }
+                        //if only right2 is available
+                        else if (!dialCon.IsShielded(right2) && dialCon.IsShielded(left2))
+                        {
+                            spawnLanes.Add(right2);
+                        }
+                        //if both are available
+                        else if (!dialCon.IsShielded(left2) && !dialCon.IsShielded(right2))
+                        {
+                            if (r == 0)
+                            {
+                                spawnLanes.Add(left2);
+                            }
+                            else
+                            {
+                                spawnLanes.Add(right2);
+                            }
+                        }
+                    }
+                    break;
+                //add 2 on each side
+                case 4:
+                    if (!dialCon.IsShielded(left))
+                    {
+                        spawnLanes.Add(left);
+                        if (!dialCon.IsShielded(left2))
+                        {
+                            spawnLanes.Add(left2);
+                        }
+                    }
+                    if (!dialCon.IsShielded(right))
+                    {
+                        spawnLanes.Add(right);
+                        if (!dialCon.IsShielded(right2))
+                        {
+                            spawnLanes.Add(right2);
+                        }
+                    }
+                    break;
+                //add to every lane if possible
+                case 5:
+                    bool oppPlaced = false;
+                    if (!dialCon.IsShielded(left))
+                    {
+                        spawnLanes.Add(left);
+                        if (!dialCon.IsShielded(left2))
+                        {
+                            spawnLanes.Add(left2);
+                            if (!dialCon.IsShielded(opposite))
+                            {
+                                spawnLanes.Add(opposite);
+                                oppPlaced = true;
+                            }
+                        }
+                    }
+                    if (!dialCon.IsShielded(right))
+                    {
+                        spawnLanes.Add(right);
+                        if (!dialCon.IsShielded(right2))
+                        {
+                            spawnLanes.Add(right2);
+                            if (!dialCon.IsShielded(opposite) && !oppPlaced)
+                            {
+                                spawnLanes.Add(opposite);
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    Debug.Log("duplicate has an invalid value");
+                    break;
+            }
+        }
+        foreach (int i in spawnLanes)
+        {
+            SpawnShieldTrap(i, holder);
+        }
+        holder.DestroyIfEmpty();
+        holder.SetShieldSprites();
+    }
+
+    //spawns a shield trap in a given lane with a given holder
+    void SpawnShieldTrap(int lane, ShieldTrapHolder holder)
+    {
+        Debug.Log("lane in spawnshieldtrap: " + lane);
+        int currentLane = GetCurrentLaneID() - 1;
+        int laneDif = laneList.MinDistanceBetween(currentLane, lane);
+        Dial dialCon = GameObject.Find("Dial").gameObject.GetComponent<Dial>();
+        if (dialCon.IsShielded(lane)) //if there's already a shield there
+        {
+            Debug.Log("already a shield here, not placing ShieldTrap");
+            return;
+        }
+        GameObject shieldTrap = Instantiate(Resources.Load("Prefabs/MainCanvas/ShieldTrap")) as GameObject; //make a shield
+        shieldTrap.transform.SetParent(Dial.underLayer, false);
+        ShieldTrap sc = shieldTrap.GetComponent<ShieldTrap>();
+        //make it the type of shield-trap this thing deploys
+        ConfigureShieldTrap(sc);
+        //find your angle, adding +/- 60 for each lane removed from This gun's lane
+        float shieldOwnangle = this.transform.eulerAngles.z + (60 * laneDif);
+        float shieldAngle = (shieldOwnangle + 90) % 360;
+        shieldAngle *= (float)Math.PI / 180;
+        //find where to spawn the shield
+        RectTransform shieldRt = sc.GetComponent<RectTransform>();
+        shieldRt.anchoredPosition = new Vector2(shieldRange * Mathf.Cos(shieldAngle), shieldRange * Mathf.Sin(shieldAngle));
+        //Debug.Log("shield y should be " + shieldRange * Mathf.Sin(shieldAngle));
+        shieldRt.rotation = this.gameObject.transform.rotation;
+        dialCon.PlaceShield(lane, shieldTrap); //mark current lane as shielded (placed in array)
+        sc.SetMyLane(lane);
+        sc.SetHolder(holder);
+        holder.AddShield(sc);
+    }
 	
 	#endregion
 	
@@ -588,6 +799,15 @@ public class Gun : MonoBehaviour,EventHandler{
         sc.tempDisplace = tempDisplace;
         sc.absorb = absorb;
 	}
+
+    //Assigns skill values to shield traps
+    private void ConfigureShieldTrap(ShieldTrap sc)
+    {
+        sc.absorb = absorb;
+        sc.duplicate = duplicate;
+        sc.tempDisplace = tempDisplace;
+        sc.field = field;
+    }
 	#endregion
 	
 	#region GettersAndSetters (accessing properties)
@@ -617,11 +837,12 @@ public class Gun : MonoBehaviour,EventHandler{
 			return -1;
 		}
 	}
-	
-	public string GetTowerType(){
+
+    //put getters/setters here
+
+    public string GetTowerType(){
 		return towerType;
 	}
-	//put getters/setters here?
 	
 	public void SetCooldown(float pCooldown)
 	{
