@@ -6,6 +6,7 @@ public class ShieldTrapHolder : MonoBehaviour {
 
     List<ShieldTrap> shields;
     List<int> lanesCovered;
+    List<Gun> towers;
 
 	// Use this for initialization
 	void Start () {
@@ -14,8 +15,20 @@ public class ShieldTrapHolder : MonoBehaviour {
 
     void Awake()
     {
+        
+    }
+
+    public void SetUp()
+    {
         shields = new List<ShieldTrap>();
         lanesCovered = new List<int>();
+        towers = new List<Gun>();
+        for (int i = 1; i <= 6; i++)
+        {
+            //Debug.Log("looking for Gun" + i);
+            towers.Add(GameObject.Find("Gun" + i).GetComponent<Gun>());
+        }
+        //Debug.Log("towers size: " + towers.Count);
     }
 	
 	// Update is called once per frame
@@ -34,6 +47,19 @@ public class ShieldTrapHolder : MonoBehaviour {
     public void SetShieldSprites()
     {
         //TODO
+    }
+
+    //applies instant cooldown reduction to all shielded towers, amt in seconds
+    //ie cuts amt seconds off of each tower's cooldown
+    public void ReduceCooldown(float amt)
+    {
+        foreach (Gun g in towers)
+        {
+            if (lanesCovered.Contains(g.GetCurrentLaneID() - 1))
+            {
+                g.ReduceCooldownInstant(amt);
+            }
+        }
     }
 
     //destroys self if empty

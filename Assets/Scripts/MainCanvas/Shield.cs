@@ -51,9 +51,9 @@ public class Shield : Weapon {
 
             if (e.GetComponentInChildren<Saboteur>() != null) //if this enemy is a Saboteur
             {
-                hp = 0;
                 Debug.Log("shield destroyed by saboteur");
                 e.ReduceDamage(-hp); //increase the saboteur's damage
+                hp = 0;
                 OnDeath(e.GetDamage());
                 return;
             }

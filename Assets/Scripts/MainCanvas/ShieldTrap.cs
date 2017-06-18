@@ -7,6 +7,7 @@ public class ShieldTrap : Shield {
     public float dmgReductionPercent; //reduces damage by this percent - ie if this is 40, enemy's damage is reduce dto 60%
     public float healPerSec; //used for heal-over-time effect with Field stat
     public float drainMultiplier;
+    public float cooldownMult = 1f;
 
     int myLane; //lane ID this shield is on
     ShieldTrapHolder holder;
@@ -66,7 +67,12 @@ public class ShieldTrap : Shield {
         dial.ChangeHealth(absorb * drainMultiplier);
         e.TakeDamage(absorb * drainMultiplier);
 
-        //Cooldown(?) (temporal displacement)
+        //Cooldown (temporal displacement)
+        //any currently cooling down towers in front of shields get their cooldown reduced
+        //Debug.Log("tempdisplace: " + tempDisplace);
+        //Debug.Log("cooldownmult: " + cooldownMult);
+        //Debug.Log("going to reduce cooldown by " + (tempDisplace * cooldownMult));
+        holder.ReduceCooldown(tempDisplace * cooldownMult);
 
         //Field Time (field)
     }

@@ -83,8 +83,10 @@ public class Gun : MonoBehaviour,EventHandler{
 	 */
 	
 	float baseMaxcool;
-	float maxcool;
+	public float maxcool;
     Timer cooltimer;
+    bool inReducedCooldown = false;
+    float reducedMaxcool;
 	
 	bool shootingV = true; //for use by spread 3 -- are we shooting in a v this turn or not?
 	bool isPaused = false;
@@ -132,12 +134,27 @@ public class Gun : MonoBehaviour,EventHandler{
 	// Update is called once per frame
 	void Update () {
 		if (cooldown > 0) {
-            float cooltime = cooltimer.TimeElapsedSecs();
-            cooldown = maxcool - cooltime;
-            if (cooldown < 0) {
-                cooldown = 0;
+            if (inReducedCooldown)
+            {
+                float cooltime = cooltimer.TimeElapsedSecs();
+                cooldown = reducedMaxcool - cooltime;
+                if (cooldown < 0)
+                {
+                    cooldown = 0;
+                    inReducedCooldown = false;
+                }
+                cooldownImg.fillAmount = GetCooldownRatio();
             }
-			cooldownImg.fillAmount = GetCooldownRatio();
+            else
+            {
+                float cooltime = cooltimer.TimeElapsedSecs();
+                cooldown = maxcool - cooltime;
+                if (cooldown < 0)
+                {
+                    cooldown = 0;
+                }
+                cooldownImg.fillAmount = GetCooldownRatio();
+            }
 		}
 		if((charge > 0) && held){
 			float maxChargeTime = (MAX_CHARGE_TIME/MAX_CHARGE_RADIUS) * charge;
@@ -166,6 +183,26 @@ public class Gun : MonoBehaviour,EventHandler{
 			maxcool = baseMaxcool + heldTime;
 		}
 	}
+
+    //if this tower's cooldown is > 0, reduce it by sec seconds
+    public void ReduceCooldownInstant(float sec)
+    {
+        //Debug.Log("calling ReduceCooldownInstant by " + sec + " on gun in lane " + (GetCurrentLaneID() - 1));
+        //Debug.Log("cooldown is " + cooldown);
+        //Debug.Log("new cooldown is " + cooldown);
+        inReducedCooldown = true;
+        reducedMaxcool = maxcool - sec;
+        if (cooldown < 0f)
+        {
+            cooldown = 0f;
+        }
+    }
+
+    void SetMaxCooldown(float amt)
+    {
+        maxcool = amt;
+    }
+
 	public void Hold(){
 		held = true;
 	}
@@ -472,6 +509,7 @@ public class Gun : MonoBehaviour,EventHandler{
         Dial dialCon = GameObject.Find("Dial").gameObject.GetComponent<Dial>();
         GameObject holderObj = Instantiate(Resources.Load("Prefabs/MainCanvas/ShieldTrapHolder")) as GameObject;
         ShieldTrapHolder holder = holderObj.GetComponent<ShieldTrapHolder>();
+        holder.SetUp();
         int currentLane = GetCurrentLaneID() - 1;
         List<int> spawnLanes = new List<int>();
         //use lane looping linked list
@@ -803,6 +841,7 @@ public class Gun : MonoBehaviour,EventHandler{
     //Assigns skill values to shield traps
     private void ConfigureShieldTrap(ShieldTrap sc)
     {
+        //Debug.Log("tempdisplace of gun is " + tempDisplace);
         sc.absorb = absorb;
         sc.duplicate = duplicate;
         sc.tempDisplace = tempDisplace;
