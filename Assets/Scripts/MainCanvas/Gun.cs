@@ -83,10 +83,9 @@ public class Gun : MonoBehaviour,EventHandler{
 	 */
 	
 	float baseMaxcool;
-	public float maxcool;
+	float maxcool;
+	float lastCooltime;
     Timer cooltimer;
-    bool inReducedCooldown = false;
-    float reducedMaxcool;
 	
 	bool shootingV = true; //for use by spread 3 -- are we shooting in a v this turn or not?
 	bool isPaused = false;
@@ -134,27 +133,16 @@ public class Gun : MonoBehaviour,EventHandler{
 	// Update is called once per frame
 	void Update () {
 		if (cooldown > 0) {
-            if (inReducedCooldown)
-            {
                 float cooltime = cooltimer.TimeElapsedSecs();
-                cooldown = reducedMaxcool - cooltime;
+				float elapsed = cooltime - lastCooltime;
+				cooldown -= elapsed;
+				lastCooltime = cooltime;
                 if (cooldown < 0)
                 {
-                    cooldown = 0;
-                    inReducedCooldown = false;
-                }
-                cooldownImg.fillAmount = GetCooldownRatio();
-            }
-            else
-            {
-                float cooltime = cooltimer.TimeElapsedSecs();
-                cooldown = maxcool - cooltime;
-                if (cooldown < 0)
-                {
+					lastCooltime = 0;
                     cooldown = 0;
                 }
                 cooldownImg.fillAmount = GetCooldownRatio();
-            }
 		}
 		if((charge > 0) && held){
 			float maxChargeTime = (MAX_CHARGE_TIME/MAX_CHARGE_RADIUS) * charge;
@@ -178,6 +166,7 @@ public class Gun : MonoBehaviour,EventHandler{
 	public void StartCooldown(float heldTime){
         cooltimer.Restart();
 		cooldown = maxcool; //start cooldown
+		lastCooltime = 0f;
 		if(continuousStrength > 0){
 			cooldown = baseMaxcool + heldTime;
 			maxcool = baseMaxcool + heldTime;
@@ -190,17 +179,11 @@ public class Gun : MonoBehaviour,EventHandler{
         //Debug.Log("calling ReduceCooldownInstant by " + sec + " on gun in lane " + (GetCurrentLaneID() - 1));
         //Debug.Log("cooldown is " + cooldown);
         //Debug.Log("new cooldown is " + cooldown);
-        inReducedCooldown = true;
-        reducedMaxcool = maxcool - sec;
+        cooldown -= sec;
         if (cooldown < 0f)
         {
             cooldown = 0f;
         }
-    }
-
-    void SetMaxCooldown(float amt)
-    {
-        maxcool = amt;
     }
 
 	public void Hold(){

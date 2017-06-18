@@ -125,6 +125,7 @@
      <Compile Include="Assets\Scripts\MainCanvas\GunButtonManager.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\KillCountBox.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\Laser.cs" />
+     <Compile Include="Assets\Scripts\MainCanvas\LinkedLaneList.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\MenuScale.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\MenuScript.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\MenuSpinner.cs" />
@@ -133,6 +134,8 @@
      <Compile Include="Assets\Scripts\MainCanvas\ProjectileTrap.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\Shield.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\ShieldFragment.cs" />
+     <Compile Include="Assets\Scripts\MainCanvas\ShieldTrap.cs" />
+     <Compile Include="Assets\Scripts\MainCanvas\ShieldTrapHolder.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\SplitFirer.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\TractorBeam.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\Trap.cs" />
@@ -354,6 +357,7 @@
      <None Include="Assets\Resources\JSONData\Bestiary\saboteur.txt" />
      <None Include="Assets\Resources\JSONData\Paths\Sine_Mirror.txt" />
      <None Include="Assets\Resources\JSONData\Towers\devtest4.txt" />
+     <None Include="Assets\Misc\TrapShieldStatExplanation.txt" />
      <None Include="Assets\Resources\JSONData\Campaign\Waves\STLw5.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World1\Level1\wavedata.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World3\Level3\wavedata.txt" />
