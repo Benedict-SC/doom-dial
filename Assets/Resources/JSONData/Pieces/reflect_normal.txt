@@ -11,7 +11,7 @@
 	"split":0,
 	"penetration":0,
 	"continuousStrength":0.0,
-	"reflect":0.0,
+	"reflect":0.2,
 	"frequency":0.0,
 	"tempDisplace":0.0,
 	"absorb":0.0,
@@ -27,5 +27,6 @@
 		[3,2]
 	],
 	
-	"bulletText":"[PIECE EFFECT DESCRIPTION]"
+	"bulletText":"Reflect +20% of enemy damage to enemy on hit.",
+	"shieldText":"Reflect +20% of enemy damage to enemy on hit."
 }

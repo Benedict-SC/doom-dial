@@ -61,10 +61,11 @@ public class Shield : Weapon {
             if(hp >= shieldDurability){
                 regenTimer.Restart();
             }
-            float initialDamage = e.GetDamage();
+            float initialDamage = e.GetBaseDamage();
+            float initialHP = hp;
             e.ReduceDamage(hp); //reduce enemy damage
             hp -= initialDamage; //get hit
-            OnHit(e);
+            OnHit(e,initialDamage,initialHP);
             float overkill = 0f;
             if(hp <= 0){
                 overkill = -hp;
@@ -90,8 +91,27 @@ public class Shield : Weapon {
         Destroy(gameObject);
     }
 
+<<<<<<< HEAD
     public virtual void OnHit(Enemy e){
         
+=======
+    public void OnHit(Enemy e,float unreducedDamage,float unreducedHP){
+        if(reflect > 0f){
+            float dealtBack = reflect * unreducedDamage;
+            e.TakeDamage(dealtBack);
+        }
+        if(tempDisplace > 0f){
+            RectTransform ert = e.GetComponent<RectTransform>();
+            Vector2 dir = (Vector2.zero - ert.anchoredPosition).normalized;
+            dir *= ((Dial.TRACK_LENGTH - 15f) * tempDisplace); //15 is because it shouldn't knock back the whole exact track length
+            ert.anchoredPosition -= dir;
+        }
+        if(absorb > 0f){
+            Debug.Log("max hp: " + shieldDurability + " -> " + (shieldDurability + absorb));
+            shieldDurability += absorb;
+            UpdateHPMeter();
+        }
+>>>>>>> origin/master
     }
 
     public int GetCurrentLaneID(){ 

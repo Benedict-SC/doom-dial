@@ -182,6 +182,9 @@ public class PieceParser{
             if (ptemp > 0.0f)
                 tempDisplaceCount++;
             tempDisplace += ptemp;
+            if(tempDisplace > 1f){
+                tempDisplace = 1f; //cap at 100% of track
+            }
             //absorb
             float pabsorb = (float)(double)pdata["absorb"];
             if (pabsorb > 0.0f)
