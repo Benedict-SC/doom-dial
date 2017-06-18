@@ -183,6 +183,7 @@ public class Gun : MonoBehaviour,EventHandler{
         if (cooldown < 0f)
         {
             cooldown = 0f;
+			lastCooltime = 0f;
         }
     }
 
