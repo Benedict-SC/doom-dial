@@ -90,12 +90,8 @@ public class Shield : Weapon {
     {
         Destroy(gameObject);
     }
-
-<<<<<<< HEAD
-    public virtual void OnHit(Enemy e){
         
-=======
-    public void OnHit(Enemy e,float unreducedDamage,float unreducedHP){
+    public virtual void OnHit(Enemy e,float unreducedDamage,float unreducedHP){
         if(reflect > 0f){
             float dealtBack = reflect * unreducedDamage;
             e.TakeDamage(dealtBack);
@@ -111,7 +107,7 @@ public class Shield : Weapon {
             shieldDurability += absorb;
             UpdateHPMeter();
         }
->>>>>>> origin/master
+
     }
 
     public int GetCurrentLaneID(){ 

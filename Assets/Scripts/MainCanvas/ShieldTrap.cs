@@ -51,7 +51,7 @@ public class ShieldTrap : Shield {
             e.ReduceDamage(e.GetDamage() * dmgReductionPercent);
 
             //trigger trap effects
-            OnHit(e);
+            OnHit(e, e.GetBaseDamage(), hp);
 
             //destroy entire shield
             holder.DestroyEntireShield();
@@ -59,7 +59,7 @@ public class ShieldTrap : Shield {
     }
 
     //Trap Effects
-    public override void OnHit(Enemy e)
+    public override void OnHit(Enemy e, float unreducedDamage, float unreducedHP)
     {
         //Drain (absorb)
         //heal yourself and damage enemy
