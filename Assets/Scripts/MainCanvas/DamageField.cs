@@ -5,19 +5,22 @@ using System.Collections.Generic;
 public class DamageField : MonoBehaviour {
 
 	public float aoeSize;
-    float canvasUnitsPerAoePoint = 10f;
+    protected float canvasUnitsPerAoePoint = 10f;
 
     public float damagePerTick;
     public float tickLength = 0.5f;
     public float maxTime;
-    Timer time;
-    int ticksDone = 0;
+    protected Timer time;
+    protected int ticksDone = 0;
 
     public float growTime = 0.7f;
-    bool grown = false;
+    protected bool grown = false;
 	
-	CircleCollider2D collide;
-    RectTransform rt;
+	protected CircleCollider2D collide;
+    protected Collider2D[] stuffHit = new Collider2D[30];
+    protected List<Collider2D> fieldHit = new List<Collider2D>();
+    protected ContactFilter2D filter;
+    protected RectTransform rt;
 	
 	// Use this for initialization
 	void Start () {
@@ -25,17 +28,16 @@ public class DamageField : MonoBehaviour {
         rt = GetComponent<RectTransform>();
         rt.sizeDelta = new Vector2(0.0001f,0.0001f);
         time = new Timer();
+        filter = new ContactFilter2D();
+        filter.NoFilter();
 	}
 	
 	// Update is called once per frame
 	void Update () {
             //ticks
             if( (ticksDone*tickLength) > (time.TimeElapsedSecs() - growTime) ){ //if a tick's length has elapsed since the last tick
-                Collider2D[] stuffHit = new Collider2D[30];
-                ContactFilter2D filter = new ContactFilter2D();
-                filter.NoFilter();
                 collide.OverlapCollider(filter,stuffHit); //fill array with all colliders intersecting field
-                List<Collider2D> fieldHit = new List<Collider2D>();
+                fieldHit.Clear();
                 for(int i = 0; i < stuffHit.Length; i++){ //filter out anything that doesn't get damaged by the field
                     Collider2D coll = stuffHit[i];
                     if(coll != null && ((coll.gameObject.tag == "Enemy") || (coll.gameObject.tag == "EnemyShield")) ){
@@ -47,17 +49,7 @@ public class DamageField : MonoBehaviour {
                     if(coll == null){ //might be a shield whose enemy you destroyed in this loop
                         continue;
                     }else{
-                        if(coll.gameObject.tag == "Enemy"){
-                            Enemy e = coll.GetComponent<Enemy>();
-                            if(e != null){
-                                e.TakeDamage(damagePerTick);
-                            }
-                        }else if(coll.gameObject.tag == "EnemyShield"){
-                            EnemyShield es = coll.GetComponent<EnemyShield>();
-                            if(es != null){
-                                es.TakeDamage(damagePerTick);
-                            }
-                        }
+                        ForEachTarget(coll);
                     }
                 }
                 ticksDone++;
@@ -79,4 +71,17 @@ public class DamageField : MonoBehaviour {
             }
         
 	}	
+    protected virtual void ForEachTarget(CircleCollider2D coll){
+        if(coll.gameObject.tag == "Enemy"){
+            Enemy e = coll.GetComponent<Enemy>();
+            if(e != null){
+                e.TakeDamage(damagePerTick);
+            }
+        }else if(coll.gameObject.tag == "EnemyShield"){
+            EnemyShield es = coll.GetComponent<EnemyShield>();
+            if(es != null){
+                es.TakeDamage(damagePerTick);
+            }
+        }
+    }
 }
