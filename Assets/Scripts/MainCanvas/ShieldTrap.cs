@@ -75,6 +75,7 @@ public class ShieldTrap : Shield {
         holder.ReduceCooldown(tempDisplace * cooldownMult);
 
         //Field Time (field)
+        //spawn an Effect Field with the necessary stats
     }
 
     //sets this shield's lane ID

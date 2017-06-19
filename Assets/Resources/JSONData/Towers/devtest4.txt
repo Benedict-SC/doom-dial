@@ -4,6 +4,6 @@
 	"towerType":"Bullet",
 
 	"pieces":[
-		{"anchorX":0, "anchorY":0, "rotation":90 , "pieceFilename":"cooldown_rare"}
+		
 	]
 }
