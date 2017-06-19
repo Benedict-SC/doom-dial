@@ -43,7 +43,7 @@ public class ShieldTrap : Shield {
             {
                 Debug.Log("shield destroyed by saboteur");
                 // TODO ---v
-                //e.ReduceDamage(-hp); //TODO = increase the saboteur's damage...by what?
+                e.ReduceDamage( -(e.GetDamage()) ); 
                 OnDeath(e.GetDamage());
                 return;
             }
