@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class ShieldTrap : Shield {
 
@@ -11,6 +12,7 @@ public class ShieldTrap : Shield {
 
     int myLane; //lane ID this shield is on
     ShieldTrapHolder holder;
+    float fieldRange = 64f;
 
 	// Use this for initialization
 	void Start () {
@@ -76,6 +78,28 @@ public class ShieldTrap : Shield {
 
         //Field Time (field)
         //spawn an Effect Field with the necessary stats
+    }
+
+    //sets a ShieldTrapField in this lane
+    public void DropField()
+    {
+        if (field > 0f)
+        {
+            GameObject damageField = Instantiate(Resources.Load("Prefabs/MainCanvas/ShieldTrapField")) as GameObject;
+            RectTransform dfrt = damageField.GetComponent<RectTransform>();
+            dfrt.rotation = rt.rotation;
+            float fieldOwnAngle = this.transform.eulerAngles.z;
+            float fieldAngle = (fieldOwnAngle + 90f) % 360f;
+            fieldAngle *= (float)Math.PI / 180;
+            dfrt.anchoredPosition = new Vector2(fieldRange * Mathf.Cos(fieldAngle), fieldRange * Mathf.Sin(fieldAngle));
+            damageField.transform.SetParent(Dial.underLayer.transform, false);
+            ShieldTrapField sf = damageField.GetComponent<ShieldTrapField>();
+            sf.drainPerTick = absorb; //multiplier is in ShieldTrapField.cs
+            sf.coolPerTick = tempDisplace; //multiplier is in ShieldTrapField.cs
+            sf.maxTime = field;
+            sf.SetUp();
+            sf.SetMyLane(myLane);
+        }
     }
 
     //sets this shield's lane ID

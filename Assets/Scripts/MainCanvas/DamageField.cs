@@ -23,7 +23,7 @@ public class DamageField : MonoBehaviour {
     protected RectTransform rt;
 	
 	// Use this for initialization
-	void Start () {
+	protected virtual void Start () {
 		collide = GetComponent<CircleCollider2D>();
         rt = GetComponent<RectTransform>();
         rt.sizeDelta = new Vector2(0.0001f,0.0001f);
@@ -33,7 +33,7 @@ public class DamageField : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	protected virtual void Update () {
             //ticks
             if( (ticksDone*tickLength) > (time.TimeElapsedSecs() - growTime) ){ //if a tick's length has elapsed since the last tick
                 collide.OverlapCollider(filter,stuffHit); //fill array with all colliders intersecting field
@@ -71,6 +71,8 @@ public class DamageField : MonoBehaviour {
             }
         
 	}	
+
+    //called once each tick
     protected virtual void ForEachTarget(CircleCollider2D coll){
         if(coll.gameObject.tag == "Enemy"){
             Enemy e = coll.GetComponent<Enemy>();

@@ -10,7 +10,7 @@ X Drain - when hit, it heals you for X and damages the enemy by X (since this sh
 X Zone Range - This causes the shield to be applied to this zone and can be upgraded to cause it to cover other zones as well. HOWEVER, it is still a 1 hit and dead shield. base = this zone. +1 = random left/right zone, +2 = both left/right zone, +3 keeps up that pattern. max is hits all zones
 .  Remember, any existing shield has priority over one you're trying to place.
 
-Field time - when triggered, it will leave a field in the closest section of the zone that procs "drain" effects on all enemies in it every X seconds, as well as reducing CD by X for each enemy in it every X seconds
+Field time - when triggered, it will leave a field in the closest section of the zone that procs "drain" effects on all enemies in it every X seconds
 also. the interaction of CD with Field is:
 
 [6:39] 

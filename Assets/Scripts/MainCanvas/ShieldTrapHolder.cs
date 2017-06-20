@@ -76,6 +76,7 @@ public class ShieldTrapHolder : MonoBehaviour {
     {
         for (int i = 0; i < shields.Count; i++)
         {
+            shields[i].DropField();
             Destroy(shields[i].gameObject);
         }
         Destroy(gameObject);

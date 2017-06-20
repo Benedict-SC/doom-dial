@@ -4,6 +4,9 @@
 	"towerType":"TrapShield",
 
 	"pieces":[
-		
+		{"anchorX":0, "anchorY":0, "rotation":90 , "pieceFilename":"cooldown_super"},
+		{"anchorX":3, "anchorY":0, "rotation":0  , "pieceFilename":"field_super"},
+		{"anchorX":2, "anchorY":0, "rotation":0  , "pieceFilename":"absorb_super"},
+		{"anchorX":1, "anchorY":0, "rotation":0  , "pieceFilename":"tempDisplace_super"}
 	]
 }
