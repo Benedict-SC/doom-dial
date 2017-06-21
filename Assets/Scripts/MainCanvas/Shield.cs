@@ -75,6 +75,11 @@ public class Shield : Weapon {
             if(hp == 0f){
                 OnDeath(overkill);
             }
+            // GameObject pulse = Instantiate(Resources.Load ("Prefabs/MainCanvas/ShieldPulseMask")) as GameObject;
+            // pulse.transform.SetParent(Dial.underLayer,false);
+            // ShieldPulse sp = pulse.transform.Find("ShieldPulse").GetComponent<ShieldPulse>();
+            // sp.dmg = dmg;
+            // sp.ConfigurePulse(GetCurrentLaneID());
         }
     }
 	
