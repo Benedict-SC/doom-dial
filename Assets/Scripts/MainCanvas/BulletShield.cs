@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-public class Shield : Weapon {
+public class BulletShield : Weapon {
 
     public float hp; //current hp
 
@@ -12,19 +12,11 @@ public class Shield : Weapon {
 	protected GameObject hpMeter;
 	protected RectTransform rt;
     protected RectTransform hprt;
-
-    protected GameObject dialObj;
-    protected Dial dial;
 	
-    Timer regenTimer;
-	
-	// Use this for initialization
 	void Start () {
-		
-		//default
-        regenTimer = new Timer();
-		
-		hp = shieldDurability;
+		hp = 3;
+        shieldDurability = 3;
+        dmg = 10f; //base damage
 		rt = GetComponent<RectTransform>();
 		hpMeter = transform.Find("ShieldHP").gameObject;
 		hprt = hpMeter.GetComponent<RectTransform>();
@@ -33,17 +25,8 @@ public class Shield : Weapon {
 		UpdateHPMeter();
 	}
 	
-	// Update is called once per frame
 	void Update () {
-		if(hp < shieldDurability){//regen
-            float moreHealth = regenTimer.TimeElapsedSecs() * frequency;
-            hp += moreHealth;
-            if(hp > shieldDurability){
-                hp = shieldDurability;
-            }
-            UpdateHPMeter();
-            regenTimer.Restart();
-        }
+        //no regen on these bad boys
 	}
     public virtual void OnTriggerEnter2D(Collider2D coll) {
         if (coll.gameObject.tag == "Enemy") {
@@ -52,20 +35,14 @@ public class Shield : Weapon {
             if (e.GetComponentInChildren<Saboteur>() != null) //if this enemy is a Saboteur
             {
                 Debug.Log("shield destroyed by saboteur");
-                e.ReduceDamage(-hp); //increase the saboteur's damage
+                e.ReduceDamage(-e.GetBaseDamage()); //increase the saboteur's damage
                 hp = 0;
-                OnDeath(e.GetDamage());
+                OnDeath();
                 return;
             }
 
-            if(hp >= shieldDurability){
-                regenTimer.Restart();
-            }
-            float initialDamage = e.GetBaseDamage();
-            float initialHP = hp;
-            e.ReduceDamage(hp); //reduce enemy damage
-            hp -= initialDamage; //get hit
-            OnHit(e,initialDamage,initialHP);
+            hp -= 1; //get hit
+            OnHit(e,e.GetBaseDamage());
             float overkill = 0f;
             if(hp <= 0){
                 overkill = -hp;
@@ -73,9 +50,8 @@ public class Shield : Weapon {
             }
             UpdateHPMeter();
             if(hp == 0f){
-                OnDeath(overkill);
+                OnDeath();
             }
-            
         }
     }
 	
@@ -87,28 +63,27 @@ public class Shield : Weapon {
 	}
 
     //dialDmg is any extra damage given to dial that Shield couldn't block
-    public void OnDeath(float overkill)
+    public void OnDeath()
     {
         Destroy(gameObject);
     }
         
-    public virtual void OnHit(Enemy e,float unreducedDamage,float unreducedHP){
+    public virtual void OnHit(Enemy e,float unreducedDamage){
+        float pulseDamage = dmg;
         if(reflect > 0f){
-            float dealtBack = reflect * unreducedDamage;
-            e.TakeDamage(dealtBack);
+            pulseDamage += reflect * unreducedDamage;
         }
-        if(tempDisplace > 0f){
-            RectTransform ert = e.GetComponent<RectTransform>();
-            Vector2 dir = (Vector2.zero - ert.anchoredPosition).normalized;
-            dir *= ((Dial.TRACK_LENGTH - 15f) * tempDisplace); //15 is because it shouldn't knock back the whole exact track length
-            ert.anchoredPosition -= dir;
+        int pulseTimes = 1;
+        if(continuousStrength > 0){
+            pulseTimes += (int)(continuousStrength-1);
         }
-        if(absorb > 0f){
-            Debug.Log("max hp: " + shieldDurability + " -> " + (shieldDurability + absorb));
-            shieldDurability += absorb;
-            UpdateHPMeter();
+        for(int i = 0; i < pulseTimes; i++){
+            GameObject pulse = Instantiate(Resources.Load ("Prefabs/MainCanvas/ShieldPulseMask")) as GameObject;
+            pulse.transform.SetParent(Dial.underLayer,false);
+            ShieldPulse sp = pulse.transform.Find("ShieldPulse").GetComponent<ShieldPulse>();
+            sp.dmg = pulseDamage;
+            sp.ConfigurePulse(GetCurrentLaneID(),i*0.3f);
         }
-
     }
 
     public int GetCurrentLaneID(){ 
@@ -135,7 +110,7 @@ public class Shield : Weapon {
 
     public void PrintHP ()
 	{
-		Debug.Log ("shield HP: " + hp + "/" + shieldDurability);
+		Debug.Log ("bullet shield HP: " + hp + "/" + shieldDurability);
 	}
 }
 

@@ -193,7 +193,7 @@ public class Gun : MonoBehaviour,EventHandler{
 	public void Unhold(float time){
 		if(held){ //bandaid on weird pointer event issue
 			held = false;
-			if(continuousStrength > 0 && cooldown <= 0){
+			if(towerType == "Bullet" && continuousStrength > 0 && cooldown <= 0){
 				StartCooldown(time);
 				chargeImg.fillAmount = 0f;
 				chargeImg.color = new Color(1f,1f,1f);
@@ -201,7 +201,6 @@ public class Gun : MonoBehaviour,EventHandler{
 		}
 	}
 	public void HandleEvent(GameEvent ge){
-		
 		//various conditions under which bullet shouldn't fire
 		if ((int)ge.args [0] != gunID)
 			//Debug.Log ("not tower " + gunID);
@@ -248,6 +247,7 @@ public class Gun : MonoBehaviour,EventHandler{
             break;
         case "BulletShield":
             //BulletShield behavior
+            SpawnProjectileShield();
             break;
         case "TrapShield":
             //TrapShield behavior
@@ -330,7 +330,7 @@ public class Gun : MonoBehaviour,EventHandler{
 	}
 	void SpawnTrap(){
 		//Debug.Log ("range is " + range);
-		float spawnRadius = Dial.TRACK_LENGTH * TRAP_RANGE;
+		float spawnRadius = Dial.TRACK_LENGTH * (TRAP_RANGE + 0.05f);
 		float longRadius = Dial.TRACK_LENGTH * (TRAP_RANGE + 0.2f);
 		float shortRadius = Dial.TRACK_LENGTH * (TRAP_RANGE - 0.2f);
 		//find your angle
@@ -692,6 +692,32 @@ public class Gun : MonoBehaviour,EventHandler{
         holder.AddShield(sc);
     }
 	
+    void SpawnProjectileShield(){
+        Dial dialCon = GameObject.Find ("Dial").gameObject.GetComponent<Dial>();
+		if (dialCon.IsShielded (GetCurrentLaneID() - 1)) //if there's already a shield there
+		{
+			//play some sort of error sound
+            cooldown = 0f;
+            Debug.Log("already a shield in lane " + GetCurrentLaneID());
+            return;
+		}
+		GameObject shield = Instantiate (Resources.Load ("Prefabs/MainCanvas/ProjectileShield")) as GameObject; //make a shield
+        shield.transform.SetParent(Dial.underLayer, false);
+		BulletShield bsc = shield.GetComponent<BulletShield>();
+		//make it the type of shield this thing deploys
+		ConfigureProjectileShield (bsc);
+		//find your angle
+		float shieldOwnangle = this.transform.eulerAngles.z;
+		float shieldAngle = (shieldOwnangle +  90) % 360 ;
+		shieldAngle *= (float)Math.PI / 180;
+		//find where to spawn the shield
+        RectTransform shieldRt = bsc.GetComponent<RectTransform>();
+        shieldRt.anchoredPosition = new Vector2(shieldRange*Mathf.Cos(shieldAngle),shieldRange*Mathf.Sin (shieldAngle));
+        //Debug.Log("shield y should be " + shieldRange * Mathf.Sin(shieldAngle));
+		shieldRt.rotation = this.gameObject.transform.rotation;
+		dialCon.PlaceShield (GetCurrentLaneID() - 1, shield); //mark current lane as shielded (placed in array)
+    }
+
 	#endregion
 	
 	#region Setup (get the gun ready to do stuff)
@@ -830,6 +856,14 @@ public class Gun : MonoBehaviour,EventHandler{
         sc.duplicate = duplicate;
         sc.tempDisplace = tempDisplace;
         sc.field = field;
+    }
+
+    private void ConfigureProjectileShield(BulletShield bsc)
+    {
+        bsc.reflect = reflect;
+        bsc.frequency = frequency;
+        bsc.penetration = penetration;
+        bsc.continuousStrength = continuousStrength;
     }
 	#endregion
 	

@@ -86,7 +86,7 @@ public class GunButton : MonoBehaviour{
     }
     public void FireAssociatedGun() { //on button up
 		heldOnCool = false;
-		if(heldGun != null && heldGun.GetContinuousStrength() <= 0){ //if it's a normal gun
+		if(heldGun != null && !(heldGun.GetContinuousStrength() > 0 && heldGun.GetTowerType() == "Bullet")){ //if it's a normal gun
         	heldGun.Fire(holdTime.TimeElapsedSecs());
 		}
     }

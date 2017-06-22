@@ -336,6 +336,27 @@ public class Dial : MonoBehaviour,EventHandler {
 		}
 		return zoneOccupants;
 	}
+	public static int LaneFromPosition(GameObject go){
+		RectTransform gort = go.GetComponent<RectTransform>();
+		float degrees = ((360-Mathf.Atan2(gort.anchoredPosition.y,gort.anchoredPosition.x) * Mathf.Rad2Deg)+90 + 360)%360;
+		//Debug.Log(degrees);
+		if(degrees >= 60.0 && degrees < 120.0){
+			return 2;
+		}else if(degrees >= 120.0 && degrees < 180.0){
+			return 3;
+		}else if(degrees >= 180.0 && degrees < 240.0){
+			return 4;
+		}else if(degrees >= 240.0 && degrees < 300.0){
+			return 5;
+		}else if(degrees >= 300.0 && degrees < 360.0){
+			return 6;
+		}else if(degrees >= 360.0 || degrees < 60.0){
+			return 1;
+		}else{
+			Debug.Log ("What the heck, this shouldn't happen");
+			return 0;
+		}
+	}
 	public Dictionary<string,System.Object> GetBonusDict(){
 		return bonusWaveDictionary;
 	}

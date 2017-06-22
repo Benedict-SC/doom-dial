@@ -110,6 +110,7 @@
      <Compile Include="Assets\Scripts\MainCanvas\AoE.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\Bullet.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\BulletRadial.cs" />
+     <Compile Include="Assets\Scripts\MainCanvas\BulletShield.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\CameraToggle.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\CanvasSpinner.cs" />
      <Compile Include="Assets\Scripts\MainCanvas\ChainPoisonRadius.cs" />
