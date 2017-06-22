@@ -189,5 +189,15 @@ public class EnemyShield : MonoBehaviour{
 		if(slowedAmount > 1)
 			slowedAmount = 1f;
 	}
+	public void Shred(float shred){
+		capacity -= shred;
+		if(capacity < 1f){
+			capacity = 1f;
+		}
+		if(power > capacity){
+			power = capacity;
+		}
+		RefreshShieldColors();
+	}
 	
 }

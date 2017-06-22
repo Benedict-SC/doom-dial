@@ -19,9 +19,9 @@
 	"shieldPen":false,
 	
 	"shielded":true,
-	"shieldMax":50.0,
-	"shieldHP":50.0,
-	"shieldRegen":0.02,
+	"shieldMax":20.0,
+	"shieldHP":20.0,
+	"shieldRegen":0.01,
 	"shieldSpeed":2.0,
 	"fragments":[
 		{"fragAngle":0.0,"fragArc":90.0}

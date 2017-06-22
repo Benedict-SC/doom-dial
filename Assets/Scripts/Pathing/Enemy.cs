@@ -728,6 +728,11 @@ public class Enemy : MonoBehaviour,EventHandler {
 		shield.MakeStuffRealTinyInPreparationForGrowing();
 		shield.GrowShields();
 	}
+	public void ShredShield(float sDamage){
+		if(shield != null){
+			shield.Shred(sDamage);
+		}
+	}
 	public void NullShield(){
 		shield = null;
 	}
@@ -835,6 +840,19 @@ public class Enemy : MonoBehaviour,EventHandler {
 				savedSlowSpeed = slowedSpeed;
 			}
 		}*/
+	}
+	public void Slow(float multiplier,float duration){
+		if(knockbackInProgress || stunInProgress){
+			slowWaiting = true;
+			slowInProgress = false;
+		}else{
+			slowInProgress = true;
+			slowWaiting = false;
+			slowTimer.Restart();
+			steering.Slow(multiplier);
+		}
+		slowDuration = duration;
+		slowedSpeed = multiplier;
 	}
 
     //inflict status effects from a dial shield

@@ -50,6 +50,14 @@ public class ShieldPulse : Weapon {
         
     public virtual void OnHit(Enemy e){
        e.TakeDamage(dmg);
+       if(frequency > 0){
+           e.Slow(0.5f,frequency);
+       }
+       if(penetration > 0){
+           float shredAmount = penetration * 5f;
+           e.ShredShield(shredAmount);
+           Debug.Log("we're shreddin': " + shredAmount);
+       }
     }
 }
 

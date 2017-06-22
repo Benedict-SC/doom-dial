@@ -16,7 +16,7 @@ public class BulletShield : Weapon {
 	void Start () {
 		hp = 3;
         shieldDurability = 3;
-        dmg = 10f; //base damage
+        dmg = 6f; //base damage
 		rt = GetComponent<RectTransform>();
 		hpMeter = transform.Find("ShieldHP").gameObject;
 		hprt = hpMeter.GetComponent<RectTransform>();
@@ -82,6 +82,8 @@ public class BulletShield : Weapon {
             pulse.transform.SetParent(Dial.underLayer,false);
             ShieldPulse sp = pulse.transform.Find("ShieldPulse").GetComponent<ShieldPulse>();
             sp.dmg = pulseDamage;
+            sp.frequency = frequency;
+            sp.penetration = penetration;
             sp.ConfigurePulse(GetCurrentLaneID(),i*0.3f);
         }
     }
