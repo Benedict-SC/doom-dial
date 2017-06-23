@@ -118,13 +118,14 @@ public class EditorController : MonoBehaviour,EventHandler{
 		
 		//handle tower type
 		string typeIconFile = "PieceNormalDrop";
-		if(towerType == "Bullet"){
-			typeIconFile = "BulletIconTemp";
-		}else if(towerType == "Trap"){
-			typeIconFile = "TrapIconTemp";
-		}else if(towerType == "Shield"){
-			typeIconFile = "ShieldIconTemp";
-		}
+		typeIconFile = towerType + "IconTemp";
+		// if(towerType == "Bullet"){
+		// 	typeIconFile = "BulletIconTemp";
+		// }else if(towerType == "Trap"){
+		// 	typeIconFile = "TrapIconTemp";
+		// }else if(towerType == "Shield"){
+		// 	typeIconFile = "ShieldIconTemp";
+		// }
 		Texture2D typeIcon = Resources.Load<Texture2D> ("Sprites/" + typeIconFile);
 		typeButtonImg.sprite = UnityEngine.Sprite.Create (
 			typeIcon,
@@ -146,10 +147,16 @@ public class EditorController : MonoBehaviour,EventHandler{
 	}
 	public void ToggleType(){
 		if(towerType.Equals("Bullet")){
+			SetTowerType("BulletTrap");
+		}else if(towerType.Equals("BulletTrap")){
 			SetTowerType("Trap");
 		}else if(towerType.Equals("Trap")){
+			SetTowerType("TrapShield");
+		}else if(towerType.Equals("TrapShield")){
 			SetTowerType("Shield");
 		}else if(towerType.Equals("Shield")){
+			SetTowerType("BulletShield");
+		}else if(towerType.Equals("BulletShield")){
 			SetTowerType("Bullet");
 		}
 	}
