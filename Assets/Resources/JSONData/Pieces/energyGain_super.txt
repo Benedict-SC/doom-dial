@@ -28,5 +28,10 @@
 		[3,2,0,3,2]
 	],
 	
-	"bulletText":"[PIECE EFFECT DESCRIPTION]"
+	"bulletText":"[energy gain not implemented]",
+	"trapText":"[energy gain not implemented]",
+	"shieldText":"[energy gain not implemented]",
+	"bulletTrapText":"[energy gain not implemented]",
+	"trapShieldText":"[energy gain not implemented]",
+	"bulletShieldText":"[energy gain not implemented]"
 }

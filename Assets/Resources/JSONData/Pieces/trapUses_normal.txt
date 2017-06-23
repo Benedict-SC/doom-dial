@@ -27,5 +27,5 @@
 		[0,1,1]
 	],
 	
-	"bulletText":"+1 uses of trap before it breaks"
+	"trapText":"+1 uses of trap before it breaks"
 }

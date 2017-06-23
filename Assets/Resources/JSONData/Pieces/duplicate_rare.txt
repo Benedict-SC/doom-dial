@@ -28,5 +28,6 @@
 		[4,5,3]
 	],
 	
-	"bulletText":"Trap fires an extra two times on hit"
+	"trapText":"Trap fires an extra two times on hit",
+	"trapShieldText":"Trap shield covers +2 lanes"
 }

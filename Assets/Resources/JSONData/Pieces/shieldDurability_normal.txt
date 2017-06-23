@@ -6,7 +6,7 @@
 	"comboKey":0.0,
 	"dmg":0.0,
 	"trapUses":0,
-	"shieldDurability":0.0,
+	"shieldDurability":5.0,
 	"charge":0.0,
 	"split":0,
 	"penetration":0,
@@ -28,5 +28,5 @@
 		[3,0]
 	],
 	
-	"bulletText":"[PIECE EFFECT DESCRIPTION]"
+	"shieldText":"+5 shield HP"
 }

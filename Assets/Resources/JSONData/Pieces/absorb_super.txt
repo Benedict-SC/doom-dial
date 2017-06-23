@@ -29,6 +29,6 @@
 		[0,0,1,0,0]
 	],
 	
-	"bulletText":"+6 shield max HP every time an enemy hits",
-	"shieldText":"+6 shield max HP every time an enemy hits"
+	"shieldText":"+6 shield max HP every time an enemy hits",
+	"trapShieldText":"Drain up to ?? HP from an enemy that hits"
 }

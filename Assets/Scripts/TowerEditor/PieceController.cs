@@ -25,6 +25,8 @@ public class PieceController : MonoBehaviour, EventHandler{
 	Vector3 dragPoint = new Vector3(0,0,0);
 	
 	public static float gridSquareWidth = 1.7f;
+
+	public Dictionary<string,bool> validTypes = new Dictionary<string,bool>();
 	
 	public void Start(){
 		EventManager em = EventManager.Instance ();
@@ -199,6 +201,11 @@ public class PieceController : MonoBehaviour, EventHandler{
 				int number = (int)(long)values[j];
 				codes[i,j] = number;
 			}
+		}
+
+		string[] textTypes = {"bulletText","trapText","shieldText","bulletTrapText","bulletShieldText","trapShieldText"};
+		foreach(string s in textTypes){
+			validTypes[s] = data.ContainsKey(s);
 		}
 		
 		RectTransform rt = (RectTransform)transform;

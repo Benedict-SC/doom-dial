@@ -117,21 +117,7 @@ public class EditorController : MonoBehaviour,EventHandler{
 			100f);
 		
 		//handle tower type
-		string typeIconFile = "PieceNormalDrop";
-		typeIconFile = towerType + "IconTemp";
-		// if(towerType == "Bullet"){
-		// 	typeIconFile = "BulletIconTemp";
-		// }else if(towerType == "Trap"){
-		// 	typeIconFile = "TrapIconTemp";
-		// }else if(towerType == "Shield"){
-		// 	typeIconFile = "ShieldIconTemp";
-		// }
-		Texture2D typeIcon = Resources.Load<Texture2D> ("Sprites/" + typeIconFile);
-		typeButtonImg.sprite = UnityEngine.Sprite.Create (
-			typeIcon,
-			new Rect(0,0,typeIcon.width,typeIcon.height),
-			new Vector2(0.5f,0.5f),
-			100f);
+		SetTowerType(towerType);
 	}
 	public void SetTowerType(string newtype){
 		grid.SetTowerType(newtype);
@@ -143,6 +129,9 @@ public class EditorController : MonoBehaviour,EventHandler{
 			new Rect(0,0,typeIcon.width,typeIcon.height),
 			new Vector2(0.5f,0.5f),
 			100f);
+		iwc.towerType = towerType;
+		iwc.RefreshList();
+		GrayPieces();
 		Debug.Log(towerType);
 	}
 	public void ToggleType(){
@@ -277,6 +266,19 @@ public class EditorController : MonoBehaviour,EventHandler{
 	
 	public static PieceController GetFloatingPiece(){
 		return floatingPiece;
+	}
+
+	void GrayPieces(){
+		string validType = InventoryWindowController.TextStringFromType(towerType);
+		foreach(Transform childPiece in piecesLayer){
+			PieceController pc = childPiece.GetComponent<PieceController>();
+			Image i = pc.GetComponent<Image>();
+			if(pc.validTypes[validType]){
+				i.color = new Color(1f,1f,1f,1f);
+			}else{
+				i.color = new Color(.5f,.5f,.5f,.5f);
+			}
+		}
 	}
 	
 	

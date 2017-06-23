@@ -28,5 +28,6 @@
 		[2,3,5]
 	],
 	
-	"bulletText":"Turns the gun into a zappy laser (+3s)"
+	"bulletText":"Turns the gun into a zappy laser (+3s)",
+	"bulletShieldText":"Pulse triggers +2 times on hit"
 }

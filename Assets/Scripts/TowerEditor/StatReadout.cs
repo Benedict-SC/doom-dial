@@ -17,7 +17,7 @@ public class StatReadout : MonoBehaviour, EventHandler{
 	public void HandleEvent(GameEvent ge){
 		Dictionary<string,float> dict = ge.args[0] as Dictionary<string,float>;
 		
-		float damage = dict["damage"];
+		/*float damage = dict["damage"];
 		float range = dict["range"];
 		float speed = dict["speed"];
 		float cdr = dict["cdr"];
@@ -66,8 +66,8 @@ public class StatReadout : MonoBehaviour, EventHandler{
 			finalText += penetrationLine + "\n";
 		if(shred > 0)
 			finalText += shredLine + "\n";
-			
-		text.text = finalText;
+			*/
+		text.text = "stats readout not working with new towers yet";//finalText;
 	}
 
 }

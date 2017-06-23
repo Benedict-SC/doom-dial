@@ -29,5 +29,10 @@
 		[1,1,0,0]
 	],
 	
-	"bulletText":"[PIECE EFFECT DESCRIPTION]"
+	"bulletText":"[cooldown reduction not implemented]",
+	"trapText":"[cooldown reduction not implemented]",
+	"shieldText":"[cooldown reduction not implemented]",
+	"bulletTrapText":"[cooldown reduction not implemented]",
+	"trapShieldText":"[cooldown reduction not implemented]",
+	"bulletShieldText":"[cooldown reduction not implemented]"
 }

@@ -28,5 +28,6 @@
 		[0,0,1,0,0]
 	],
 	
-	"bulletText":"+2 split"
+	"bulletText":"Bullet is divided into multiple weaker bullets (+2)",
+	"bulletTrapText":"Projectile trap fires 2 more bullets"
 }

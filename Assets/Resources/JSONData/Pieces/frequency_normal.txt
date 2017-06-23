@@ -27,5 +27,6 @@
 		[1,0]
 	],
 	
-	"bulletText":"+1 shield HP per second"
+	"shieldText":"+1 shield HP per second",
+	"bulletShieldText":"Pulse slows enemies by +15% for +1 second"
 }

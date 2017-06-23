@@ -11,6 +11,8 @@ public class InventoryWindowController : MonoBehaviour{
 		public string pieceFileName;
 		public PieceTemplateController template = null;
 		public InventoryWindowController parent = null;
+		public Dictionary<string,bool> validTypes;
+		public int count = 0;
 		
 		readonly float templateX = 135f;
 		
@@ -18,6 +20,7 @@ public class InventoryWindowController : MonoBehaviour{
 			parent = par;
 			frame = f;
 			pieceFileName = pfn;
+			validTypes = PieceTemplateController.ValidTypes(pfn);
 			GameObject t = Instantiate (Resources.Load ("Prefabs/PieceTemplate")) as GameObject;
 			template = t.GetComponent<PieceTemplateController>();
 			if(c > 0){
@@ -34,7 +37,7 @@ public class InventoryWindowController : MonoBehaviour{
 			}
 		}
 		public void Reconstruct(GameObject f,int c, string pfn){
-			if(template.gameObject != null)
+			if(template != null && template.gameObject != null)
 				Destroy (template.gameObject);
 			frame = f;
 			pieceFileName = pfn;
@@ -57,12 +60,10 @@ public class InventoryWindowController : MonoBehaviour{
 			}
 		}
 		public int GetCount(){
-			if(template == null)
-				return 0;
-			else
-				return template.GetCount();
+			return count;
 		}
-		public void SetCount(int count){
+		public void SetCount(int newcount){
+			count = newcount;
 			if(template != null){
 				template.SetCount(count);
 				//Debug.Log(pieceFileName + " count is " + count);
@@ -83,37 +84,42 @@ public class InventoryWindowController : MonoBehaviour{
 			countText.text = "" + count;
 		}
 		public void UpdateDescriptiveText(){
-			if(parent.towerType.Equals("Bullet")){
 				FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Pieces",pieceFileName);
 				string json = fl.Read ();
 				Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
 				
-				string bulletText = (string)data["bulletText"];
+				string descText = "INVALID TOWER TYPE";
+				if(parent.towerType.Equals("Bullet") && data.ContainsKey("bulletText")){
+					descText = (string)data["bulletText"];
+				}else if(parent.towerType.Equals("Trap") && data.ContainsKey("trapText")){
+					descText = (string)data["trapText"];
+				}else if(parent.towerType.Equals("Shield") && data.ContainsKey("shieldText")){
+					descText = (string)data["shieldText"];
+				}else if(parent.towerType.Equals("BulletTrap") && data.ContainsKey("bulletTrapText")){
+					descText = (string)data["bulletTrapText"];
+				}else if(parent.towerType.Equals("BulletShield") && data.ContainsKey("bulletShieldText")){
+					descText = (string)data["bulletShieldText"];
+				}else if(parent.towerType.Equals("TrapShield") && data.ContainsKey("trapShieldText")){
+					descText = (string)data["trapShieldText"];
+				}
 				Text text = frame.transform.Find("StatsText").gameObject.GetComponent<Text>();
-				text.text = bulletText;				
-			}else{
-				Debug.Log ("it ain't bullet");
-				FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Pieces",pieceFileName);
-				string json = fl.Read ();
-				Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
-				
-				string bulletText = (string)data["bulletText"];
-				Text text = frame.transform.Find("StatsText").gameObject.GetComponent<Text>();
-				text.text = bulletText;		
-				Debug.Log ("but we're doing all this anyway for now since we don't have the rest of it");
-			}
+				text.text = descText;				
 		}
 	}
 
 	static GameObject canvas;
 	List<InventoryRecord> fullList;
 	public string towerType;
+	ScrollRect scrollRect;
+	float scrollHeight;
 	
 	float pieceHeight = 1f;
 	
 	public void Start(){
 		towerType = "Bullet";
 		canvas = GameObject.Find("Canvas");
+		scrollRect = transform.parent.GetComponent<ScrollRect>();
+		scrollHeight = scrollRect.GetComponent<RectTransform>().sizeDelta.y;
 		fullList = new List<InventoryRecord>();
 		PopulateInventoryFromJSON();
 		
@@ -167,6 +173,7 @@ public class InventoryWindowController : MonoBehaviour{
 			
 			fullList.Add(ir);
 		}
+		RefreshList();
 	}
 	public void SaveInventory(){
 		FileLoader fl = new FileLoader (Application.persistentDataPath,"Inventory","inventory");
@@ -223,17 +230,27 @@ public class InventoryWindowController : MonoBehaviour{
 			}
 		}
 	}
-	private void RefreshList(){
+	public void RefreshList(){
 		int nonzeroEntries = 0;
 		for(int i = 0; i < fullList.Count; i++){
+			InventoryRecord ir = fullList[i];
+			bool typeMatches = ir.validTypes[TextStringFromType(towerType)];
 			int count = fullList[i].GetCount();
-			if(count != 0)
+			if(count != 0 && typeMatches)
 				nonzeroEntries++;
 		}
 		float height = nonzeroEntries * pieceHeight;
 	
 		RectTransform ownRect = (RectTransform)transform;
 		ownRect.sizeDelta = new Vector2(ownRect.rect.size.x,height);
+		//reposition height if you shrunk too much
+		if(height/2 < -(ownRect.anchoredPosition.y) + (scrollHeight/2)){ //you're too low
+			ownRect.anchoredPosition = new Vector2(ownRect.anchoredPosition.x,(scrollHeight/2)-(height/2));
+		}
+		if(height/2 < ownRect.anchoredPosition.y + (scrollHeight/2) ){//you're too high
+			ownRect.anchoredPosition = new Vector2(ownRect.anchoredPosition.x,(height/2)-(scrollHeight/2));
+		}
+
 		Vector3 topPoint = ownRect.TransformPoint(new Vector3(ownRect.rect.center.x,ownRect.rect.max.y,transform.position.z));
 		
 		//clear the existing entries' frames
@@ -247,9 +264,10 @@ public class InventoryWindowController : MonoBehaviour{
 			InventoryRecord ir = fullList[i];
 			string piecefile = ir.pieceFileName;
 			int count = ir.GetCount();
+			bool typeMatches = ir.validTypes[TextStringFromType(towerType)];
 			
 			GameObject go = null;
-			if(count > 0){
+			if(count > 0 && typeMatches){
 				go = Instantiate (Resources.Load ("Prefabs/InventoryRow")) as GameObject;
 				go.transform.SetParent(this.transform,false);
 				RectTransform rt = (RectTransform)go.transform;
@@ -264,5 +282,8 @@ public class InventoryWindowController : MonoBehaviour{
 	}
 	public void MenuReturn(){
 		Application.LoadLevel("TowerSelect"); 
+	}
+	public static string TextStringFromType(string towerType){
+		return towerType.Substring(0,1).ToLower() + towerType.Substring(1) + "Text";
 	}
 }

@@ -30,6 +30,6 @@
 		[0,3,0,0,0]
 	],
 	
-	"bulletText":"Teleports enemies back +30% of the track",
-	"shieldText":"Teleports enemies back +30% of the track"
+	"shieldText":"Teleports enemies back +30% of the track",
+	"trapShieldText":"On hit, reduces cooldown of any tower in its lane by +30%"
 }

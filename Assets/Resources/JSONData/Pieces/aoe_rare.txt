@@ -28,5 +28,6 @@
 		[1,0,1]
 	],
 	
-	"bulletText":"[PIECE EFFECT DESCRIPTION]"
+	"trapText":"Provides AoE, and increases the size of the trap's area of effect a decent amount",
+	"bulletTrapText":"Increases bullet range a decent amount"
 }

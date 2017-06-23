@@ -27,5 +27,6 @@
 		[2]
 	],
 	
-	"bulletText":"Pulls enemies towards the trap a little"
+	"trapText":"Pulls enemies towards the trap a little",
+	"bulletTrapText":"Bullets home in on enemies a little"
 }

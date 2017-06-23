@@ -30,5 +30,6 @@
 		[0,2,0]
 	],
 	
-	"bulletText":"Strongly pulls enemies towards the trap"
+	"trapText":"Strongly pulls enemies towards the trap",
+	"bulletTrapText":"Bullets strongly home in on enemies"
 }

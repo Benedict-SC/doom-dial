@@ -28,5 +28,6 @@
 		[0,0,1]
 	],
 	
-	"bulletText":"Leaves a damaging field behind (+5s duration)"
+	"trapText":"Leaves a damaging field behind (+5s duration)",
+	"trapShieldText":"Leaves a damaging field behind (+5s duration)"
 }

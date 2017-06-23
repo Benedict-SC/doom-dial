@@ -87,6 +87,18 @@ public class PieceTemplateController : MonoBehaviour,EventHandler{
 			}
 		}
 	}
+	public static Dictionary<string,bool> ValidTypes(string pfn){
+		FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Pieces",pfn);
+		string json = fl.Read ();
+		Dictionary<string,System.Object> data = (Dictionary<string,System.Object>)Json.Deserialize (json);
+
+		string[] textTypes = {"bulletText","trapText","shieldText","bulletTrapText","bulletShieldText","trapShieldText"};
+		Dictionary<string,bool> validTypes = new Dictionary<string,bool>();
+		foreach(string s in textTypes){
+			validTypes[s] = data.ContainsKey(s);
+		}
+		return validTypes;
+	}
 	public void ConfigureFromJSON(string pfn){
 		filename = pfn;
 		FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Pieces",pfn);

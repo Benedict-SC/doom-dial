@@ -28,5 +28,7 @@
 		[1,1,1]
 	],
 	
-	"bulletText":"[PIECE EFFECT DESCRIPTION]"
+	"bulletText":"[combo key not implemented]",
+	"trapText":"[combo key not implemented]",
+	"shieldText":"[combo key not implemented]"
 }

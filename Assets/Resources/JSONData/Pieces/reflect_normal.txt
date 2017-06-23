@@ -27,6 +27,6 @@
 		[3,2]
 	],
 	
-	"bulletText":"Reflect +20% of enemy damage to enemy on hit.",
-	"shieldText":"Reflect +20% of enemy damage to enemy on hit."
+	"shieldText":"Reflect +20% of enemy damage to enemy on hit",
+	"bulletShieldText":"Pulse deals +20% of enemy damage to all enemies it hits"
 }

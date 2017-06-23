@@ -28,5 +28,6 @@
 		[2,2,3,3]
 	],
 	
-	"bulletText":"Pierces through +3 enemies or shields"
+	"bulletText":"Pierces through +3 enemies or shields",
+	"bulletShieldText":"Pulse shreds +15 max HP off enemy shields"
 }

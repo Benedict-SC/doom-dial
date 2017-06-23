@@ -32,5 +32,6 @@
 		[1]
 	],
 	
-	"bulletText":"Four points of charge"
+	"bulletText":"+4 seconds of charge, giving the bullet an area of effect depending on charge time",
+	"bulletTrapText":"+4 seconds of charge, giving bullets an area of effect depending on charge time"
 }
