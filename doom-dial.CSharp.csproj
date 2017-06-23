@@ -142,6 +142,7 @@
     <Compile Include="Assets\Scripts\MainCanvas\AoE.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\Bullet.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\BulletRadial.cs" />
+    <Compile Include="Assets\Scripts\MainCanvas\BulletShield.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\CameraToggle.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\CanvasSpinner.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\ChainPoisonRadius.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="Assets\Scripts\MainCanvas\ProjectileTrap.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\Shield.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\ShieldFragment.cs" />
+    <Compile Include="Assets\Scripts\MainCanvas\ShieldPulse.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\ShieldTrap.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\ShieldTrapField.cs" />
     <Compile Include="Assets\Scripts\MainCanvas\ShieldTrapHolder.cs" />

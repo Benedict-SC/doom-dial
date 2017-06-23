@@ -13,7 +13,8 @@ public class Gun : MonoBehaviour,EventHandler{
 	public bool held = false;
 
 	public readonly float TRACK_LENGTH = 110.8f; //hard coded to avoid querying track size all the time
-    public readonly float TRAP_RANGE = 0.6f; //default trap range for now.  halfway down the lane
+    public readonly float TRAP_RANGE = 0.6f; //default trap range for now.  a little over halfway down the lane
+    public readonly float P_TRAP_RANGE = 0.45f; //default projectile trap range. about halfway down the lane
 	public readonly float MAX_CHARGE_RADIUS = 6f;
 	public readonly float MAX_CHARGE_TIME = 5f;
     // ^^^ RELATIVE TO CENTER
@@ -399,9 +400,9 @@ public class Gun : MonoBehaviour,EventHandler{
     void SpawnProjectileTrap()
     {
         //Debug.Log ("range is " + range);
-        float spawnRadius = Dial.TRACK_LENGTH * TRAP_RANGE;
-        float longRadius = Dial.TRACK_LENGTH * (TRAP_RANGE + 0.2f);
-        float shortRadius = Dial.TRACK_LENGTH * (TRAP_RANGE - 0.2f);
+        float spawnRadius = Dial.TRACK_LENGTH * P_TRAP_RANGE;
+        float longRadius = Dial.TRACK_LENGTH * (P_TRAP_RANGE + 0.2f);
+        float shortRadius = Dial.TRACK_LENGTH * (P_TRAP_RANGE - 0.2f);
         //find your angle
         float ownangle = this.transform.eulerAngles.z;
         float angle = (ownangle + 90) % 360;
@@ -832,6 +833,7 @@ public class Gun : MonoBehaviour,EventHandler{
         tc.trapUses = (int)trapUses;
         tc.usesLeft = (int)trapUses;
         tc.aoe = AoE;
+        //Debug.Log("setting tc.aoe to " + AoE);
         tc.attraction = attraction;
         tc.charge = charge;
         tc.split = split;
