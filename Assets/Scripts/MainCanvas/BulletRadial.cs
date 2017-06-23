@@ -6,6 +6,7 @@ using UnityEngine;
 public class BulletRadial : Bullet {
 
     public float range; //max range, distance at which the bullet dies
+    public float rangeMult = 10.0f;
     public GameObject ignoredEnemy; //enemy that tripped the ptrap - is ignored
     int initialLane;
 
@@ -16,6 +17,7 @@ public class BulletRadial : Bullet {
     {
         base.Start();
         initialLane = GetCurrentLaneID();
+        Debug.Log("bulletradial range is " + range);
     }
 	
 	// Update is called once per frame
@@ -59,7 +61,7 @@ public class BulletRadial : Bullet {
         //Debug.Log("BulletRadial distance is " + distance);
         //die at range or (not apparently) at zone borders
         //dying when hitting the dial is handled in Dial.cs's OnTriggerEnter2D()
-        if (distance > range/* || initialLane != GetCurrentLaneID()*/)
+        if (distance > range * rangeMult /* || initialLane != GetCurrentLaneID()*/)
         {
             Debug.Log("calling Collide() on BulletRadial");
             Collide();

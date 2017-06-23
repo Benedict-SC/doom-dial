@@ -1,9 +1,29 @@
 {
-	"towerName":"Slow Poison",
+    
+	"towerName":"",
+    
 	"decalFilename":"TowerIcon1",
-	"towerType":"Trap",
-
+    
+	"towerType":"BulletTrap",
+    
 	"pieces":[
-		
-	]
+        {"anchorX":4, "anchorY":3, "rotation":0, "pieceFilename":"aoe_rare"},
+        
+	{"anchorX":0, "anchorY":5, "rotation":270, "pieceFilename":"dmg_super"},
+        
+	{"anchorX":5, "anchorY":2, "rotation":0, "pieceFilename":"dmg_normal"},
+        
+	{"anchorX":5, "anchorY":5, "rotation":0, "pieceFilename":"dmg_normal"},
+        
+	{"anchorX":4, "anchorY":0, "rotation":0, "pieceFilename":"field_rare"},
+        
+	{"anchorX":2, "anchorY":0, "rotation":90, "pieceFilename":"dmg_normal"},
+        
+	{"anchorX":0, "anchorY":0, "rotation":90, "pieceFilename":"aoe_normal"},
+        
+	{"anchorX":0, "anchorY":4, "rotation":0, "pieceFilename":"dmg_normal"},
+        
+	{"anchorX":1, "anchorY":2, "rotation":0, "pieceFilename":"duplicate_rare"}
+    ]
+
 }

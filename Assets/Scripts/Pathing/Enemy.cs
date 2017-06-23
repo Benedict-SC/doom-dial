@@ -419,6 +419,7 @@ public class Enemy : MonoBehaviour,EventHandler {
                     //bulletRadials ignore the enemy that tripped the PTrap to begin with
                     if (this.gameObject != bc.ignoredEnemy)
                     {
+                        Debug.Log(this.gameObject.ToString() + "equals " + bc.ignoredEnemy.ToString());
                         bc.enemyHit = this.gameObject;
                         GetStatused(bc);
                         //StartCoroutine (StatusEffectsBullet (bc));
