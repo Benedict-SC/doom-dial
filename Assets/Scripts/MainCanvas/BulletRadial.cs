@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class BulletRadial : Bullet {
 
-    public float range; //max range, distance at which the bullet dies
+    public float range = 10.0f; //max range, distance at which the bullet dies
     public float rangeMult = 10.0f;
     public GameObject ignoredEnemy; //enemy that tripped the ptrap - is ignored
     int initialLane;
