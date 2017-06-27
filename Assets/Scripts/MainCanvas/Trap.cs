@@ -116,7 +116,35 @@ public class Trap : Weapon {
                 Destroy(this.gameObject);
 			}
 		}
+        else if (coll.gameObject.tag == "Bullet")
+        {
+            Bullet bc = coll.gameObject.GetComponent<Bullet>();
+            if (bc.comboKey > 0f || comboKey > 0f)
+            {
+                //TODO - chance/odds of the following happening?
+                //Bullet hitting Trap combo effect
+                BulletTrapComboEffects(bc);
+            }
+        }
 	}
+
+    //Bullet/Trap combo effects
+    void BulletTrapComboEffects(Bullet bc)
+    {
+        //(From the spreadsheet)
+        //Trap explodes with the properties of the bullet
+
+        //Damage
+        dmg += bc.dmg;
+        //Charge (size of aoe)
+        aoe += bc.charge;
+        //Split (multiple explosions)
+        //TODO
+        //Penetration (it's an aoe, ignores shields)
+        //TODO
+        //Continuous (leaves a damage-over-time field)
+        field += bc.continuousStrength;
+    }
 	
 	//called when the bullet hits something, from the OnCollisionEnter in EnemyController
 	public void Collide(){

@@ -1,7 +1,7 @@
 {
 	"imgfile":"Piece_Cooldown_SR",
 
-	"cooldown":3.0,
+	"cooldown":-3.0,
 	"energyGain":0.0,
 	"comboKey":0.0,
 	"dmg":0.0,

@@ -78,6 +78,25 @@ public class Shield : Weapon {
             
         }
     }
+
+    public virtual void OnTriggerExit2D(Collider2D coll)
+    {
+        if (coll.gameObject.tag == "Bullet")
+        {
+            Bullet bc = coll.gameObject.GetComponent<Bullet>();
+            if (bc.comboKey > 0f || comboKey > 0f)
+            {
+                //TODO - chance/odds of the following happening?
+                BulletShieldComboEffects(bc);
+            }
+        }
+    }
+
+    //Bullet/Shield combo effects
+    void BulletShieldComboEffects(Bullet bc)
+    {
+        //TODO
+    }
 	
 	public void UpdateHPMeter ()
 	{
