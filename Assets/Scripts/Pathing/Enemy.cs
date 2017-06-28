@@ -200,6 +200,9 @@ public class Enemy : MonoBehaviour,EventHandler {
 		rareDropThreshold = (int)(long)data ["rareDropThreshold"];
 		rareChance = (float)(double)data ["rareChance"];
 		normalChance = (float)(double)data ["normalChance"];
+
+        //apply Risk bonuses to drop/rarity rates
+        ApplyRiskBonuses();
 		
 		//shield stuff
 		if(data.ContainsKey("shielded")){
@@ -222,6 +225,29 @@ public class Enemy : MonoBehaviour,EventHandler {
 		moverType = (string)data["movementType"];
 		
 	}
+
+    //apply risk bonuses to drop/rarity rates
+    //called in ConfigureEnemy
+    void ApplyRiskBonuses()
+    {
+        float boost;
+        //drop rates
+        boost = (PlayerPrefsInfo.GetDropRateBoost() * 100f);
+        lowDropRate += boost;
+        if (lowDropRate > 100f) lowDropRate = 100f;
+        medDropRate += boost;
+        if (medDropRate > 100f) medDropRate = 100f;
+        highDropRate += boost;
+        if (highDropRate > 100f) highDropRate = 100f;
+        //rarity rates
+        boost = (PlayerPrefsInfo.GetRarityRateBoost() * 100f);
+        normalChance += boost;
+        if (normalChance > 100f) normalChance = 100f;
+        rareChance += boost;
+        if (rareChance > 100f) rareChance = 100f;
+        //omnitech drop rates
+        boost = (PlayerPrefsInfo.GetOmnitechDropRateBoost() * 100f);
+    }
 	#endregion
 	
 	// Update is called once per frame

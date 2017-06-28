@@ -92,7 +92,9 @@
     <Compile Include="Assets\Scripts\CanvasMenus\MainMenu.cs" />
     <Compile Include="Assets\Scripts\CanvasMenus\MenuDial.cs" />
     <Compile Include="Assets\Scripts\CanvasMenus\MenuOption.cs" />
+    <Compile Include="Assets\Scripts\CanvasMenus\MenuRisks.cs" />
     <Compile Include="Assets\Scripts\CanvasMenus\MenuScaleEffectCanvas.cs" />
+    <Compile Include="Assets\Scripts\CanvasMenus\PlayerPrefsInfo.cs" />
     <Compile Include="Assets\Scripts\CanvasMenus\ReturnToGameOption.cs" />
     <Compile Include="Assets\Scripts\CanvasMenus\SettingsMenu.cs" />
     <Compile Include="Assets\Scripts\CanvasMenus\SplashLogo.cs" />
@@ -254,6 +256,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Misc\BulletEffectsLog.txt" />
+    <None Include="Assets\Misc\RisksExplanation.txt" />
     <None Include="Assets\Misc\TrapShieldStatExplanation.txt" />
     <None Include="Assets\Resources\JSONData\Bestiary\ENEMY_LIST.txt" />
     <None Include="Assets\Resources\JSONData\Bestiary\bigfella.txt" />

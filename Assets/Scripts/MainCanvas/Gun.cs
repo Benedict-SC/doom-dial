@@ -795,6 +795,7 @@ public class Gun : MonoBehaviour,EventHandler{
         bc.penetration = penetration;
 		bc.penetrationsLeft = penetration;
         bc.continuousStrength = continuousStrength;
+        bc.comboKey = comboKey;
 	}
 	//Assigns skill values to continuous fire Towers
 	private void ConfigureLaser(Laser bc){
@@ -824,6 +825,7 @@ public class Gun : MonoBehaviour,EventHandler{
         tc.duplicate = duplicate;
         tc.field = field;
 		tc.zone = GetCurrentLaneID();
+        tc.comboKey = comboKey;
 	}
 
     //Assigns skill values to projectile traps
@@ -848,6 +850,7 @@ public class Gun : MonoBehaviour,EventHandler{
         sc.frequency = frequency;
         sc.tempDisplace = tempDisplace;
         sc.absorb = absorb;
+        sc.comboKey = comboKey;
 	}
 
     //Assigns skill values to shield traps
@@ -860,6 +863,7 @@ public class Gun : MonoBehaviour,EventHandler{
         sc.field = field;
     }
 
+    //Assigns skill values to projectile shields
     private void ConfigureProjectileShield(BulletShield bsc)
     {
         bsc.reflect = reflect;
