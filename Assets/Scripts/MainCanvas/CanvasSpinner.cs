@@ -11,6 +11,7 @@ public class CanvasSpinner : MonoBehaviour,EventHandler{
 	bool spinning = false;
 	float startingMouseRot;
 	float startingDialRot;
+    int directionMult; //should always be 1 or -1
 	GunButton[] gunButtons = new GunButton[6];
 	
 	public void Start(){
@@ -25,6 +26,8 @@ public class CanvasSpinner : MonoBehaviour,EventHandler{
 		for(int i = 1; i < 7; i++){
 			gunButtons[i-1] = GameObject.Find("Button"+i).GetComponent<GunButton>();
 		}
+
+        SetDirectionMult(); //sets directionMult based on Risk "inverse dial" setting
 	}
 	public void HandleEvent(GameEvent ge){
 		if(Pause.paused)
@@ -47,7 +50,7 @@ public class CanvasSpinner : MonoBehaviour,EventHandler{
 				return;
 			spinning = false;
 			float mouseAngle = Mathf.Atan2 ((mousepos.y - anchorY) - transform.position.y, (mousepos.x-anchorX) - transform.position.x);
-			float angleChange = mouseAngle-startingMouseRot;
+			float angleChange = (mouseAngle-startingMouseRot) * directionMult;
 			transform.eulerAngles = new Vector3(transform.eulerAngles.x,transform.eulerAngles.y,(startingDialRot + angleChange)*Mathf.Rad2Deg);
 			float rotation = transform.eulerAngles.z;
 			float lockRot = Mathf.Round (rotation / 60) * 60;
@@ -65,7 +68,7 @@ public class CanvasSpinner : MonoBehaviour,EventHandler{
 			return;
 		Vector3 mousepos = InputWatcher.GetCanvasInputPosition((RectTransform)canvas.transform);
 		float mouseAngle = Mathf.Atan2 ((mousepos.y - anchorY) - transform.position.y, (mousepos.x-anchorX) - transform.position.x);
-		float angleChange = mouseAngle-startingMouseRot;
+		float angleChange = (mouseAngle-startingMouseRot) * directionMult;
 		transform.eulerAngles = new Vector3(transform.eulerAngles.x,transform.eulerAngles.y,(startingDialRot + angleChange)*Mathf.Rad2Deg);
 	}
 	public bool TouchIsOnGunButtons(){
@@ -78,5 +81,13 @@ public class CanvasSpinner : MonoBehaviour,EventHandler{
 	public bool IsSpinning(){
 		return spinning;
 	}
+
+    void SetDirectionMult()
+    {
+        int val = PlayerPrefs.GetInt(PlayerPrefsInfo.s_inverseDialSpin);
+        if (val == 0) directionMult = 1;
+        else if (val == 1) directionMult = -1;
+        Debug.Log("directionMult is " + directionMult);
+    }
 	
 }
