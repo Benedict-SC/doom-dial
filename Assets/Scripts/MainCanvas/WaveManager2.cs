@@ -36,7 +36,7 @@ public class WaveManager2 : MonoBehaviour {
 		Debug.Log (leveldata.CreatedPath());
 		bool loadingUserLevel = false;
 		if(WorldData.loadUserLevel){
-			leveldata = new FileLoader (Application.persistentDataPath,"UserLevels","userlevel");
+			leveldata = new FileLoader (Application.persistentDataPath,"UserLevels","userlevel_" + WorldData.selectedUserLevel);
 			//reset world data
 			loadingUserLevel = true;
 			WorldData.loadUserLevel = false;

@@ -185,10 +185,32 @@ public class WaveEditorController : MonoBehaviour,EventHandler{
 	public void PrintWaveJSON(){
 		Debug.Log (GetWaveJSON());
 	}
-	public void PlayLevel(){
-		//write wave to wave file
+	public void SaveLevel(string userlevelname){
+		FileLoader levelRegistry = new FileLoader (Application.persistentDataPath,"UserLevels","levelRegistry");
+		string contents = levelRegistry.Read();
+		if(contents.Equals("ERROR")){
+			string newDict = "{\"levels\":[\"" + userlevelname + "\"]}";
+			levelRegistry.Write(newDict);
+		}else{
+			Dictionary<string,System.Object> registry = Json.Deserialize (contents) as Dictionary<string,System.Object>;
+			List<System.Object> levelsList = registry ["levels"] as List<System.Object>;
+			bool alreadyHas = false;
+			for(int i=0;i<levelsList.Count;i++){
+				string s = (string)levelsList[i];
+				if(s.Equals(userlevelname)){
+					alreadyHas = true;
+					break;
+				}
+			}
+			if(!alreadyHas){
+				levelsList.Add((System.Object)userlevelname);
+				string newDict = Json.Serialize(registry);
+				levelRegistry.Write(newDict);
+			}
+		}
+
 		for(int i = 0; i < 6; i++){
-			FileLoader wavedata = new FileLoader (Application.persistentDataPath,"UserLevels","userwave" + (i+1));
+			FileLoader wavedata = new FileLoader (Application.persistentDataPath,"UserLevels","userwave_" + userlevelname + (i+1));
 			wavedata.Write(GetWaveJSON(i));
 		}
 		
@@ -197,17 +219,26 @@ public class WaveEditorController : MonoBehaviour,EventHandler{
 		List<System.Object> waves = new List<System.Object>();
 		for(int i = 0; i < 6; i++){
 			Dictionary<string,System.Object> waveobj = new Dictionary<string,System.Object>();
-			waveobj.Add("wavename","userwave" + (i+1));
+			waveobj.Add("wavename","userwave_" + userlevelname + (i+1));
 			waves.Add(waveobj);
 		}
 		leveldict.Add("waves",waves);
 		leveldict.Add("boss",btc.GetBossIndex());
 		//set loader for level
-		FileLoader leveldata = new FileLoader (Application.persistentDataPath,"UserLevels","userlevel");
+		FileLoader leveldata = new FileLoader (Application.persistentDataPath,"UserLevels","userlevel_" + userlevelname);
 		//write dictionary to loader
 		leveldata.Write(Json.Serialize(leveldict));
+	}
+	public void PlayLevel(){
+		//write wave to wave file
+		SaveLevel("");
 		//switch scene to MainGame while somehow calling the wavemanager reset thing
 		WorldData.loadUserLevel = true;
+		Application.LoadLevel("MainGameCanvas");
+	}
+	public void PlaySpecificLevel(string levelid){
+		WorldData.loadUserLevel = true;
+		WorldData.selectedUserLevel = levelid;
 		Application.LoadLevel("MainGameCanvas");
 	}
 	public void Return(){

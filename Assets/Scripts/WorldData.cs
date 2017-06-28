@@ -16,6 +16,7 @@ public class WorldData : MonoBehaviour {
 	
 	//a bool for use by the wave manager to tell if it should be loading a user level
 	public static bool loadUserLevel = false;
+	public static string selectedUserLevel = "";
 	
 	// Use this for initialization
 	void Start () {
