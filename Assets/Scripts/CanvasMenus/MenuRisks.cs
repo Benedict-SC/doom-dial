@@ -28,12 +28,68 @@ public class MenuRisks : MonoBehaviour {
         ambushToggle.onValueChanged.AddListener(SetAmbush);
         sabotageToggle.onValueChanged.AddListener(SetSabotage);
         tougherEnemiesToggle.onValueChanged.AddListener(SetTougherEnemies);
+
+        SetToggleValues();
 	}
 	
 	// Update is called once per frame
 	void Update () {
         
 	}
+
+    void SetToggleValues()
+    {
+        if (Int2Bool(PlayerPrefs.GetInt(PlayerPrefsInfo.s_skinnyFarLane)))
+        {
+            skinnyFarSectionToggle.isOn = true;
+        }
+        else skinnyFarSectionToggle.isOn = false;
+        if (Int2Bool(PlayerPrefs.GetInt(PlayerPrefsInfo.s_skinnyMidLane)))
+        {
+            skinnyMidSectionToggle.isOn = true;
+        }
+        else skinnyMidSectionToggle.isOn = false;
+        if (Int2Bool(PlayerPrefs.GetInt(PlayerPrefsInfo.s_skinnyNearLane)))
+        {
+            skinnyNearSectionToggle.isOn = true;
+        }
+        else skinnyNearSectionToggle.isOn = false;
+        if (Int2Bool(PlayerPrefs.GetInt(PlayerPrefsInfo.s_inverseDialSpin)))
+        {
+            inverseDialToggle.isOn = true;
+        }
+        else inverseDialToggle.isOn = false;
+        if (Int2Bool(PlayerPrefs.GetInt(PlayerPrefsInfo.s_useLock)))
+        {
+            useLockToggle.isOn = true;
+        }
+        else useLockToggle.isOn = false;
+        if (Int2Bool(PlayerPrefs.GetInt(PlayerPrefsInfo.s_rotLock)))
+        {
+            rotLockToggle.isOn = true;
+        }
+        else skinnyFarSectionToggle.isOn = false;
+        if (Int2Bool(PlayerPrefs.GetInt(PlayerPrefsInfo.s_vampire)))
+        {
+            vampireToggle.isOn = true;
+        }
+        else vampireToggle.isOn = false;
+        if (Int2Bool(PlayerPrefs.GetInt(PlayerPrefsInfo.s_ambush)))
+        {
+            ambushToggle.isOn = true;
+        }
+        else ambushToggle.isOn = false;
+        if (Int2Bool(PlayerPrefs.GetInt(PlayerPrefsInfo.s_sabotage)))
+        {
+            sabotageToggle.isOn = true;
+        }
+        else sabotageToggle.isOn = false;
+        if (Int2Bool(PlayerPrefs.GetInt(PlayerPrefsInfo.s_tougherEnemies)))
+        {
+            tougherEnemiesToggle.isOn = true;
+        }
+        else tougherEnemiesToggle.isOn = false;
+    }
 
     void SetSkinnyFarSection(bool b)
     {
@@ -95,9 +151,15 @@ public class MenuRisks : MonoBehaviour {
         PlayerPrefsInfo.CalculateOmnitechRateBoost();
     }
 
-    int Bool2Int(bool b)
+    static int Bool2Int(bool b)
     {
         if (b) return 1;
         else return 0;
+    }
+
+    static bool Int2Bool(int i)
+    {
+        if (i == 0) return false;
+        else return true;
     }
 }
