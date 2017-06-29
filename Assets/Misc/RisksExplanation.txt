@@ -8,14 +8,15 @@ Risks - activate risks to increase rate of drops, rarity of drops, and/or chance
 
 X - Inverse dial spin (spin left but the dial spins right, vice versa) - Drop Rate Up
 
-- Use-Lock (can only use an ability once until all abilities have been activated, then they reset, cooldowns still apply) - Rarity Rate Up
+X - Use-Lock (can only use an ability once until all abilities have been activated, then they reset, cooldowns still apply) - Rarity Rate Up
 
 - Rot-Lock (may only rotate 2 spots at a time. use ability to unlock dial) - Rarity Rate Up
 
 - Vampire (must be dealing damage to stay alive, all shots have drain) - Rarity Rate Up
 
-- Ambush (no warning indicators) - Drop Rate Up
+X - Ambush (no warning indicators) - Drop Rate Up
 
 - Sabotage (dropped tech explodes after X seconds, can hurt you) - Drop Rate Up
 
 - Enemies faster/More HP/More Shields by X - Omnifit Tech drop rate up
+- Remember to implement Omnitech drops once SelfRepair piece is in place

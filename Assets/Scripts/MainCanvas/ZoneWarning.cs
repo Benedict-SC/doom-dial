@@ -17,6 +17,8 @@ public class ZoneWarning : MonoBehaviour,EventHandler{
 	int flashCount = 2; //default number of flashes
 	public int id;
 
+    bool doesFlash = true; //is False if the Ambush risk is on
+
 	public void Start(){
 		overlay = gameObject.GetComponent<Image>();
 	
@@ -24,9 +26,15 @@ public class ZoneWarning : MonoBehaviour,EventHandler{
 		brightness_mid = (BRIGHTNESS_MIN+BRIGHTNESS_MAX)/2f;
 		brightness_radius = brightness_mid-BRIGHTNESS_MIN;
 		EventManager.Instance().RegisterForEventType("warning",this);
+
+        //if Ambush risk is on, disable zone warnings
+        if (PlayerPrefsInfo.Int2Bool(PlayerPrefs.GetInt(PlayerPrefsInfo.s_ambush)))
+        {
+            doesFlash = false;
+        }
 	}
 	public void Update(){
-		if(flashing){
+		if(flashing && doesFlash){
 			float time = flashTimer.TimeElapsedSecs();
 			if(time > HEAD_START){
 				flashing = false;

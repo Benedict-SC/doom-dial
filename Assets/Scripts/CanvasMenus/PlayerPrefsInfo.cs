@@ -120,9 +120,15 @@ public class PlayerPrefsInfo : MonoBehaviour {
         return totalOmnitechDropRateBoost;
     }
 
-    static bool Int2Bool(int i)
+    public static bool Int2Bool(int i)
     {
         if (i == 0) return false;
         else return true;
+    }
+
+    public static int Bool2Int(bool b)
+    {
+        if (b) return 1;
+        else return 0;
     }
 }
