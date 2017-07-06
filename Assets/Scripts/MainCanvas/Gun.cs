@@ -84,7 +84,7 @@ public class Gun : MonoBehaviour,EventHandler{
 	 */
 	
 	float baseMaxcool;
-	float maxcool;
+	public float maxcool;
 	float lastCooltime;
     Timer cooltimer;
 	
@@ -94,9 +94,19 @@ public class Gun : MonoBehaviour,EventHandler{
 	
 	Image cooldownImg;
 	Image chargeImg;
+
+    bool useLockIsOn = false; //use-lock Risk
+    public bool waitingForOtherGunsToFire = false; //also for UseLock
+    public bool useLockHasFired = false;
+
+    Dial dial;
+    GameObject dialObj;
 	
 	// Use this for initialization
 	void Start () {
+        dialObj = GameObject.Find("Dial");
+        dial = dialObj.GetComponent<Dial>();
+
 		canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
 		EventManager.Instance ().RegisterForEventType ("shot_fired", this);
 		GameObject overlayObject = transform.Find("CooldownLayer").gameObject;
@@ -129,22 +139,46 @@ public class Gun : MonoBehaviour,EventHandler{
 			split = 4;
 		if (split < 1)
 			split = 1;
+
+        //if useLock risk is on
+        if (PlayerPrefsInfo.Int2Bool(PlayerPrefs.GetInt(PlayerPrefsInfo.s_useLock)))
+        {
+            useLockIsOn = true;
+        }
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (cooldown > 0) {
-                float cooltime = cooltimer.TimeElapsedSecs();
-				float elapsed = cooltime - lastCooltime;
-				cooldown -= elapsed;
-				lastCooltime = cooltime;
-                if (cooldown < 0)
+        if (useLockIsOn)
+        {
+            //set waitingforothergunstofire
+            //based on useLockHasFire and other guns' states
+            if(waitingForOtherGunsToFire)
+            {
+                //if all other guns have fired
+                if (dial.UseLockGunsHaveAllFired())
                 {
-					lastCooltime = 0;
-                    cooldown = 0;
+                    //these lines are all the guns resetting
+                    dial.UseLockResetAllGuns();
                 }
-                cooldownImg.fillAmount = GetCooldownRatio();
-		}
+            }
+        }
+		if (cooldown > 0) {
+            float cooltime = cooltimer.TimeElapsedSecs();
+            float elapsed = cooltime - lastCooltime;
+            cooldown -= elapsed;
+            if (waitingForOtherGunsToFire)
+            {
+                cooldown = maxcool;
+            }
+            lastCooltime = cooltime;
+            if (cooldown < 0)
+            {
+                lastCooltime = 0;
+                cooldown = 0;
+            }
+            cooldownImg.fillAmount = GetCooldownRatio();
+        }
 		if((charge > 0) && held){
 			float maxChargeTime = (MAX_CHARGE_TIME/MAX_CHARGE_RADIUS) * charge;
 			float chargePercent = mostRecentChargeTime / maxChargeTime;
@@ -163,6 +197,7 @@ public class Gun : MonoBehaviour,EventHandler{
 		nge.addArgument(gunID);
 		nge.addArgument(heldTime);
 		EventManager.Instance ().RaiseEvent (nge);
+        
 	}
 	public void StartCooldown(float heldTime){
         cooltimer.Restart();
@@ -218,6 +253,17 @@ public class Gun : MonoBehaviour,EventHandler{
 			Debug.Log ("we're not active");
 			return;
 		}
+        if (useLockIsOn && useLockHasFired)
+        {
+            Debug.Log("uselock is on and this gun has already fired!");
+            return;
+        }
+
+        if (useLockIsOn)
+        {
+            useLockHasFired = true;
+            waitingForOtherGunsToFire = true;
+        }
 
         cooltimer.Restart();
 		cooldown = maxcool; //start cooldown

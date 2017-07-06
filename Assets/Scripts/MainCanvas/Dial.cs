@@ -37,6 +37,8 @@ public class Dial : MonoBehaviour,EventHandler {
     public int escapedEnemyCount = 0;
 	int bonusCapacity = 30;
 	string mostRecentAttackerFilename = "testenemy";
+
+    List<Gun> guns = new List<Gun>();
 	
 	void Awake(){
 		GamePause.paused = false;
@@ -71,6 +73,8 @@ public class Dial : MonoBehaviour,EventHandler {
 			Transform bar = superBars[i].transform;
 			bar.localScale = new Vector3(0.0f, bar.localScale.y,bar.localScale.z);
 		}
+
+        guns = GetAllGuns();
 	}
 	
 	// Update is called once per frame
@@ -336,6 +340,43 @@ public class Dial : MonoBehaviour,EventHandler {
 		}
 		return zoneOccupants;
 	}
+
+    public static List<Gun> GetAllGuns()
+    {
+        List<Gun> result = new List<Gun>();
+        for (int i = 1; i <= 6; i++)
+        {
+            GameObject g = GameObject.Find("Gun" + i);
+            if (g != null)
+            {
+                result.Add(g.GetComponent<Gun>());
+            }
+        }
+        return result;
+    }
+
+    //returns true if all guns HAVE fired
+    public bool UseLockGunsHaveAllFired()
+    {
+        foreach (Gun g in GetAllGuns())
+        {
+            if (!g.useLockHasFired)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void UseLockResetAllGuns()
+    {
+        foreach (Gun g in GetAllGuns())
+        {
+            g.waitingForOtherGunsToFire = false;
+            g.useLockHasFired = false;
+        }
+    }
+
 	public static int LaneFromPosition(GameObject go){
 		RectTransform gort = go.GetComponent<RectTransform>();
 		float degrees = ((360-Mathf.Atan2(gort.anchoredPosition.y,gort.anchoredPosition.x) * Mathf.Rad2Deg)+90 + 360)%360;

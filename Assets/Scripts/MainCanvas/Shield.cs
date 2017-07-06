@@ -7,7 +7,7 @@ public class Shield : Weapon {
     public float hp; //current hp
 
     public float maxHealthSize;
-    public float minHealthSize = 23f;
+    public float minHealthSize;
 
 	protected GameObject hpMeter;
 	protected RectTransform rt;
@@ -29,6 +29,7 @@ public class Shield : Weapon {
 		hpMeter = transform.Find("ShieldHP").gameObject;
 		hprt = hpMeter.GetComponent<RectTransform>();
         maxHealthSize = hprt.sizeDelta.y;
+        minHealthSize = 23f;
 
 		UpdateHPMeter();
 	}
@@ -100,8 +101,11 @@ public class Shield : Weapon {
 	
 	public void UpdateHPMeter ()
 	{
+        Debug.Log("updatehpmeter");
 		float percentHP = hp/shieldDurability;
+        Debug.Log("percenthp is " + percentHP);
         float differential = maxHealthSize - minHealthSize;
+        Debug.Log("differential is" + differential);
         hprt.sizeDelta = new Vector2(hprt.sizeDelta.x,minHealthSize + (percentHP*differential));
 	}
 

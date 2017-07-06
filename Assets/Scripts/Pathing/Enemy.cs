@@ -378,7 +378,7 @@ public class Enemy : MonoBehaviour,EventHandler {
     public virtual void OnTriggerEnter2D(Collider2D coll) {
         if (frozen)
             return; //invincible while boss is moving it
-        if (coll.gameObject.tag == "Enemy") { //handled before anything that cares about shields
+        if (coll != null && coll.gameObject.tag == "Enemy") { //handled before anything that cares about shields
             if (knockChained) {
                 Debug.Log("we hit something with knockchain");
                 float timeEstimate = 1.3f; //how long stuff presumably gets knocked back for
