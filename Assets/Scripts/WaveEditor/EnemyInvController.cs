@@ -6,7 +6,9 @@ using System.Collections.Generic;
 
 public class EnemyInvController : MonoBehaviour{
 	public bool admin = false;
+	List<EnemyTemplateController> etcs;
 	public void Start(){
+		etcs = new List<EnemyTemplateController>();
 		if(admin){
 			BuildAdminInventory();
 		}else {
@@ -46,6 +48,7 @@ public class EnemyInvController : MonoBehaviour{
 			GameObject template = Instantiate (Resources.Load ("Prefabs/EnemyTemplate")) as GameObject;
 			template.transform.SetParent(go.transform,false);
 			template.GetComponent<EnemyTemplateController>().ConfigureFromJSON(efilename);
+			etcs.Add(template.GetComponent<EnemyTemplateController>());
 			RectTransform trt = (RectTransform)template.transform;
 			trt.anchoredPosition = new Vector2(0f,-25f);
 			
@@ -92,6 +95,7 @@ public class EnemyInvController : MonoBehaviour{
 			GameObject template = Instantiate (Resources.Load ("Prefabs/EnemyTemplate")) as GameObject;
 			template.transform.SetParent(go.transform,false);
 			template.GetComponent<EnemyTemplateController>().ConfigureFromJSON(efilename);
+			etcs.Add(template.GetComponent<EnemyTemplateController>());
 			RectTransform trt = (RectTransform)template.transform;
 			trt.anchoredPosition = new Vector2(0f,-25f);
 			
@@ -100,5 +104,13 @@ public class EnemyInvController : MonoBehaviour{
 			added++;
 		}
 
+	}
+	public EnemyTemplateController GetTemplateByName(string efilename){
+		foreach(EnemyTemplateController etc in etcs){
+			if(etc.GetSrcFileName().Equals(efilename)){
+				return etc;
+			}
+		}
+		return null;
 	}
 }

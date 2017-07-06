@@ -49,26 +49,16 @@ public class ZonePanelController : MonoBehaviour{
 		enemies = list;
 	}
 	public void AddNewEntry(EnemyDraggableController entry){
-		GameObject go = Instantiate (Resources.Load ("Prefabs/EnemyListEntry")) as GameObject;
-		EnemyListEntryController elec = go.GetComponent<EnemyListEntryController>();
-		elec.transform.SetParent(scroll.transform,false);
-		elec.ConfigureFromTemplate(entry.GetEnemyTemplate());
-		RectTransform rt = (RectTransform)elec.transform;
-		rt.anchoredPosition = new Vector2(rt.anchoredPosition.x,rt.anchoredPosition.y - spacing*enemies.Count);
-		if(enemies.Count == 0){
-			initialpos = rt.anchoredPosition.y;
-		}
-		enemies.Add(elec);
-		elec.parentZonePanel = this;
-		ResizeScroll();
-		GameEvent ge = new GameEvent("wave_editor_changed");
-		EventManager.Instance().RaiseEvent(ge);
+		AddNewEntry(entry.GetEnemyTemplate());
 	}
 	public void AddNewEntry(EnemyListEntryController entry){
+		AddNewEntry(entry.GetEnemyTemplate());
+	}
+	public void AddNewEntry(EnemyTemplateController etc){
 		GameObject go = Instantiate (Resources.Load ("Prefabs/EnemyListEntry")) as GameObject;
 		EnemyListEntryController elec = go.GetComponent<EnemyListEntryController>();
 		elec.transform.SetParent(scroll.transform,false);
-		elec.ConfigureFromTemplate(entry.GetEnemyTemplate());
+		elec.ConfigureFromTemplate(etc);
 		RectTransform rt = (RectTransform)elec.transform;
 		rt.anchoredPosition = new Vector2(rt.anchoredPosition.x,rt.anchoredPosition.y - spacing*enemies.Count);
 		if(enemies.Count == 0){
@@ -89,6 +79,17 @@ public class ZonePanelController : MonoBehaviour{
 			rt.anchoredPosition = new Vector2(rt.anchoredPosition.x,initialpos - spacing*i); 
 		}*/
 		
+		GameEvent ge = new GameEvent("wave_editor_changed");
+		EventManager.Instance().RaiseEvent(ge);
+	}
+	public void ClearEntries(){
+		for(int i = enemies.Count - 1; i >= 0; i--){
+			Debug.Log("destroying enemy " + enemies[i].GetEnemyTemplate().GetName());
+			Destroy(enemies[i].gameObject);
+		}
+		Debug.Log("all enemies destroyed in one ZonePanelController");
+		enemies.Clear();
+		ResizeScroll();
 		GameEvent ge = new GameEvent("wave_editor_changed");
 		EventManager.Instance().RaiseEvent(ge);
 	}

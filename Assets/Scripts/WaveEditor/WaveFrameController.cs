@@ -131,6 +131,9 @@ public class WaveFrameController : MonoBehaviour, EventHandler{
 	public void HandleEvent(GameEvent ge){
 		if(BossTabController.open)
 			return;
+		if(WaveEditorController.singleton.panelOpen){
+			return;
+		}
 		if(ge.type.Equals("mouse_click")){
 			if(snapping || dragging)
 				return;

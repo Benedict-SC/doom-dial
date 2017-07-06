@@ -6,10 +6,12 @@ using MiniJSON;
 public class WaveEditorController : MonoBehaviour,EventHandler{
 
 	public static WaveEditorController singleton;
+	public bool panelOpen = false;
 	public GameObject canvas;
 	ScrollRect sr;
 	ZonePanelController[] zonepanels;
 	BossTabController btc;
+	EnemyInvController eic;
 	List<EnemyListEntryController>[] zonelists;
 	public WaveFrameController activeWaveFrame;
 	WaveFrameController[] frames;
@@ -26,6 +28,7 @@ public class WaveEditorController : MonoBehaviour,EventHandler{
 		singleton = this;
 		canvas = GameObject.Find("Canvas");
 		sr = GameObject.Find("EnemyScroll").GetComponent<ScrollRect>();
+		eic = GameObject.Find("EnemyContent").GetComponent<EnemyInvController>();
 		btc = GameObject.Find ("BossButton").GetComponent<BossTabController>();
 		pointText = GameObject.Find ("Points").transform.Find("Text").GetComponent<Text>();
 		wavenumber = GameObject.Find ("WaveNumber").transform.Find("Text").GetComponent<Text>();
@@ -191,7 +194,7 @@ public class WaveEditorController : MonoBehaviour,EventHandler{
 		if(contents.Equals("ERROR")){
 			string newDict = "{\"levels\":[\"" + userlevelname + "\"]}";
 			levelRegistry.Write(newDict);
-		}else{
+		}else if(!userlevelname.Equals("")){
 			Dictionary<string,System.Object> registry = Json.Deserialize (contents) as Dictionary<string,System.Object>;
 			List<System.Object> levelsList = registry ["levels"] as List<System.Object>;
 			bool alreadyHas = false;
@@ -228,6 +231,39 @@ public class WaveEditorController : MonoBehaviour,EventHandler{
 		FileLoader leveldata = new FileLoader (Application.persistentDataPath,"UserLevels","userlevel_" + userlevelname);
 		//write dictionary to loader
 		leveldata.Write(Json.Serialize(leveldict));
+	}
+	public void LoadLevel(string userlevelname){
+
+		//clear out current level stuff
+		for(int i = 0; i < 6; i++){
+			ZonePanelController[] zpanels = frames[i].zonepanels;
+			Debug.Log("clearing frame " + (i+1));
+			for(int j = 0; j < 6; j++){	
+				Debug.Log("clearing frame " + (i+1) + " zone " + (j+1));
+				zpanels[j].ClearEntries();
+			}
+		}
+
+		FileLoader leveldata = new FileLoader (Application.persistentDataPath,"UserLevels","userlevel_" + userlevelname);
+		string lds = leveldata.Read();
+		Dictionary<string,System.Object> leveldict = Json.Deserialize (lds) as Dictionary<string,System.Object>;
+
+		for(int i = 0; i < 6; i++){
+			FileLoader wavedata = new FileLoader (Application.persistentDataPath,"UserLevels","userwave_" + userlevelname + (i+1));
+			string wds = wavedata.Read();
+			Dictionary<string,System.Object> wavedict = Json.Deserialize (wds) as Dictionary<string,System.Object>;
+			ZonePanelController[] zpanels = frames[i].zonepanels;
+			List<System.Object> enemies = wavedict["enemies"] as List<System.Object>;
+			foreach(System.Object eobj in enemies){
+				Dictionary<string,System.Object> edict = eobj as Dictionary<string,System.Object>;
+				string efilename = (string)edict["enemyID"];
+				int zoneID = (int)(long)edict["trackID"];
+				EnemyTemplateController etc = eic.GetTemplateByName(efilename);
+				zpanels[zoneID-1].AddNewEntry(etc);
+			}
+		}
+		GameEvent ge = new GameEvent("wave_editor_changed");
+		EventManager.Instance().RaiseEvent(ge);
 	}
 	public void PlayLevel(){
 		//write wave to wave file

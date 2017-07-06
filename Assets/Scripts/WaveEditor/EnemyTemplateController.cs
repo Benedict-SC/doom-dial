@@ -54,6 +54,9 @@ public class EnemyTemplateController : MonoBehaviour,EventHandler{
 		if(BossTabController.open){
 			return false;
 		}
+		if(WaveEditorController.singleton.panelOpen){
+			return false;
+		}
 		if(WaveEditorController.singleton.IsMoving()){
 			return false;
 		}

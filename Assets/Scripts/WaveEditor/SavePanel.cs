@@ -20,9 +20,11 @@ public class SavePanel : MonoBehaviour{
     public void Dismiss(){
         GetComponent<RectTransform>().anchoredPosition = new Vector2(0f,500f);
         textbox.text = "";
+        wec.panelOpen = false;
     }
     public void Summon(){
         GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+        wec.panelOpen = true;
     }
     public void FillNames(){
         FileLoader levelRegistry = new FileLoader (Application.persistentDataPath,"UserLevels","levelRegistry");

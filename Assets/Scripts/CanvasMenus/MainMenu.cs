@@ -29,7 +29,7 @@ public class MainMenu : MonoBehaviour
         GameObject wavemakerobj = GameObject.Instantiate(Resources.Load("Prefabs/Menus/MenuOption")) as GameObject;
         GameObject.Destroy(wavemakerobj.GetComponent<MenuOption>());
         LoadSceneMenuOption wavemaker = wavemakerobj.AddComponent<LoadSceneMenuOption>() as LoadSceneMenuOption;
-        wavemaker.sceneName = "WaveEditor";
+        wavemaker.sceneName = "WaveEditorAdmin";
         wavemaker.ConfigureOption("Menu_WaveMaker", "", "Build a custom wave!");
         wavemakerobj.transform.SetParent(md.transform, false);
         wavemaker.SizeImage(80f);

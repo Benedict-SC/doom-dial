@@ -60,7 +60,9 @@
      <Compile Include="Assets\Scripts\CanvasMenus\MainMenu.cs" />
      <Compile Include="Assets\Scripts\CanvasMenus\MenuDial.cs" />
      <Compile Include="Assets\Scripts\CanvasMenus\MenuOption.cs" />
+     <Compile Include="Assets\Scripts\CanvasMenus\MenuRisks.cs" />
      <Compile Include="Assets\Scripts\CanvasMenus\MenuScaleEffectCanvas.cs" />
+     <Compile Include="Assets\Scripts\CanvasMenus\PlayerPrefsInfo.cs" />
      <Compile Include="Assets\Scripts\CanvasMenus\ReturnToGameOption.cs" />
      <Compile Include="Assets\Scripts\CanvasMenus\SettingsMenu.cs" />
      <Compile Include="Assets\Scripts\CanvasMenus\SplashLogo.cs" />
@@ -192,10 +194,12 @@
      <Compile Include="Assets\Scripts\WaveEditor\EnemyInvController.cs" />
      <Compile Include="Assets\Scripts\WaveEditor\EnemyListEntryController.cs" />
      <Compile Include="Assets\Scripts\WaveEditor\EnemyTemplateController.cs" />
+     <Compile Include="Assets\Scripts\WaveEditor\LoadPanel.cs" />
      <Compile Include="Assets\Scripts\WaveEditor\SavePanel.cs" />
      <Compile Include="Assets\Scripts\WaveEditor\ScrollArrowController.cs" />
      <Compile Include="Assets\Scripts\WaveEditor\WaveEditorController.cs" />
      <Compile Include="Assets\Scripts\WaveEditor\WaveFrameController.cs" />
+     <Compile Include="Assets\Scripts\WaveEditor\WaveMenuOption.cs" />
      <Compile Include="Assets\Scripts\WaveEditor\ZonePanelController.cs" />
      <Compile Include="Assets\Scripts\WorldData.cs" />
      <Compile Include="Assets\Trash\AoEController.cs" />
@@ -361,6 +365,7 @@
      <None Include="Assets\Resources\JSONData\Bestiary\saboteur.txt" />
      <None Include="Assets\Resources\JSONData\Paths\Sine_Mirror.txt" />
      <None Include="Assets\Resources\JSONData\Towers\devtest4.txt" />
+     <None Include="Assets\Misc\RisksExplanation.txt" />
      <None Include="Assets\Misc\TrapShieldStatExplanation.txt" />
      <None Include="Assets\Resources\JSONData\Campaign\Waves\STLw5.txt" />
      <None Include="Assets\Resources\JSONData\Worlds\World1\Level1\wavedata.txt" />
