@@ -14,6 +14,8 @@ public class ShieldPulse : Weapon {
 
     Timer delay;
     float delaySecs;
+    public bool vampIsOn = false;
+    public Dial dial;
 	
 	void Awake () {
 		parentMask = transform.parent.gameObject;
@@ -49,6 +51,18 @@ public class ShieldPulse : Weapon {
     }
         
     public virtual void OnHit(Enemy e){
+       if (vampIsOn)
+        {
+            if (e.GetHP() < vampDrain)
+            {
+                dial.ChangeHealth(e.GetHP());
+            }
+            else
+            {
+                dial.ChangeHealth(vampDrain);
+            }
+        }
+
        e.TakeDamage(dmg);
        if(frequency > 0){
            float mult = 1.0f - (0.15f * frequency);

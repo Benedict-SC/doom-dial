@@ -14,8 +14,12 @@ public class ShieldTrapField : DamageField {
     float drainMult = 0.01f;
     float cooldownMult = 0.05f;
 
-	// Use this for initialization
-	protected override void Start () {
+    //vampdrain risk
+    public float vampDrain = 15f;
+    bool vampIsOn = false;
+
+    // Use this for initialization
+    protected override void Start () {
         polyCollide = GetComponent<PolygonCollider2D>();
         rt = GetComponent<RectTransform>();
         time = new Timer();
@@ -23,7 +27,12 @@ public class ShieldTrapField : DamageField {
         filter.NoFilter();
         dial = GameObject.Find("Dial").GetComponent<Dial>();
         grown = true; //for now, doesn't grow
-	}
+
+        if (PlayerPrefsInfo.Int2Bool(PlayerPrefs.GetInt(PlayerPrefsInfo.s_vampire)))
+        {
+            vampIsOn = true;
+        }
+    }
 	
 	// Update is called once per frame
 	protected override void Update () {
@@ -112,8 +121,15 @@ public class ShieldTrapField : DamageField {
                 if (drainPerTick > 0f)
                 {
                     //Debug.Log("doing drain in ShieldTrapField");
+                    if (e.GetHP() < drainPerTick)
+                    {
+                        dial.ChangeHealth(e.GetHP()); //multiplier applied in SetUp()
+                    }
+                    else
+                    {
+                        dial.ChangeHealth(drainPerTick); //multiplier applied in SetUp()
+                    }
                     e.TakeDamage(drainPerTick);
-                    dial.ChangeHealth(drainPerTick); //multiplier applied in SetUp()
                 }
                 if (coolPerTick > 0f)
                 {

@@ -18,6 +18,15 @@ public class AoE : MonoBehaviour {
     Timer time;
 
     public float growTime = 0.7f;
+
+    public bool canDamageDial = false;
+
+    public float vampDrain = 10f;
+    public bool vampIsOn;
+
+    bool hasHitDial = false;
+    Collider2D[] collsHit = new Collider2D[20];
+    ContactFilter2D filter;
 	
 	// Use this for initialization
 	void Start () {
@@ -25,7 +34,16 @@ public class AoE : MonoBehaviour {
         rt.sizeDelta = new Vector2(0.0001f,0.0001f);
 		collide = GetComponent<CircleCollider2D>();
 		time = new Timer();
-	}
+
+        if (PlayerPrefsInfo.Int2Bool(PlayerPrefs.GetInt(PlayerPrefsInfo.s_vampire)))
+        {
+            vampIsOn = true;
+        }
+        Debug.Log("created AoE, canDamageDial = " + canDamageDial);
+
+        filter = new ContactFilter2D();
+        filter.NoFilter();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -41,7 +59,43 @@ public class AoE : MonoBehaviour {
 			if(grown){
 				Destroy(gameObject);
 			}
-	}
-	
-	
+        
+        if (canDamageDial && !hasHitDial)
+        {
+            Debug.Log("trying to find dial overlap");
+            collide.OverlapCollider(filter, collsHit);
+            for (int i = 0; i < collsHit.Length; i++)
+            { //filter out anything that doesn't get damaged by the field
+                Collider2D coll = collsHit[i];
+                if (coll != null && coll.gameObject.tag == "Dial")
+                {
+                    DamageDial(coll.gameObject.GetComponent<Dial>());
+                    Debug.Log("found dial overlap!");
+                }
+            }
+        }
+        
+    }
+
+    public void OnTriggerEnter2D(Collider2D coll)
+    {
+        Debug.Log("asdf");
+        if (coll.gameObject.tag == "Dial")
+        {
+            Debug.Log("aoe detected dial trigger");
+        }
+    }
+
+    void DamageDial(Dial d)
+    {
+        if (d.health < aoeDamage)
+        {
+            d.health = 0f;
+        }
+        else
+        {
+            d.health -= aoeDamage;
+        }
+        hasHitDial = true;
+    }
 }

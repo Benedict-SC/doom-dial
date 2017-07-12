@@ -226,9 +226,12 @@
     <Compile Include="Assets\Scripts\WaveEditor\EnemyInvController.cs" />
     <Compile Include="Assets\Scripts\WaveEditor\EnemyListEntryController.cs" />
     <Compile Include="Assets\Scripts\WaveEditor\EnemyTemplateController.cs" />
+    <Compile Include="Assets\Scripts\WaveEditor\LoadPanel.cs" />
+    <Compile Include="Assets\Scripts\WaveEditor\SavePanel.cs" />
     <Compile Include="Assets\Scripts\WaveEditor\ScrollArrowController.cs" />
     <Compile Include="Assets\Scripts\WaveEditor\WaveEditorController.cs" />
     <Compile Include="Assets\Scripts\WaveEditor\WaveFrameController.cs" />
+    <Compile Include="Assets\Scripts\WaveEditor\WaveMenuOption.cs" />
     <Compile Include="Assets\Scripts\WaveEditor\ZonePanelController.cs" />
     <Compile Include="Assets\Scripts\WorldData.cs" />
     <Compile Include="Assets\Trash\AoEController.cs" />

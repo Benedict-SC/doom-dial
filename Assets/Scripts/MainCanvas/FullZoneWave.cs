@@ -9,6 +9,7 @@ public class FullZoneWave : MonoBehaviour {
     float TRACK_LENGTH = 110.8f + 5; //copied from Bullet
     float speed = 1.5f; //speed of wave
     OldShield parentShield = null; //if a shield created This, set this value
+    Dial dial;
 
     float vx;
     float vy;
@@ -23,6 +24,10 @@ public class FullZoneWave : MonoBehaviour {
     public bool lifeDrain; //converts life taken past its' HP to yours (??? ask joe)
     public float poison; //puff out poison shotgun bursts - amt of damage per second
     public float poisonDur; //length of poison effect in second
+
+    //vampire drain stuff
+    public float vampDrain = 15f;
+    bool vampIsOn = false;
 
     // Use this for initialization
     void Start () {
@@ -48,6 +53,13 @@ public class FullZoneWave : MonoBehaviour {
         vy = speed * (float)Math.Sin(angle);
 
         originalScale = rt.localScale;
+
+        dial = GameObject.Find("Dial").GetComponent<Dial>();
+
+        if (PlayerPrefsInfo.Int2Bool(PlayerPrefs.GetInt(PlayerPrefsInfo.s_vampire)))
+        {
+            vampIsOn = true;
+        }
     }
 
     // Update is called once per frame
@@ -74,6 +86,18 @@ public class FullZoneWave : MonoBehaviour {
         if (other.gameObject.tag == "Enemy")
         {
             Enemy ec = other.gameObject.GetComponent<Enemy>();
+            if (vampIsOn)
+            {
+                float ehp = ec.GetHP();
+                if (ehp < damage * vampDrain)
+                {
+                    dial.ChangeHealth(ehp);
+                }
+                else
+                {
+                    dial.ChangeHealth(damage * vampDrain);
+                }
+            }
             ec.TakeDamage(damage);
             Debug.Log("inflicting zone wave statuses");
             ec.ZoneWaveInflictedStatus(this);

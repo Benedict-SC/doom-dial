@@ -95,9 +95,14 @@ public class Gun : MonoBehaviour,EventHandler{
 	Image cooldownImg;
 	Image chargeImg;
 
+    //use-lock risk stuff
     bool useLockIsOn = false; //use-lock Risk
     public bool waitingForOtherGunsToFire = false; //also for UseLock
     public bool useLockHasFired = false;
+
+    //vampire risk stuff
+    public float defaultVampDrain = .2f;
+    float vampDrain = 0f;
 
     Dial dial;
     GameObject dialObj;
@@ -144,6 +149,12 @@ public class Gun : MonoBehaviour,EventHandler{
         if (PlayerPrefsInfo.Int2Bool(PlayerPrefs.GetInt(PlayerPrefsInfo.s_useLock)))
         {
             useLockIsOn = true;
+        }
+
+        //if vampire risk is on
+        if (PlayerPrefsInfo.Int2Bool(PlayerPrefs.GetInt(PlayerPrefsInfo.s_vampire)))
+        {
+            vampDrain = defaultVampDrain;
         }
 	}
 	
@@ -237,6 +248,7 @@ public class Gun : MonoBehaviour,EventHandler{
 		}
 	}
 	public void HandleEvent(GameEvent ge){
+        CanvasSpinner cSpin = GameObject.Find("Dial").GetComponent<CanvasSpinner>();
 		//various conditions under which bullet shouldn't fire
 		if ((int)ge.args [0] != gunID)
 			//Debug.Log ("not tower " + gunID);
@@ -245,7 +257,7 @@ public class Gun : MonoBehaviour,EventHandler{
 			//Debug.Log ("cooldown > 0");
 			return;
 		}
-		if (GameObject.Find ("Dial").GetComponent<CanvasSpinner> ().IsSpinning ()) {
+		if (cSpin.IsSpinning ()) {
 			Debug.Log ("dial is spinning");
 			return;
 		}
@@ -264,6 +276,9 @@ public class Gun : MonoBehaviour,EventHandler{
             useLockHasFired = true;
             waitingForOtherGunsToFire = true;
         }
+
+        //unlock dial spinner if it was rot-locked before
+        cSpin.rotLockIsLocked = false;
 
         cooltimer.Restart();
 		cooldown = maxcool; //start cooldown
@@ -842,6 +857,7 @@ public class Gun : MonoBehaviour,EventHandler{
 		bc.penetrationsLeft = penetration;
         bc.continuousStrength = continuousStrength;
         bc.comboKey = comboKey;
+        bc.vampDrain = vampDrain;
 	}
 	//Assigns skill values to continuous fire Towers
 	private void ConfigureLaser(Laser bc){
@@ -859,6 +875,7 @@ public class Gun : MonoBehaviour,EventHandler{
         bc.penetration = penetration;
 		bc.penetrationsLeft = penetration;
         bc.continuousStrength = continuousStrength;
+        bc.vampDrain = vampDrain;
 	}
 	//Assigns skill values to traps
 	private void ConfigureTrap(Trap tc)
@@ -872,6 +889,7 @@ public class Gun : MonoBehaviour,EventHandler{
         tc.field = field;
 		tc.zone = GetCurrentLaneID();
         tc.comboKey = comboKey;
+        tc.vampDrain = vampDrain;
 	}
 
     //Assigns skill values to projectile traps
@@ -886,6 +904,7 @@ public class Gun : MonoBehaviour,EventHandler{
         tc.charge = charge;
         tc.split = split;
         tc.zone = GetCurrentLaneID();
+        tc.vampDrain = vampDrain;
     }
 	
 	//Assigns skill values to shields
@@ -897,6 +916,7 @@ public class Gun : MonoBehaviour,EventHandler{
         sc.tempDisplace = tempDisplace;
         sc.absorb = absorb;
         sc.comboKey = comboKey;
+        sc.vampDrain = vampDrain;
 	}
 
     //Assigns skill values to shield traps
@@ -907,6 +927,7 @@ public class Gun : MonoBehaviour,EventHandler{
         sc.duplicate = duplicate;
         sc.tempDisplace = tempDisplace;
         sc.field = field;
+        sc.vampDrain = vampDrain;
     }
 
     //Assigns skill values to projectile shields
@@ -916,6 +937,7 @@ public class Gun : MonoBehaviour,EventHandler{
         bsc.frequency = frequency;
         bsc.penetration = penetration;
         bsc.continuousStrength = continuousStrength;
+        bsc.vampDrain = vampDrain;
     }
 	#endregion
 	

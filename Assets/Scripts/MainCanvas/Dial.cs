@@ -39,6 +39,10 @@ public class Dial : MonoBehaviour,EventHandler {
 	string mostRecentAttackerFilename = "testenemy";
 
     List<Gun> guns = new List<Gun>();
+
+    //Vampire Risk stuff
+    bool vampireIsOn = false;
+    float vampireDrainPerTick = .01f;
 	
 	void Awake(){
 		GamePause.paused = false;
@@ -75,6 +79,11 @@ public class Dial : MonoBehaviour,EventHandler {
 		}
 
         guns = GetAllGuns();
+
+        if (PlayerPrefsInfo.Int2Bool(PlayerPrefs.GetInt(PlayerPrefsInfo.s_vampire)))
+        {
+            vampireIsOn = true;
+        }
 	}
 	
 	// Update is called once per frame
@@ -83,6 +92,11 @@ public class Dial : MonoBehaviour,EventHandler {
 		{
 			health = maxHealth;
 		}
+
+        if (vampireIsOn)
+        {
+            ChangeHealth(-vampireDrainPerTick);
+        }
 		
 		if (health < 0)
 		{
@@ -132,7 +146,9 @@ public class Dial : MonoBehaviour,EventHandler {
 			bar.localScale = new Vector3(baseWidth + (multiplier*superPercentage), bar.localScale.y,bar.localScale.z);
 		}
 	}
+
 	public void OnTriggerEnter2D(Collider2D coll){
+        Debug.Log("dial called ontriggerenter2d");
 		if(coll.gameObject.tag == "DialCollider"){
 			GameEvent ge = new GameEvent("enemy_arrived");
 			ge.addArgument(coll.transform.parent.gameObject);
@@ -152,6 +168,7 @@ public class Dial : MonoBehaviour,EventHandler {
             bc.Collide();
         }
 	}
+
 	public void HandleEvent(GameEvent ge){
 		if (ge.type.Equals("enemy_arrived")) {
 						GameObject eh = (GameObject)ge.args [0];
@@ -305,8 +322,8 @@ public class Dial : MonoBehaviour,EventHandler {
 		{
 			health = maxHealth;
 		}
-		Debug.Log ("Dial health += " + amt);
-		Debug.Log ("health is " + health);
+		if (amt > 0) Debug.Log ("Dial health += " + amt);
+		//Debug.Log ("health is " + health);
 	}
 	public static List<Enemy> GetAllEnemiesInZone(int zoneID){
 		GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");

@@ -12,6 +12,8 @@ public class BulletShield : Weapon {
 	protected GameObject hpMeter;
 	protected RectTransform rt;
     protected RectTransform hprt;
+
+    Dial dial;
 	
 	void Start () {
 		hp = 3;
@@ -23,6 +25,8 @@ public class BulletShield : Weapon {
         maxHealthSize = hprt.sizeDelta.y;
 
 		UpdateHPMeter();
+
+        dial = GameObject.Find("Dial").GetComponent<Dial>();
 	}
 	
 	void Update () {
@@ -81,10 +85,25 @@ public class BulletShield : Weapon {
             GameObject pulse = Instantiate(Resources.Load ("Prefabs/MainCanvas/ShieldPulseMask")) as GameObject;
             pulse.transform.SetParent(Dial.underLayer,false);
             ShieldPulse sp = pulse.transform.Find("ShieldPulse").GetComponent<ShieldPulse>();
+            sp.dial = dial;
             sp.dmg = pulseDamage;
+            if (vampDrain > 0f)
+            {
+                sp.vampDrain = vampDrain;
+                sp.vampIsOn = true;
+            }
             sp.frequency = frequency;
             sp.penetration = penetration;
             sp.ConfigurePulse(GetCurrentLaneID(),i*0.3f);
+        }
+        if (vampDrain > 0f)
+        {
+            //Vampire drain
+            //Debug.Log("vampdrain is on on shield");
+            float amt = e.GetHP();
+            dial.ChangeHealth(vampDrain * amt * .4f);
+            e.TakeDamage(vampDrain * amt * .8f);
+            //Debug.Log("new dial health is " + dial.health);
         }
     }
 

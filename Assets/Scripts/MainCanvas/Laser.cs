@@ -25,6 +25,9 @@ public class Laser : Weapon{
 
     public int penetrationsLeft;
 
+    public bool vampIsOn = false;
+    public Dial dial;
+
     public class DistanceComparer : IComparer<Collider2D>{
         public int Compare(Collider2D x, Collider2D y){
             CircleCollider2D xcol = (CircleCollider2D)x;
@@ -52,6 +55,14 @@ public class Laser : Weapon{
         state = LaserState.GROWING;
         laserbeam = GetComponent<Image>();
         holdTime = new Timer();
+
+        if (PlayerPrefsInfo.Int2Bool(PlayerPrefs.GetInt(PlayerPrefsInfo.s_vampire)))
+        {
+            vampIsOn = true;
+            vampDrain = dmg;
+        }
+
+        dial = GameObject.Find("Dial").GetComponent<Dial>();
     }
     void Update(){
         
@@ -103,6 +114,17 @@ public class Laser : Weapon{
                 if(coll.gameObject.tag == "Enemy"){
                     Enemy e = coll.GetComponent<Enemy>();
                     if(e != null){
+                        if (vampIsOn)
+                        {
+                            if (e.GetHP() < (vampDrain/100f))
+                            {
+                                dial.ChangeHealth(e.GetHP());
+                            }
+                            else
+                            {
+                                dial.ChangeHealth(vampDrain / 100f);
+                            }
+                        }
                         e.TakeDamage(dmg/100f);
                     }
                 }else if(coll.gameObject.tag == "EnemyShield"){

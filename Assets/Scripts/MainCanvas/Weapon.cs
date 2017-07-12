@@ -43,6 +43,9 @@ public class Weapon : MonoBehaviour {
     public int duplicate; //Trap, triggers. (?)  TS, zone range.
     public float field; //field time (?)
 
+    //Vamp risk
+    public float vampDrain; //lifedrain amt, as a percent of damage dealt
+
     public int zone;
 
     // Use this for initialization

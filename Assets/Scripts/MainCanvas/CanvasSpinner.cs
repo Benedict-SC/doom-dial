@@ -13,6 +13,13 @@ public class CanvasSpinner : MonoBehaviour,EventHandler{
 	float startingDialRot;
     int directionMult; //should always be 1 or -1
 	GunButton[] gunButtons = new GunButton[6];
+
+    //Rotate-Lock risk stuff
+    bool rotLockIsOn = false;
+    public bool rotLockIsLocked = false;
+    float oldAngleChange;
+    float angleChangeThreshold = .3f;
+    float oldMouseAngle;
 	
 	public void Start(){
 		canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
@@ -28,6 +35,12 @@ public class CanvasSpinner : MonoBehaviour,EventHandler{
 		}
 
         SetDirectionMult(); //sets directionMult based on Risk "inverse dial" setting
+
+        //Rotate-lock
+        if (PlayerPrefsInfo.Int2Bool(PlayerPrefs.GetInt(PlayerPrefsInfo.s_rotLock)))
+        {
+            rotLockIsOn = true;
+        }
 	}
 	public void HandleEvent(GameEvent ge){
 		if(Pause.paused)
@@ -51,6 +64,25 @@ public class CanvasSpinner : MonoBehaviour,EventHandler{
 			spinning = false;
 			float mouseAngle = Mathf.Atan2 ((mousepos.y - anchorY) - transform.position.y, (mousepos.x-anchorX) - transform.position.x);
 			float angleChange = (mouseAngle-startingMouseRot) * directionMult;
+            if (rotLockIsOn)
+            {
+                if (rotLockIsLocked)
+                {
+                    angleChange = 0f;
+                }
+                else
+                {
+                    //cap anglechange to 2 lanes either direction
+                    if (angleChange > (2 * Mathf.PI / 3))
+                    {
+                        angleChange = 2 * Mathf.PI / 3;
+                    }
+                    else if (angleChange < -(2 * Mathf.PI / 3))
+                    {
+                        angleChange = -2 * Mathf.PI / 3;
+                    }
+                }
+            }
 			transform.eulerAngles = new Vector3(transform.eulerAngles.x,transform.eulerAngles.y,(startingDialRot + angleChange)*Mathf.Rad2Deg);
 			float rotation = transform.eulerAngles.z;
 			float lockRot = Mathf.Round (rotation / 60) * 60;
@@ -59,6 +91,7 @@ public class CanvasSpinner : MonoBehaviour,EventHandler{
             lockEvent.addArgument(lockRot);
             EventManager.Instance().RaiseEvent(lockEvent);
             Debug.Log("lockRot: " + lockRot);
+            if (rotLockIsOn) rotLockIsLocked = true;
 		}
 	}
 	public void Update(){
@@ -69,8 +102,36 @@ public class CanvasSpinner : MonoBehaviour,EventHandler{
 		Vector3 mousepos = InputWatcher.GetCanvasInputPosition((RectTransform)canvas.transform);
 		float mouseAngle = Mathf.Atan2 ((mousepos.y - anchorY) - transform.position.y, (mousepos.x-anchorX) - transform.position.x);
 		float angleChange = (mouseAngle-startingMouseRot) * directionMult;
-		transform.eulerAngles = new Vector3(transform.eulerAngles.x,transform.eulerAngles.y,(startingDialRot + angleChange)*Mathf.Rad2Deg);
-	}
+        //Debug.Log("rotlockisLocked is " + rotLockIsLocked);
+        //Debug.Log("anglechange is " + angleChange);
+        if (rotLockIsOn)
+        {
+            if (rotLockIsLocked)
+            {
+                angleChange = 0f;
+            }
+            else
+            {
+                //cap anglechange to 2 lanes either direction
+                if (angleChange > (2 * Mathf.PI / 3))
+                {
+                    angleChange = 2 * Mathf.PI / 3;
+                }
+                else if (angleChange < -(2 * Mathf.PI / 3))
+                {
+                    angleChange = -2 * Mathf.PI / 3;
+                }
+                if (Mathf.Abs(angleChange - oldAngleChange) > angleChangeThreshold)
+                {
+                    angleChange = oldAngleChange;
+                    mouseAngle = oldMouseAngle;
+                }
+            }
+        }
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x,transform.eulerAngles.y,(startingDialRot + angleChange)*Mathf.Rad2Deg);
+        oldAngleChange = angleChange;
+        oldMouseAngle = mouseAngle;
+    }
 	public bool TouchIsOnGunButtons(){
 		foreach (GunButton gb in gunButtons){
 			if(gb.TouchIsOnMe(InputWatcher.GetCanvasInputPosition((RectTransform)canvas.transform)))

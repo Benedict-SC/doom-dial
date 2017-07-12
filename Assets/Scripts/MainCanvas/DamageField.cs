@@ -21,6 +21,11 @@ public class DamageField : MonoBehaviour {
     protected List<Collider2D> fieldHit = new List<Collider2D>();
     protected ContactFilter2D filter;
     protected RectTransform rt;
+
+    Dial dial;
+
+    //vampdrain risk
+    bool vampIsOn = false;
 	
 	// Use this for initialization
 	protected virtual void Start () {
@@ -30,6 +35,12 @@ public class DamageField : MonoBehaviour {
         time = new Timer();
         filter = new ContactFilter2D();
         filter.NoFilter();
+        dial = GameObject.Find("Dial").GetComponent<Dial>();
+
+        if (PlayerPrefsInfo.Int2Bool(PlayerPrefs.GetInt(PlayerPrefsInfo.s_vampire)))
+        {
+            vampIsOn = true;
+        }
 	}
 	
 	// Update is called once per frame
@@ -77,6 +88,17 @@ public class DamageField : MonoBehaviour {
         if(coll.gameObject.tag == "Enemy"){
             Enemy e = coll.GetComponent<Enemy>();
             if(e != null){
+                if (vampIsOn)
+                {
+                    if (e.GetHP() < damagePerTick)
+                    {
+                        dial.ChangeHealth(e.GetHP());
+                    }
+                    else
+                    {
+                        dial.ChangeHealth(damagePerTick);
+                    }
+                }
                 e.TakeDamage(damagePerTick);
             }
         }else if(coll.gameObject.tag == "EnemyShield"){

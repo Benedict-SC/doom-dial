@@ -7,12 +7,14 @@ public class ShieldTrap : Shield {
 
     public float dmgReductionPercent; //reduces damage by this percent - ie if this is 40, enemy's damage is reduce dto 60%
     public float healPerSec; //used for heal-over-time effect with Field stat
-    public float drainMultiplier = 1f;
+    public float drainMultiplier = .12f;
     public float cooldownMult = 1f;
 
     int myLane; //lane ID this shield is on
     ShieldTrapHolder holder;
     float fieldRange = 64f;
+
+    float vampDrainBoostMult = 1.5f; //boost any resulting ST Field gets in drain
 
 	// Use this for initialization
 	void Start () {
@@ -70,6 +72,10 @@ public class ShieldTrap : Shield {
         dial.ChangeHealth(absorb * drainMultiplier * amt);
         e.TakeDamage(absorb * drainMultiplier * amt);
 
+        //Vampire drain
+        dial.ChangeHealth(vampDrain * drainMultiplier * amt * .4f);
+        e.TakeDamage(vampDrain * drainMultiplier * amt * .8f);
+
         //Cooldown (temporal displacement)
         //any currently cooling down towers in front of shields get their cooldown reduced
         //Debug.Log("tempdisplace: " + tempDisplace);
@@ -96,6 +102,7 @@ public class ShieldTrap : Shield {
             damageField.transform.SetParent(Dial.underLayer.transform, false);
             ShieldTrapField sf = damageField.GetComponent<ShieldTrapField>();
             sf.drainPerTick = absorb; //multiplier is in ShieldTrapField.cs
+            if (vampDrain > 0f) sf.drainPerTick *= vampDrainBoostMult;
             sf.coolPerTick = tempDisplace; //multiplier is in ShieldTrapField.cs
             sf.maxTime = field;
             sf.SetUp();

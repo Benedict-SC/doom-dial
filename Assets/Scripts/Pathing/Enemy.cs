@@ -422,7 +422,21 @@ public class Enemy : MonoBehaviour,EventHandler {
                     bc.enemyHit = this.gameObject;
                     GetStatused(bc);
                     //StartCoroutine (StatusEffectsBullet (bc));
+                    //Vamp-Drain
+                    if (bc.vampDrain > 0f)
+                    {
+                        //if this enemy's hp is about to drop to 0
+                        if (hp < bc.dmg * bc.vampDrain)
+                        {
+                            dialCon.ChangeHealth(hp);
+                        }
+                        else
+                        {
+                            dialCon.ChangeHealth(bc.dmg * bc.vampDrain);
+                        }
+                    }
                     hp -= bc.dmg;
+
                     timesShot++;
                     bc.Collide();
 
@@ -449,6 +463,19 @@ public class Enemy : MonoBehaviour,EventHandler {
                         bc.enemyHit = this.gameObject;
                         GetStatused(bc);
                         //StartCoroutine (StatusEffectsBullet (bc));
+                        //Vamp-Drain
+                        if (bc.vampDrain > 0f)
+                        {
+                            //if this enemy's hp is about to drop to 0
+                            if (hp < bc.dmg * bc.vampDrain)
+                            {
+                                dialCon.ChangeHealth(hp);
+                            }
+                            else
+                            {
+                                dialCon.ChangeHealth(bc.dmg * bc.vampDrain);
+                            }
+                        }
                         hp -= bc.dmg;
                         timesShot++;
                         bc.Collide();
@@ -472,7 +499,20 @@ public class Enemy : MonoBehaviour,EventHandler {
 					if (tc.CheckActive()) //if we get a Yes, this bullet/trap/shield is active
 					{
 						tc.enemyHit = this.gameObject;
-						if(tc.aoe == 0f){
+                        //Vamp-Drain
+                        if (tc.vampDrain > 0f)
+                        {
+                            //if this enemy's hp is about to drop to 0
+                            if (hp < tc.dmg * tc.vampDrain)
+                            {
+                                dialCon.ChangeHealth(hp);
+                            }
+                            else
+                            {
+                                dialCon.ChangeHealth(tc.dmg * tc.vampDrain);
+                            }
+                        }
+                        if (tc.aoe == 0f){
 							hp -= tc.dmg;
 						}
 						tc.Collide();
@@ -497,6 +537,19 @@ public class Enemy : MonoBehaviour,EventHandler {
                     if (tc.CheckActive())
                     {
                         tc.enemyHit = this.gameObject;
+                        //Vamp-Drain
+                        if (tc.vampDrain > 0f)
+                        {
+                            //if this enemy's hp is about to drop to 0
+                            if (hp < tc.dmg * tc.vampDrain)
+                            {
+                                dialCon.ChangeHealth(hp);
+                            }
+                            else
+                            {
+                                dialCon.ChangeHealth(tc.dmg * tc.vampDrain);
+                            }
+                        }
                         hp -= tc.dmg;
                         //Debug.Log("calling Collide() on projectiletrap");
                         tc.Collide();
@@ -520,6 +573,17 @@ public class Enemy : MonoBehaviour,EventHandler {
 			if (ac.parent == "Bullet")
 			{
 				//StartCoroutine (StatusEffectsBullet (bc));
+                if (ac.vampIsOn)
+                {
+                    if (hp < ac.vampDrain)
+                    {
+                        dialCon.ChangeHealth(hp);
+                    }
+                    else
+                    {
+                        dialCon.ChangeHealth(ac.vampDrain);
+                    }
+                }
 				hp -= ac.aoeDamage;
 				Debug.Log ("damage taken: " + ac.aoeDamage);
 				//timesShot++;

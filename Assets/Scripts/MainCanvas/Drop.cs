@@ -10,14 +10,45 @@ public class Drop : MonoBehaviour{
 	int rarity = 0;
 	float superRareChance = 0.1f;
 	List<string> pieceTypes;
+
+    RectTransform rt;
+
+    //Sabotage risk stuff
+    float sabotageTime = 2f; //how long until piece explodes
+    float sabotageAoeScale = 5f;
+    float sabotageAoeDamage = 30f;
+    bool sabotageIsOn = false;
+    bool timerIsSet = false;
+    Timer explodeTimer;
 	
 	// Use this for initialization
 	void Start () {
+        //Debug.Log("Drop.cs called Start()");
+        rt = GetComponent<RectTransform>();
+        if (PlayerPrefsInfo.Int2Bool(PlayerPrefs.GetInt(PlayerPrefsInfo.s_sabotage)))
+        {
+            sabotageIsOn = true;
+        }
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (sabotageIsOn)
+        {
+            if (!timerIsSet)
+            {
+                explodeTimer = new Timer();
+                timerIsSet = true;
+            }
+            else
+            {
+                //Debug.Log("current timer: " + explodeTimer.TimeElapsedSecs());
+                if (explodeTimer.TimeElapsedSecs() > sabotageTime)
+                {
+                    Explode();
+                }
+            }
+        }
 	}
 	
 	public void SetTypes(string filename){
@@ -100,6 +131,20 @@ public class Drop : MonoBehaviour{
 		ge.addArgument(piecetype + piecerarity);
 		EventManager.Instance().RaiseEvent(ge);
 	}
+
+    void Explode()
+    {
+        GameObject splashCircle = Instantiate(Resources.Load("Prefabs/MainCanvas/SplashCircle")) as GameObject;
+        splashCircle.GetComponent<RectTransform>().anchoredPosition = rt.anchoredPosition;
+        splashCircle.transform.SetParent(Dial.spawnLayer.transform, false);
+        AoE ac = splashCircle.GetComponent<AoE>();
+        ac.scale = sabotageAoeScale;
+        ac.aoeDamage = sabotageAoeDamage;
+        ac.parent = "PieceDrop";
+        ac.canDamageDial = true;
+        Destroy(gameObject);
+    }
+
 	public int GetRarity(){
 		return rarity;
 	}

@@ -32,6 +32,8 @@ public class Shield : Weapon {
         minHealthSize = 23f;
 
 		UpdateHPMeter();
+
+        dial = GameObject.Find("Dial").GetComponent<Dial>();
 	}
 	
 	// Update is called once per frame
@@ -73,7 +75,7 @@ public class Shield : Weapon {
                 hp = 0f;
             }
             UpdateHPMeter();
-            if(hp == 0f){
+            if(hp <= 0f){
                 OnDeath(overkill);
             }
             
@@ -101,11 +103,11 @@ public class Shield : Weapon {
 	
 	public void UpdateHPMeter ()
 	{
-        Debug.Log("updatehpmeter");
+        //Debug.Log("updatehpmeter");
 		float percentHP = hp/shieldDurability;
-        Debug.Log("percenthp is " + percentHP);
+        //Debug.Log("percenthp is " + percentHP);
         float differential = maxHealthSize - minHealthSize;
-        Debug.Log("differential is" + differential);
+        //Debug.Log("differential is" + differential);
         hprt.sizeDelta = new Vector2(hprt.sizeDelta.x,minHealthSize + (percentHP*differential));
 	}
 
@@ -130,6 +132,15 @@ public class Shield : Weapon {
             Debug.Log("max hp: " + shieldDurability + " -> " + (shieldDurability + absorb));
             shieldDurability += absorb;
             UpdateHPMeter();
+        }
+        if (vampDrain > 0f)
+        {
+            //Vampire drain
+            //Debug.Log("vampdrain is on on shield");
+            float amt = e.GetHP();
+            dial.ChangeHealth(vampDrain * amt * .4f);
+            e.TakeDamage(vampDrain * amt * .8f);
+            //Debug.Log("new dial health is " + dial.health);
         }
 
     }
