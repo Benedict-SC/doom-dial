@@ -532,6 +532,7 @@ public class GridController : MonoBehaviour{
 		//fire off an update event
 		GameEvent ge = new GameEvent("readout_update");
 		ge.addArgument(updatedDict);
+		ge.addArgument(towerType);
 		EventManager.Instance().RaiseEvent(ge);
 		Debug.Log ("we read the thing");
 	}

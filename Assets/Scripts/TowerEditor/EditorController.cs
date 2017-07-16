@@ -132,6 +132,7 @@ public class EditorController : MonoBehaviour,EventHandler{
 		iwc.towerType = towerType;
 		iwc.RefreshList();
 		GrayPieces();
+		grid.UpdateReadout();
 		Debug.Log(towerType);
 	}
 	public void ToggleType(){

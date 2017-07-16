@@ -257,6 +257,7 @@
      <None Include="Assets\Resources\JSONData\Pieces\attraction_super.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\comboKey_rare.txt" />
      <None Include="Assets\Resources\JSONData\Campaign\Waves\W1L2W2.txt" />
+     <None Include="Assets\Resources\JSONData\Pieces\selfRepair_rare.txt" />
      <None Include="Assets\Resources\JSONData\Paths\Swerve_In_Right.txt" />
      <None Include="Assets\Resources\JSONData\Campaign\Waves\W1L2W1.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\shieldDurability_normal.txt" />
@@ -300,6 +301,7 @@
      <None Include="Assets\Resources\JSONData\Pieces\aoe_super.txt" />
      <None Include="Assets\Resources\JSONData\DialConfigs\onedial.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\splitter2.txt" />
+     <None Include="Assets\Resources\JSONData\Pieces\selfRepair_super.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\boidminion3.txt" />
      <None Include="Assets\Resources\JSONData\Campaign\Waves\STLw2.txt" />
      <None Include="Assets\Resources\JSONData\Paths\Zigzag_Mirror.txt" />
@@ -308,6 +310,7 @@
      <None Include="Assets\Resources\JSONData\Pieces\shieldDurability_super.txt" />
      <None Include="Assets\Resources\JSONData\Campaign\Waves\STLw3.txt" />
      <None Include="Assets\Resources\JSONData\Paths\Linear_Right.txt" />
+     <None Include="Assets\Resources\JSONData\Pieces\selfRepair_normal.txt" />
      <None Include="Assets\Resources\JSONData\Campaign\Worlds\W5.txt" />
      <None Include="Assets\Resources\JSONData\Campaign\Worlds\W4.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\meatshieldbig.txt" />
