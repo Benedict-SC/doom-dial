@@ -18,5 +18,4 @@ X - Ambush (no warning indicators) - Drop Rate Up
 
 X - Sabotage (dropped tech explodes after X seconds, can hurt you) - Drop Rate Up
 
-- Enemies faster/More HP/More Shields by X - Omnifit Tech drop rate up
-- Remember to implement Omnitech drops once SelfRepair piece is in place
+X - Enemies faster/More HP/More Shield HP by X - Omnifit Tech drop rate up

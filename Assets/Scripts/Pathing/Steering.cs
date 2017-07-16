@@ -128,6 +128,7 @@ public class Steering : MonoBehaviour{
 		}
 	}
 	public void SpeedBoost(float multiplier, float seconds){
+        Debug.Log("applied speedboost of " + multiplier);
 		speedMult *= multiplier; //allow for stacking
 		boostDuration = seconds;
 		boostTimer = new Timer();		

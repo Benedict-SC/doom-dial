@@ -21,6 +21,7 @@
 	"rareDropThreshold":10,
 	"rareChance":25.0,
 	"normalChance":5.0,
+	"omnitechChance":1.0,
 	
 	"pieceTypes":[
 		"damage","arc","splash","stun"

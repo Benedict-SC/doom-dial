@@ -19,6 +19,8 @@
 	"attraction":4.0,
 	"duplicate":0,
 	"field":0.0,
+	"selfRepairRate":0.0,
+	"selfRepairAmt":0.0,
 	
 	"width":3,
 	"height":5,

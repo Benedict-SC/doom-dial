@@ -24,6 +24,9 @@ public class Enemy : MonoBehaviour,EventHandler {
 	public static readonly float FRAMES_FROM_ZERO_TO_MAX = 3f;
 	public static readonly float KNOCK_CONSTANT = 0.03f;// constant for knockback per update - ***balance this at some point!
 	public static readonly float KNOCK_DURATION = 0.75f;// constant for knockback time
+    public static readonly float RISK_SPEED_BOOST_DEFAULT = 0.15f; //percent increase in speed with Tougher Enemies risk
+    public static readonly float RISK_HP_BOOST_DEFAULT = 0.15f; //percent increase in hp with Tougher Enemies risk
+    public static readonly float RISK_SHIELD_BOOST_DEFAULT = 0.15f; //increase in shield amt with Tougher Enemies risk
 	public readonly float ENEMY_SCALE = 35f;
 	
 	public Dial dialCon;
@@ -63,6 +66,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 	protected int rareDropThreshold;
 	protected float rareChance;
 	protected float normalChance;
+    protected float omnitechChance;
 	protected bool lastPause;
 	
 	protected Timer poisonTimer;
@@ -70,6 +74,12 @@ public class Enemy : MonoBehaviour,EventHandler {
 	protected Timer slowTimer;
 	protected Timer stunTimer;
 	protected Timer knockbackTimer;
+
+    //Tougher Enemies risk stats
+    //These will only be non-zero if the risk is activated
+    protected float riskSpeedBoost = 0f; //percent increase in speed
+    protected float riskHPBoost = 0f; //percent increase in hp
+    protected float riskShieldBoost = 0f; //int? check how shields work
 	
 	protected bool frozen = false;
 	
@@ -114,8 +124,22 @@ public class Enemy : MonoBehaviour,EventHandler {
 		knockbackTimer = new Timer();
 		//timer = new Timer ();
 		//Debug.Log ("enemy radius is " + radius);
-		
 	}
+
+    //applies Tougher Enemies bonuses to this enemy
+    public void ApplyRiskStatChanges()
+    {
+        riskHPBoost = RISK_HP_BOOST_DEFAULT;
+        riskSpeedBoost = RISK_SPEED_BOOST_DEFAULT;
+        riskShieldBoost = RISK_SHIELD_BOOST_DEFAULT;
+        SetMaxHP(maxhp * (1f + riskHPBoost));
+        SetHP(maxhp);
+        if (shield != null)
+        {
+            shield.SetAllShieldHP(shield.GetBaseHP() * (1f + riskShieldBoost));
+        }
+    }
+
 	public void SetPositionBasedOnAngle(){
 		float trackangle = GetStartingTrackAngle();
 		trackangle -= trackLane*15f;
@@ -142,8 +166,14 @@ public class Enemy : MonoBehaviour,EventHandler {
 		rt.anchoredPosition = pos;
 	}
 	public void StartMoving(){
-		//Debug.Log ("start moving called on " + this.ToString());
-		ConfigureEnemy (); 
+        //Tougher Enemies risk
+        if (PlayerPrefsInfo.Int2Bool(PlayerPrefs.GetInt(PlayerPrefsInfo.s_tougherEnemies)))
+        {
+            Debug.Log("calling applyriskstatchanges");
+            ApplyRiskStatChanges();
+        }
+        //Debug.Log ("start moving called on " + this.ToString());
+        ConfigureEnemy (); 
 		steering = gameObject.AddComponent<Steering>() as Steering;
 		steering.enemy = this;
 		float speedMult = 1f/(impactTime/NORMAL_IMPACT_TIME);
@@ -155,6 +185,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 		path.SetDialDimensions(Dial.spawnLayer.anchoredPosition,Dial.FULL_LENGTH);
 		path.SetAngle(GetStartingTrackAngle() + (-trackLane*15f) + moverLaneOverride);
 		steering.StartFollowingPath(path);
+        steering.SpeedBoost((1f + riskSpeedBoost), 99999999f); //apply Tougher Enemies risk speed bonus
 		/*List<Vector2> pathlist = path.GetPathAsListOfVectors();
 		foreach(Vector2 node in pathlist){ //path visualization
 			GameObject dot = new GameObject();
@@ -200,6 +231,7 @@ public class Enemy : MonoBehaviour,EventHandler {
 		rareDropThreshold = (int)(long)data ["rareDropThreshold"];
 		rareChance = (float)(double)data ["rareChance"];
 		normalChance = (float)(double)data ["normalChance"];
+        omnitechChance = (float)(double)data["omnitechChance"];
 
         //apply Risk bonuses to drop/rarity rates
         ApplyRiskBonuses();
@@ -247,6 +279,8 @@ public class Enemy : MonoBehaviour,EventHandler {
         if (rareChance > 100f) rareChance = 100f;
         //omnitech drop rates
         boost = (PlayerPrefsInfo.GetOmnitechDropRateBoost() * 100f);
+        omnitechChance += boost;
+        if (omnitechChance > 100f) omnitechChance = 100f;
     }
 	#endregion
 	
@@ -624,22 +658,22 @@ public class Enemy : MonoBehaviour,EventHandler {
 			if (this.impactTime < TrackController.NORMAL_SPEED + NORMALNESS_RANGE 
 			    && this.impactTime > TrackController.NORMAL_SPEED - NORMALNESS_RANGE) { //is "normal speed"
 				//Debug.Log ("normal speed enemy died");
-				if (rng < medDropRate) {
+				if (rng <= medDropRate) {
 					DropPiece ();
 				}
 			} else if (this.impactTime >= TrackController.NORMAL_SPEED + NORMALNESS_RANGE) { //is "slow"
 				//Debug.Log("slow enemy died");
 				float distanceFromCenter = Mathf.Sqrt ((rt.anchoredPosition.x) * (rt.anchoredPosition.x) + (rt.anchoredPosition.y) * (rt.anchoredPosition.y));
 				if (distanceFromCenter > Dial.middle_radius) { //died in outer ring
-					if (rng < highDropRate) {
+					if (rng <= highDropRate) {
 						DropPiece ();
 					}
 				} else if (distanceFromCenter > Dial.inner_radius) { //died in middle ring
-					if (rng < medDropRate) {
+					if (rng <= medDropRate) {
 						DropPiece ();
 					}
 				} else { //died in inner ring
-					if (rng < lowDropRate) {
+					if (rng <= lowDropRate) {
 						DropPiece ();
 					}
 				}
@@ -647,15 +681,15 @@ public class Enemy : MonoBehaviour,EventHandler {
 				//Debug.Log("fast enemy died");
 				float distanceFromCenter = Mathf.Sqrt ((rt.anchoredPosition.x) * (rt.anchoredPosition.x) + (rt.anchoredPosition.y) * (rt.anchoredPosition.y));
 				if (distanceFromCenter > Dial.middle_radius) { //died in outer ring
-					if (rng < lowDropRate) {
+					if (rng <= lowDropRate) {
 						DropPiece ();
 					}
 				} else if (distanceFromCenter > Dial.inner_radius) { //died in middle ring
-					if (rng < medDropRate) {
+					if (rng <= medDropRate) {
 						DropPiece ();
 					}
 				} else { //died in inner ring
-					if (rng < highDropRate) {
+					if (rng <= highDropRate) {
 						DropPiece ();
 					}
 				}
@@ -688,14 +722,20 @@ public class Enemy : MonoBehaviour,EventHandler {
 		bool outsideThreshold = (rarityUpWithHits && timesShot <= rareDropThreshold) 
 			|| (!rarityUpWithHits && timesShot >= rareDropThreshold);
 		if (outsideThreshold) {
-			if(rng < normalChance){
+			if(rng <= normalChance){
 				dc.MakeRare();
 			}
 		} else {
-			if(rng < rareChance){
+			if(rng <= rareChance){
 				dc.MakeRare();
 			}
 		}
+
+        //this chance happens regardless of other factors like lane and times shot
+        if (rng <= omnitechChance)
+        {
+            dc.MakeOmnitech();
+        }
 		
 		//piece.GetComponent<Drop> ().MakeRare ();
 		

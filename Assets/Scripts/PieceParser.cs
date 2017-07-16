@@ -13,6 +13,8 @@ public class PieceParser{
     static float COOLDOWN_DEFAULT = 0.0f;
     static float ENERGYGAIN_DEFAULT = 0.0f;
     static float COMBOKEY_DEFAULT = 0.0f;
+    static float SELFREPAIRRATE_DEFAULT = 0.0f;
+    static float SELFREPAIRAMT_DEFAULT = 0.0f;
 
     static float DMG_DEFAULT = 1.0f;
     static int TRAPUSES_DEFAULT = 1;
@@ -36,8 +38,10 @@ public class PieceParser{
 
         //Generic tower
         float cooldown = COOLDOWN_DEFAULT; //weapon cooldown
-        float energyGain = ENERGYGAIN_DEFAULT; //each successful use gives additional energy
+        float energyGain = ENERGYGAIN_DEFAULT; //each successful use gives additional energy (the super thing, not hp)
         float comboKey = COMBOKEY_DEFAULT; //chance for a base weapon type combo to occur (?)
+        float selfRepairRate = SELFREPAIRRATE_DEFAULT; //chance for self-repair to occur on use of a gun
+        float selfRepairAmt = SELFREPAIRAMT_DEFAULT; //hp gained by one self-repair use
 
         //Bullet only
         float dmg = DMG_DEFAULT; //Damage dealt per shot
@@ -91,6 +95,7 @@ public class PieceParser{
         int attractionCount = 0;
         int duplicateCount = 0;
         int fieldCount = 0;
+        int selfRepairCount = 0;
 
         foreach (string piecefile in files){
 			FileLoader fl = new FileLoader ("JSONData" + Path.DirectorySeparatorChar + "Pieces",piecefile);
@@ -210,6 +215,14 @@ public class PieceParser{
             if (pfield > 0.0f)
                 fieldCount++;
             field += pfield;
+            //selfRepair rate
+            float pRepairRate = (float)(double)pdata["selfRepairRate"];
+            if (pRepairRate > 0.0f)
+                selfRepairCount++;
+            selfRepairRate += pRepairRate;
+            //selfRepair amt
+            float pRepairAmt = (float)(double)pdata["selfRepairAmt"];
+            selfRepairAmt += pRepairAmt;
 		}
 
         //put the results in the dictionary
@@ -232,6 +245,8 @@ public class PieceParser{
         result.Add("attraction", attraction);
         result.Add("duplicate", duplicate);
         result.Add("field", field);
+        result.Add("selfRepairRate", selfRepairRate);
+        result.Add("selfRepairAmt", selfRepairAmt);
         
         //bonuses
 		/*
@@ -290,6 +305,8 @@ public class PieceParser{
         float cooldown = COOLDOWN_DEFAULT; //weapon cooldown
         float energyGain = ENERGYGAIN_DEFAULT; //each successful use gives additional energy
         float comboKey = COMBOKEY_DEFAULT; //chance for a base weapon type combo to occur (?)
+        float selfRepairRate = SELFREPAIRRATE_DEFAULT; //chance for self-repair to occur on use of a gun
+        float selfRepairAmt = SELFREPAIRAMT_DEFAULT; //hp gained by one self-repair use
 
         //Bullet only
         float dmg = DMG_DEFAULT; //Damage dealt per shot
@@ -343,6 +360,7 @@ public class PieceParser{
         int attractionCount = 0;
         int duplicateCount = 0;
         int fieldCount = 0;
+        int selfRepairCount = 0;
 
         /*
 		float pdamage = 5;
@@ -480,6 +498,14 @@ public class PieceParser{
             if (pfield > 0.0f)
                 fieldCount++;
             field += pfield;
+            //selfRepairRate
+            float pRepairRate = (float)(double)pdata["selfRepairRate"];
+            if (pRepairRate > 0.0f)
+                selfRepairCount++;
+            selfRepairRate += pRepairRate;
+            //selfRepairAmt
+            float pRepairAmt = (float)(double)pdata["selfRepairAmt"];
+            selfRepairAmt += pRepairAmt;
         }
 
         //Set tower stats based on these values
@@ -501,5 +527,7 @@ public class PieceParser{
         gc.SetAttraction(attraction);
         gc.SetDuplicate(duplicate);
         gc.SetField(field);
+        gc.SetSelfRepairAmt(selfRepairAmt);
+        gc.SetSelfRepairRate(selfRepairRate);
 	}
 }

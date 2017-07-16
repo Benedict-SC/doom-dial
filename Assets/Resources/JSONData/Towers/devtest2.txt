@@ -4,6 +4,6 @@
 	"towerType":"Bullet",
 
 	"pieces":[
-		
+		{"anchorX":4, "anchorY":3, "rotation":0, "pieceFilename":"selfRepair_rare"}
 	]
 }

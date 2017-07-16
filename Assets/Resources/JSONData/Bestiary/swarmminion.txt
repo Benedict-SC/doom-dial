@@ -21,6 +21,7 @@
 	"rareDropThreshold":4,
 	"rareChance":25.0,
 	"normalChance":5.0,
+	"omnitechChance":1.0,
 	
 	"pieceTypes":[
 		"splash","spread","split"

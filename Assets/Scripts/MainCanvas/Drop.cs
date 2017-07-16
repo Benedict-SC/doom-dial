@@ -10,6 +10,7 @@ public class Drop : MonoBehaviour{
 	int rarity = 0;
 	float superRareChance = 0.1f;
 	List<string> pieceTypes;
+    List<string> omnitechTypes;
 
     RectTransform rt;
 
@@ -20,6 +21,11 @@ public class Drop : MonoBehaviour{
     bool sabotageIsOn = false;
     bool timerIsSet = false;
     Timer explodeTimer;
+
+    //Tougher Enemies risk / omnitech stuff
+    bool tougherEnemiesIsOn = false;
+    float omniBoost = 0f;
+    bool mustBeOmnitech;
 	
 	// Use this for initialization
 	void Start () {
@@ -29,6 +35,13 @@ public class Drop : MonoBehaviour{
         {
             sabotageIsOn = true;
         }
+        if (PlayerPrefsInfo.Int2Bool(PlayerPrefs.GetInt(PlayerPrefsInfo.s_tougherEnemies)))
+        {
+            tougherEnemiesIsOn = true;
+            omniBoost = PlayerPrefsInfo.GetOmnitechDropRateBoost(); //value between 0 and 1
+        }
+
+        omnitechTypes = new List<string> { "cooldown", "energyGain", "comboKey", "selfRepair" };
 	}
 	
 	// Update is called once per frame
@@ -89,6 +102,13 @@ public class Drop : MonoBehaviour{
 				img.sprite.rect.width/img.sprite.bounds.size.x);
 		}
 	}
+
+    //forces this drop to be an omnitech
+    public void MakeOmnitech()
+    {
+        mustBeOmnitech = true;
+    }
+
 	public void AddPieceToInventory(){
 		//decide on a piece to get
 		string piecetype = "damage"; //placeholder
@@ -107,6 +127,25 @@ public class Drop : MonoBehaviour{
 			index--;
 		}
 		piecetype = pieceTypes[index];
+
+        //Omnitech chance if a relevant Risk is on
+        if (tougherEnemiesIsOn)
+        {
+            float rando = UnityEngine.Random.value;
+            if (mustBeOmnitech || rando <= omniBoost)
+            {
+                Debug.Log("dropping an omnitech piece due to enemy stat or Risk reward");
+                //choose a random omnitech piece
+                double drando = r.NextDouble() * omnitechTypes.Count;
+                int oIndex = (int)drando;
+                if (oIndex == omnitechTypes.Count)
+                {
+                    oIndex--;
+                }
+                piecetype = omnitechTypes[oIndex];
+            }
+        }
+
 		Debug.Log("type is " + piecetype + piecerarity);
 		
 		FileLoader fl = new FileLoader (Application.persistentDataPath,"Inventory","inventory");

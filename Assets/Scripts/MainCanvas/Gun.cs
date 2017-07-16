@@ -30,6 +30,8 @@ public class Gun : MonoBehaviour,EventHandler{
     float cooldown; //weapon cooldown
     float energyGain; //each successful use gives additional energy
     float comboKey; //chance for a base weapon type combo to occur (?)
+    float selfRepairRate; //chance for self-repair to occur on use of this gun
+    float selfRepairAmt; //hp gained by one self-repair use
 
     //Bullet only
     float dmg; //Damage dealt per shot
@@ -279,6 +281,17 @@ public class Gun : MonoBehaviour,EventHandler{
 
         //unlock dial spinner if it was rot-locked before
         cSpin.rotLockIsLocked = false;
+
+        //self-repair chance
+        if (selfRepairRate > 0f)
+        {
+            float rando = UnityEngine.Random.value * 100f;
+            if (rando <= selfRepairRate)
+            {
+                Debug.Log("gun did self-repair");
+                dial.ChangeHealth(selfRepairAmt);
+            }
+        }
 
         cooltimer.Restart();
 		cooldown = maxcool; //start cooldown
@@ -1048,6 +1061,14 @@ public class Gun : MonoBehaviour,EventHandler{
     public void SetField(float pfield)
     {
         field = pfield;
+    }
+    public void SetSelfRepairRate(float prate)
+    {
+        selfRepairRate = prate;
+    }
+    public void SetSelfRepairAmt(float pamt)
+    {
+        selfRepairAmt = pamt;
     }
 	public float GetContinuousStrength(){
 		return continuousStrength;

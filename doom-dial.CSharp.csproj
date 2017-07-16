@@ -408,6 +408,9 @@
     <None Include="Assets\Resources\JSONData\Pieces\reflect_normal.txt" />
     <None Include="Assets\Resources\JSONData\Pieces\reflect_rare.txt" />
     <None Include="Assets\Resources\JSONData\Pieces\reflect_super.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\selfRepair_normal.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\selfRepair_rare.txt" />
+    <None Include="Assets\Resources\JSONData\Pieces\selfRepair_super.txt" />
     <None Include="Assets\Resources\JSONData\Pieces\shieldDurability_normal.txt" />
     <None Include="Assets\Resources\JSONData\Pieces\shieldDurability_rare.txt" />
     <None Include="Assets\Resources\JSONData\Pieces\shieldDurability_super.txt" />
