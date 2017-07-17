@@ -127,7 +127,26 @@ public class StatReadout : MonoBehaviour, EventHandler{
 				finalText += "Slows enemies by " + ((int)(frequency*15f)) + "% for " + frequency + " seconds.\n";
 			}
 		}else if(towerType.Equals("TrapShield")){
-			finalText += "TODO: have Thom fill this in with trap shield effects\n";
+			if (absorb > 0)
+            {
+                finalText += "Absorbs " + ((int)absorb * ShieldTrap.drainMultiplier) + "% of enemy HP when hit.\n";
+            }
+            if (duplicate > 0)
+            {
+                finalText += "Covers a total of " + duplicate + " zones.\n";
+            }
+            if (tempDisplace > 0)
+            {
+                finalText += "When hit, reduces cooldown for the tower in the current lane by " + (tempDisplace * ShieldTrap.cooldownMult).ToString("0.0") + " seconds.\n";
+            }
+            if (field > 0)
+            {
+                finalText += "When destroyed, leaves behind an HP absorption field that lasts for " + (int)field + " seconds.\n";
+                if (tempDisplace > 0)
+                {
+                    finalText += "While enemies are in contact with this field, cooldown for the tower in this zone is sped up.\n";
+                }
+            }
 		}else{
 			Debug.Log("invalid tower type in stat readout");
 		}

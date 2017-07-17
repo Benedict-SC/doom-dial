@@ -7,8 +7,8 @@ public class ShieldTrap : Shield {
 
     public float dmgReductionPercent; //reduces damage by this percent - ie if this is 40, enemy's damage is reduce dto 60%
     public float healPerSec; //used for heal-over-time effect with Field stat
-    public float drainMultiplier = .12f;
-    public float cooldownMult = 1f;
+    public static float drainMultiplier = .12f;
+    public static float cooldownMult = 1f;
 
     int myLane; //lane ID this shield is on
     ShieldTrapHolder holder;
