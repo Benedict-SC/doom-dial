@@ -262,6 +262,10 @@ public class WaveEditorController : MonoBehaviour,EventHandler{
 				zpanels[zoneID-1].AddNewEntry(etc);
 			}
 		}
+		int bosscode = (int)(long)leveldict["boss"];
+		btc.SetBossIndex(bosscode);
+		Debug.Log("boss loaded");
+
 		GameEvent ge = new GameEvent("wave_editor_changed");
 		EventManager.Instance().RaiseEvent(ge);
 	}

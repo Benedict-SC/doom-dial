@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class BossTabController : MonoBehaviour{
 	RectTransform rt; //it's just the transform but unity forces you to cast it
+	Text bossText;
 	
 	enum states{CLOSED,RISING,GROWING,OPEN,SHRINKING,FALLING};
 	states state = states.CLOSED;
@@ -21,6 +22,7 @@ public class BossTabController : MonoBehaviour{
 		rt = (RectTransform)transform;
 		startingY = rt.anchoredPosition.y;
 		bossbg = GameObject.Find("BossBG");
+		bossText = transform.Find("Text").GetComponent<Text>();
 		bossbg.SetActive(false);
 	}
 	public void Update(){
@@ -107,5 +109,30 @@ public class BossTabController : MonoBehaviour{
 		if(idx > 6 || idx < 0)
 			return;
 		bossIndex = idx;
+		switch(bossIndex){
+			case 0: 
+				bossText.text = "No Boss";
+				break;
+			case 1: 
+				bossText.text = "S.Master";
+				break;
+			case 2: 
+				bossText.text = "Megaboid";
+				break;
+			case 3: 
+				bossText.text = "Big Bulk";
+				break;
+			case 4: 
+				bossText.text = "Skizzard";
+				break;
+			case 5: 
+				bossText.text = "???";
+				break;
+			case 6: 
+				bossText.text = "???";
+				break;
+			default:
+				break;
+		}
 	}
 }
