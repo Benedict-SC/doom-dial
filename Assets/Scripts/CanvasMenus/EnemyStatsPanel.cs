@@ -8,6 +8,8 @@ using System.Collections.Generic;
 
 public class EnemyStatsPanel : MonoBehaviour {
 
+    public bool debugAllEnemiesAvailable = false;
+
     Text enName;
     Text enStats;
     Text enDesc;
@@ -78,7 +80,7 @@ public class EnemyStatsPanel : MonoBehaviour {
 
         UpdateName((string)enemyStats["name"]);
         UpdateDesc((string)enemyStats["desc"]);
-        if (enTimesSeen > 0)
+        if (enTimesSeen > 0 || debugAllEnemiesAvailable)
         {
             UpdateSprite((string)enemyStats["imgfile"]);
         }
@@ -103,7 +105,7 @@ public class EnemyStatsPanel : MonoBehaviour {
 
     void UpdateName(string name)
     {
-        if (enTimesSeen > 0)
+        if (enTimesSeen > 0 || debugAllEnemiesAvailable)
         {
             enName.text = name;
         }
@@ -123,21 +125,21 @@ public class EnemyStatsPanel : MonoBehaviour {
         string iconAchieved = "Tower Icon: No";
         string makerAchieved = "In Editor: No";
 
-        if (enTimesKilled > 0)
+        if (enTimesKilled > 0 || debugAllEnemiesAvailable)
         {
             shieldStat = "Shield: " + shieldValue;
             hpStat = "HP: " + hpValue;
             killCountStat = "No. Killed: " + killsValue;
         }
-        if (enTimesKilled >= 10)
+        if (enTimesKilled >= 10 || debugAllEnemiesAvailable)
         {
             dmgStat = "Attack: " + dmgValue;
         }
-        if (enTimesKilled >= 50)
+        if (enTimesKilled >= 50 || debugAllEnemiesAvailable)
         {
             iconAchieved = "Tower Icon: Yes!";
         }
-        if (enTimesKilled >= 100)
+        if (enTimesKilled >= 100 || debugAllEnemiesAvailable)
         {
             makerAchieved = "In Editor: Yes!";
         }
@@ -148,7 +150,7 @@ public class EnemyStatsPanel : MonoBehaviour {
 
     void UpdateDesc(string desc)
     {
-        if (enTimesSeen >= 10)
+        if (enTimesSeen >= 10 || debugAllEnemiesAvailable)
         {
             enDesc.text = desc;
         }
@@ -168,5 +170,11 @@ public class EnemyStatsPanel : MonoBehaviour {
             new Rect(0, 0, decal.width, decal.height),
             new Vector2(0.5f, 0.5f),
             100f);
+    }
+
+    public void SetDebugUnlock(Toggle t)
+    {
+        debugAllEnemiesAvailable = t.isOn;
+        SetCurrentEnemy(currentFilename);
     }
 }

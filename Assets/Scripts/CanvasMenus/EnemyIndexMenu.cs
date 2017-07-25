@@ -11,6 +11,8 @@ public class EnemyIndexMenu : MonoBehaviour {
     MenuDial md;
     MenuOption selected = null;
 
+    public bool debugAllEnemiesAvailable = false;
+
     public void Awake()
     {
         md = GameObject.Find("MenuDial").gameObject.GetComponent<MenuDial>();
@@ -89,14 +91,17 @@ public class EnemyIndexMenu : MonoBehaviour {
                     break;
                 }
             }
-
-            if (enTimesSeen > 0) //if not, the default for this is "???"
+            option.enemyName = (string)enemyStats["name"];
+            if (enTimesSeen > 0 || debugAllEnemiesAvailable) //if not, the default for this is "???"
             {
                 newtext.text = (string)enemyStats["name"];
+                if (enTimesSeen > 0) option.enemySeen = true;
+                else option.enemySeen = false;
             }
             else
             {
                 newtext.text = "???";
+                option.enemySeen = false;
             }
 
             optionobj.transform.SetParent(md.transform, false);
@@ -106,5 +111,26 @@ public class EnemyIndexMenu : MonoBehaviour {
     public void BackToMainMenu()
     {
         Application.LoadLevel("MainMenu");
+    }
+
+    public void SetDebugUnlock(Toggle t)
+    {
+        debugAllEnemiesAvailable = t.isOn;
+        foreach (MenuOption mo in md.options)
+        {
+            Text optionText = mo.transform.GetComponentInChildren<Text>();
+            if (t.isOn)
+            {
+                optionText.text = mo.enemyName;
+            }
+            else
+            {
+                optionText.text = "???";
+                if (mo.enemySeen)
+                {
+                    optionText.text = mo.enemyName;
+                }
+            }
+        }
     }
 }

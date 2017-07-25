@@ -11,6 +11,8 @@ public class MenuOption : MonoBehaviour{
 	Text text = null;
 
     public string enemyFilename; //for EnemyIndexOption use
+    public string enemyName; //store the enemy name regardless of whether it's displayed - for debug availability
+    public bool enemySeen; //store this for debug availability
 	
 	public void ConfigureOption(string iconfilename,string dialtext, string buttontext){
 		if(icon == null){

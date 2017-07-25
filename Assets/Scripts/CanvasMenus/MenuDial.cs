@@ -11,7 +11,7 @@ public class MenuDial : MonoBehaviour,EventHandler {
 	public float headAngle = 20f;
 	public float optionDistance = 210f;
 	int slots = 0; //default
-	List<MenuOption> options = null;
+	public List<MenuOption> options = null;
 	MenuOption selected = null;
     EnemyStatsPanel enemyStatsPanel = null;
 	
@@ -95,6 +95,14 @@ public class MenuDial : MonoBehaviour,EventHandler {
 		options.Remove(mo);
 		RearrangeOptions();
 	}
+
+    public void RemoveAllOptions()
+    {
+        while (options.Count > 0)
+        {
+            RemoveOption(options[0]);
+        }
+    }
 	public void RearrangeOptions(){
 		for(int i = 0; i < options.Count; i++){
 			MenuOption mo = options[i];
