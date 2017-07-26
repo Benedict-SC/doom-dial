@@ -86,6 +86,6 @@ public class TestDataLoader : MonoBehaviour{
 		Application.LoadLevel("WaveEditorAdmin");
 	}
     public void StartSingleTowerGame() {
-        Application.LoadLevel("MenuTest");
+        Application.LoadLevel("MainMenu");
     }
 }
