@@ -62,6 +62,9 @@ public class GunButton : MonoBehaviour{
 		return distance <= radius;
 	}
 	public void StartHold(){
+		if(! (gun.gameObject.activeSelf)){
+			return;
+		}
 		if(gun.GetCooldown() <= 0){
 			gun.Hold();
 			holdTime.Restart();
@@ -74,6 +77,9 @@ public class GunButton : MonoBehaviour{
 		}
 	}
 	public void EndHold(){
+		if(! (gun.gameObject.activeSelf)){
+			return;
+		}
 		gun.Unhold(holdTime.TimeElapsedSecs());
 		heldOnCool = false;
 		if(laserHandle != null){
@@ -99,6 +105,7 @@ public class GunButton : MonoBehaviour{
 		}
 		Sprite s = gc.transform.Find("Label").gameObject.GetComponent<Image>().sprite;
 		Image decal = img.GetComponent<Image>();
+		decal.color = new Color(decal.color.r,decal.color.g,decal.color.b,1f);
 		decal.sprite = s;
 	}
 }

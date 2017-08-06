@@ -235,14 +235,7 @@ public class WaveEditorController : MonoBehaviour,EventHandler{
 	public void LoadLevel(string userlevelname){
 
 		//clear out current level stuff
-		for(int i = 0; i < 6; i++){
-			ZonePanelController[] zpanels = frames[i].zonepanels;
-			Debug.Log("clearing frame " + (i+1));
-			for(int j = 0; j < 6; j++){	
-				Debug.Log("clearing frame " + (i+1) + " zone " + (j+1));
-				zpanels[j].ClearEntries();
-			}
-		}
+		ClearLevel();
 
 		FileLoader leveldata = new FileLoader (Application.persistentDataPath,"UserLevels","userlevel_" + userlevelname);
 		string lds = leveldata.Read();
@@ -268,6 +261,16 @@ public class WaveEditorController : MonoBehaviour,EventHandler{
 
 		GameEvent ge = new GameEvent("wave_editor_changed");
 		EventManager.Instance().RaiseEvent(ge);
+	}
+	public void ClearLevel(){
+		for(int i = 0; i < 6; i++){
+			ZonePanelController[] zpanels = frames[i].zonepanels;
+			Debug.Log("clearing frame " + (i+1));
+			for(int j = 0; j < 6; j++){	
+				Debug.Log("clearing frame " + (i+1) + " zone " + (j+1));
+				zpanels[j].ClearEntries();
+			}
+		}
 	}
 	public void PlayLevel(){
 		//write wave to wave file
