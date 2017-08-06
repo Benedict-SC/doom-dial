@@ -91,6 +91,7 @@ public class GunButton : MonoBehaviour{
 		}
     }
 	public void SetDecalFromTower(Gun gc){
+        Debug.Log("ran SetDecalFromTower");
 		if(!gc.gameObject.activeSelf){
 			Image sr = img.GetComponent<Image>();
 			sr.color = new Color(sr.color.r,sr.color.g,sr.color.b,0f);

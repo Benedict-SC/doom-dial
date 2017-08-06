@@ -94,6 +94,10 @@ public class PieceController : MonoBehaviour, EventHandler{
 		SetRotation(360-clockrotation);
 		Debug.Log ("final rotation is " + transform.eulerAngles.z);
 	}
+    public void Flip(bool horizontal)
+    {
+        //TODO
+    }
 	public bool TouchIsOnMe(Vector3 touchpos){
 		PieceController floatcheck = EditorController.GetFloatingPiece();
 		if(EditorController.finger2down)

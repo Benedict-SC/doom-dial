@@ -4,8 +4,8 @@ using UnityEngine.UI;
 public class GunButtonManager : MonoBehaviour, EventHandler
 {
     bool STATIC_GUNS = false;
-    GunButton[] gbuttons = new GunButton[6];
-    Gun[] baseGuns = new Gun[6];
+    public GunButton[] gbuttons = new GunButton[6];
+    public Gun[] baseGuns = new Gun[6];
     public void Start() {
         STATIC_GUNS = PlayerPrefs.GetInt("static_guns",0) == 1;
         EventManager em = EventManager.Instance();

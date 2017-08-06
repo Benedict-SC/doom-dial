@@ -71,6 +71,10 @@ public class GameWatcher : MonoBehaviour, EventHandler{
 		Application.LoadLevel("MainMenu");
 	}
 	public void ReplayLevel(){
+        if (WorldData.currentLevelIsUserMade)
+        {
+            WorldData.loadUserLevel = true;
+        }
 		Application.LoadLevel("MainGameCanvas");
 	}
 	public void NextLevel(){

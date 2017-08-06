@@ -40,6 +40,7 @@ public class WaveManager2 : MonoBehaviour {
 			//reset world data
 			loadingUserLevel = true;
 			WorldData.loadUserLevel = false;
+            WorldData.currentLevelIsUserMade = true;
 		}
 		
 		Dictionary<string,System.Object> levelraw = Json.Deserialize (leveldata.Read ()) as Dictionary<string,System.Object>;

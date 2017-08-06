@@ -13,6 +13,7 @@ public class WorldData : MonoBehaviour {
 	public static string levelSelected = "testlevel";
 	public static string lastScene = "";
 	public static string dialSelected = "devdial";
+    public static bool currentLevelIsUserMade = false;
 	
 	//a bool for use by the wave manager to tell if it should be loading a user level
 	public static bool loadUserLevel = false;

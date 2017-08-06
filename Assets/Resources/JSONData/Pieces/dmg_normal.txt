@@ -4,7 +4,7 @@
 	"cooldown":0.0,
 	"energyGain":0.0,
 	"comboKey":0.0,
-	"dmg":2.0,
+	"dmg":1.0,
 	"trapUses":0,
 	"shieldDurability":0.0,
 	"charge":0.0,

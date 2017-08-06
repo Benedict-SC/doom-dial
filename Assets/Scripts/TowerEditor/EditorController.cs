@@ -31,6 +31,10 @@ public class EditorController : MonoBehaviour,EventHandler{
 	public static RectTransform piecesLayer;
 	public static RectTransform overlaysLayer;
 
+    public GameObject clearCheckPanel;
+    public List<Button> nonClearCheckButtons;
+    public InputField nameField;
+
 	RectTransform rotClockwise;
 	RectTransform rotCounterclockwise;
 	
@@ -95,6 +99,40 @@ public class EditorController : MonoBehaviour,EventHandler{
 		if(floatingPiece != null)
 			floatingPiece.RotateClockwise(clockwise);
 	}
+    public void ButtonFlip(bool horizontal)
+    {
+        if (floatingPiece != null)
+        {
+            floatingPiece.Flip(horizontal);
+        }
+    }
+    public void ToggleClearCheck(bool openIt)
+    {
+        if (openIt && !clearCheckPanel.activeInHierarchy)
+        {
+            //open check panel and disable other buttons
+            SetInteractibleButtons(false);
+            clearCheckPanel.SetActive(true);
+        }
+        else if (!openIt && clearCheckPanel.activeInHierarchy)
+        {
+            SetInteractibleButtons(true);
+            clearCheckPanel.SetActive(false);
+        }
+    }
+    void SetInteractibleButtons(bool setting)
+    {
+        foreach (Button b in nonClearCheckButtons)
+        {
+            b.interactable = setting;
+        }
+        nameField.interactable = setting;
+    }
+    public void ClearTower()
+    {
+        ToggleClearCheck(false);
+        //TODO
+    }
 	public void LoadTower(string jsonfile){
 		grid.LoadTower(jsonfile);
 		FileLoader fl = new FileLoader (Application.persistentDataPath,"Towers",jsonfile);
