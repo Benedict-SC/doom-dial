@@ -26,6 +26,14 @@ public class Gun : MonoBehaviour,EventHandler{
 
     //Tech Abilities
 
+    //default cooldowns based on tower type
+    static float PROJECTILE_COOLDOWN_DEFAULT = 0.5f;
+    static float TRAP_COOLDOWN_DEFAULT = 0.0f;
+    static float SHIELD_COOLDOWN_DEFAULT = 0.0f;
+    static float PROJECTILE_TRAP_COOLDOWN_DEFAULT = 0.0f;
+    static float PROJECTILE_SHIELD_COOLDOWN_DEFAULT = 0.0f;
+    static float TRAP_SHIELD_COOLDOWN_DEFAULT = 0.0f;
+
     //Generic tower
     float cooldown; //weapon cooldown
     float energyGain; //each successful use gives additional energy
@@ -990,9 +998,35 @@ public class Gun : MonoBehaviour,EventHandler{
 	
 	public void SetCooldown(float pCooldown)
 	{
-		baseMaxcool = pCooldown;
-		maxcool = pCooldown;
-	}
+        //Set cooldown based on tower type
+        //Tower type: "Bullet", "Trap", "Shield", "BulletTrap", "BulletShield", "TrapShield"
+        switch (towerType)
+        {
+            case "Bullet":
+                pCooldown += PROJECTILE_COOLDOWN_DEFAULT;
+                break;
+            case "Trap":
+                pCooldown += TRAP_COOLDOWN_DEFAULT;
+                break;
+            case "Shield":
+                pCooldown += SHIELD_COOLDOWN_DEFAULT;
+                break;
+            case "BulletTrap":
+                pCooldown += PROJECTILE_TRAP_COOLDOWN_DEFAULT;
+                break;
+            case "BulletShield":
+                pCooldown += PROJECTILE_SHIELD_COOLDOWN_DEFAULT;
+                break;
+            case "TrapShield":
+                pCooldown += TRAP_SHIELD_COOLDOWN_DEFAULT;
+                break;
+            default:
+                break;
+        }
+
+        baseMaxcool = pCooldown;
+        maxcool = pCooldown;
+    }
     public void SetEnergyGain(float pEnergyGain)
     {
         energyGain = pEnergyGain;

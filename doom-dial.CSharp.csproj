@@ -276,6 +276,8 @@
     <None Include="Assets\Resources\JSONData\Bestiary\compensator.txt" />
     <None Include="Assets\Resources\JSONData\Bestiary\diversionminion.txt" />
     <None Include="Assets\Resources\JSONData\Bestiary\drone1.txt" />
+    <None Include="Assets\Resources\JSONData\Bestiary\drone2.txt" />
+    <None Include="Assets\Resources\JSONData\Bestiary\drone3.txt" />
     <None Include="Assets\Resources\JSONData\Bestiary\enemyGuidelinesForThom.txt" />
     <None Include="Assets\Resources\JSONData\Bestiary\exampleEnemySave.txt" />
     <None Include="Assets\Resources\JSONData\Bestiary\executor.txt" />

@@ -6,6 +6,8 @@
 		"steve",
 		"bleedin' joe",
 		"drone1",
+		"drone2",
+		"drone3",
 		"chainers",
 		"tipofthespear",
 		"wallofdoom",

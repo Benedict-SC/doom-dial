@@ -1,18 +1,18 @@
-{	
-	"name":"Splitter (half)",
+{
+	"name":"Drone 3",
 	"imgfile":"Placeholder",
-	"pointValue":15,
-	"columnName":"1/2split",
-	"desc":"Placeholder description for Half Splitter",
-	
-	"enemyType":"Splitter",
+	"pointValue":5,
+	"columnName":"Drone 3",
+	"desc":"Placeholder description for test enemy",
 
+	"enemyType":"Normal",
+	
 	"movementType":"Linear",
-	"maxHP":20.0,
-	"HP":20.0,
-	"damage":4.0,
+	"maxHP":15.0,
+	"HP":15.0,
+	"damage":10.0,
 	"impactTime":28.0,
-	"size":0.22,
+	"size":0.33,
 	"maxShields":0.0,
 	"shields":0.0,
 	"tripsTraps":true,
@@ -25,6 +25,6 @@
 	"omnitechChance":1.0,
 	
 	"pieceTypes":[
-		"splash","homing","spread"
+		"damage","range","knockback","penetration","spread","splash","poison"
 	]
 }
