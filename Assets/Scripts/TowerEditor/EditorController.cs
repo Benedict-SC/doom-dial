@@ -31,7 +31,8 @@ public class EditorController : MonoBehaviour,EventHandler{
 	public static RectTransform piecesLayer;
 	public static RectTransform overlaysLayer;
 
-    public GameObject clearCheckPanel;
+    static GameObject clearCheckPanel;
+	static int frameDelay; //for making sure the thing doesn't close before the pieces process touch events
     public List<Button> nonClearCheckButtons;
     public InputField nameField;
 
@@ -48,6 +49,8 @@ public class EditorController : MonoBehaviour,EventHandler{
 		piecesLayer = GameObject.Find("Pieces").GetComponent<RectTransform>();
 		rotClockwise = GameObject.Find("TurnClockwise").GetComponent<RectTransform>();
 		rotCounterclockwise = GameObject.Find("TurnCounterClockwise").GetComponent<RectTransform>();
+		clearCheckPanel = GameObject.Find("ClearCheckPanel");
+		clearCheckPanel.SetActive(false);
 	}
 	
 	public void Start(){
@@ -77,6 +80,13 @@ public class EditorController : MonoBehaviour,EventHandler{
 			LoadTower (loader.GetComponent<TowerLoad> ().towerName);
 			Destroy (loader);
 		}
+
+		if(frameDelay > 0){
+			frameDelay--;
+			if(frameDelay <= 0){
+            	clearCheckPanel.SetActive(false);
+			}
+		}
 	
 		if(floatingPiece != null && floatingPiece.IsMoving()){
 			if(sr.vertical)
@@ -95,32 +105,33 @@ public class EditorController : MonoBehaviour,EventHandler{
 			floatingPiece.transform.eulerAngles = new Vector3(0,0,pieceAngle+diff);
 		}
 	}
+	public static bool IsClearPanelOpen(){
+		return clearCheckPanel.activeInHierarchy;
+	}
 	public void ButtonRotate(bool clockwise){
 		if(floatingPiece != null)
 			floatingPiece.RotateClockwise(clockwise);
 	}
-    public void ButtonFlip(bool horizontal)
+    public void ButtonFlip()
     {
         if (floatingPiece != null)
-        {
-            floatingPiece.Flip(horizontal);
-        }
+            floatingPiece.Flip();
     }
     public void ToggleClearCheck(bool openIt)
     {
         if (openIt && !clearCheckPanel.activeInHierarchy)
         {
             //open check panel and disable other buttons
-            SetInteractibleButtons(false);
+            SetInteractableButtons(false);
             clearCheckPanel.SetActive(true);
         }
         else if (!openIt && clearCheckPanel.activeInHierarchy)
         {
-            SetInteractibleButtons(true);
-            clearCheckPanel.SetActive(false);
+            SetInteractableButtons(true);
+			frameDelay = 5; //delay it a few frames so pieces don't get touched by buttons
         }
     }
-    void SetInteractibleButtons(bool setting)
+    void SetInteractableButtons(bool setting)
     {
         foreach (Button b in nonClearCheckButtons)
         {
@@ -131,7 +142,13 @@ public class EditorController : MonoBehaviour,EventHandler{
     public void ClearTower()
     {
         ToggleClearCheck(false);
-        //TODO
+        List<PieceController> recovered = grid.ClearAllPieces();
+		foreach(PieceController pc in recovered){
+			InventoryAdd(pc);
+		}
+		for(int i = recovered.Count - 1; i >= 0; i--){
+			Destroy(recovered[i].gameObject);
+		}
     }
 	public void LoadTower(string jsonfile){
 		grid.LoadTower(jsonfile);

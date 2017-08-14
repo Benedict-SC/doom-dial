@@ -340,6 +340,12 @@ public class GridController : MonoBehaviour{
 			int x = (int)(long)pdata["anchorX"];
 			int y = (int)(long)pdata["anchorY"];
 			int rot = (int)(long)pdata["rotation"];
+			bool flipped = false;
+			int fliprot = 0;
+			if(pdata.ContainsKey("flipped")){
+				flipped = (bool)pdata["flipped"];
+				fliprot = (int)(long)pdata["flipRotation"];
+			}
 			string piecefile = (string)pdata["pieceFilename"];
 			
 			GameObject go = Instantiate (Resources.Load ("Prefabs/ExistingPiece")) as GameObject;
@@ -348,6 +354,11 @@ public class GridController : MonoBehaviour{
 			p.SetGridLock(true);
 			p.ConfigureFromJSON(piecefile);
 			p.SetRotation(rot);
+			p.SetFlippedLoadOnly(flipped);
+			p.SetFlipRotationLoadOnly(fliprot);
+			if(flipped){
+				p.CalibrateFlip();
+			}
 			allPieces.Add(new PieceRecord(p,x,y));
 			
 			//SpriteRenderer sr = go.GetComponent<SpriteRenderer>();
@@ -408,6 +419,8 @@ public class GridController : MonoBehaviour{
 			line += "\"anchorX\":" + pr.x + ", ";
 			line += "\"anchorY\":" + pr.y + ", ";
 			line += "\"rotation\":" + pr.pc.GetRotation() + ", ";
+			line += "\"flipped\":" + (pr.pc.GetFlipped() ? "true" : "false") + ", ";
+			line += "\"flipRotation\":" + pr.pc.GetFlipRotation() + ", ";
 			line += "\"pieceFilename\":\"" + pr.pc.GetFilename() + "\"}";
 			if(i != allPieces.Count - 1){
 				line += ",";
@@ -441,6 +454,26 @@ public class GridController : MonoBehaviour{
 					o.west = null;
 			}
 		}
+	}
+	public List<PieceController> ClearAllPieces(){
+		List<PieceController> recovered = new List<PieceController>();
+		foreach(PieceRecord pr in allPieces){
+			recovered.Add(pr.pc);
+		}
+		for(int i = allPieces.Count - 1; i >= 0; i--){
+			allPieces.Remove(allPieces[i]);
+		}
+		UpdateReadout();
+		for(int i = 0; i < GRID_SIZE; i++){
+			for(int j = 0; j < GRID_SIZE; j++){
+				Occupancy o = grid[i,j];
+					o.north = null;
+					o.east = null;
+					o.south = null;
+					o.west = null;
+			}
+		}
+		return recovered;
 	}
 	int drop_xcounter = -1;
 	int drop_ycounter = -1;

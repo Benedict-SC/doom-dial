@@ -340,6 +340,7 @@
      <None Include="Assets\Resources\JSONData\Campaign\Waves\testwave2.txt" />
      <None Include="Assets\Resources\JSONData\Campaign\Worlds\W2.txt" />
      <None Include="Assets\Resources\JSONData\Towers\devtest6.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\drone2.txt" />
      <None Include="Assets\Resources\JSONData\Campaign\Waves\W1L3W3.txt" />
      <None Include="Assets\Resources\JSONData\Campaign\Waves\W1L3W6.txt" />
      <None Include="Assets\Resources\JSONData\Pieces\frequency_rare.txt" />
@@ -367,6 +368,7 @@
      <None Include="Assets\Resources\JSONData\Paths\Sine.txt" />
      <None Include="Assets\Resources\JSONData\Bestiary\saboteur.txt" />
      <None Include="Assets\Resources\JSONData\Paths\Sine_Mirror.txt" />
+     <None Include="Assets\Resources\JSONData\Bestiary\drone3.txt" />
      <None Include="Assets\Resources\JSONData\Towers\devtest4.txt" />
      <None Include="Assets\Misc\RisksExplanation.txt" />
      <None Include="Assets\Misc\TrapShieldStatExplanation.txt" />

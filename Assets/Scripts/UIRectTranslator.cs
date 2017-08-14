@@ -15,8 +15,20 @@ public class UIRectTranslator : MonoBehaviour{
 	public Vector3 WorldTopLeftCorner(RectTransform rt){
 		Vector3[] corners = new Vector3[4];
 		rt.GetWorldCorners(corners);
+
+		Vector3 farNW = new Vector3(-2000,2000,0);
+		Vector3 topLeftiest = corners[0];
+		for(int i=1;i<4;i++){
+			Vector3 corner = corners[i];
+			Vector3 dist = corner - farNW;
+			Vector3 oldDist = topLeftiest - farNW;
+			if(dist.magnitude < oldDist.magnitude){
+				topLeftiest = corner;
+			}
+		}
+		return topLeftiest;
 		
-		int rot = (int)rt.eulerAngles.z;
+		/*int rot = (int)rt.eulerAngles.z;
 		//Vector3 eulerSave = rt.eulerAngles;
 		if(rot > 88 && rot < 92){
 			rot = 270;
@@ -40,13 +52,26 @@ public class UIRectTranslator : MonoBehaviour{
 		}else if(rot == 270){
 			result = corners[2];//rt.TransformPoint(new Vector3(rt.rect.xMax,rt.rect.yMin,rt.position.z));
 		}
-		//rt.eulerAngles = eulerSave;
-		return result;
+		//rt.eulerAngles = eulerSave;*/
+		//return result;
 	}
 	public Vector3 WorldBottomRightCorner(RectTransform rt){
 		Vector3[] corners = new Vector3[4];
 		rt.GetWorldCorners(corners);
-		int rot = (int)rt.eulerAngles.z;
+
+		Vector3 farSE = new Vector3(2000,-2000,0);
+		Vector3 bottomRightiest = corners[0];
+		for(int i=1;i<4;i++){
+			Vector3 corner = corners[i];
+			Vector3 dist = corner - farSE;
+			Vector3 oldDist = bottomRightiest - farSE;
+			if(dist.magnitude < oldDist.magnitude){
+				bottomRightiest = corner;
+			}
+		}
+		return bottomRightiest;
+
+		/*int rot = (int)rt.eulerAngles.z;
 		//Vector3 eulerSave = rt.eulerAngles;
 		if(rot > 88 && rot < 92){
 			rot = 270;
@@ -70,7 +95,7 @@ public class UIRectTranslator : MonoBehaviour{
 			result = corners[0];//rt.TransformPoint(new Vector3(rt.rect.xMax,rt.rect.yMin,rt.position.z));
 		}
 		//rt.eulerAngles = eulerSave;
-		return result;
+		return result;*/
 	}
 	public Vector3 WorldSize(RectTransform rt){
 	
@@ -92,6 +117,12 @@ public class UIRectTranslator : MonoBehaviour{
 			result = rt.TransformVector(rt.rect.size);
 		}else if(rot == 90 || rot == 270){
 			result = rt.TransformVector(new Vector3(rt.rect.size.y,rt.rect.size.x,0f));
+		}
+		if(result.x < 0){
+			result = new Vector3(result.x*-1,result.y,0f);
+		}
+		if(result.y < 0){
+			result = new Vector3(result.x,result.y*-1,0f);
 		}
 		rt.eulerAngles = eulerSave;
 		return result;

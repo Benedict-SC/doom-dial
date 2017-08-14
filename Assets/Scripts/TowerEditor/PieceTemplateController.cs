@@ -153,6 +153,10 @@ public class PieceTemplateController : MonoBehaviour,EventHandler{
 	}
 	public bool TouchIsOnMe(Vector3 touchpos){
 		PieceController floatcheck = EditorController.GetFloatingPiece();
+		if(EditorController.finger2down)
+			return false;
+		if(EditorController.IsClearPanelOpen())
+			return false;
 		if(floatcheck != this && floatcheck != null){
 			if(floatcheck.TouchIsOnMe(touchpos))
 				return false;

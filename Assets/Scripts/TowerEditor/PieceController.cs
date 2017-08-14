@@ -16,6 +16,8 @@ public class PieceController : MonoBehaviour, EventHandler{
 	string file = "";
 			
 	int rotation = 0;
+	bool flipped;
+	int fliprotation;
 	//Vector3 boundsmin;
 	//Vector3 boundsmax;
 	int[,] codes;
@@ -94,13 +96,25 @@ public class PieceController : MonoBehaviour, EventHandler{
 		SetRotation(360-clockrotation);
 		Debug.Log ("final rotation is " + transform.eulerAngles.z);
 	}
-    public void Flip(bool horizontal)
+    public void Flip()
     {
-        //TODO
+        flipped = !flipped;
+		if(rotation == 90 || rotation == 270){ //vertical flip
+			transform.localScale = new Vector3(transform.localScale.x,transform.localScale.y*-1,transform.localScale.z);
+		}else{ //horizontal flip
+			transform.localScale = new Vector3(transform.localScale.x*-1,transform.localScale.y,transform.localScale.z);
+		}
+		if(transform.localScale.y < 0 && transform.localScale.x < 0){
+			transform.localScale = new Vector3(transform.localScale.x*-1,transform.localScale.y*-1,transform.localScale.z);
+			SetRotation((float)((rotation + 180)%360));
+		}
+		fliprotation = rotation;
     }
 	public bool TouchIsOnMe(Vector3 touchpos){
 		PieceController floatcheck = EditorController.GetFloatingPiece();
 		if(EditorController.finger2down)
+			return false;
+		if(EditorController.IsClearPanelOpen())
 			return false;
 		if(floatcheck != this && floatcheck != null){
 			if(floatcheck.TouchIsOnMe(touchpos))
@@ -148,6 +162,13 @@ public class PieceController : MonoBehaviour, EventHandler{
 			ycount++;
 		}
 		//Debug.Log(file + rotation + " x and y: " + xcount + ", " + ycount);
+		Debug.Log("ycount: " + ycount + ", xcount: " + xcount);
+		if(xcount < 0){
+			xcount = xcount * -1;
+		}
+		if(ycount < 0){
+			ycount = ycount * -1;
+		}
 		int code = contents[ycount,xcount];
 		bool result = TouchHelper (relativePos,squareWidth,code);
 			
@@ -297,18 +318,66 @@ public class PieceController : MonoBehaviour, EventHandler{
 	public int GetRotation(){
 		return rotation;
 	}
+	public bool GetFlipped(){
+		return flipped;
+	}
+	public int GetFlipRotation(){
+		return fliprotation;
+	}
 	public string GetFilename(){
 		return file;
 	}
 	
 	public int[,] GetArray(){
+		int[,] flippedCodes = new int[codes.GetLength(0),codes.GetLength(1)];
+		if(!flipped){
+			for(int i = 0; i < codes.GetLength(0); i++){
+				for(int j = 0; j < codes.GetLength(1); j++){
+					flippedCodes[i,j] = codes[i,j];
+				}
+			}
+		}else if(fliprotation == 90 || fliprotation == 270){ //vertical flip
+			for(int i = 0; i < codes.GetLength(0); i++){
+				for(int j = 0; j < codes.GetLength(1); j++){
+					int flipcode = codes[(codes.GetLength(0)-1)-i,j];
+					if(flipcode == NORTHWEST_CODE){
+						flipcode = SOUTHWEST_CODE;
+					}else if(flipcode == SOUTHWEST_CODE){
+						flipcode = NORTHWEST_CODE;
+					}else if(flipcode == SOUTHEAST_CODE){
+						flipcode = NORTHEAST_CODE;
+					}else if(flipcode == NORTHEAST_CODE){
+						flipcode = SOUTHEAST_CODE;
+					}
+					flippedCodes[i,j] = flipcode;
+				}
+			}
+		}else{ //horizontal flip
+			for(int i = 0; i < codes.GetLength(0); i++){
+				for(int j = 0; j < codes.GetLength(1); j++){
+					int flipcode = codes[i,(codes.GetLength(1)-1)-j];
+					if(flipcode == NORTHWEST_CODE){
+						flipcode = NORTHEAST_CODE;
+					}else if(flipcode == NORTHEAST_CODE){
+						flipcode = NORTHWEST_CODE;
+					}else if(flipcode == SOUTHEAST_CODE){
+						flipcode = SOUTHWEST_CODE;
+					}else if(flipcode == SOUTHWEST_CODE){
+						flipcode = SOUTHEAST_CODE;
+					}
+					flippedCodes[i,j] = flipcode;
+				}
+			}
+		}
+		//now handle rotations
 		if(rotation == 0){
 			int[,] result = new int[codes.GetLength(0),codes.GetLength(1)];
 			for(int i = 0; i < codes.GetLength(0); i++){
 				for(int j = 0; j < codes.GetLength(1); j++){
-					result[i,j] = codes[i,j];
+					result[i,j] = flippedCodes[i,j];
 				}
 			}
+			Debug.Log("codes length: " + result.GetLength(0) + " high " + result.GetLength(1) + " wide");
 			return result;
 		}else if(rotation == 90){
 			int[,] result = new int[codes.GetLength(1),codes.GetLength(0)];
@@ -317,7 +386,7 @@ public class PieceController : MonoBehaviour, EventHandler{
 					int ycoord = codes.GetLength(0)-1-j;
 					int xcoord = i;
 					//Debug.Log(ycoord + ", " + xcoord);
-					int codeAtLocation = codes[ycoord,xcoord];
+					int codeAtLocation = flippedCodes[ycoord,xcoord];
 					//Debug.Log ("i=" + i + ",j="+j + " is " + ycoord + ", " + xcoord + " (" + codeAtLocation + ")");
 					//rotate half blocks
 					if(codeAtLocation > 1){
@@ -334,7 +403,7 @@ public class PieceController : MonoBehaviour, EventHandler{
 			int[,] result = new int[codes.GetLength(0),codes.GetLength(1)];
 			for(int i = 0; i < result.GetLength(0); i++){
 				for(int j = 0; j < result.GetLength(1); j++){
-					int codeAtLocation = codes[codes.GetLength(0)-1-i,codes.GetLength(1)-1-j];
+					int codeAtLocation = flippedCodes[codes.GetLength(0)-1-i,codes.GetLength(1)-1-j];
 					//rotate half blocks
 					if(codeAtLocation > 1){
 						codeAtLocation += 2;
@@ -350,7 +419,7 @@ public class PieceController : MonoBehaviour, EventHandler{
 			int[,] result = new int[codes.GetLength(1),codes.GetLength(0)];
 			for(int i = 0; i < result.GetLength(0); i++){
 				for(int j = 0; j < result.GetLength(1); j++){
-					int codeAtLocation = codes[j,codes.GetLength(1)-1-i];
+					int codeAtLocation = flippedCodes[j,codes.GetLength(1)-1-i];
 					//rotate half blocks
 					if(codeAtLocation > 1){
 						codeAtLocation += 3;
@@ -370,5 +439,25 @@ public class PieceController : MonoBehaviour, EventHandler{
 	}
 	public void SetMoving(bool mov){
 		moving = mov;
+	}
+	public void SetFlippedLoadOnly(bool f){
+		flipped = f;
+	}
+	public void SetFlipRotationLoadOnly(int fr){
+		fliprotation = fr;
+	}
+	public void CalibrateFlip(){
+		if(!flipped){
+			return;
+		}
+		if(fliprotation == 90 || fliprotation == 270){ //vertical flip
+			transform.localScale = new Vector3(transform.localScale.x,transform.localScale.y*-1,transform.localScale.z);
+		}else{ //horizontal flip
+			transform.localScale = new Vector3(transform.localScale.x*-1,transform.localScale.y,transform.localScale.z);
+		}
+		if(transform.localScale.y < 0 && transform.localScale.x < 0){
+			transform.localScale = new Vector3(transform.localScale.x*-1,transform.localScale.y*-1,transform.localScale.z);
+			SetRotation((float)((rotation + 180)%360));
+		}
 	}
 }
